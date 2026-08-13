@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cục và Nạp Âm 60 Hoa Giáp — Tinh Túy Tử Vi Đẩu Số</title>
+<meta name="description" content="Khảo cứu chuyên sâu về Cục và Nạp Âm 60 Hoa Giáp trong Tử Vi Đẩu Số.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220;
+    --bg-panel:#121B2E;
+    --bg-panel-2:#17223A;
+    --ink:#ECE4D0;
+    --ink-soft:#AFA68C;
+    --ink-dim:#7C8299;
+    --gold:#C9A227;
+    --gold-bright:#E7C55B;
+    --cinnabar:#C24B3C;
+    --jade:#6FA080;
+    --azure:#6C93B8;
+    --ochre:#A9814B;
+    --line:rgba(201,162,39,0.16);
+    --line-strong:rgba(201,162,39,0.34);
+    --shadow:0 30px 80px -30px rgba(0,0,0,0.7);
+    --radius:2px;
+    color-scheme: dark;
+  }
+  html[data-theme="light"]{
+    --bg:#F2E9D7;
+    --bg-panel:#FBF6EA;
+    --bg-panel-2:#EADDBE;
+    --ink:#241F16;
+    --ink-soft:#5C5442;
+    --ink-dim:#8A8067;
+    --gold:#93701A;
+    --gold-bright:#6E540F;
+    --cinnabar:#9C3226;
+    --jade:#3E6E56;
+    --azure:#3C6486;
+    --ochre:#7B5A2A;
+    --line:rgba(36,31,22,0.14);
+    --line-strong:rgba(36,31,22,0.28);
+    --shadow:0 30px 70px -35px rgba(60,50,30,0.35);
+    color-scheme: light;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(201,162,39,0.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 10%, rgba(108,147,184,0.08), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Lora', Georgia, serif;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .4s ease, color .4s ease;
+  }
+
+  h1,h2,h3,.brand,.eyebrow,.folio{
+    font-family:'Cormorant', Georgia, serif;
+  }
+
+  a{color:inherit;}
+  ::selection{background:var(--gold); color:#151007;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--gold-bright);
+    outline-offset:3px;
+  }
+
+  /* ================= progress bar ================= */
+  #progress{
+    position:fixed; top:0; left:0; height:2px; width:0%;
+    background:linear-gradient(90deg, var(--cinnabar), var(--gold));
+    z-index:80; transition:width .1s linear;
+  }
+
+  /* ================= top bar ================= */
+  .topbar{
+    position:sticky; top:0; z-index:70;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:1180px; margin:0 auto; padding:14px 24px;
+    display:flex; align-items:center; gap:20px;
+  }
+  .brand{
+    font-size:1.15rem; letter-spacing:.06em; font-weight:600;
+    color:var(--gold-bright); white-space:nowrap;
+  }
+  .brand small{
+    display:block; font-family:'IBM Plex Mono',monospace;
+    font-size:.56rem; letter-spacing:.24em; color:var(--ink-dim);
+    text-transform:uppercase; margin-top:2px;
+  }
+  .toc{
+    display:flex; gap:2px; flex:1; overflow-x:auto;
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem;
+    letter-spacing:.03em;
+  }
+  .toc a{
+    text-decoration:none; color:var(--ink-dim);
+    padding:8px 10px; white-space:nowrap; border-radius:var(--radius);
+    transition:color .2s ease, background .2s ease;
+  }
+  .toc a:hover{color:var(--gold-bright);}
+  .toc a.active{color:var(--gold-bright); background:var(--line);}
+  .controls{display:flex; gap:8px; flex-shrink:0;}
+  .icon-btn{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid var(--line-strong); background:var(--bg-panel);
+    color:var(--ink); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .icon-btn:hover{border-color:var(--gold); transform:translateY(-1px);}
+  .icon-btn svg{width:17px; height:17px;}
+  .icon-btn[aria-pressed="true"]{color:var(--gold-bright); border-color:var(--gold);}
+
+  /* ================= hero ================= */
+  .hero{
+    position:relative; overflow:hidden;
+    padding:88px 24px 60px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-inner{
+    max-width:1180px; margin:0 auto; position:relative; z-index:2;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-weight:500;
+    font-size:.72rem; letter-spacing:.32em; text-transform:uppercase;
+    color:var(--cinnabar); margin:0 0 18px;
+  }
+  .eyebrow::before{content:"— "; color:var(--gold);}
+  h1{
+    font-size:clamp(2.6rem, 5.4vw, 4.6rem);
+    line-height:1.04; font-weight:600; letter-spacing:-.01em;
+    margin:0 0 22px; color:var(--ink);
+  }
+  h1 em{
+    font-style:italic; font-weight:500; color:var(--gold-bright);
+  }
+  .epigraph{
+    font-style:italic; font-size:1.18rem; color:var(--ink-soft);
+    border-left:2px solid var(--gold); padding-left:18px; margin:0 0 26px;
+    max-width:46ch;
+  }
+  .hero-meta{
+    display:flex; gap:26px; font-family:'IBM Plex Mono',monospace;
+    font-size:.72rem; color:var(--ink-dim); letter-spacing:.04em;
+  }
+  .hero-meta b{color:var(--ink-soft); font-weight:500;}
+
+  /* wheel diagram */
+  .wheel-wrap{
+    position:relative; aspect-ratio:1/1; max-width:440px; margin:0 auto;
+  }
+  .wheel-wrap svg{width:100%; height:100%; overflow:visible;}
+  #rotor{
+    transform-origin:200px 200px;
+    animation:spin 100s linear infinite;
+  }
+  @keyframes spin{ to { transform:rotate(360deg); } }
+  .wheel-wrap:hover #rotor, .wheel-wrap:focus-within #rotor{ animation-play-state:paused; }
+  .wheel-center-label{
+    font-family:'Cormorant',serif; font-style:italic; font-size:15px;
+    fill:var(--ink-soft);
+  }
+  .wheel-tick{ stroke:var(--line-strong); stroke-width:1; }
+  .wheel-ring{ fill:none; stroke:var(--line-strong); stroke-width:1; }
+  .wheel-dot{ fill:var(--gold); }
+  .wheel-label{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    fill:var(--ink-soft); letter-spacing:.03em;
+  }
+  .wheel-num{ font-family:'Cormorant',serif; font-weight:600; font-size:22px; fill:var(--gold-bright); }
+
+  /* ================= article shell ================= */
+  main{max-width:840px; margin:0 auto; padding:70px 24px 40px;}
+  .essay section{ margin-bottom:78px; scroll-margin-top:90px; }
+  .folio{
+    font-family:'Cormorant',serif; font-weight:600; font-size:.95rem;
+    color:var(--gold); letter-spacing:.08em; margin:0 0 6px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .folio::after{content:""; flex:1; height:1px; background:var(--line);}
+  h2{
+    font-size:clamp(1.7rem,3vw,2.3rem); font-weight:600; margin:2px 0 26px;
+    letter-spacing:-.005em;
+  }
+  h3{
+    font-size:1.28rem; font-weight:600; color:var(--gold-bright);
+    margin:38px 0 14px; letter-spacing:.01em;
+  }
+  p{margin:0 0 20px; color:var(--ink); font-size:1.06rem;}
+  .essay section > p:first-of-type::first-letter{
+    font-family:'Cormorant',serif; font-weight:600; font-size:3.4em;
+    float:left; line-height:.82; padding:.06em .09em 0 0; color:var(--gold-bright);
+  }
+  strong{color:var(--ink); font-weight:600;}
+  em{color:var(--ink-soft);}
+  .callout{
+    background:var(--bg-panel); border:1px solid var(--line);
+    border-left:2px solid var(--cinnabar);
+    padding:20px 24px; margin:24px 0; border-radius:var(--radius);
+    font-size:.98rem; color:var(--ink-soft);
+  }
+  .callout b{color:var(--cinnabar); font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; display:block; margin-bottom:8px;}
+  ul, ol{ padding-left:0; list-style:none; margin:0 0 20px; }
+  .essay li{
+    position:relative; padding-left:26px; margin-bottom:12px; color:var(--ink);
+  }
+  .essay li::before{
+    content:"—"; position:absolute; left:0; color:var(--gold);
+  }
+
+  /* derivation tiles (mục II) */
+  .tiles{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); margin:28px 0;
+    border-radius:var(--radius); overflow:hidden;
+  }
+  .tile{ background:var(--bg-panel); padding:18px 10px; text-align:center; }
+  .tile .tri{ font-size:1.7rem; color:var(--gold-bright); line-height:1; margin-bottom:8px; }
+  .tile .name{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; }
+  .tile .calc{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--ink-dim); margin:8px 0 4px; }
+  .tile .result{ font-weight:600; font-size:.92rem; color:var(--ink); }
+  @media (max-width:640px){ .tiles{grid-template-columns:repeat(2,1fr);} }
+
+  /* nap am table */
+  .napam-wrap{
+    margin:28px 0; border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden;
+  }
+  table{ width:100%; border-collapse:collapse; font-size:.94rem; }
+  thead th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.66rem;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--ink-dim);
+    background:var(--bg-panel-2); padding:12px 16px; font-weight:500;
+  }
+  tbody td{
+    padding:11px 16px; border-top:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+  tbody tr{ background:var(--bg-panel); transition:background .15s ease; }
+  tbody tr:hover{ background:var(--bg-panel-2); }
+  tbody tr td:first-child{ color:var(--ink); font-weight:500; }
+  .el-dot{
+    display:inline-block; width:8px; height:8px; border-radius:50%;
+    margin-right:9px; vertical-align:middle;
+  }
+  .el-kim{background:var(--gold);} .el-moc{background:var(--jade);}
+  .el-thuy{background:var(--azure);} .el-hoa{background:var(--cinnabar);}
+  .el-tho{background:var(--ochre);}
+  .legend{ display:flex; flex-wrap:wrap; gap:16px; margin:14px 0 0; font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--ink-dim);}
+  .legend span{display:flex; align-items:center;}
+
+  /* sinh khac ranking */
+  .rank-list{ margin:28px 0; }
+  .rank-item{
+    display:grid; grid-template-columns:44px 1fr; gap:16px;
+    padding:18px 0; border-top:1px solid var(--line);
+  }
+  .rank-item:last-child{ border-bottom:1px solid var(--line); }
+  .rank-item .num{
+    font-family:'Cormorant',serif; font-weight:600; font-size:1.9rem;
+    color:var(--gold); line-height:1;
+  }
+  .rank-item h4{ margin:0 0 6px; font-size:1.05rem; color:var(--ink); font-weight:600; font-family:'Lora',serif;}
+  .rank-item p{ margin:0; font-size:.96rem; color:var(--ink-soft); }
+  .rank-item.alt{ background:var(--bg-panel); border-left:2px solid var(--cinnabar); padding-left:16px; margin-left:-16px; }
+  .bar{ height:4px; background:var(--line); border-radius:2px; margin-top:10px; overflow:hidden; }
+  .bar i{ display:block; height:100%; background:linear-gradient(90deg,var(--gold),var(--gold-bright)); }
+
+  blockquote{
+    margin:32px 0; padding:0 0 0 24px; border-left:2px solid var(--gold);
+    font-family:'Cormorant',serif; font-style:italic; font-size:1.4rem;
+    color:var(--ink-soft); line-height:1.5;
+  }
+
+  /* footer / seal */
+  footer{
+    max-width:840px; margin:0 auto; padding:20px 24px 90px;
+    text-align:center;
+  }
+  .seal{
+    width:64px; height:64px; margin:0 auto 22px; border:2px solid var(--cinnabar);
+    color:var(--cinnabar); display:flex; align-items:center; justify-content:center;
+    font-size:1.7rem; border-radius:4px; transform:rotate(-2deg);
+    font-family:'Cormorant',serif;
+  }
+  footer p{ color:var(--ink-dim); font-size:.85rem; font-family:'IBM Plex Mono',monospace; letter-spacing:.04em; }
+
+  @media (max-width:880px){
+    .hero-inner{grid-template-columns:1fr;}
+    .wheel-wrap{max-width:320px;}
+    .toc{display:none;}
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<div id="progress"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">局<small>Cục &amp; Nạp Âm</small></div>
+    <nav class="toc" id="toc" aria-label="Mục lục">
+      <a href="#s1">I</a><a href="#s2">II</a><a href="#s3">III</a>
+      <a href="#s4">IV</a><a href="#s5">V</a><a href="#s6">VI</a><a href="#s7">VII</a>
+    </nav>
+    <div class="controls">
+      <button id="musicToggle" class="icon-btn" aria-pressed="false" aria-label="Bật nhạc nền ngũ âm" title="Ngũ âm">
+        <svg id="musicIconOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="display:none"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <svg id="musicIconOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="3" y1="3" x2="21" y2="21"/></svg>
+      </button>
+      <button id="themeToggle" class="icon-btn" aria-pressed="false" aria-label="Chuyển chế độ sáng/tối" title="Sáng / Tối">
+        <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.5A9 9 0 1 1 11.5 3a7 7 0 0 0 9.5 9.5Z"/></svg>
+        <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="display:none"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="eyebrow">Tinh túy Tử Vi Đẩu Số</p>
+      <h1>Cục &amp; Nạp Âm<br><em>60 Hoa Giáp</em></h1>
+      <p class="epigraph">Mệnh là chủ, Cục là đất. Không có Cục, Mệnh không có nơi để diễn.</p>
+      <div class="hero-meta">
+        <span><b>7</b> chương</span>
+        <span><b>30</b> cặp Nạp Âm</span>
+        <span><b>5</b> Cục số</span>
+      </div>
+    </div>
+    <div class="wheel-wrap" tabindex="0" aria-label="Sơ đồ minh họa 5 Cục Ngũ Hành, vòng ngoài xoay chậm">
+      <svg viewBox="0 0 400 400">
+        <circle class="wheel-ring" cx="200" cy="200" r="188"/>
+        <circle class="wheel-ring" cx="200" cy="200" r="150"/>
+        <circle class="wheel-ring" cx="200" cy="200" r="60"/>
+        <text x="200" y="196" text-anchor="middle" class="wheel-center-label">Ngũ</text>
+        <text x="200" y="216" text-anchor="middle" class="wheel-center-label">Hành</text>
+        <g id="rotor">
+          <!-- 5 spokes -->
+          <g id="spokes"></g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<main>
+<article class="essay">
+
+  <section id="s1">
+    <p class="folio">I</p>
+    <h2>Cục là gì, và vì sao nó thường bị xem nhẹ</h2>
+    <p>Người học Tử Vi thường lao ngay vào Mệnh, Thân, Tài, Quan mà bỏ qua Cục — một con số tưởng như chỉ là công cụ kỹ thuật để an sao. Nhưng Cục chính là <strong>Nạp Âm Ngũ Hành của Cung Mệnh</strong>: nó không mô tả <em>bạn là ai</em> (đó là việc của Mệnh), mà mô tả <em>bạn đang đứng trên nền đất gì</em>, nhịp sống của bạn nhanh hay chậm, và toàn bộ khung thời gian vận hành của lá số.</p>
+    <p>Bỏ qua Cục, người xem số chỉ thấy được "nhân vật" mà không thấy được "sân khấu" nhân vật ấy đang diễn.</p>
+  </section>
+
+  <section id="s2">
+    <p class="folio">II</p>
+    <h2>Vì sao Thủy là Nhị Cục, Hỏa là Lục Cục?</h2>
+    <p>Đây là câu hỏi khiến nhiều người học Tử Vi bối rối, vì nó có vẻ trái với thứ tự quen thuộc. Theo Hà Đồ (số tiên thiên), thứ tự sinh số là <strong>Thủy nhất – Hỏa nhị – Mộc tam – Kim tứ – Thổ ngũ</strong>. Nếu suy diễn thẳng theo đó, đáng lẽ phải là "Thủy Nhất Cục, Hỏa Nhị Cục" — nhưng thực tế Tử Vi dùng Thủy Nhị Cục, Hỏa Lục Cục. Vậy con số Cục đến từ đâu?</p>
+    <p>Lời giải được giới nghiên cứu lý số công nhận rộng rãi nhất không nằm ở Hà Đồ, mà ở <strong>Lạc Thư phối với Hậu Thiên Bát Quái</strong> — vì Hà Đồ là <em>Thể</em> (bản chất tiên thiên), còn Lạc Thư là <em>Dụng</em> (vận hành trong đời sống thực), mà Cục là con số dùng vào việc thực dụng (an sao, tính vận), nên phải lấy từ Dụng.</p>
+    <p>Theo bản đồ chuẩn Lạc Thư phối Hậu Thiên Bát Quái, lấy con số Dương căn là <strong>3</strong> (tượng cho "Thiên", khởi động của Dương khí) làm chuẩn, rồi đem trừ hoặc cộng với số của từng quái:</p>
+
+    <div class="tiles">
+      <div class="tile"><div class="tri">☵</div><div class="name">Khảm · Thủy</div><div class="calc">số 1 · 3−1</div><div class="result">Nhị Cục</div></div>
+      <div class="tile"><div class="tri">☳</div><div class="name">Chấn · Mộc</div><div class="calc">số 3 · căn</div><div class="result">Tam Cục</div></div>
+      <div class="tile"><div class="tri">☱</div><div class="name">Đoài · Kim</div><div class="calc">số 7 · 7−3</div><div class="result">Tứ Cục</div></div>
+      <div class="tile"><div class="tri">⊙</div><div class="name">Trung cung · Thổ</div><div class="calc">số 5 · 2+3</div><div class="result">Ngũ Cục</div></div>
+      <div class="tile"><div class="tri">☲</div><div class="name">Ly · Hỏa</div><div class="calc">số 9 · 9−3</div><div class="result">Lục Cục</div></div>
+    </div>
+
+    <p>Nói cách khác: Thủy khởi động nên lấy số nhỏ, sinh ra sớm; Hỏa là cực điểm của Dương, "nung" lâu nhất nên mang số lớn. Đây không phải diễn giải tùy tiện, mà bắt nguồn từ nguyên lý "Tham Thiên – Lưỡng Địa" trong Dịch lý cổ.</p>
+
+    <div class="callout">
+      <b>Cần nói thẳng</b>
+      Đây vẫn là <em>một</em> lối giải thích được nhiều người trong giới lý số đồng thuận nhất, chứ không phải chân lý duy nhất được xác quyết tuyệt đối — vẫn có những nhà nghiên cứu khác đề xuất cách suy khác dựa trên vòng Trường Sinh hay các mô hình phối hợp khác. Nhưng trong các cách giải thích hiện có, đây là cách bám sát cơ sở Dịch lý nhất, chứ không phải một câu chuyện áp đặt cho có vẻ hợp lý.
+    </div>
+  </section>
+
+  <section id="s3">
+    <p class="folio">III</p>
+    <h2>Cục — cỗ máy thời gian của lá số</h2>
+    <p>Cục quyết định hai thứ, mà thiếu nó thì không thể an được một lá số hoàn chỉnh.</p>
+    <h3>a) An chòm sao Tử Vi</h3>
+    <p>Vị trí của sao Tử Vi (và cả chòm sao chính tinh đi theo) được tính từ ngày sinh âm lịch, chia theo Cục số — có quy tắc làm tròn và điều chỉnh riêng chứ không đơn thuần là phép chia lấy dư cơ học. Cùng một ngày sinh, nhưng Cục khác nhau thì Tử Vi an ở cung khác nhau. Đây là lý do vì sao xác định đúng Cục là bước bắt buộc <em>đầu tiên</em>, trước khi an bất kỳ sao nào khác.</p>
+    <h3>b) An Đại Vận</h3>
+    <p>Mỗi đại vận kéo dài 10 năm, nhưng <strong>tuổi khởi vận đầu tiên chính bằng số Cục</strong>. Người Thủy Nhị Cục bắt đầu vận đầu từ 2 tuổi — nhịp đời đổi nhanh, phù hợp những lĩnh vực biến động: truyền thông, tài chính, công nghệ. Người Hỏa Lục Cục khởi vận từ 6 tuổi — nhịp chậm hơn nhưng thường bền và tích lũy hơn, hợp lĩnh vực cần thời gian dài: học thuật, hành chính, bất động sản.</p>
+    <blockquote>Sai lầm không phải là chậm hay nhanh tuyệt đối, mà là đang sống lệch nhịp với bản chất Cục của chính mình.</blockquote>
+  </section>
+
+  <section id="s4">
+    <p class="folio">IV</p>
+    <h2>Nạp Âm 60 Hoa Giáp — khi hai hành nguyên liệu nấu ra một hành khác</h2>
+    <h3>Ba tầng Ngũ Hành cần phân biệt</h3>
+    <ul>
+      <li><strong>Chính Ngũ Hành (Thể):</strong> hành riêng của từng Can, từng Chi. Giáp là Mộc, Tý là Thủy — đây là "chất liệu thô".</li>
+      <li><strong>Nạp Âm Ngũ Hành (Dụng):</strong> hành của cả cặp Can Chi ghép lại thành một khí mới. Giáp Tý + Ất Sửu không còn là Mộc hay Thủy nữa, mà nấu thành <strong>Hải Trung Kim</strong> — vàng chìm dưới đáy biển.</li>
+    </ul>
+    <p>Nguyên liệu là Gỗ và Nước, nhưng "tiếng vang" phát ra lại là Kim. Đây chính là điều khiến Nạp Âm khác hẳn Ngũ Hành thường: nó không phải phép cộng cơ học, mà là một <strong>biểu tượng tổng hợp</strong> — giống như hai nốt nhạc hòa lại thành một hợp âm mới chứ không còn là hai nốt riêng lẻ.</p>
+
+    <h3>Vì sao Giáp Tý lại nạp thành Kim?</h3>
+    <p>Không có một lời giải duy nhất được coi là chính thống tuyệt đối; giới nghiên cứu lý số nhìn nhận đây là câu hỏi chưa có đáp án thống nhất hoàn toàn, dù có nhiều thuyết được lưu truyền song song và bổ sung cho nhau:</p>
+    <ul>
+      <li><strong>Theo Tượng</strong> (trực quan, dễ hiểu): Giáp là cây đại thụ, Tý là đại dương. Cây mọc giữa biển không sống được, mục dần, khoáng hóa mà thành vàng chìm đáy biển — Hải Trung Kim.</li>
+      <li><strong>Theo Âm luật</strong> (thuyết cổ điển): "Nạp" nghĩa là thu nạp, "Âm" là âm luật. 60 Hoa Giáp tương ứng với 60 tần số âm thanh, phối 5 âm Cung-Thương-Giốc-Chủy-Vũ (Thổ-Kim-Mộc-Hỏa-Thủy) với 12 luật lữ. Gõ vào Giáp Tý ứng luật Hoàng Chung, phát ra âm sắc Kim.</li>
+      <li><strong>Theo phép Nạp Giáp</strong> (Dịch lý): mỗi cặp Can Chi được xem là "nạp" một Can khác vào mình theo quy tắc cách vị trong vòng Giáp Tý, tạo ra quan hệ sinh khắc gián tiếp mà kết quả biểu hiện ra là hành Kim.</li>
+    </ul>
+    <p>Ba cách giải thích này không loại trừ nhau, mà bổ sung cho nhau ở ba tầng: hình ảnh trực quan, âm luật, và toán Dịch. Riêng câu hỏi vì sao thứ tự nạp âm lại đi theo Kim → Hỏa → Mộc → Thủy → Thổ mà không theo tương sinh hay tương khắc thông thường — chính các nhà nghiên cứu chuyên sâu cũng gọi đây là một bí ẩn tồn tại hàng nghìn năm chưa có lời giải trọn vẹn. Nên hiểu phần này như một câu hỏi mở của cổ học, không phải một sự thật đã đóng đinh.</p>
+
+    <h3>Bảng 30 cặp Nạp Âm — 30 kịch bản đời người</h3>
+    <div class="napam-wrap">
+      <table id="napamTable">
+        <thead><tr><th>Can Chi</th><th>Nạp Âm</th><th>Ý nghĩa</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><i class="el-dot el-kim"></i>Kim</span>
+      <span><i class="el-dot el-moc"></i>Mộc</span>
+      <span><i class="el-dot el-thuy"></i>Thủy</span>
+      <span><i class="el-dot el-hoa"></i>Hỏa</span>
+      <span><i class="el-dot el-tho"></i>Thổ</span>
+    </div>
+
+    <p>Mỗi Nạp Âm là một tượng có tính chất riêng, phải xét trong ngữ cảnh: Hải Trung Kim cần gặp Hỏa mới hiển quý; Lư Trung Hỏa cần ở trong lò mới thành việc; Đại Lâm Mộc không thể đứng một mình mà cần cả khu rừng. Đây là lớp ý nghĩa mà Ngũ Hành thường (chỉ 5 loại đơn giản) không có được — Nạp Âm cho ta 30 "câu chuyện" khác nhau về trạng thái sống của cùng một hành.</p>
+  </section>
+
+  <section id="s5">
+    <p class="folio">V</p>
+    <h2>Ba loại "Mệnh" — điểm nhầm lẫn phổ biến nhất</h2>
+    <p>Khi nói "Cục sinh Mệnh", chữ <strong>Mệnh</strong> ở đây tuyệt đối không phải là Cung Mệnh trên lá số. Đây là nhầm lẫn khiến nhiều lời luận trở nên vô nghĩa.</p>
+    <ul>
+      <li><strong>Bản Mệnh (Tiên Thiên):</strong> Nạp Âm của năm sinh. Ví dụ người sinh 1990 (Canh Ngọ) có Bản Mệnh là Lộ Bàng Thổ. Đây là "vốn liếng trời cho", cố định, không đổi được — và đây mới chính là "Mệnh" trong cặp Cục–Mệnh.</li>
+      <li><strong>Cung Mệnh (Hậu Thiên):</strong> Là một cung trong 12 cung trên lá số, nơi Tử Vi tinh hệ tọa vào. Nạp Âm của cung Mệnh này chính là Cục. Nếu hiểu nhầm "Mệnh" là Cung Mệnh thì câu "Cục sinh Mệnh" sẽ trở thành "Cục sinh Cục" — tự mâu thuẫn.</li>
+      <li><strong>Mệnh Chủ:</strong> Là sao chủ quản Mệnh, an theo Chi năm sinh — ví dụ người tuổi Tý có Mệnh Chủ là Tham Lang — nói về "linh hồn" do sao nào cai quản.</li>
+    </ul>
+    <p>Công thức đúng theo cổ thư: đem Ngũ Hành Cục (Nạp Âm của cung Mệnh) so sánh sinh khắc với <strong>Bản Mệnh</strong> (Nạp Âm năm sinh) — không phải so với Cung Mệnh. Bản Mệnh là "vốn", Cục là "con đường"; xét Cục–Mệnh là xét vốn liếng có hợp với con đường phải đi hay không.</p>
+  </section>
+
+  <section id="s6">
+    <p class="folio">VI</p>
+    <h2>Sinh khắc Cục–Mệnh: nhìn công bằng cả hai trường phái</h2>
+    <p>Đa số sách phổ thông dạy thứ tự cát hung sau, và đây vẫn là quan điểm chủ lưu trong giới nghiên cứu Tử Vi hiện nay:</p>
+
+    <div class="rank-list">
+      <div class="rank-item"><div class="num">1</div><div><h4>Cục sinh Mệnh <span style="color:var(--ink-dim); font-weight:400;">— sinh nhập</span></h4><p>Tốt nhất. Bản Mệnh được bồi đắp, thịnh vượng, an ổn.</p><div class="bar"><i style="width:95%"></i></div></div></div>
+      <div class="rank-item"><div class="num">2</div><div><h4>Mệnh Cục tương hòa <span style="color:var(--ink-dim); font-weight:400;">— cùng hành</span></h4><p>Khá tốt, bền vững.</p><div class="bar"><i style="width:74%"></i></div></div></div>
+      <div class="rank-item"><div class="num">3</div><div><h4>Mệnh sinh Cục <span style="color:var(--ink-dim); font-weight:400;">— sinh xuất</span></h4><p>Kém hơn. Bản Mệnh bị hao tổn công sức để nuôi dưỡng môi trường xung quanh, vất vả, cống hiến nhiều.</p><div class="bar"><i style="width:50%"></i></div></div></div>
+      <div class="rank-item"><div class="num">4</div><div><h4>Cục khắc Mệnh</h4><p>Xấu, môi trường đè nén, khó phát.</p><div class="bar"><i style="width:22%"></i></div></div></div>
+      <div class="rank-item alt"><div class="num">5</div><div><h4>Mệnh khắc Cục <span style="color:var(--cinnabar); font-weight:500; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;">Trường phái khác</span></h4><p>Về nguyên tắc ngũ hành cũng là tương khắc nên vẫn bị xem là bất lợi, nhưng theo một trường phái khác đang tồn tại song song, trường hợp này không hẳn xấu như Cục khắc Mệnh, vì đây là "khắc xuất" — mình chủ động khắc chế hoàn cảnh chứ không bị hoàn cảnh khắc chế ngược. Vất vả lúc đầu nhưng có khả năng tạo dựng cơ nghiệp riêng, miễn là các yếu tố khác trong lá số hỗ trợ.</p><div class="bar"><i style="width:38%"></i></div></div></div>
+    </div>
+
+    <div class="callout">
+      <b>Cần nói thẳng</b>
+      Đây thực sự là một tranh luận có thật và chưa ngã ngũ trong giới nghiên cứu Tử Vi, chứ không phải một "bí mật bị sách vở giấu đi" như một số bài viết đại chúng thường tuyên bố để tạo cảm giác độc quyền. Người xem số nên biết cả hai lối luận, rồi đối chiếu với thực tế lá số và cuộc đời cụ thể để quyết định.
+    </div>
+
+    <p>Ngoài ra, phải luôn xét thêm <strong>Tượng Nạp Âm cụ thể</strong>, không chỉ xét hành chung chung: cùng là "Cục khắc Mệnh", nhưng Cục Tuyền Trung Thủy (nước suối nhỏ) khắc Mệnh Tích Lịch Hỏa (lửa sấm sét) thì không đáng ngại — suối nhỏ không dập nổi sấm sét; còn Cục Đại Hải Thủy (biển lớn) khắc Mệnh Sơn Đầu Hỏa (lửa đầu núi) thì lại rất nặng. Con số ngũ hành giống nhau nhưng "cường độ" của tượng khác nhau hoàn toàn.</p>
+  </section>
+
+  <section id="s7">
+    <p class="folio">VII</p>
+    <h2>Tổng kết — Đạo của Cục</h2>
+    <ul>
+      <li><strong>Định Khí:</strong> Nạp Âm của Cục là gì — biết môi trường sống của một đời người là biển lớn, cát ven đường, hay sấm sét trên trời.</li>
+      <li><strong>Định Lượng:</strong> Cục số là bao nhiêu — biết nhịp sống nhanh hay chậm, để không sốt ruột khi đang đi đúng nhịp chậm, hoặc không chủ quan khi đang ở nhịp nhanh.</li>
+      <li><strong>Định Tính:</strong> Cục và Bản Mệnh sinh khắc ra sao, kết hợp với tượng Nạp Âm cụ thể — biết mình đang thuận đời hay phải nghịch đời mà sống.</li>
+    </ul>
+    <blockquote>Cục không phải là con số kỹ thuật khô khan để "chia lấy dư" khi an sao. Nó là cái khung mà trời đất đúc sẵn cho một đời người — còn Mệnh là cách người ấy diễn trong cái khung đó.</blockquote>
+  </section>
+
+</article>
+</main>
+
+<footer>
+  <div class="seal">局</div>
+  <p>Cục &amp; Nạp Âm 60 Hoa Giáp · Khảo cứu Tử Vi Đẩu Số</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ theme ============ */
+  var html = document.documentElement;
+  var themeBtn = document.getElementById('themeToggle');
+  var iconMoon = document.getElementById('iconMoon');
+  var iconSun = document.getElementById('iconSun');
+  function applyTheme(t){
+    html.setAttribute('data-theme', t);
+    themeBtn.setAttribute('aria-pressed', t === 'light' ? 'true' : 'false');
+    iconMoon.style.display = t === 'light' ? 'block' : 'none';
+    iconSun.style.display = t === 'light' ? 'none' : 'block';
+    try{ localStorage.setItem('cuc-theme', t); }catch(e){}
+  }
+  var saved = null;
+  try{ saved = localStorage.getItem('cuc-theme'); }catch(e){}
+  applyTheme(saved === 'light' || saved === 'dark' ? saved : 'dark');
+  themeBtn.addEventListener('click', function(){
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ============ reading progress ============ */
+  var bar = document.getElementById('progress');
+  function updateProgress(){
+    var h = document.documentElement;
+    var scrolled = h.scrollTop || document.body.scrollTop;
+    var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    bar.style.width = (height > 0 ? (scrolled/height*100) : 0) + '%';
+  }
+  document.addEventListener('scroll', updateProgress, {passive:true});
+  updateProgress();
+
+  /* ============ toc active state ============ */
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.essay section'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        var link = document.querySelector('.toc a[href="#'+en.target.id+'"]');
+        if(!link) return;
+        if(en.isIntersecting){ links.forEach(function(l){l.classList.remove('active');}); link.classList.add('active'); }
+      });
+    }, {rootMargin:'-40% 0px -50% 0px'});
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+
+  /* ============ wheel diagram (5 Cục) ============ */
+  var spokes = document.getElementById('spokes');
+  var cucs = [
+    {label:'Thủy', num:'2', angle:-90},
+    {label:'Mộc',  num:'3', angle:-18},
+    {label:'Thổ',  num:'5', angle:54},
+    {label:'Kim',  num:'4', angle:126},
+    {label:'Hỏa',  num:'6', angle:198}
+  ];
+  var cx=200, cy=200, rOuter=150, rInner=60;
+  cucs.forEach(function(c){
+    var rad = c.angle * Math.PI/180;
+    var x1 = cx + rInner*Math.cos(rad), y1 = cy + rInner*Math.sin(rad);
+    var x2 = cx + rOuter*Math.cos(rad), y2 = cy + rOuter*Math.sin(rad);
+    var lx = cx + (rOuter+26)*Math.cos(rad), ly = cy + (rOuter+26)*Math.sin(rad);
+    var dx = cx + rOuter*Math.cos(rad), dy = cy + rOuter*Math.sin(rad);
+    var numX = cx + (rInner + (rOuter-rInner)/2)*Math.cos(rad);
+    var numY = cy + (rInner + (rOuter-rInner)/2)*Math.sin(rad) + 5;
+
+    var line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',x1); line.setAttribute('y1',y1);
+    line.setAttribute('x2',x2); line.setAttribute('y2',y2);
+    line.setAttribute('class','wheel-tick');
+    spokes.appendChild(line);
+
+    var dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('cx',dx); dot.setAttribute('cy',dy); dot.setAttribute('r',4);
+    dot.setAttribute('class','wheel-dot');
+    spokes.appendChild(dot);
+
+    var num = document.createElementNS('http://www.w3.org/2000/svg','text');
+    num.setAttribute('x',numX); num.setAttribute('y',numY);
+    num.setAttribute('text-anchor','middle');
+    num.setAttribute('class','wheel-num');
+    num.textContent = c.num;
+    spokes.appendChild(num);
+
+    var txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',lx); txt.setAttribute('y',ly+4);
+    txt.setAttribute('text-anchor','middle');
+    txt.setAttribute('class','wheel-label');
+    txt.textContent = c.label;
+    spokes.appendChild(txt);
+  });
+
+  /* ============ nạp âm table ============ */
+  var data = [
+    ["Giáp Tý – Ất Sửu","Hải Trung Kim","Vàng trong biển","kim"],
+    ["Bính Dần – Đinh Mão","Lư Trung Hỏa","Lửa trong lò","hoa"],
+    ["Mậu Thìn – Kỷ Tỵ","Đại Lâm Mộc","Cây rừng lớn","moc"],
+    ["Canh Ngọ – Tân Mùi","Lộ Bàng Thổ","Đất ven đường","tho"],
+    ["Nhâm Thân – Quý Dậu","Kiếm Phong Kim","Vàng mũi kiếm","kim"],
+    ["Giáp Tuất – Ất Hợi","Sơn Đầu Hỏa","Lửa trên núi","hoa"],
+    ["Bính Tý – Đinh Sửu","Giản Hạ Thủy","Nước khe suối","thuy"],
+    ["Mậu Dần – Kỷ Mão","Thành Đầu Thổ","Đất đầu thành","tho"],
+    ["Canh Thìn – Tân Tỵ","Bạch Lạp Kim","Vàng trong sáp","kim"],
+    ["Nhâm Ngọ – Quý Mùi","Dương Liễu Mộc","Gỗ dương liễu","moc"],
+    ["Giáp Thân – Ất Dậu","Tuyền Trung Thủy","Nước trong suối","thuy"],
+    ["Bính Tuất – Đinh Hợi","Ốc Thượng Thổ","Đất nóc nhà","tho"],
+    ["Mậu Tý – Kỷ Sửu","Tích Lịch Hỏa","Lửa sấm sét","hoa"],
+    ["Canh Dần – Tân Mão","Tùng Bách Mộc","Gỗ tùng bách","moc"],
+    ["Nhâm Thìn – Quý Tỵ","Trường Lưu Thủy","Nước chảy dài","thuy"],
+    ["Giáp Ngọ – Ất Mùi","Sa Trung Kim","Vàng trong cát","kim"],
+    ["Bính Thân – Đinh Dậu","Sơn Hạ Hỏa","Lửa dưới núi","hoa"],
+    ["Mậu Tuất – Kỷ Hợi","Bình Địa Mộc","Cây đồng bằng","moc"],
+    ["Canh Tý – Tân Sửu","Bích Thượng Thổ","Đất trên vách","tho"],
+    ["Nhâm Dần – Quý Mão","Kim Bạc Kim","Vàng dát mỏng","kim"],
+    ["Giáp Thìn – Ất Tỵ","Phúc Đăng Hỏa","Lửa đèn lồng","hoa"],
+    ["Bính Ngọ – Đinh Mùi","Thiên Hà Thủy","Nước trên trời","thuy"],
+    ["Mậu Thân – Kỷ Dậu","Đại Trạch Thổ","Đất đầm lớn","tho"],
+    ["Canh Tuất – Tân Hợi","Thoa Xuyến Kim","Vàng trang sức","kim"],
+    ["Nhâm Tý – Quý Sửu","Tang Đố Mộc","Gỗ cây dâu","moc"],
+    ["Giáp Dần – Ất Mão","Đại Khê Thủy","Nước khe lớn","thuy"],
+    ["Bính Thìn – Đinh Tỵ","Sa Trung Thổ","Đất trong cát","tho"],
+    ["Mậu Ngọ – Kỷ Mùi","Thiên Thượng Hỏa","Lửa trên trời","hoa"],
+    ["Canh Thân – Tân Dậu","Thạch Lựu Mộc","Gỗ thạch lựu","moc"],
+    ["Nhâm Tuất – Quý Hợi","Đại Hải Thủy","Nước biển lớn","thuy"]
+  ];
+  var tbody = document.querySelector('#napamTable tbody');
+  data.forEach(function(row){
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>'+row[0]+'</td>'+
+      '<td><span class="el-dot el-'+row[3]+'"></span>'+row[1]+'</td>'+
+      '<td>'+row[2]+'</td>';
+    tbody.appendChild(tr);
+  });
+
+  /* ============ ambient ngũ âm (Web Audio) ============ */
+  var musicBtn = document.getElementById('musicToggle');
+  var onIcon = document.getElementById('musicIconOn');
+  var offIcon = document.getElementById('musicIconOff');
+  var ctx = null, master = null, droneGain = null, playing = false, schedTimer = null;
+  // Ngũ âm: Cung-Thương-Giốc-Chủy-Vũ, xấp xỉ theo thang ngũ cung (A minor pentatonic)
+  var scale = [110.00, 130.81, 146.83, 164.81, 196.00, 220.00, 261.63, 293.66, 329.63, 392.00];
+
+  function ensureCtx(){
+    if(!ctx){
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.0001;
+      master.connect(ctx.destination);
+
+      // soft continuous drone (fifth interval)
+      droneGain = ctx.createGain();
+      droneGain.gain.value = 0.05;
+      droneGain.connect(master);
+      [110, 165].forEach(function(f){
+        var o = ctx.createOscillator();
+        o.type = 'sine';
+        o.frequency.value = f;
+        var g = ctx.createGain();
+        g.gain.value = 0.5;
+        o.connect(g); g.connect(droneGain);
+        o.start();
+      });
+    }
+  }
+
+  function pluck(freq, delay){
+    var t = ctx.currentTime + (delay||0);
+    var osc = ctx.createOscillator();
+    osc.type = 'triangle';
+    osc.frequency.value = freq;
+    var gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(0.16, t + 0.04);
+    gain.gain.exponentialRampToValueAtTime(0.0008, t + 3.4);
+    var filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 1400;
+    osc.connect(filter); filter.connect(gain); gain.connect(master);
+    osc.start(t); osc.stop(t + 3.6);
+  }
+
+  function scheduleLoop(){
+    var note = scale[Math.floor(Math.random()*scale.length)];
+    pluck(note);
+    if(Math.random() > 0.6){ pluck(scale[Math.floor(Math.random()*scale.length)], 0.5); }
+    schedTimer = setTimeout(scheduleLoop, 2600 + Math.random()*3200);
+  }
+
+  function startMusic(){
+    ensureCtx();
+    if(ctx.state === 'suspended'){ ctx.resume(); }
+    var now = ctx.currentTime;
+    master.gain.cancelScheduledValues(now);
+    master.gain.setValueAtTime(master.gain.value, now);
+    master.gain.linearRampToValueAtTime(0.5, now + 1.2);
+    scheduleLoop();
+    playing = true;
+  }
+  function stopMusic(){
+    if(!ctx) return;
+    var now = ctx.currentTime;
+    master.gain.cancelScheduledValues(now);
+    master.gain.setValueAtTime(master.gain.value, now);
+    master.gain.linearRampToValueAtTime(0.0001, now + 0.8);
+    clearTimeout(schedTimer);
+    playing = false;
+  }
+  musicBtn.addEventListener('click', function(){
+    if(playing){
+      stopMusic();
+      musicBtn.setAttribute('aria-pressed','false');
+      onIcon.style.display='none'; offIcon.style.display='block';
+    } else {
+      startMusic();
+      musicBtn.setAttribute('aria-pressed','true');
+      onIcon.style.display='block'; offIcon.style.display='none';
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

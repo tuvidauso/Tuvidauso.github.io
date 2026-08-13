@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ba Cõi Giam Cầm Trong Tử Vi Đẩu Số</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #1c1730;
+    --ink-deep: #110d1f;
+    --ink-soft: #2a2340;
+    --paper: #ece4d3;
+    --paper-dim: #b9ae98;
+    --gold: #c9a961;
+    --gold-soft: rgba(201,169,97,.18);
+    --ember: #c1502e;
+    --ember-soft: rgba(193,80,46,.18);
+    --steel: #7d8fa3;
+    --steel-soft: rgba(125,143,163,.18);
+    --rule: rgba(236,228,211,.14);
+    --maxw: 760px;
+  }
+  body.theme-light{
+    --ink: #f3ecdc;
+    --ink-deep: #e6dbc0;
+    --ink-soft: #ffffff;
+    --paper: #241f38;
+    --paper-dim: #6e6353;
+    --gold: #9c7a34;
+    --gold-soft: rgba(156,122,52,.14);
+    --ember: #a8431f;
+    --ember-soft: rgba(168,67,31,.12);
+    --steel: #46596b;
+    --steel-soft: rgba(70,89,107,.12);
+    --rule: rgba(36,31,56,.14);
+  }
+  body{ transition:background-color .4s ease, color .4s ease; }
+  body.theme-light .stars{ opacity:0; }
+  body.theme-light thead th{ background:rgba(156,122,52,.06); }
+  body.theme-light .caveat{ background:rgba(36,31,56,.025); }
+  body.theme-light .music-toggle, body.theme-light .theme-toggle{ background:rgba(243,236,220,.75); }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(201,169,97,.06), transparent 45%),
+      radial-gradient(ellipse at 85% 15%, rgba(193,80,46,.05), transparent 40%),
+      var(--ink);
+    color:var(--paper);
+    font-family:'Lora', serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--gold);}
+
+  /* ---------- Star field ambient ---------- */
+  .stars{
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.55;
+  }
+  .stars span{
+    position:absolute; width:2px; height:2px; background:var(--paper);
+    border-radius:50%; opacity:.35;
+  }
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    position:relative;
+    min-height:88vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:6vh 24px;
+    overflow:hidden;
+    border-bottom:1px solid var(--rule);
+  }
+  .hero-hanzi{
+    position:absolute; inset:0; pointer-events:none;
+    font-family:'Noto Serif SC', serif; color:var(--paper);
+    z-index:0;
+  }
+  .hero-hanzi span{ position:absolute; opacity:.05; filter:blur(.3px); }
+  .eyebrow{
+    font-family:'Inter',sans-serif; font-size:12.5px; letter-spacing:.3em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:22px; z-index:1;
+    font-weight:600;
+  }
+  h1.title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:clamp(44px, 8vw, 84px);
+    line-height:1.05;
+    margin:0 0 22px 0;
+    z-index:1;
+    letter-spacing:.01em;
+    background:linear-gradient(180deg, var(--paper) 20%, var(--paper-dim) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:clamp(18px,2.6vw,24px);
+    color:var(--paper-dim);
+    max-width:640px;
+    z-index:1;
+    margin-bottom:36px;
+  }
+  .hero-marks{
+    display:flex; gap:28px; z-index:1; margin-top:8px;
+  }
+  .hero-mark{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .hero-mark .glyph{
+    font-family:'Noto Serif SC', serif; font-size:30px; color:var(--paper);
+    width:56px; height:56px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--rule);
+  }
+  .hero-mark:nth-child(1) .glyph{ box-shadow: inset 0 0 0 1px var(--steel); color:var(--steel); }
+  .hero-mark:nth-child(2) .glyph{ box-shadow: inset 0 0 0 1px var(--ember); color:var(--ember); }
+  .hero-mark:nth-child(3) .glyph{ box-shadow: inset 0 0 0 1px var(--gold); color:var(--gold); }
+  .hero-mark small{
+    font-family:'Inter',sans-serif; font-size:11px; letter-spacing:.08em; color:var(--paper-dim);
+  }
+  .scroll-cue{
+    margin-top:44px;
+    font-family:'Inter',sans-serif; font-size:11px; letter-spacing:.2em; color:var(--paper-dim);
+    text-transform:uppercase; z-index:1; opacity:.7;
+  }
+
+  /* ---------- music toggle ---------- */
+  .music-toggle{
+    position:fixed; top:22px; right:22px; z-index:20;
+    width:46px; height:46px; border-radius:50%;
+    background:rgba(28,23,48,.7); backdrop-filter:blur(6px);
+    border:1px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:border-color .25s ease, transform .25s ease;
+  }
+  .music-toggle:hover{ border-color:var(--gold); transform:scale(1.05); }
+  .music-toggle svg{ width:18px; height:18px; fill:var(--paper); }
+  .music-toggle .bars{ display:flex; align-items:flex-end; gap:2px; height:16px; }
+  .music-toggle .bars i{
+    display:block; width:3px; background:var(--gold); border-radius:1px;
+    animation:eq 0.9s ease-in-out infinite;
+  }
+  .music-toggle .bars i:nth-child(1){ height:6px; animation-delay:0s; }
+  .music-toggle .bars i:nth-child(2){ height:14px; animation-delay:.15s; }
+  .music-toggle .bars i:nth-child(3){ height:9px; animation-delay:.3s; }
+  .music-toggle.paused .bars i{ animation-play-state:paused; height:5px !important; background:var(--paper-dim); }
+  @keyframes eq{
+    0%,100%{ transform:scaleY(.4); }
+    50%{ transform:scaleY(1); }
+  }
+
+  /* ---------- theme toggle ---------- */
+  .theme-toggle{
+    position:fixed; top:22px; right:78px; z-index:20;
+    width:46px; height:46px; border-radius:50%;
+    background:rgba(28,23,48,.7); backdrop-filter:blur(6px);
+    border:1px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:border-color .25s ease, transform .25s ease, background .4s ease;
+  }
+  .theme-toggle:hover{ border-color:var(--gold); transform:scale(1.05); }
+  .theme-toggle svg{ width:19px; height:19px; stroke:var(--gold); fill:none; stroke-width:1.6; }
+  .theme-toggle .icon-moon{ display:block; }
+  .theme-toggle .icon-sun{ display:none; }
+  body.theme-light .theme-toggle .icon-moon{ display:none; }
+  body.theme-light .theme-toggle .icon-sun{ display:block; }
+
+  @media (max-width:600px){
+    .music-toggle{ top:14px; right:14px; width:40px; height:40px; }
+    .theme-toggle{ top:14px; right:64px; width:40px; height:40px; }
+  }
+
+  /* ---------- Container / Intro ---------- */
+  main{ position:relative; z-index:1; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+  .intro{
+    padding:88px 0 40px;
+    font-size:19px;
+    color:var(--paper);
+  }
+  .intro p{ margin:0; }
+  .intro strong{ color:var(--gold); font-weight:600; }
+
+  /* ---------- TOC ---------- */
+  nav.toc{
+    max-width:var(--maxw); margin:0 auto 90px; padding:0 24px;
+  }
+  nav.toc ol{
+    list-style:none; margin:0; padding:0;
+    display:grid; grid-template-columns:1fr; gap:0;
+    border-top:1px solid var(--rule);
+  }
+  nav.toc li{ border-bottom:1px solid var(--rule); }
+  nav.toc a{
+    display:flex; align-items:baseline; gap:16px;
+    text-decoration:none; color:var(--paper);
+    font-family:'Inter',sans-serif; font-size:14.5px;
+    padding:16px 4px; transition:padding-left .25s ease, color .25s ease;
+  }
+  nav.toc a:hover{ padding-left:10px; color:var(--gold); }
+  nav.toc .num{
+    font-family:'Cormorant Garamond',serif; font-style:italic; font-size:20px; color:var(--paper-dim); width:26px;
+  }
+  nav.toc .toc-label{ flex:1; }
+  nav.toc .toc-glyph{ font-family:'Noto Serif SC', serif; color:var(--paper-dim); font-size:15px; }
+
+  /* ---------- Sections ---------- */
+  section.chapter{
+    position:relative;
+    padding:60px 0 30px;
+    border-top:1px solid var(--rule);
+  }
+  section.chapter .chapter-hanzi{
+    position:absolute; top:10px; right:0;
+    font-family:'Noto Serif SC', serif;
+    font-size:220px; line-height:1; opacity:.045;
+    pointer-events:none; user-select:none;
+    z-index:-1;
+  }
+  section.chapter .chapter-inner{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+  .chapter-head{ margin-bottom:34px; }
+  .chapter-eyebrow{
+    font-family:'Inter',sans-serif; font-size:12px; letter-spacing:.25em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:10px;
+  }
+  .chapter-eyebrow .roman{
+    font-family:'Cormorant Garamond',serif; font-style:italic; font-size:26px; letter-spacing:0;
+    text-transform:none;
+  }
+  h2.chapter-title{
+    font-family:'Cormorant Garamond', serif; font-weight:600;
+    font-size:clamp(30px,4.5vw,42px);
+    margin:0; line-height:1.15; color:var(--paper);
+  }
+
+  .accent-i .chapter-eyebrow, .accent-i .roman{ color:var(--steel); }
+  .accent-ii .chapter-eyebrow, .accent-ii .roman{ color:var(--ember); }
+  .accent-iii .chapter-eyebrow, .accent-iii .roman{ color:var(--gold); }
+  .accent-iv .chapter-eyebrow, .accent-iv .roman{ color:var(--paper-dim); }
+  .accent-v .chapter-eyebrow, .accent-v .roman{ color:var(--gold); }
+
+  h3.sub{
+    font-family:'Cormorant Garamond', serif; font-weight:600; font-style:italic;
+    font-size:22px; color:var(--paper); margin:38px 0 12px;
+  }
+  section.chapter p{ margin:0 0 18px; color:var(--paper); }
+  section.chapter p em{ color:var(--paper-dim); }
+  strong{ color:var(--gold); font-weight:600; }
+  .accent-ii strong{ color:var(--ember); }
+  .accent-iii strong{ color:var(--gold); }
+
+  /* ---------- caveat / methodology box ---------- */
+  .caveat{
+    border:1px dashed var(--rule);
+    border-left:3px solid var(--paper-dim);
+    padding:16px 20px;
+    margin:20px 0 26px;
+    font-family:'Lora',serif; font-style:italic; font-size:15.5px;
+    color:var(--paper-dim);
+    background:rgba(236,228,211,.03);
+  }
+  .caveat::before{
+    content:"Lưu ý phương pháp";
+    display:block; font-family:'Inter',sans-serif; font-style:normal;
+    font-size:10.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--paper-dim); margin-bottom:8px; opacity:.8;
+  }
+
+  /* ---------- pull quote ---------- */
+  blockquote.pull{
+    margin:32px 0; padding:4px 0 4px 26px;
+    border-left:2px solid var(--gold);
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:25px; line-height:1.4; color:var(--paper);
+  }
+  .accent-ii blockquote.pull{ border-color:var(--ember); }
+  .accent-iii blockquote.pull{ border-color:var(--gold); }
+
+  /* ---------- phú quote (câu thơ cổ) ---------- */
+  .phu{
+    text-align:center; margin:36px auto; max-width:520px;
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:22px; color:var(--gold); line-height:1.6;
+  }
+  .phu span{ display:block; }
+  .phu .phu-sub{ font-family:'Inter',sans-serif; font-style:normal; font-size:11px;
+    letter-spacing:.15em; text-transform:uppercase; color:var(--paper-dim); margin-top:10px; }
+
+  /* ---------- tables ---------- */
+  .table-wrap{ overflow-x:auto; margin:26px 0 34px; border:1px solid var(--rule); }
+  table{
+    width:100%; border-collapse:collapse; font-family:'Lora',serif; font-size:14.5px;
+    min-width:560px;
+  }
+  thead th{
+    font-family:'Inter',sans-serif; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--gold); text-align:left; padding:14px 16px;
+    border-bottom:1px solid var(--rule); background:rgba(201,169,97,.05);
+  }
+  tbody td{
+    padding:13px 16px; border-bottom:1px solid var(--rule); color:var(--paper); vertical-align:top;
+  }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody td:first-child{ color:var(--paper-dim); font-style:italic; white-space:nowrap; }
+  tbody tr.hi td{ background:rgba(201,169,97,.05); }
+
+  .lvl{ display:inline-flex; align-items:center; gap:8px; }
+  .lvl-dot{ width:8px; height:8px; border-radius:50%; flex:none; }
+  .lvl-high .lvl-dot{ background:#8fae7a; }
+  .lvl-mid .lvl-dot{ background:var(--gold); }
+  .lvl-low .lvl-dot{ background:var(--ember); }
+
+  /* ---------- case study ---------- */
+  .case{
+    border:1px solid var(--rule); padding:28px 26px; margin:16px 0 30px;
+    background:linear-gradient(180deg, rgba(201,169,97,.04), transparent 60%);
+  }
+  .case-meta{
+    font-family:'Inter',sans-serif; font-size:12.5px; color:var(--paper-dim);
+    letter-spacing:.03em; margin-bottom:18px; line-height:1.9;
+  }
+  .case-meta b{ color:var(--paper); font-weight:600; }
+  .step{ margin-bottom:22px; }
+  .step:last-child{ margin-bottom:0; }
+  .step-label{
+    font-family:'Inter',sans-serif; font-size:11px; letter-spacing:.15em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:8px; display:block;
+  }
+  .step p{ margin:0; }
+  .case ul{ margin:6px 0 0; padding-left:18px; }
+  .case li{ margin-bottom:4px; }
+
+  /* ---------- final note ---------- */
+  .closing{
+    font-size:18px; margin-top:8px;
+  }
+  footer{
+    max-width:var(--maxw); margin:0 auto; padding:50px 24px 90px;
+    border-top:1px solid var(--rule);
+    font-family:'Inter',sans-serif; font-size:12.5px; color:var(--paper-dim);
+    letter-spacing:.02em; text-align:center;
+  }
+  footer .sig{
+    font-family:'Cormorant Garamond', serif; font-style:italic; font-size:17px; color:var(--paper-dim);
+    margin-bottom:10px;
+  }
+
+  /* ---------- reveal animation ---------- */
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+    html{ scroll-behavior:auto; }
+  }
+
+  @media (max-width:600px){
+    body{ font-size:16px; }
+    section.chapter .chapter-hanzi{ font-size:140px; }
+    .hero-marks{ gap:16px; }
+    .case{ padding:22px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<button class="music-toggle paused" id="musicToggle" aria-label="Bật/tắt nhạc nền" title="Nhạc nền">
+  <span class="bars"><i></i><i></i><i></i></span>
+</button>
+<button class="theme-toggle" id="themeToggle" aria-label="Chuyển chế độ sáng/tối" title="Sáng / Tối">
+  <svg class="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2 12h2.4M19.6 12H22M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke-linecap="round"/></svg>
+</button>
+<audio id="bgMusic" src="music10.mp3" loop preload="none"></audio>
+
+<header class="hero">
+  <div class="hero-hanzi" id="heroHanzi"></div>
+  <div class="eyebrow">Một khảo luận Tử Vi Đẩu Số</div>
+  <h1 class="title">Ba Cõi<br>Giam Cầm</h1>
+  <p class="subtitle">Tuần–Triệt · Địa Không–Địa Kiếp · Thiên La–Địa Võng<br>— và ba triết lý về giới hạn của đời người</p>
+  <div class="hero-marks">
+    <div class="hero-mark"><div class="glyph">旬</div><small>THỜI GIAN</small></div>
+    <div class="hero-mark"><div class="glyph">空</div><small>ĐỊNH MỆNH</small></div>
+    <div class="hero-mark"><div class="glyph">網</div><small>THIÊN LUẬT</small></div>
+  </div>
+  <div class="scroll-cue">Cuộn xuống ↓</div>
+</header>
+
+<main>
+  <div class="intro reveal">
+    <p>Tử Vi Đẩu Số về bản chất là một bản đồ mô phỏng bầu trời — 118 sao, mỗi sao là một thiên thể mang tính cách riêng, di chuyển, chiếu rọi, giao hội. Nhưng có ba cặp khái niệm không tuân theo logic đó: <strong>Tuần–Triệt</strong>, <strong>Địa Không–Địa Kiếp</strong>, và <strong>Thiên La–Địa Võng</strong>. Cả ba đều nói về sự giam cầm, ngăn trở, đình trệ — nhưng mỗi cặp giam cầm theo một cơ chế triết học hoàn toàn khác nhau. Đặt chúng cạnh nhau, ta thấy cổ nhân đã phân loại "sự mất tự do" của con người thành ba dạng thức riêng biệt: giam cầm bởi <em>thời gian</em>, giam cầm bởi <em>định mệnh cá nhân</em>, và giam cầm bởi <em>luật trời đất</em>.</p>
+  </div>
+
+  <nav class="toc reveal">
+    <ol>
+      <li><a href="#ch1"><span class="num">I</span><span class="toc-label">Tuần — Triệt: Hai Nhà Tù Của Thời Gian</span><span class="toc-glyph">旬 截</span></a></li>
+      <li><a href="#ch2"><span class="num">II</span><span class="toc-label">Địa Không — Địa Kiếp: Hai Con Đường Dẫn Đến Mất Mát</span><span class="toc-glyph">空 劫</span></a></li>
+      <li><a href="#ch3"><span class="num">III</span><span class="toc-label">Thiên La — Địa Võng: Lưới Trời Và Rào Đất</span><span class="toc-glyph">羅 網</span></a></li>
+      <li><a href="#ch4"><span class="num">IV</span><span class="toc-label">Ứng Dụng Thực Tế: Một Ví Dụ Minh Họa</span><span class="toc-glyph">例</span></a></li>
+      <li><a href="#ch5"><span class="num">V</span><span class="toc-label">Tổng Kết: Ba Cơ Chế, Ba Triết Lý Về Giới Hạn</span><span class="toc-glyph">結</span></a></li>
+    </ol>
+  </nav>
+
+  <!-- ================= CHƯƠNG I ================= -->
+  <section class="chapter accent-i" id="ch1">
+    <div class="chapter-hanzi">旬</div>
+    <div class="chapter-inner">
+      <div class="chapter-head reveal">
+        <div class="chapter-eyebrow"><span class="roman">I</span>Tuần — Triệt</div>
+        <h2 class="chapter-title">Hai Nhà Tù Của Thời Gian</h2>
+      </div>
+
+      <div class="reveal">
+        <h3 class="sub">1. Không phải sao, mà là lãnh thổ</h3>
+        <p>Điểm khác biệt gốc rễ của Tuần Triệt so với mọi sao khác: chúng không tọa thủ trong một cung, mà nằm ở ranh giới giữa hai cung, chiếm trọn một <em>vùng</em>. Vì là vùng đất chứ không phải thiên thể, Tuần Triệt không chiếu đi cung khác, và không có khái niệm lưu Tuần / lưu Triệt theo năm — một lãnh thổ thì không thể năm nay ở đây, năm sau dời đi chỗ khác. Mọi sao khác là thiên thể <em>di chuyển qua</em> các cung; Tuần Triệt là <em>lãnh thổ cố định</em> mà các sao khác <em>đi lọt vào</em>.</p>
+
+        <h3 class="sub">2. Gốc số học của Tuần — điều hiếm hoi có thể chứng minh được</h3>
+        <p>Thiên Can có 10, Địa Chi có 12. Khi ghép thành một "tuần Giáp" (10 cặp Can-Chi liên tiếp), Can đi hết vòng 10 thì Chi mới đi được 10/12 quãng đường, luôn dư ra đúng 2 Chi chưa kịp ghép Can. Hai Chi dư đó là "Tuần Không" — nghĩa gốc là <strong>khiếm khuyết, chưa đến lượt</strong>, không phải hư vô huyền bí. Đây là hệ quả tất yếu của việc 10 và 12 có ước số chung là 2 (bội số chung nhỏ nhất = 60) — gốc của cả hệ Lục Thập Hoa Giáp.</p>
+
+        <h3 class="sub">3. Triệt — bí ẩn còn treo lơ lửng</h3>
+        <p>Ngược lại, cách an Triệt gần như không có tài liệu cổ nào giải thích được nguyên lý gốc — người học chỉ biết áp dụng công thức (theo Can năm sinh) mà không rõ vì sao đúng vị trí đó. Phần lý luận nền tảng của Triệt đã thất truyền hoặc chưa từng được ghi chép đầy đủ.</p>
+
+        <h3 class="sub">4. Ý nghĩa chữ — hai kiểu giam cầm khác nhau</h3>
+        <p><strong>Triệt</strong> (截) = chặt, chém đứt hẳn → hành động dứt khoát, một lần, không cứu vãn. <strong>Tuần</strong> (旬) — cần tách rõ hai lớp nghĩa: nghĩa gốc chữ Hán chỉ đơn giản là "một chu kỳ 10 ngày" (như thượng tuần, trung tuần, hạ tuần), không hề mang nghĩa "vây hãm". Nghĩa "vây hãm, giam giữ kéo dài" là một lớp diễn giải tượng hình phái sinh — bắt nguồn từ khái niệm "Tuần Không" (旬空, hai Chi bị bỏ trống), chứ không phải nghĩa từ nguyên trực tiếp của một mình chữ 旬.</p>
+
+        <blockquote class="pull">Tuần là nhà tù trên đất liền — Triệt là nhà tù trên đảo, cách biệt hoàn toàn.</blockquote>
+
+        <p>Vì vậy Triệt luôn được xem là dứt khoát và mạnh hơn Tuần: nó không chỉ giam, mà cắt đứt hẳn liên hệ của sao bị che với môi trường xung quanh.</p>
+
+        <h3 class="sub">5. Ngũ hành lưỡng tính: "đới" — một điểm cần thận trọng</h3>
+        <p>Có ít nhất ba luồng quan điểm khác nhau về ngũ hành "đới" của Tuần Triệt, không có sự thống nhất tuyệt đối giữa các phái: một thuyết cho Triệt = Kim đới Thủy, Tuần = Hỏa đới Mộc; luồng phổ biến nhất trong Tử Vi Nam Phái hiện nay lại an ngược: Triệt = Kim đới Hỏa, Tuần = Hỏa đới Thủy. "Đới" (帶) nghĩa là mang theo, pha lẫn — không phải hành thuần như các sao khác.</p>
+        <p>Lý do sâu xa của sự bất đồng này: cặp hành "đới" gắn liền với Nạp Âm Lục Thập Hoa Giáp — mà thứ tự vận hành gốc của Nạp Âm (Kim→Hỏa→Mộc→Thủy→Thổ, không theo chu trình Tương Sinh chuẩn) tự nó vẫn còn nhiều điểm chưa có sự giải thích thống nhất trong các tài liệu truyền thống hiện còn, kể từ ghi chép của Thẩm Quát hơn nghìn năm trước.</p>
+
+        <h3 class="sub">6. Cơ chế tác động — không đảo ngược, mà san bằng</h3>
+        <p>Khi sát tinh lọt vào vùng Tuần/Triệt, chúng không thể tác họa — như tù nhân phải theo luật. Nhưng văn tinh bị giam cũng không phát huy được tài năng, dẫn tới bất đắc chí. Nghĩa là Tuần Triệt không phân biệt tốt xấu — nó san bằng mọi thứ về trạng thái "bị treo lại".</p>
+        <p>Nhưng đây chỉ đúng khoảng 80%. Thực tế nghiệm lý cho thấy cơ chế này còn kèm một độ đảo chiều nhẹ, theo nguyên tắc <strong>"Hung gặp Không thì bớt hung, Cát gặp Không thì bớt cát"</strong> — sát tinh hãm gặp Tuần/Triệt nhiều khi đỡ xấu rõ rệt, có trường hợp chuyển thành tốt; trong khi cát tinh bị giam thì mất đi phần nào sự tốt đẹp vốn có. Cái "lưới treo" này kéo mọi thứ về gần trạng thái trung bình hơn, chứ không chặn đứng công bằng tuyệt đối theo cả hai chiều.</p>
+
+        <h3 class="sub">7. Ngoại lệ đẹp</h3>
+        <div class="phu">
+          <span>"Triệt đáo Kim cung, Tuần lâm Hỏa địa"</span>
+          <span class="phu-sub">Kim phùng Không tắc minh · Hỏa phùng Không tắc phát</span>
+        </div>
+        <p>Khi Triệt đóng đúng cung Kim (Thân, Dậu) hoặc Tuần đóng đúng cung Hỏa (Tị, Ngọ) — hai trường hợp hiếm hoi Tuần Triệt chuyển từ hung thành cát: Kim gặp khoảng trống thì vang tiếng như chuông rỗng ruột; Hỏa gặp khoảng trống thì cháy bùng cao hơn. Đây là sự tương hợp đồng khí, không phải tương khắc. Chỉ hai tuổi hội đủ cả hai cách cùng lúc: <strong>Giáp Thân và Kỷ Sửu</strong>.</p>
+
+        <h3 class="sub">8. Trước 30, sau 30</h3>
+        <p>Triệt mạnh 30 năm đầu đời, giảm dần sau đó; Tuần yếu đầu đời, mạnh dần về sau — gắn với triết lý "tam thập nhi lập" và nguyên tắc "Mệnh chủ tiền vận, Thân chủ hậu vận". Nhưng cần thành thật: không ai chỉ ra được tỷ lệ tăng/giảm cụ thể theo hàm số nào — đây là kinh nghiệm đúc kết qua quan sát, và mốc "30" thực ra dao động theo từng Cục.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CHƯƠNG II ================= -->
+  <section class="chapter accent-ii" id="ch2">
+    <div class="chapter-hanzi">空</div>
+    <div class="chapter-inner">
+      <div class="chapter-head reveal">
+        <div class="chapter-eyebrow"><span class="roman">II</span>Địa Không — Địa Kiếp</div>
+        <h2 class="chapter-title">Hai Con Đường Dẫn Đến Mất Mát</h2>
+      </div>
+
+      <div class="reveal">
+        <h3 class="sub">1. Chiết tự — một cách diễn giải tượng nghĩa</h3>
+        <div class="caveat">Các liên hệ dưới đây giữa chiết tự chữ Hán, khái niệm Phật học, và ý nghĩa luận đoán của sao là một mạch diễn giải tượng trưng khá phổ biến trong giới Tử Vi — không có tài liệu nào chứng minh được đây là quan hệ nhân-quả lịch sử có thật. Nên đọc như một lăng kính diễn giải có giá trị gợi mở, không phải một sự kiện đã được xác lập.</div>
+        <p><strong>Không</strong> (空) — có thể diễn giải theo hướng liên hệ với chữ Không trong Bát Nhã Tâm Kinh: <em>"Sắc tức thị Không, Không tức thị Sắc"</em>. Theo lăng kính này, Địa Không mang tinh thần mất mát vô hình, mất mát về ý nghĩa/lý tưởng. <strong>Kiếp</strong> (劫) — nghĩa là cướp đoạt, đồng thời trong Phật học "kiếp" (kalpa) là một chu kỳ vũ trụ trải qua bốn giai đoạn Thành–Trụ–Hoại–Không rồi tái sinh. Có thể diễn giải Địa Kiếp theo hướng mất mát hữu hình, bị tước đoạt bằng hành động cụ thể — nhưng bản thân chữ Kiếp cũng gợi mở khả năng tái sinh sau hủy diệt.</p>
+
+        <blockquote class="pull">Không là mất vì ảo tưởng, nội tâm. Kiếp là mất vì bị cướp phá, ngoại lực.</blockquote>
+
+        <h3 class="sub">2. Ngũ hành đối lập — Âm/Dương Hỏa</h3>
+        <p>Cả hai đều thuộc Hỏa, nhưng Địa Kiếp là <strong>Dương Hỏa</strong> (bộc lộ ra ngoài, nóng nảy, hành động ngay — như lửa cháy lộ thiên); Địa Không là <strong>Âm Hỏa</strong> (cháy ngầm, khó đoán, đầu óc kỳ dị khác người — như lửa âm ỉ bên trong).</p>
+
+        <h3 class="sub">3. Cách an — một thuận một nghịch, gặp nhau ở bốn điểm</h3>
+        <p>Cả hai khởi từ cung Hợi (làm giờ Tý), nhưng Địa Không đếm nghịch, Địa Kiếp đếm thuận đến giờ sinh. Vì đi ngược chiều nhau, chúng chỉ gặp lại nhau (đồng cung) tại Tị, Hợi, và đối xung tại Dần, Thân — đây cũng chính là 4 vị trí <strong>đắc địa duy nhất</strong>. Ngoài 4 vị trí này, cả hai đều hãm.</p>
+
+        <h3 class="sub">4. Ý nghĩa luận giải cụ thể</h3>
+        <p>Đắc địa: tính cách khác người, đầu óc linh hoạt kỳ dị, có duyên tâm linh/triết học. Hãm địa: trở ngại, thất bại, tán tài, tai nạn, gian xảo. Tại Tài Bạch, Phúc Đức: gần như luôn là dấu hiệu "vận kiếp" — nghèo hèn, tiền vào tay lại ra. Ngược lại, đi cùng Hóa Quyền, Hóa Lộc ở miếu địa, gia hội nhiều cát tinh — cách cục "phú quý vinh hoa" hiếm gặp.</p>
+        <p>Về mức độ chế giải: chỉ có <strong>Tử Vi, Thiên Phủ ở miếu/vượng</strong> mới đủ lực trấn áp thực sự. Gặp Tuần/Triệt: nếu Không-Kiếp đang đắc địa mà gặp Tuần/Triệt án ngữ, phải luận đảo lại thành xấu; nếu đang hãm mà gặp Tuần/Triệt, sức phá hoại được giảm bớt.</p>
+
+        <h3 class="sub">5. Vì sao an theo giờ sinh — một nghịch lý nhận thức luận</h3>
+        <p>Không-Kiếp là cặp sát tinh mạnh bậc nhất, nhưng lại an dựa trên đơn vị thời gian nhỏ nhất và kém tin cậy nhất trong tứ trụ — giờ sinh, thứ dữ liệu dễ bị ghi sai nhất. Hai sao có sức phá hoại được coi là ghê gớm nhất lại đứng trên nền dữ liệu mong manh nhất.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CHƯƠNG III ================= -->
+  <section class="chapter accent-iii" id="ch3">
+    <div class="chapter-hanzi">網</div>
+    <div class="chapter-inner">
+      <div class="chapter-head reveal">
+        <div class="chapter-eyebrow"><span class="roman">III</span>Thiên La — Địa Võng</div>
+        <h2 class="chapter-title">Lưới Trời Và Rào Đất</h2>
+      </div>
+
+      <div class="reveal">
+        <h3 class="sub">1. Vị trí và ý nghĩa chữ</h3>
+        <p>Thiên La cố định tại cung <strong>Thìn</strong>, Địa Võng cố định tại cung <strong>Tuất</strong> — vị trí tuyệt đối bất biến với mọi lá số: cứ trung bình 6 người thì có 1 người Mệnh rơi vào La Võng. Thiên = trời, Địa = đất, La và Võng đều nghĩa là <strong>lưới</strong>.</p>
+        <blockquote class="pull">"Mệnh tại La Võng thì như anh hùng không có đất dụng võ, như phượng hoàng rơm nằm trong lưới."</blockquote>
+
+        <h3 class="sub">2. Lớp nghĩa Phật giáo — nghiệp chướng, không chỉ là tai họa</h3>
+        <p>Thiên La chủ về Lưới trời (nơi phong thần, phong thánh, phong công hầu); Địa Võng chủ về nghiệp chướng (nơi định tội, định nghiệp). "Lưới trời lồng lộng, tuy thưa mà khó lọt" — không phải hình phạt ngẫu nhiên, mà là hệ quả tất yếu của nhân quả. Đây là điểm phân biệt La-Võng với Không-Kiếp: Không-Kiếp là mất mát cá nhân, ngẫu nhiên theo giờ sinh; La-Võng là ràng buộc phổ quát, không ai tránh khỏi.</p>
+
+        <h3 class="sub">3. Nghịch lý lớn nhất: nơi giam cầm lại là nơi khởi phát cát tinh</h3>
+        <p>Chính hai cung Thìn Tuất — nơi có Thiên La Địa Võng — lại là nơi khởi an của rất nhiều cát tinh quan trọng: Tả Phù, Hữu Bật, Văn Xương, Văn Khúc, Long Trì, Phượng Các. Nếu Thái Dương vượng địa tại Thìn hội hợp đủ Xương Khúc Tả Hữu, vẫn tạo thành cách cục vinh quang, quý hiển — chứng tỏ La-Võng không đè bẹp mọi giá trị đồng loạt, mà tác động có chọn lọc.</p>
+
+        <h3 class="sub">4. Đà La — Thiên La Địa Võng thật sự?</h3>
+        <div class="caveat">Đây là một thuyết trong nhiều thuyết, xuất phát từ nghiệm lý cá nhân của một tác giả — không phải định nghĩa được mọi hệ phái Tử Vi công nhận thống nhất.</div>
+        <p>Có một luồng quan điểm (từ tác giả Thiên Lương, <em>Tử Vi Nghiệm Lý Toàn Thư</em>) cho rằng: bản chất La-Võng thực chất là biểu hiện của sao <strong>Đà La</strong> khi đóng tại Thìn Tuất — đắc địa ở tứ sinh mà hãm địa ở tứ mộ, và chính Thìn Tuất là nơi phát xuất mạnh nhất mọi tính bạo ác của Đà La hãm. Theo cách nhìn này, "Thiên La Địa Võng" không phải một cặp sao riêng biệt, mà là cách gọi hình tượng cho trạng thái Đà La hãm địa tại đúng hai cung này.</p>
+
+        <h3 class="sub">5. Cách hóa giải — con dao cắt lưới</h3>
+        <p>Nếu Thìn Tuất có Tuần, Triệt đồng cung, lưới La-Võng bị suy yếu. Đặc biệt nếu <strong>Kình Dương</strong> đóng tại đó thì càng hay — người ta ví Kình Dương như "cái kìm cắt lưới trời": một sát tinh khác, đúng nơi đúng lúc, lại trở thành công cụ giải thoát cho chính cái lưới giam cầm.</p>
+
+        <h3 class="sub">6. Câu phú nổi tiếng và sự oan uổng</h3>
+        <div class="phu">
+          <span>"Trai bất nhân Phá Quân Thìn Tuất</span>
+          <span>Nữ bạc tình Thất Sát Dần Thân"</span>
+        </div>
+        <p>Nhưng nhiều người mang Phá Quân tại Thìn Tuất trong thực tế lại hiền lành, chẳng phá ai mà còn bị người khác phá — nạn nhân của hàm oan, không phải thủ phạm. Bản chất sâu xa nhất của La-Võng: không phải "làm điều xấu" mà là <strong>dễ bị nghi oan, dễ vướng thị phi không do mình gây ra</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CHƯƠNG IV ================= -->
+  <section class="chapter accent-iv" id="ch4">
+    <div class="chapter-hanzi">例</div>
+    <div class="chapter-inner">
+      <div class="chapter-head reveal">
+        <div class="chapter-eyebrow"><span class="roman">IV</span>Ứng Dụng Thực Tế</div>
+        <h2 class="chapter-title">Một Ví Dụ Minh Họa</h2>
+      </div>
+
+      <div class="reveal">
+        <p>Để ba lý thuyết trên không chỉ nằm trên giấy, dưới đây là cách đọc chúng trên một lá số cụ thể.</p>
+
+        <div class="case">
+          <div class="case-meta">
+            <b>Tuổi:</b> Đinh Mão (1987) &nbsp;·&nbsp; <b>Âm Nam</b> &nbsp;·&nbsp; <b>Cục:</b> Hỏa Lục Cục &nbsp;·&nbsp; <b>Mệnh/Thân:</b> đồng cung tại Tỵ
+          </div>
+
+          <div class="step">
+            <span class="step-label">Bước 1 — Xác định vị trí ba cặp</span>
+            <p>
+              <ul>
+                <li>Triệt (theo Can Đinh) → an tại <strong>Dần – Mão</strong></li>
+                <li>Tuần (thuộc tuần Giáp Tý) → an tại <strong>Tuất – Hợi</strong></li>
+                <li>Địa Không, Địa Kiếp (giờ sinh Giáp Tý) → cùng đóng tại <strong>Hợi</strong>, Địa Không đắc địa</li>
+                <li>Thiên La cố định tại Thìn, Địa Võng cố định tại Tuất</li>
+              </ul>
+            </p>
+          </div>
+
+          <div class="step">
+            <span class="step-label">Bước 2 — Đối chiếu với Mệnh/Thân</span>
+            <p>Mệnh/Thân tại Tỵ không bị Tuần, Triệt, hay La-Võng đóng trực tiếp — tránh được lớp giam cầm nặng nhất. Nhưng cung <strong>Thiên Di (Hợi)</strong> — đối cung trực xung với Mệnh — lại hội tụ cùng lúc Tuần + Địa Không (đắc) + Địa Kiếp, cùng bộ chính tinh Tử Vi–Thất Sát.</p>
+          </div>
+
+          <div class="step">
+            <span class="step-label">Bước 3 — Áp dụng nguyên tắc lý thuyết</span>
+            <p>Địa Không tuy đắc địa tại Hợi, nhưng vì đúng cung này cũng là nơi Tuần đóng, cái "đắc" đó bị khóa lại một phần. Kết quả: cung Thiên Di mang dáng dấp "anh hùng bị trói tay" — nền tảng khí thế lớn, tiềm năng tư duy khác biệt, nhưng bị đình trệ, khó phát tiết trọn vẹn ra bên ngoài.</p>
+          </div>
+
+          <div class="step">
+            <span class="step-label">Bước 4 — Thời gian tác động</span>
+            <p>Triệt không đóng Mệnh/Thân nên không tác động trực tiếp. Tuần (tại Thiên Di) đang ở giai đoạn mạnh dần theo tuổi — đáng lưu tâm hơn Triệt ở thời điểm hiện tại. Không-Kiếp thì luôn âm ỉ, chỉ bộc phát rõ khi Đại Vận/Lưu Niên đi ngang cung Hợi.</p>
+          </div>
+        </div>
+
+        <p>Ví dụ này minh họa đúng tinh thần: việc luận giải Tuần-Triệt, Không-Kiếp, La-Võng không thể tách rời — phải luôn đọc chúng như một <strong>hệ chồng lớp trên cùng một cung</strong>, chứ không phải ba mục lục riêng biệt tra cứu độc lập.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CHƯƠNG V ================= -->
+  <section class="chapter accent-v" id="ch5">
+    <div class="chapter-hanzi">結</div>
+    <div class="chapter-inner">
+      <div class="chapter-head reveal">
+        <div class="chapter-eyebrow"><span class="roman">V</span>Tổng Kết</div>
+        <h2 class="chapter-title">Ba Cơ Chế Giam Cầm,<br>Ba Triết Lý Về Giới Hạn</h2>
+      </div>
+
+      <div class="reveal">
+        <p>Đặt cạnh nhau, ba cặp khái niệm này tạo thành một bản đồ đầy đủ về các dạng mất tự do mà cổ nhân hình dung cho đời người:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Tiêu chí</th><th>Tuần — Triệt</th><th>Không — Kiếp</th><th>La — Võng</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Bản chất</td><td>Vùng thời gian (khiếm khuyết Lục Giáp)</td><td>Sát tinh cá nhân (theo giờ sinh)</td><td>Vị trí không gian cố định tuyệt đối</td></tr>
+              <tr><td>Cơ chế giam cầm</td><td>Đình trệ, không phát tác (cả tốt lẫn xấu)</td><td>Chủ động mất mát (nội tâm/hành động)</td><td>Bị động vướng oan khuất, nghiệp chướng</td></tr>
+              <tr><td>Ai cũng gặp?</td><td>Có, theo năm sinh</td><td>Có, theo giờ sinh</td><td>Có, theo cung Mệnh — 1/6 dân số</td></tr>
+              <tr><td>Gốc triết học</td><td>Số học Lục Thập Hoa Giáp</td><td>Phật học (Không — kalpa)</td><td>Phật học (nghiệp báo) + luật trời đất</td></tr>
+              <tr><td>Có thể hóa giải?</td><td>Tử Vi, Thiên Phủ miếu vượng</td><td>Tử Vi, Thiên Phủ miếu vượng</td><td>Kình Dương, Tuần/Triệt, Thiên Nguyệt Đức</td></tr>
+              <tr class="hi"><td>Thời gian tác động</td><td>Có thời hạn: Triệt mạnh 30 năm đầu, Tuần mạnh 30 năm sau</td><td>Suốt đời, bộc phát mạnh khi Đại Vận/Lưu Niên vào đúng cung</td><td>Không thời hạn — mạnh nhất khi Mệnh/Thân đóng thẳng Thìn/Tuất</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Điều đáng chú ý nhất: cả ba cặp đều được xây trên nền móng <strong>chưa hoàn toàn có sự giải thích thống nhất</strong> — Triệt thiếu nguyên lý an sao được ghi chép công khai, Nạp Âm gốc của Tuần Triệt vẫn còn nhiều tranh luận sau nghìn năm, và ngay cả Thiên La Địa Võng cũng bị một số tác giả cho là chỉ là biến tướng của Đà La. Đây không hẳn là điểm yếu của khoa Tử Vi, mà cho thấy một hệ thống tri thức cổ được xây dựng qua nghiệm lý tích lũy nhiều đời, nơi phần "ứng dụng" thường đi trước phần "lý thuyết nền tảng".</p>
+
+        <h3 class="sub">Mức độ thống nhất của các luận điểm chính</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nội dung</th><th>Mức độ</th></tr></thead>
+            <tbody>
+              <tr><td>Tuần Không từ cấu trúc 10 Can – 12 Chi</td><td><span class="lvl lvl-high"><span class="lvl-dot"></span>Cao — kiểm chứng được bằng số học</span></td></tr>
+              <tr><td>Triệt an theo Thiên Can năm sinh</td><td><span class="lvl lvl-mid"><span class="lvl-dot"></span>Thống nhất về cách an, thiếu nguyên lý gốc</span></td></tr>
+              <tr><td>Tuần/Triệt chiết giảm chứ không đảo ngược</td><td><span class="lvl lvl-mid"><span class="lvl-dot"></span>Nhiều cách luận giữa các phái</span></td></tr>
+              <tr><td>Ngũ hành "đới" của Tuần Triệt</td><td><span class="lvl lvl-low"><span class="lvl-dot"></span>Nhiều dị bản, cần ghi rõ theo phái</span></td></tr>
+              <tr><td>Cách an Địa Không/Địa Kiếp</td><td><span class="lvl lvl-high"><span class="lvl-dot"></span>Thống nhất, tính toán chính xác</span></td></tr>
+              <tr><td>Chiết tự Không-Kiếp liên hệ Phật học</td><td><span class="lvl lvl-low"><span class="lvl-dot"></span>Diễn giải tượng nghĩa, chưa chứng minh</span></td></tr>
+              <tr><td>La-Võng = biểu hiện của Đà La hãm</td><td><span class="lvl lvl-low"><span class="lvl-dot"></span>Một thuyết nghiệm lý, chưa đa số công nhận</span></td></tr>
+              <tr><td>Kình Dương "cắt lưới" La-Võng</td><td><span class="lvl lvl-low"><span class="lvl-dot"></span>Tượng pháp / nghiệm lý dân gian</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="closing">Ba cõi giam cầm này, vì vậy, không chỉ là công cụ luận giải lá số — chúng là tấm gương phản chiếu cách người xưa tư duy về giới hạn, mất mát, và nghiệp báo của đời người, được mã hóa thành vị trí của những "phi-tinh-cầu" lặng lẽ nằm giữa các vì sao.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="sig">旬 · 空 · 網</div>
+    Ba Cõi Giam Cầm Trong Tử Vi Đẩu Số — một khảo luận cá nhân, tổng hợp và đối chiếu nhiều nguồn Tử Vi cổ học và nghiệm lý hiện đại.
+  </footer>
+</main>
+
+<script>
+  // theme toggle (dark <-> light)
+  (function(){
+    const btn = document.getElementById('themeToggle');
+    btn.addEventListener('click', function(){
+      document.body.classList.toggle('theme-light');
+    });
+  })();
+
+  // background music toggle
+  (function(){
+    const btn = document.getElementById('musicToggle');
+    const audio = document.getElementById('bgMusic');
+    let playing = false;
+    btn.addEventListener('click', function(){
+      if(playing){
+        audio.pause();
+        btn.classList.add('paused');
+      } else {
+        audio.play().catch(()=>{ /* file chưa có / bị chặn autoplay, bỏ qua lỗi */ });
+        btn.classList.remove('paused');
+      }
+      playing = !playing;
+    });
+  })();
+
+  // ambient stars
+  (function(){
+    const wrap = document.getElementById('stars');
+    const n = 90;
+    for(let i=0;i<n;i++){
+      const s = document.createElement('span');
+      s.style.left = Math.random()*100+'%';
+      s.style.top = Math.random()*100+'%';
+      s.style.opacity = (Math.random()*0.5+0.1).toFixed(2);
+      s.style.transform = `scale(${(Math.random()*1.6+0.4).toFixed(2)})`;
+      wrap.appendChild(s);
+    }
+  })();
+
+  // hero ambient hanzi scatter
+  (function(){
+    const glyphs = ['旬','截','空','劫','羅','網','紫','微'];
+    const box = document.getElementById('heroHanzi');
+    for(let i=0;i<14;i++){
+      const s = document.createElement('span');
+      s.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
+      s.style.left = Math.random()*100+'%';
+      s.style.top = Math.random()*100+'%';
+      s.style.fontSize = (Math.random()*90+40)+'px';
+      box.appendChild(s);
+    }
+  })();
+
+  // reveal on scroll
+  (function(){
+    const els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){ els.forEach(e=>e.classList.add('in')); return; }
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -60px 0px'});
+    els.forEach(e=>io.observe(e));
+  })();
+</script>
+
+</body>
+</html>
