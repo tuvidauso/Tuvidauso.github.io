@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Học Tử Vi — Dừa &amp; Mixue</title>
+<meta name="description" content="Nơi học tử vi như học một di sản — tri mệnh để không ảo tưởng, tận lực để không buông xuôi.">
+<meta property="og:title" content="Học Tử Vi — Dừa &amp; Mixue">
+<meta property="og:description" content="Nơi học tử vi như học một di sản — tri mệnh để không ảo tưởng, tận lực để không buông xuôi.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://duamixue-hoctuvi.github.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="vi_VN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Học Tử Vi — Dừa &amp; Mixue">
+<meta name="twitter:description" content="Nơi học tử vi như học một di sản — tri mệnh để không ảo tưởng, tận lực để không buông xuôi.">
+<link rel="canonical" href="https://duamixue-hoctuvi.github.io/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:wght@600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,500&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.85em' font-size='84'>☯</text></svg>">
+
+<style>
+  :root{
+    --paper:      #f2ead6;
+    --paper-deep: #e8dcc0;
+    --paper-edge: #dbc99d;
+    --ink:        #24201a;
+    --ink-soft:   #5b5142;
+    --ink-faint:  #8a7d68;
+    --seal:       #9c2b22;
+    --seal-soft:  #b0483a;
+    --bronze:     #a9812f;
+    --bronze-lt:  #c9a869;
+    --jade:       #3e5c4e;
+    --line:       rgba(36,32,26,.14);
+    --line-hv:    rgba(156,43,34,.4);
+    --surface:    rgba(36,32,26,.03);
+    --surface-hv: rgba(169,129,47,.08);
+    --shadow-lift:rgba(36,32,26,.12);
+    --quote-glow: rgba(169,129,47,.14);
+    --star-op: 0;
+  }
+  [data-theme="dark"]{
+    --paper:      #101726;
+    --paper-deep: #0b111d;
+    --paper-edge: #1c2740;
+    --ink:        #ecdfc2;
+    --ink-soft:   #b9ac8c;
+    --ink-faint:  #9e9580;
+    --seal:       #d9694f;
+    --seal-soft:  #c9583f;
+    --bronze:     #d8b46e;
+    --bronze-lt:  #e8cf94;
+    --jade:       #6f9686;
+    --line:       rgba(216,180,110,.16);
+    --line-hv:    rgba(216,180,110,.4);
+    --surface:    rgba(255,255,255,.03);
+    --surface-hv: rgba(216,180,110,.07);
+    --shadow-lift:rgba(0,0,0,.5);
+    --quote-glow: rgba(216,180,110,.18);
+    --star-op: 1;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    transition:background .4s ease, color .4s ease;
+  }
+  ::selection{background:var(--seal);color:var(--paper);}
+  :focus-visible{ outline:2px solid var(--seal); outline-offset:3px; border-radius:2px; }
+
+  /* giấy cổ ban ngày / trời sao ban đêm */
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 900px 560px at 50% -6%, rgba(169,129,47,.10), transparent 60%),
+      radial-gradient(ellipse 500px 400px at 88% 68%, rgba(62,92,78,.06), transparent 65%),
+      var(--paper);
+  }
+  /* vân giấy nhẹ */
+  body::after{
+    content:"";
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5; mix-blend-mode:multiply;
+    background-image:radial-gradient(rgba(0,0,0,.035) 1px, transparent 1px);
+    background-size:3px 3px;
+  }
+  [data-theme="dark"] body::after{ mix-blend-mode:normal; opacity:1;
+    background-image:
+      radial-gradient(1px 1px at 12% 22%, rgba(236,223,194,.7), transparent),
+      radial-gradient(1px 1px at 28% 8%, rgba(236,223,194,.5), transparent),
+      radial-gradient(1.4px 1.4px at 42% 34%, rgba(236,223,194,.65), transparent),
+      radial-gradient(1px 1px at 63% 14%, rgba(236,223,194,.45), transparent),
+      radial-gradient(1.2px 1.2px at 75% 40%, rgba(236,223,194,.6), transparent),
+      radial-gradient(1px 1px at 85% 6%, rgba(236,223,194,.4), transparent),
+      radial-gradient(1.4px 1.4px at 92% 28%, rgba(236,223,194,.55), transparent),
+      radial-gradient(1px 1px at 18% 52%, rgba(236,223,194,.4), transparent),
+      radial-gradient(1px 1px at 55% 60%, rgba(236,223,194,.35), transparent),
+      radial-gradient(1.2px 1.2px at 70% 72%, rgba(236,223,194,.4), transparent);
+    background-size:100% 480px;
+    background-repeat:repeat-y;
+  }
+
+  .wrap{max-width:720px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
+
+  /* ── NAV ── */
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    text-decoration:none;color:var(--ink);
+    font-family:'Literata', serif;
+    font-weight:700;
+    font-size:1.15rem;
+    letter-spacing:.01em;
+  }
+  .brand-mark{
+    width:30px;height:30px;border-radius:5px;
+    background:var(--seal);
+    box-shadow:0 1px 0 rgba(0,0,0,.15), 0 4px 10px -5px rgba(156,43,34,.6);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;flex-shrink:0;color:var(--paper);
+    transform:rotate(-2deg);
+  }
+  .brand span{color:var(--seal);}
+  .nav-tag{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .nav-right{ display:flex;align-items:center;gap:14px; }
+  .theme-toggle{
+    display:flex;align-items:center;justify-content:center;
+    width:32px;height:32px;border-radius:50%;
+    background:transparent;border:1px solid var(--line);
+    color:var(--ink-faint);cursor:pointer;padding:0;position:relative;overflow:hidden;
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .theme-toggle:hover{ color:var(--seal); border-color:var(--line-hv); }
+  .icon-day,.icon-night{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%) rotate(0deg) scale(1);
+    transition:opacity .35s ease, transform .45s cubic-bezier(.34,1.4,.64,1);
+    opacity:1;
+  }
+  .icon-night{ opacity:0; transform:translate(-50%,-50%) rotate(-70deg) scale(.5); }
+  [data-theme="dark"] .icon-day{ opacity:0; transform:translate(-50%,-50%) rotate(70deg) scale(.5); }
+  [data-theme="dark"] .icon-night{ opacity:1; transform:translate(-50%,-50%) rotate(0deg) scale(1); }
+
+  /* ── HERO : la bàn tử vi ── */
+  .hero{ padding:72px 0 60px; text-align:center; position:relative; }
+  .compass{ width:220px;height:220px;margin:0 auto 34px; position:relative; }
+  .compass svg{ width:100%;height:100%; }
+  .compass-ticks{
+    position:absolute; inset:8%; border-radius:50%;
+    background:repeating-conic-gradient(from -90deg, var(--bronze) 0deg 1.1deg, transparent 1.1deg 30deg);
+    -webkit-mask:radial-gradient(circle, transparent 65%, #000 65%, #000 78%, transparent 78%);
+            mask:radial-gradient(circle, transparent 65%, #000 65%, #000 78%, transparent 78%);
+    animation:turn 140s linear infinite; opacity:.75;
+  }
+  .compass-ring{ animation:turn 140s linear infinite; transform-origin:100px 100px; }
+  @keyframes turn{ to{ transform:rotate(360deg); } }
+  .compass-glow{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:270px;height:270px; border-radius:50%;
+    background:radial-gradient(circle, rgba(169,129,47,.24), transparent 68%);
+    filter:blur(2px); pointer-events:none;
+  }
+  [data-theme="dark"] .compass-glow{ background:radial-gradient(circle, rgba(216,180,110,.16), transparent 68%); }
+
+  .hero-eyebrow{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+    font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--bronze);
+    margin-bottom:26px;
+  }
+  .hero-quote{
+    font-family:'Source Serif 4', serif;
+    font-style:italic; font-weight:500;
+    font-size:clamp(24px, 4.8vw, 36px);
+    line-height:1.5; color:var(--ink);
+    text-shadow:0 0 30px var(--quote-glow);
+    margin-bottom:34px;
+  }
+  .hero-quote .line2{ color:var(--seal); }
+  .hero-rule{
+    width:46px;height:1px;
+    background:linear-gradient(90deg, transparent, var(--bronze), transparent);
+    margin:0 auto 30px; position:relative;
+  }
+  .hero-rule::after{
+    content:"◆"; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    background:var(--paper); color:var(--bronze); font-size:9px; padding:0 10px;
+  }
+  h1.hero-title{
+    font-family:'Literata', serif; font-weight:700;
+    font-size:clamp(1.7rem, 5vw, 2.5rem);
+    line-height:1.28; letter-spacing:-.005em;
+    color:var(--ink); margin:0 auto 22px; max-width:20ch;
+  }
+  .hero-intro{
+    font-size:15.5px; color:var(--ink-soft);
+    max-width:54ch; margin:0 auto 14px;
+  }
+  .hero-intro:last-of-type{margin-bottom:0;}
+  .hero-intro strong{color:var(--ink);font-weight:600;}
+
+  /* ── SEARCH ── */
+  .search-row{ margin-top:42px; display:flex;justify-content:center; }
+  .search-box{ width:100%;max-width:380px;position:relative; }
+  .search-box input{
+    width:100%; padding:11px 16px 11px 38px;
+    border:1px solid var(--line); background:var(--surface);
+    border-radius:999px; font-family:'Source Serif 4', serif;
+    font-size:14px;color:var(--ink); outline:none;
+    transition:border-color .2s, background .2s;
+  }
+  .search-box input::placeholder{color:var(--ink-faint);}
+  .search-box input:focus{border-color:var(--seal-soft); background:var(--surface-hv);}
+  .search-box svg{
+    position:absolute;left:13px;top:50%;transform:translateY(-50%);
+    color:var(--ink-faint);
+  }
+
+  .scroll-cue{ display:flex;justify-content:center;margin-top:50px;opacity:.5; }
+  .scroll-cue svg{ animation:bob 2.2s ease-in-out infinite; color:var(--bronze); }
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
+
+  /* ── SECTION LABEL ── */
+  .section-label{ display:flex;align-items:center;gap:14px; margin:60px 0 26px; }
+  .section-label span{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+    font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--bronze);white-space:nowrap;
+    display:flex;align-items:center;gap:8px;
+  }
+  .section-label::after{ content:"";flex:1;height:1px;background:var(--line); }
+
+  /* ── TAGS ── */
+  .tag-row{ display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px; }
+  .tag-chip{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace; font-size:11px;
+    letter-spacing:.04em; padding:6px 13px; border-radius:999px;
+    border:1px solid var(--line); color:var(--ink-faint);
+    cursor:pointer; transition:all .2s ease; user-select:none;
+  }
+  .tag-chip:hover{ border-color:var(--line-hv); color:var(--ink); }
+  .tag-chip.active{ background:var(--seal); border-color:var(--seal); color:var(--paper); }
+
+  /* ── SHELF / THẺ BÀI ── */
+  .shelf{display:flex;flex-direction:column;gap:16px;margin-bottom:30px;}
+  .leaf{
+    position:relative; display:block; text-decoration:none; color:inherit;
+    background:linear-gradient(155deg, var(--paper-deep) 0%, var(--paper) 100%);
+    border:1px solid var(--line); border-left:2px solid var(--bronze);
+    padding:24px 26px; cursor:pointer;
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .leaf:hover{
+    transform:translateX(4px);
+    box-shadow:0 0 0 1px var(--line-hv), 0 14px 32px var(--shadow-lift);
+    border-left-color:var(--seal);
+  }
+  .leaf:active{ transform:translateX(4px) scale(.99); border-left-color:var(--seal); }
+  .leaf-body{ display:flex; gap:18px; align-items:flex-start; }
+  .leaf-thumb{
+    flex-shrink:0; width:52px;height:52px; border-radius:50%;
+    background:radial-gradient(circle at 38% 32%, rgba(169,129,47,.18) 0%, rgba(156,43,34,.1) 60%, transparent 100%);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--bronze); transition:border-color .3s ease, color .3s ease;
+  }
+  .leaf-thumb svg{ width:24px;height:24px; }
+  .leaf:hover .leaf-thumb{ border-color:var(--line-hv); color:var(--seal); }
+  .leaf-content{ flex:1; min-width:0; }
+  .leaf-top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    gap:16px;margin-bottom:10px;flex-wrap:wrap;
+  }
+  .leaf-title{
+    font-family:'Literata', serif; font-weight:600; font-size:21px; color:var(--ink);
+  }
+  .leaf-meta{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace; font-size:10.5px;
+    color:var(--ink-faint); white-space:nowrap;
+  }
+  .leaf-quote{
+    font-family:'Source Serif 4', serif; font-style:italic; font-size:16px;
+    color:var(--ink-soft); margin-bottom:14px; line-height:1.6;
+  }
+  .leaf-footer{ display:flex;justify-content:space-between;align-items:center; }
+  .leaf-mood{ font-size:12px;color:var(--ink-faint); }
+  .leaf-cta{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace; font-size:11px;
+    letter-spacing:.06em;text-transform:uppercase; color:var(--seal);
+    display:flex;align-items:center;gap:6px; flex-shrink:0;
+  }
+  .leaf-cta svg{transition:transform .25s ease;}
+  .leaf:hover .leaf-cta svg{ transform:translateX(3px); }
+
+  .empty-shelf{
+    text-align:center; padding:40px 0; color:var(--ink-faint);
+    font-family:'Source Serif 4', serif; font-style:italic; font-size:17px;
+  }
+
+  /* ── REVEAL ── */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.show{ opacity:1; transform:translateY(0); }
+
+  /* ── FOOTER ── */
+  footer{
+    text-align:center; padding:60px 0 50px;
+    border-top:1px solid var(--line); margin-top:20px;
+  }
+  .footer-line{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace; font-size:11px;
+    letter-spacing:.05em; color:var(--ink-faint); margin-bottom:8px;
+  }
+  .footer-line.signature{ color:var(--ink-soft); }
+  .seal-mark{
+    width:44px;height:44px;margin:22px auto 0; border-radius:5px;
+    background:var(--seal); color:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Literata', serif; font-weight:700; font-size:18px;
+    box-shadow:0 1px 0 rgba(0,0,0,.15), 0 6px 14px -8px rgba(156,43,34,.55);
+    transform:rotate(-2deg); opacity:.85;
+  }
+
+  @media (max-width:480px){
+    .wrap{padding:0 20px;}
+    .hero{padding:56px 0 48px;}
+    .leaf-body{gap:14px;}
+    .leaf-thumb{width:44px;height:44px;}
+    .leaf-title{font-size:19px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body data-theme="light">
+<div class="wrap">
+
+  <nav>
+    <a href="#" class="brand">
+      <span class="brand-mark">卦</span>
+      Học <span>Tử Vi</span>
+    </a>
+    <div class="nav-right">
+      <span class="nav-tag">Dừa &amp; Mixue</span>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Đổi giao diện sáng/tối">
+        <svg class="icon-day" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2.5 12H5M19 12h2.5M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke-linecap="round"/></svg>
+        <svg class="icon-night" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.4 6.4 0 0 0 10.5 10.5z"/><path d="M17 3l.6 1.5L19 5l-1.4.5L17 7l-.6-1.5L15 5l1.4-.5z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="compass-glow" aria-hidden="true"></div>
+    <div class="compass" aria-hidden="true">
+      <div class="compass-ticks"></div>
+      <svg viewBox="0 0 200 200">
+        <defs>
+          <radialGradient id="centerGrad" cx="50%" cy="45%" r="60%">
+            <stop offset="0%" stop-color="var(--bronze-lt)" stop-opacity=".9"/>
+            <stop offset="100%" stop-color="var(--seal)" stop-opacity=".85"/>
+          </radialGradient>
+        </defs>
+        <circle cx="100" cy="100" r="92" fill="none" stroke="var(--line-hv)" stroke-width="1.3"/>
+        <circle cx="100" cy="100" r="70" fill="none" stroke="var(--line-hv)" stroke-width="1"/>
+        <g class="compass-ring">
+          <g id="stars"></g>
+        </g>
+        <circle cx="100" cy="100" r="34" fill="url(#centerGrad)" opacity=".92"/>
+        <text x="100" y="110" text-anchor="middle" font-family="Literata, serif" font-weight="700" font-size="26" fill="var(--paper)">易</text>
+      </svg>
+    </div>
+
+    <div class="hero-eyebrow reveal">Tri Mệnh · Tận Lực · An Nhiên</div>
+    <div class="hero-quote reveal" id="hero-quote">
+      <span id="quote-line1">Số có định, người vô định.</span><br>
+      <span class="line2" id="quote-line2">Vận có xoay, lòng người xoay theo được.</span>
+    </div>
+    <div class="hero-rule"></div>
+    <h1 class="hero-title reveal">Học Tử Vi — Nhìn Số Mệnh Bằng Con Mắt Của Người Quân Tử</h1>
+    <p class="hero-intro reveal">Đây không phải nơi xem bói, đoán vận. Đây là nơi <strong>Bố của Dừa &amp; Mixue</strong> học lại tử vi như học một di sản — hiểu gốc gác, hiểu trường phái, hiểu ranh giới giữa minh triết và mê tín, rồi dùng nó như người quân tử dùng gương soi.</p>
+    <p class="hero-intro reveal">Biết mệnh không phải để sợ hãi, cũng không phải để ỷ lại chờ trời — mà để đứng thẳng trước những gì mình không chọn được, và sống trọn với những gì mình chọn được.</p>
+
+    <div class="search-row reveal">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="search-input" placeholder="Tìm một bài viết..." aria-label="Tìm bài viết" oninput="filterArticles()">
+      </div>
+    </div>
+
+    <a href="#shelf" class="scroll-cue" aria-label="Cuộn xuống xem bài viết">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+    </a>
+  </header>
+
+  <section>
+    <div class="section-label reveal"><span>◆ Bài viết</span></div>
+    <div class="tag-row reveal" id="tag-row"></div>
+    <div class="shelf" id="shelf"></div>
+    <div class="empty-shelf" id="empty" style="display:none;">Chưa tìm thấy trang nào phù hợp...</div>
+  </section>
+
+  <footer>
+    <div class="footer-line reveal">Học Tử Vi · cập nhật từng chút một</div>
+    <div class="footer-line signature reveal">© Bố của Dừa &amp; Mixue</div>
+    <div class="seal-mark reveal" aria-hidden="true">命</div>
+  </footer>
+
+</div>
+
+<script>
+/* ══ VẼ 12 SAO TRÊN LA BÀN (vạch chỉ giờ đã chuyển sang CSS conic-gradient cho nhẹ) ══ */
+(function drawCompass(){
+  const CUNG = ["Mệnh","Phụ Mẫu","Phúc Đức","Điền Trạch","Quan Lộc","Nô Bộc","Thiên Di","Tật Ách","Tài Bạch","Tử Tức","Phu Thê","Huynh Đệ"];
+  const stars = document.getElementById('stars');
+  const cx=100, cy=100, rStar=81;
+  let starHTML='';
+  for(let i=0;i<12;i++){
+    const a = (i*30 - 90 + 15) * Math.PI/180;
+    const sx = cx + rStar*Math.cos(a), sy = cy + rStar*Math.sin(a);
+    const r = (i%3===0) ? 3 : 1.9;
+    starHTML += `<circle cx="${sx.toFixed(2)}" cy="${sy.toFixed(2)}" r="${r}" fill="var(--seal)" opacity="${0.65+((i%4)*0.09)}"><title>${CUNG[i]}</title></circle>`;
+  }
+  stars.innerHTML = starHTML;
+})();
+
+/* ══ CÂU XOAY VÒNG ══ */
+const QUOTES = [
+  ["Số có định, người vô định.", "Vận có xoay, lòng người xoay theo được."],
+  ["Bất tri mệnh, vô dĩ vi quân tử.", "Không biết mệnh, không thể thành người quân tử."],
+  ["Thiên tinh định kỳ vị,", "Nhân tâm biến kỳ thường."],
+  ["Xem số để biết mình.", "Không xem số để trốn mình."]
+];
+(function setQuote(){
+  const q = QUOTES[Math.floor(Math.random()*QUOTES.length)];
+  document.getElementById('quote-line1').textContent = q[0];
+  document.getElementById('quote-line2').textContent = q[1];
+})();
+
+/* ══ SÁNG / TỐI ══ */
+const THEME_KEY = 'hoctuvi-theme';
+function setTheme(theme){
+  document.body.setAttribute('data-theme', theme);
+  try{ localStorage.setItem(THEME_KEY, theme); }catch(e){}
+}
+(function initTheme(){
+  let saved = null;
+  try{ saved = localStorage.getItem(THEME_KEY); }catch(e){}
+  setTheme(saved === 'dark' ? 'dark' : 'light');
+})();
+document.getElementById('theme-toggle').addEventListener('click', function(){
+  const isDark = document.body.getAttribute('data-theme') === 'dark';
+  setTheme(isDark ? 'light' : 'dark');
+});
+
+/* ══ DỮ LIỆU BÀI VIẾT ══ */
+const ICONS = {
+  trigram: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h6.5M13.5 12H20M4 18h16"/></svg>`,
+  calendar: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>`,
+  star: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5.2 5.6.6-4.2 3.9 1.2 5.5L12 15.8 6.9 18.7l1.2-5.5-4.2-3.9 5.6-.6z"/></svg>`,
+  scroll: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h9a3 3 0 0 1 3 3v10a3 3 0 0 0 3 3H9a3 3 0 0 1-3-3z"/><path d="M6 4a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3"/><path d="M9 9h6M9 13h6"/></svg>`
+};
+
+const ARTICLES = [
+  {
+    title: "Tử Vi — Nhìn Từ Con Mắt Người Quân Tử",
+    file: "tu-vi-quan-tu.html",
+    quote: "Bài viết này không để bạn tin tử vi, cũng không để bạn bài xích tử vi — chỉ để bạn hiểu nó như một di sản, và dùng nó như người quân tử dùng gương soi.",
+    mood: "phù hợp khi bạn muốn nhìn lại chính mình",
+    minutes: 13,
+    date: "2026",
+    tags: ["tử vi", "văn hóa"],
+    icon: ICONS.trigram
+  },
+  {
+    title: "Lịch Pháp Việt Nam — Ngàn Năm Giữ Lấy Thời Gian Của Riêng Mình",
+    file: "lich-phap-viet-nam.html",
+    quote: "Đằng sau mỗi cuốn lịch âm mà ông bà ta treo trên tường, là một cuộc gìn giữ chủ quyền âm thầm kéo dài gần một nghìn năm.",
+    mood: "phù hợp khi bạn tò mò về cội nguồn",
+    minutes: 19,
+    date: "2026",
+    tags: ["lịch sử", "văn hóa"],
+    icon: ICONS.calendar
+  }
+];
+
+/* ══ STRUCTURED DATA (JSON-LD) cho SEO ══ */
+(function injectArticleSchema(){
+  const base = location.href.replace(/index\.html$/, '');
+  const items = ARTICLES.map((a, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "item": {
+      "@type": "Article",
+      "headline": a.title,
+      "description": a.quote,
+      "url": base + a.file,
+      "datePublished": a.date,
+      "keywords": (a.tags || []).join(", "),
+      "author": { "@type": "Person", "name": "Bố của Dừa & Mixue" },
+      "publisher": { "@type": "Person", "name": "Bố của Dừa & Mixue" }
+    }
+  }));
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Học Tử Vi — Dừa & Mixue",
+    "url": base,
+    "blogPost": items.map(it => it.item)
+  };
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.textContent = JSON.stringify(schema);
+  document.head.appendChild(script);
+})();
+
+let activeTag = 'all';
+
+function renderTags(){
+  const allTags = ['all', ...new Set(ARTICLES.flatMap(a => a.tags || []))];
+  const row = document.getElementById('tag-row');
+  if(allTags.length <= 1){ row.style.display='none'; return; }
+  row.innerHTML = allTags.map(t =>
+    `<span class="tag-chip${t===activeTag?' active':''}" data-tag="${t}">${t==='all'?'Tất cả':'#'+t}</span>`
+  ).join('');
+  row.querySelectorAll('.tag-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      activeTag = chip.dataset.tag;
+      renderTags();
+      renderShelf();
+    });
+  });
+}
+
+function normalizeVi(str){
+  return (str || '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/gi, 'd')
+    .toLowerCase();
+}
+
+function renderShelf(){
+  const raw = document.getElementById('search-input').value || '';
+  const q = normalizeVi(raw.trim());
+  const shelf = document.getElementById('shelf');
+  const empty = document.getElementById('empty');
+  const filtered = ARTICLES.filter(a =>
+    (normalizeVi(a.title).includes(q) || normalizeVi(a.quote).includes(q)) &&
+    (activeTag === 'all' || (a.tags||[]).includes(activeTag))
+  );
+  if(filtered.length){
+    empty.style.display = 'none';
+  } else {
+    empty.style.display = '';
+    empty.textContent = q
+      ? `Không tìm thấy bài nào với từ khóa "${raw.trim()}"...`
+      : 'Chưa có bài nào trong mục này...';
+  }
+  shelf.innerHTML = '';
+  filtered.forEach((a, i) => {
+    const leaf = document.createElement('a');
+    leaf.href = a.file;
+    leaf.className = 'leaf reveal';
+    leaf.style.transitionDelay = (i*60)+'ms';
+    leaf.innerHTML = `
+      <div class="leaf-body">
+        <div class="leaf-thumb">${a.icon || ICONS.star}</div>
+        <div class="leaf-content">
+          <div class="leaf-top">
+            <div class="leaf-title">${a.title}</div>
+            <div class="leaf-meta">${a.minutes} phút đọc · ${a.date}</div>
+          </div>
+          <div class="leaf-quote">"${a.quote}"</div>
+          <div class="leaf-footer">
+            <span class="leaf-mood">${a.mood}</span>
+            <span class="leaf-cta">Mở trang
+              <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>`;
+    shelf.appendChild(leaf);
+    requestAnimationFrame(()=>leaf.classList.add('show'));
+  });
+}
+function filterArticles(){ renderShelf(); }
+
+renderTags();
+renderShelf();
+
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target);} });
+},{threshold:.12});
+document.querySelectorAll('.hero .reveal, footer .reveal, .section-label.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
