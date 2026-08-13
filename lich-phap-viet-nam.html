@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch Pháp Việt Nam — Ngàn Năm Giữ Lấy Thời Gian Của Riêng Mình</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE3CC;
+    --paper-deep:#E4D8BC;
+    --ink:#26221D;
+    --ink-soft:#4A4238;
+    --indigo:#2B4258;
+    --indigo-deep:#1D2E3E;
+    --seal:#A93B2C;
+    --bronze:#96793F;
+    --cream:#F6EFDC;
+    --rule:rgba(150,121,63,0.35);
+    --maxw:760px;
+  }
+
+  *{box-sizing:border-box;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  html{scroll-behavior:smooth;}
+
+  /* ---------- sticky nav ---------- */
+  .toc-bar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(237,227,204,0.86);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--rule);
+  }
+  .toc-inner{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 28px;
+    display:flex;
+    align-items:center;
+    gap:22px;
+    height:44px;
+    font-family:'Noto Serif', serif;
+    font-size:12.5px;
+    letter-spacing:0.03em;
+  }
+  .toc-mark{
+    font-family:'Noto Serif Display', serif;
+    font-weight:600;
+    color:var(--seal);
+    flex-shrink:0;
+    font-size:14px;
+  }
+  .toc-links{
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    flex:1;
+  }
+  .toc-links::-webkit-scrollbar{display:none;}
+  .toc-links a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    white-space:nowrap;
+    padding:4px 0;
+    border-bottom:1px solid transparent;
+    transition:color 0.2s, border-color 0.2s;
+  }
+  .toc-links a:hover, .toc-links a.active{
+    color:var(--indigo-deep);
+    border-bottom-color:var(--seal);
+  }
+  .toc-toggle{
+    display:none;
+    align-items:center;
+    gap:6px;
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    font-family:'Noto Serif', serif;
+    font-size:13px;
+    cursor:pointer;
+    padding:6px 0;
+    flex-shrink:0;
+  }
+  .toc-panel{
+    display:none;
+    flex-direction:column;
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:6px 28px 14px;
+  }
+  .toc-panel a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    font-family:'Noto Serif', serif;
+    font-size:14.5px;
+    padding:9px 0;
+    border-bottom:1px dotted var(--rule);
+  }
+  .toc-panel.open{display:flex;}
+
+  @media (max-width:640px){
+    .toc-links{display:none;}
+    .toc-toggle{display:inline-flex;}
+    .toc-inner{padding:0 18px;}
+  }
+
+  /* ---------- meridian slider ---------- */
+  .meridian-box{
+    margin:32px 0;
+    padding:26px 26px 22px;
+    background:var(--cream);
+    border:1px solid var(--rule);
+    border-radius:2px;
+  }
+  .meridian-title{
+    font-family:'Noto Serif Display', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:16.5px;
+    color:var(--indigo);
+    margin:0 0 18px;
+    text-align:center;
+  }
+  .meridian-readout{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:14px;
+    font-family:'Noto Serif', serif;
+  }
+  .m-side{text-align:center; flex:1;}
+  .m-side .m-city{
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    color:var(--bronze);
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .m-side .m-time{
+    font-variant-numeric:oldstyle-nums;
+    font-size:30px;
+    font-weight:600;
+    color:var(--ink);
+    line-height:1;
+  }
+  .m-side .m-day{
+    font-size:12.5px;
+    font-style:italic;
+    color:var(--ink-soft);
+    margin-top:5px;
+    font-family:'Cormorant Garamond', serif;
+  }
+  .m-side.diff .m-day{color:var(--seal); font-weight:600; font-style:normal;}
+  .m-divider{
+    font-family:'Noto Serif Display', serif;
+    font-size:14px;
+    color:var(--bronze);
+    padding:0 14px 14px;
+  }
+  .meridian-slider{
+    width:100%;
+    -webkit-appearance:none;
+    appearance:none;
+    height:3px;
+    background:linear-gradient(90deg, var(--indigo) 0%, var(--indigo) 50%, var(--seal) 50%, var(--seal) 100%);
+    border-radius:2px;
+    outline:none;
+    margin:10px 0 6px;
+  }
+  .meridian-slider::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:18px; height:18px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2.5px solid var(--indigo-deep);
+    cursor:pointer;
+    margin-top:-1px;
+  }
+  .meridian-slider::-moz-range-thumb{
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2.5px solid var(--indigo-deep);
+    cursor:pointer;
+  }
+  .meridian-scale{
+    display:flex;
+    justify-content:space-between;
+    font-family:'Noto Serif', serif;
+    font-size:11px;
+    color:var(--ink-soft);
+    opacity:0.75;
+    margin-top:4px;
+  }
+  .meridian-note{
+    text-align:center;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    margin-top:16px;
+    min-height:20px;
+  }
+  .meridian-note.hot{color:var(--seal); font-weight:600; font-style:normal;}
+
+  /* ---------- sóc diagram ---------- */
+  .soc-box{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    margin:30px 0;
+  }
+  @media (max-width:560px){ .soc-box{grid-template-columns:1fr;} }
+  .soc-col{
+    background:var(--cream);
+    border:1px solid var(--rule);
+    border-radius:2px;
+    padding:22px 18px;
+    text-align:center;
+  }
+  .soc-col .soc-label{
+    font-family:'Noto Serif', serif;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--bronze);
+    margin-bottom:14px;
+  }
+  .soc-flow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+  }
+  .soc-node{
+    font-family:'Noto Serif Display', serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:20px;
+    padding:8px 16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .soc-node .emoji{font-size:18px;}
+  .soc-arrow{
+    color:var(--indigo);
+    font-size:16px;
+    opacity:0.6;
+    line-height:1;
+    position:relative;
+    height:22px;
+    display:flex;
+    align-items:center;
+  }
+  .soc-dot{
+    position:absolute;
+    left:50%;
+    top:0;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--seal);
+    transform:translateX(-50%);
+    opacity:0;
+  }
+  .soc-col.animate .soc-dot{
+    animation:soc-travel 1.6s ease-in-out infinite;
+  }
+  .soc-col:nth-child(2).animate .soc-dot{
+    animation-delay:0.2s;
+  }
+  @keyframes soc-travel{
+    0%{opacity:0; top:0;}
+    15%{opacity:1;}
+    85%{opacity:1;}
+    100%{opacity:0; top:100%;}
+  }
+
+  /* offset for sticky nav when jumping to anchors */
+  section.part, header.hero{scroll-margin-top:56px;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top, rgba(255,255,255,0.25), transparent 60%),
+      var(--paper);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Noto Serif', 'Times New Roman', serif;
+    font-size:18px;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* paper grain texture */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:0.5;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(150,121,63,0.025) 0px, transparent 1px, transparent 2px),
+      repeating-linear-gradient(90deg, rgba(38,34,29,0.015) 0px, transparent 1px, transparent 3px);
+    z-index:0;
+  }
+
+  /* ---------- dark mode ---------- */
+  body.dark{
+    --paper:#1B1913;
+    --paper-deep:#242019;
+    --ink:#E9E0C9;
+    --ink-soft:#C3B99F;
+    --cream:#221F17;
+    --rule:rgba(201,168,105,0.22);
+  }
+  body.dark .toc-bar{ background:rgba(27,25,19,0.88); }
+
+  /* brighten decorative inline-SVG colors so they stay visible on dark paper */
+  body.dark [stroke="#2B4258"]{ stroke:#7C97AE; }
+  body.dark [fill="#2B4258"]{ fill:#7C97AE; }
+  body.dark [stroke="#96793F"]{ stroke:#D3B87E; }
+  body.dark [fill="#96793F"]{ fill:#D3B87E; }
+  body.dark [stroke="#A93B2C"]{ stroke:#E07A5F; }
+  body.dark [fill="#A93B2C"]{ fill:#E07A5F; }
+
+  /* ---------- floating toolbar (music + theme) ---------- */
+  .toolbar{
+    position:fixed;
+    top:50%; right:14px;
+    transform:translateY(-50%);
+    z-index:60;
+    display:flex;
+    flex-direction:column;
+    gap:0.5rem;
+  }
+  .toolbar button{
+    width:34px; height:34px;
+    border-radius:50%;
+    border:1px solid transparent;
+    background:transparent;
+    color:var(--ink-soft);
+    font-size:14px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0.45;
+    transition:opacity 0.2s, color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .toolbar button:hover{
+    opacity:1;
+    color:var(--seal);
+    border-color:var(--rule);
+    background:var(--paper);
+  }
+  .toolbar button.playing{ opacity:1; color:var(--seal); }
+  @media (max-width:640px){
+    .toolbar{ right:8px; gap:0.4rem; }
+    .toolbar button{ width:30px; height:30px; font-size:13px; }
+  }
+
+  .scroll-wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 28px 80px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:76px 0 56px;
+    text-align:center;
+    border-bottom:1px solid var(--rule);
+    margin-bottom:56px;
+  }
+
+  .hero-armillary{
+    width:150px;
+    height:150px;
+    margin:0 auto 18px;
+    opacity:0.92;
+  }
+
+  .hero-eyebrow{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    letter-spacing:0.14em;
+    color:var(--indigo);
+    font-size:14px;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+
+  .hero-title{
+    font-family:'Noto Serif Display', serif;
+    font-weight:700;
+    font-size:clamp(34px, 6vw, 54px);
+    line-height:1.15;
+    color:var(--ink);
+    margin:0 0 6px;
+  }
+  .hero-title .han{
+    font-weight:500;
+    color:var(--indigo);
+    font-size:0.62em;
+    margin-right:10px;
+    vertical-align:2%;
+  }
+
+  .hero-subtitle{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:20px;
+    color:var(--ink-soft);
+    margin:14px 0 30px;
+  }
+
+  .seal-wrap{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    margin-top:10px;
+  }
+
+  .seal{
+    width:76px;
+    height:76px;
+    opacity:0;
+    transform:scale(1.2) rotate(-3deg);
+    animation:stamp 0.7s cubic-bezier(.2,.9,.3,1) 0.3s forwards;
+  }
+  @keyframes stamp{
+    0%{opacity:0; transform:scale(1.35) rotate(-8deg);}
+    60%{opacity:1;}
+    100%{opacity:0.92; transform:scale(1) rotate(-3deg);}
+  }
+
+  .hero-meta{
+    font-family:'Noto Serif', serif;
+    font-size:14px;
+    color:var(--bronze);
+    letter-spacing:0.06em;
+  }
+
+  /* ---------- lede ---------- */
+  .lede{
+    font-family:'Cormorant Garamond', serif;
+    font-size:23px;
+    font-style:italic;
+    color:var(--ink-soft);
+    line-height:1.7;
+    text-align:center;
+    margin:0 0 64px;
+    padding:0 8px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section.part{
+    position:relative;
+    padding:52px 0 8px;
+    border-top:1px solid var(--rule);
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  section.part.in-view{opacity:1; transform:translateY(0);}
+
+  .part-watermark{
+    position:absolute;
+    top:24px; right:-10px;
+    width:180px;
+    height:180px;
+    opacity:0.05;
+    pointer-events:none;
+    z-index:0;
+  }
+  @media (max-width:640px){ .part-watermark{width:110px;height:110px;} }
+
+  .part-head{
+    display:flex;
+    align-items:baseline;
+    gap:20px;
+    margin-bottom:26px;
+    position:relative;
+    z-index:1;
+  }
+
+  .part-num{
+    font-family:'Noto Serif Display', serif;
+    font-size:52px;
+    font-weight:600;
+    color:var(--seal);
+    line-height:1;
+    flex-shrink:0;
+    opacity:0.88;
+  }
+
+  .part-titles{flex:1;}
+
+  .part-kicker{
+    font-family:'Noto Serif', serif;
+    font-size:12.5px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--indigo);
+    margin-bottom:6px;
+  }
+
+  .part-title{
+    font-family:'Noto Serif Display', serif;
+    font-weight:600;
+    font-size:clamp(22px, 3.6vw, 30px);
+    color:var(--ink);
+    line-height:1.28;
+    margin:0;
+  }
+
+  .part-body{position:relative; z-index:1;}
+
+  .part-body p{margin:0 0 20px;}
+  .part-body p:last-child{margin-bottom:0;}
+
+  .part-body strong{color:var(--indigo-deep); font-weight:600;}
+
+  h4.sub{
+    font-family:'Noto Serif Display', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:19px;
+    color:var(--indigo);
+    margin:36px 0 14px;
+    padding-bottom:6px;
+    border-bottom:1px dashed var(--rule);
+  }
+  h4.sub:first-child{margin-top:0;}
+
+  .part-body ul, .part-body ol{
+    margin:0 0 22px;
+    padding-left:0;
+    list-style:none;
+  }
+  .part-body li{
+    position:relative;
+    padding-left:26px;
+    margin-bottom:12px;
+  }
+  .part-body li::before{
+    content:"◆";
+    position:absolute;
+    left:0; top:2px;
+    color:var(--bronze);
+    font-size:11px;
+  }
+
+  /* callout / pull quote */
+  .callout{
+    background:var(--cream);
+    border-left:3px solid var(--seal);
+    padding:20px 26px;
+    margin:28px 0;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:19px;
+    color:var(--ink-soft);
+    line-height:1.65;
+  }
+
+  /* ---------- timeline (appendix) ---------- */
+  .timeline-title{
+    font-family:'Noto Serif Display', serif;
+    font-weight:600;
+    font-size:26px;
+    color:var(--ink);
+    margin:0 0 8px;
+  }
+  .timeline-sub{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:16px;
+    margin-bottom:30px;
+  }
+
+  .timeline{
+    position:relative;
+    margin:0 0 20px;
+    padding-left:6px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:74px; top:6px; bottom:6px;
+    width:1px;
+    background:linear-gradient(var(--indigo), var(--bronze));
+    opacity:0.4;
+  }
+  .t-row{
+    display:grid;
+    grid-template-columns:74px 1fr;
+    gap:20px;
+    padding:11px 0;
+    position:relative;
+  }
+  .t-year{
+    font-family:'Noto Serif', serif;
+    font-variant-numeric:oldstyle-nums;
+    font-weight:600;
+    font-size:15.5px;
+    color:var(--seal);
+    text-align:right;
+    padding-right:14px;
+    position:relative;
+  }
+  .t-year::after{
+    content:"";
+    position:absolute;
+    right:-4px; top:50%;
+    width:9px; height:9px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--indigo);
+    transform:translateY(-50%);
+  }
+  .t-event{
+    font-size:15.5px;
+    color:var(--ink-soft);
+    line-height:1.55;
+    padding-top:1px;
+  }
+
+  /* ---------- sources ---------- */
+  .sources-box{
+    background:rgba(255,255,255,0.28);
+    border:1px solid var(--rule);
+    border-radius:2px;
+    padding:28px 30px;
+    margin-top:16px;
+  }
+  .sources-box h3{
+    font-family:'Noto Serif Display', serif;
+    font-size:17px;
+    color:var(--indigo);
+    margin:0 0 16px;
+    letter-spacing:0.02em;
+  }
+  .sources-box ul{
+    margin:0; padding:0; list-style:none;
+    font-family:'Noto Serif', serif;
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+  .sources-box li{
+    padding:7px 0;
+    border-bottom:1px dotted var(--rule);
+  }
+  .sources-box li:last-child{border-bottom:none;}
+
+  .footnote{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:14.5px;
+    color:var(--bronze);
+    margin-top:18px;
+    line-height:1.6;
+  }
+
+  /* ---------- closing ---------- */
+  .closing{
+    text-align:center;
+    padding:64px 0 20px;
+  }
+  .closing-seal{
+    width:56px; height:56px;
+    margin:0 auto 20px;
+    opacity:0.75;
+  }
+  .closing-mark{
+    font-family:'Noto Serif', serif;
+    font-size:13px;
+    letter-spacing:0.3em;
+    color:var(--bronze);
+    text-transform:uppercase;
+  }
+
+  /* ---------- divider glyph ---------- */
+  .glyph-divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin:8px 0 0;
+    color:var(--bronze);
+    opacity:0.7;
+  }
+  .glyph-divider::before, .glyph-divider::after{
+    content:"";
+    height:1px; width:48px;
+    background:var(--rule);
+  }
+
+  @media (max-width:640px){
+    body{font-size:16.5px;}
+    .scroll-wrap{padding:0 18px 60px;}
+    .hero{padding:56px 0 40px;}
+    .part-num{font-size:40px;}
+    .part-head{gap:14px;}
+  }
+</style>
+</head>
+<body>
+<script>
+  (function(){
+    try{
+      var t = localStorage.getItem('bookroom-theme');
+      if(t === 'dark') document.body.classList.add('dark');
+    }catch(e){}
+  })();
+</script>
+
+<div class="toolbar">
+  <button id="musicToggle" aria-label="Bật/tắt nhạc nền" title="Bật/tắt nhạc nền">♪</button>
+  <button id="themeToggle" aria-label="Chuyển giao diện sáng/tối" title="Chuyển giao diện sáng/tối">◐</button>
+</div>
+<audio id="bgMusic" src="Beethoven-Moonlight-64kbps.mp3" loop preload="none"></audio>
+
+<nav class="toc-bar" aria-label="Mục lục">
+  <div class="toc-inner">
+    <span class="toc-mark">曆</span>
+    <div class="toc-links">
+      <a href="#hero">Mở đầu</a>
+      <a href="#part1">Chính Sóc</a>
+      <a href="#part2">Lịch sử</a>
+      <a href="#part3">Khâm Thiên Giám</a>
+      <a href="#part4">Ban Sóc</a>
+      <a href="#part5">Hai hệ quy chiếu</a>
+      <a href="#timeline">Timeline</a>
+    </div>
+    <button class="toc-toggle" id="tocToggle" aria-expanded="false" aria-controls="tocPanel">☰ Nội dung</button>
+  </div>
+  <div class="toc-panel" id="tocPanel">
+    <a href="#hero">Mở đầu</a>
+    <a href="#part1">Phần 1 · Chính Sóc</a>
+    <a href="#part2">Phần 2 · Dòng chảy lịch sử</a>
+    <a href="#part3">Phần 3 · Khâm Thiên Giám</a>
+    <a href="#part4">Phần 4 · Lễ Ban Sóc</a>
+    <a href="#part5">Phần 5 · Hai hệ quy chiếu</a>
+    <a href="#timeline">Phụ lục · Timeline</a>
+  </div>
+</nav>
+
+
+<div class="scroll-wrap">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="hero">
+    <div class="hero-armillary" aria-hidden="true">
+      <svg viewBox="0 0 200 200" fill="none">
+        <ellipse cx="100" cy="100" rx="86" ry="86" stroke="#2B4258" stroke-width="1.1" opacity="0.75"/>
+        <ellipse cx="100" cy="100" rx="86" ry="34" stroke="#2B4258" stroke-width="1.1" opacity="0.55"/>
+        <ellipse cx="100" cy="100" rx="34" ry="86" stroke="#2B4258" stroke-width="1.1" opacity="0.55"/>
+        <ellipse cx="100" cy="100" rx="86" ry="60" stroke="#96793F" stroke-width="0.9" opacity="0.5" transform="rotate(35 100 100)"/>
+        <ellipse cx="100" cy="100" rx="86" ry="60" stroke="#96793F" stroke-width="0.9" opacity="0.5" transform="rotate(-35 100 100)"/>
+        <circle cx="100" cy="100" r="7" fill="#A93B2C" opacity="0.85"/>
+        <circle cx="100" cy="14" r="2.4" fill="#2B4258"/>
+        <circle cx="100" cy="186" r="2.4" fill="#2B4258"/>
+        <circle cx="14" cy="100" r="2.4" fill="#2B4258"/>
+        <circle cx="186" cy="100" r="2.4" fill="#2B4258"/>
+      </svg>
+    </div>
+
+    <div class="hero-eyebrow">Khảo cứu · Lịch Sử · Thiên Văn</div>
+
+    <h1 class="hero-title"><span class="han">曆</span>Lịch Pháp Việt Nam</h1>
+    <p class="hero-subtitle">Ngàn năm giữ lấy thời gian của riêng mình</p>
+
+    <div class="seal-wrap">
+      <svg class="seal" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="6" y="6" width="88" height="88" rx="4" fill="none" stroke="#A93B2C" stroke-width="4"/>
+        <rect x="14" y="14" width="72" height="72" rx="2" fill="none" stroke="#A93B2C" stroke-width="1.4"/>
+        <text x="50" y="42" text-anchor="middle" font-family="'Noto Serif', serif" font-size="19" fill="#A93B2C" font-weight="700">御</text>
+        <text x="50" y="72" text-anchor="middle" font-family="'Noto Serif', serif" font-size="19" fill="#A93B2C" font-weight="700">覽</text>
+      </svg>
+    </div>
+    <p class="hero-meta">ngự lãm · bản khảo đính</p>
+  </header>
+
+  <p class="lede">Có bao giờ bạn thắc mắc: tại sao có những năm Tết Nguyên Đán của Việt Nam lại lệch với Tết Trung Quốc một ngày, dù cả hai đều gọi là "âm lịch"?</p>
+
+  <!-- ============ MỞ ĐẦU ============ -->
+  <section class="part in-view" id="opening" style="border-top:none; padding-top:0;">
+    <div class="part-body">
+      <p>Nhiều người nghĩ đơn giản đó là sai số kỹ thuật, một lỗi tính toán cần được "sửa lại cho đúng". Nhưng sự thật thú vị hơn nhiều: đằng sau mỗi cuốn lịch âm mà ông bà ta treo trên tường, là một cuộc gìn giữ chủ quyền âm thầm kéo dài gần một nghìn năm.</p>
+      <p>Lịch, với người xưa, chưa bao giờ chỉ là công cụ đếm ngày. Nó là biểu tượng của quyền lực, của việc ai được quyền quyết định thời gian bắt đầu năm mới, ai là "thiên tử" thực sự trên mảnh đất của mình.</p>
+    </div>
+  </section>
+
+  <!-- ============ PHẦN 1 ============ -->
+  <section class="part" id="part1">
+    <div class="part-watermark" aria-hidden="true">
+      <svg viewBox="0 0 200 200" fill="none">
+        <ellipse cx="100" cy="100" rx="86" ry="86" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="86" ry="34" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="34" ry="86" stroke="#2B4258" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="part-head">
+      <div class="part-num">壹</div>
+      <div class="part-titles">
+        <div class="part-kicker">Phần Một</div>
+        <h2 class="part-title">"Chính Sóc" — Khi Lịch Là Một Thứ Vũ Khí Chính Trị</h2>
+      </div>
+    </div>
+    <div class="part-body">
+      <p>Trong Hán học cổ, có một khái niệm gọi là <strong>"chính sóc"</strong> — "chính" nghĩa là tháng Giêng, "sóc" nghĩa là ngày mùng một đầu tháng. Nghe qua tưởng chỉ là thuật ngữ lịch pháp thuần túy, nhưng ý nghĩa thật sự của nó nặng hơn nhiều.</p>
+      <p>Theo chú thích trong bộ "Khâm định Việt sử thông giám cương mục", các triều đại Trung Hoa cổ từng thay đổi "chính sóc" mỗi khi đổi ngôi: nhà Ân lấy tháng 12 của nhà Hạ làm tháng Giêng của mình, nhà Chu lại lấy tháng 11 của nhà Hạ làm tháng Giêng. Vì vậy, cụm từ "theo chính sóc của triều đại nào" đồng nghĩa với việc <strong>thừa nhận mình lệ thuộc vào triều đại ấy</strong>.</p>
+      <p>Chính vì lẽ đó, các triều đình phong kiến Trung Quốc thường xuyên "ban lịch" cho các nước xung quanh — Việt Nam, Cao Ly, Đại Lý — như một nghi thức để khẳng định ảnh hưởng và quyền uy của thiên triều. Nhận lịch của ai, tức là bước vào quỹ đạo chính trị của người đó. Sử nhà Minh từng ghi lại một minh chứng trần trụi cho điều này: năm 1541, khi Mạc Đăng Dung tự trói mình xin hàng, ông đã xin "kính theo chính sóc" — tức xin nhận lịch Đại Thống của nhà Minh — như một phần của nghi thức thần phục, đổi lại mỗi năm được "ban lịch" đều đặn.</p>
+
+      <div class="callout">Đây không phải chuyện riêng của Việt Nam. Triều Tiên nhận lịch nhà Thanh như một phần triều cống; Nhật Bản dùng nguyên lịch Trung Quốc suốt hơn 800 năm — mãi đến 1684–1685, Shibukawa Harumi mới soạn ra lịch Jokyo, cuốn lịch đầu tiên người Nhật tự tính bằng quan trắc của chính mình.</div>
+
+      <p>Nhìn trong bối cảnh khu vực đó, việc Đại Việt kiên trì tự soạn lịch suốt gần một nghìn năm — dù nhiều lúc vẫn phải dựa trên khung phép lịch gốc từ phương Bắc — càng cho thấy đây là một cuộc giằng co chủ quyền mang tính hệ thống, không phải một hiện tượng đơn lẻ.</p>
+      <p>Hiểu được điều này, ta mới thấy hết ý nghĩa của việc Việt Nam nhiều lần trong lịch sử đã chọn cách <strong>không</strong> dùng nguyên lịch phương Bắc.</p>
+    </div>
+  </section>
+
+  <!-- ============ PHẦN 2 ============ -->
+  <section class="part" id="part2">
+    <div class="part-watermark" aria-hidden="true">
+      <svg viewBox="0 0 200 200" fill="none">
+        <ellipse cx="100" cy="100" rx="86" ry="86" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="86" ry="34" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="34" ry="86" stroke="#2B4258" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="part-head">
+      <div class="part-num">貳</div>
+      <div class="part-titles">
+        <div class="part-kicker">Phần Hai</div>
+        <h2 class="part-title">Dòng Chảy Lịch Sử — Việt Nam Giành Lấy Quyền Làm Lịch</h2>
+      </div>
+    </div>
+    <div class="part-body">
+      <p class="footnote" style="margin-top:0;">Timeline tổng quan: 939 → 1078 → 1339 → 1401 → 1407 → 1644 → 1812 → 1968 → 1975</p>
+
+      <h4 class="sub">Giai đoạn đầu độc lập (939–1078): Vẫn còn phụ thuộc</h4>
+      <p>Sau khi Ngô Quyền giành độc lập, các vương triều đầu tiên của nước Việt nhiều khả năng vẫn tiếp tục dùng lịch của phương Bắc — độc lập về chính trị chưa đồng nghĩa với độc lập về lịch pháp ngay lập tức.</p>
+
+      <h4 class="sub">Bước ngoặt thời Lý (từ khoảng 1078): Những dấu hiệu đầu tiên</h4>
+      <p>Trong giai đoạn chiến tranh Đại Việt – Tống (khoảng 1075–1078, gắn với cuộc xuất quân của Lý Thường Kiệt), bang giao hai nước gián đoạn. <strong>Nhiều nhà nghiên cứu lịch sử cho rằng</strong> đây rất có thể là thời điểm Đại Việt buộc phải tự tính lịch — dù không có chiếu chỉ hay sử liệu trực tiếp nào ghi rõ quyết định này; đây là một suy luận hợp lý dựa trên bối cảnh gián đoạn bang giao, không phải một sự kiện đã được xác quyết.</p>
+
+      <h4 class="sub">Thời Lý – Trần (1080–1300): Tự tính toán dựa trên phép lịch gốc Tống</h4>
+      <p>Đây là giai đoạn Việt Nam chính thức tự soạn lịch — nhưng cần nói rõ: việc "tự soạn" ở đây là tự tính toán và ban hành, chứ khung phép lịch nền tảng vẫn dựa theo một phép lịch có nguồn gốc từ thời Tống bên Trung Quốc, không phải một hệ thống sáng tạo hoàn toàn mới. Đáng tiếc, sử liệu còn lại quá ít để có thể phục dựng chi tiết cuốn lịch này trông như thế nào.</p>
+
+      <h4 class="sub">Chuỗi đổi tên lịch — mỗi lần đổi là một dấu ấn chủ quyền</h4>
+      <p>Từ đây, lịch sử Việt Nam ghi nhận nhiều lần đổi lịch, mỗi lần thường gắn với một biến động chính trị lớn:</p>
+      <ul>
+        <li><strong>Năm 1339</strong>, vua Trần Hiến Tông, theo kiến nghị của quan Đặng Lộ, cho đổi lịch <strong>Thụ Thời</strong> (vốn có gốc từ lịch nhà Nguyên, ban hành từ 1281) thành lịch <strong>Hiệp Kỷ</strong>.</li>
+        <li><strong>Năm 1401</strong>, nhà Hồ thay nhà Trần, tiếp tục đổi lịch Hiệp Kỷ thành lịch <strong>Thuận Thiên</strong>.</li>
+      </ul>
+
+      <h4 class="sub">Mất chủ quyền rồi âm thầm giữ lại một cái tên (1407–1812)</h4>
+      <p>Năm 1407, nhà Hồ sụp đổ, nhà Minh đô hộ nước ta và áp đặt lịch <strong>Đại Thống</strong> của họ. Năm 1428 nước ta giành lại độc lập, nhưng triều Lê <strong>vẫn tiếp tục dùng phép lịch Đại Thống</strong> — chỉ đổi tên gọi thành lịch <strong>Vạn Toàn</strong> — kéo dài suốt nhiều thế kỷ.</p>
+      <p>Đến năm 1644, một biến động lớn xảy ra bên kia biên giới: nhà Thanh thay nhà Minh ở Trung Quốc và chuyển sang dùng phép lịch mới — <strong>lịch Thời Hiến</strong>. Nhưng Việt Nam khi đó (giai đoạn Trịnh — Nguyễn phân tranh) vẫn tiếp tục kiên trì dùng phép Đại Thống cũ (tên gọi Vạn Toàn) suốt gần 170 năm sau đó, khiến lịch ta và lịch Trung Quốc trong giai đoạn này khác nhau khá nhiều.</p>
+      <p>Mãi đến năm Gia Long thứ 11 (<strong>1812</strong>), nhờ quan Nguyễn Hữu Thận — người giữ chức Tham tri Bộ Hộ, kiêm quản Khâm Thiên Giám — đi sứ Trung Quốc mang về sách "Đại Thanh Lịch Tượng Khảo Thành", triều Nguyễn mới quyết định đổi tên lịch Vạn Toàn thành lịch <strong>Hiệp Kỷ</strong>, chính thức áp dụng phép Thời Hiến (giống nhà Thanh) từ năm 1813, sử dụng liên tục cho đến năm 1945.</p>
+
+      <div class="callout">Độc lập chính trị và độc lập lịch pháp không phải lúc nào cũng song hành — có những di sản của thời lệ thuộc kéo dài rất lâu sau khi ách đô hộ đã chấm dứt, và việc "bắt kịp" phép lịch tiên tiến hơn của láng giềng đôi khi lại đến từ chính một chuyến đi sứ học hỏi, chứ không phải một sự áp đặt.</div>
+    </div>
+  </section>
+
+  <!-- ============ PHẦN 3 ============ -->
+  <section class="part" id="part3">
+    <div class="part-watermark" aria-hidden="true">
+      <svg viewBox="0 0 200 200" fill="none">
+        <ellipse cx="100" cy="100" rx="86" ry="86" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="86" ry="34" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="34" ry="86" stroke="#2B4258" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="part-head">
+      <div class="part-num">參</div>
+      <div class="part-titles">
+        <div class="part-kicker">Phần Ba</div>
+        <h2 class="part-title">Khâm Thiên Giám — Bộ Máy Giữ Thời Gian Của Quốc Gia</h2>
+      </div>
+    </div>
+    <div class="part-body">
+      <p>Để làm ra một cuốn lịch, triều đình cần một cơ quan chuyên trách. Đó chính là <strong>Khâm Thiên Giám</strong> — cơ quan phụ trách quan sát thiên văn, làm lịch, chọn ngày tốt cho các việc trọng đại, báo giờ, và tư vấn phong thủy cho triều đình.</p>
+      <p>Tên gọi "Khâm Thiên Giám" chính thức đi vào sử sách dưới triều Nguyễn, nhưng tiền thân của cơ quan này đã tồn tại từ các triều đại trước đó (như Tư Thiên Giám thời Lê) — chỉ là dưới những tên gọi khác. Điều này cho thấy chức năng "giữ thời gian quốc gia" là một mạch xuyên suốt lịch sử Việt Nam, không phải sáng kiến riêng của một triều đại nào.</p>
+      <p>Bên cạnh Đặng Lộ đã nhắc ở Phần Hai, thời Trần còn một nhân vật đáng chú ý khác: Trần Nguyên Đán (1325–1390), vị Tư đồ cuối cùng của nhà Trần. Say mê thiên văn và lịch pháp, ông đã dựa trên nền tảng nghiên cứu của Đặng Lộ để soạn ra "Bách Thế Thông Kỷ Thư" — một công trình khảo cứu về nhật thực, nguyệt thực và vị trí các vì sao trải dài hàng nghìn năm. Đáng tiếc, theo một số tư liệu, công trình này — cùng với các nghiên cứu của Đặng Lộ — đã bị quân Minh thu giữ chở về Nam Kinh sau khi nhà Hồ sụp đổ năm 1407, khiến phần lớn tri thức lịch pháp tích lũy suốt thời Trần bị thất truyền. Đây cũng là một lời nhắc rằng việc mất chủ quyền không chỉ mất quyền quyết định lịch, mà đôi khi còn mất luôn cả thành quả trí tuệ đã dày công xây dựng.</p>
+
+      <h4 class="sub">Quy trình biên soạn — không hề tùy tiện</h4>
+      <ul>
+        <li><strong>Thời Lê</strong>: việc biên soạn giao cho Tư Thiên Giám nghiên cứu từ đầu năm, qua rà soát đối chiếu nhiều lần, đến đầu tháng 12 mới dâng vua ngự lãm, được chuẩn y rồi mới in ấn. Ngày 24 tháng Chạp, triều đình làm lễ Tiến Lịch.</li>
+        <li><strong>Thời Nguyễn</strong>: Khâm Thiên Giám nghiên cứu và biên soạn ngay sau Tết, được cả bộ Lễ và Nội các rà soát kỹ càng trước khi trình vua chuẩn y. Đến khoảng tháng 5–6 thì lịch được in ấn.</li>
+      </ul>
+      <p>Một cuốn lịch, vì thế, là sản phẩm của gần một năm trời làm việc nghiêm ngặt — được xem là việc quốc gia đại sự, không phải chuyện tính toán vặt vãnh.</p>
+    </div>
+  </section>
+
+  <!-- ============ PHẦN 4 ============ -->
+  <section class="part" id="part4">
+    <div class="part-watermark" aria-hidden="true">
+      <svg viewBox="0 0 200 200" fill="none">
+        <ellipse cx="100" cy="100" rx="86" ry="86" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="86" ry="34" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="34" ry="86" stroke="#2B4258" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="part-head">
+      <div class="part-num">肆</div>
+      <div class="part-titles">
+        <div class="part-kicker">Phần Bốn</div>
+        <h2 class="part-title">Lễ Ban Sóc — Khi Vua Việt "Đóng Vai" Thiên Tử Của Riêng Mình</h2>
+      </div>
+    </div>
+    <div class="part-body">
+      <p>Sau khi Khâm Thiên Giám soạn lịch xong, triều đình tổ chức lễ <strong>Ban Sóc</strong> (phát lịch) vào cuối năm âm lịch — dưới sự điều hành của quan chức bộ Lễ và Khâm Thiên Giám. Lịch được tiến vào hoàng cung cho hoàng gia dùng (các loại long lịch, phượng lịch, loan lịch), phát cho các thân công, hoàng tử (lịch Vạn Niên Thọ), phát cho quan ở kinh thành và các địa phương (lịch Hiệp Kỷ, Vạn Toàn), rồi từ đó phân phát lại trong dân chúng.</p>
+
+      <div class="callout">Nếu thiên triều phương Bắc từng ban lịch cho các nước phiên thuộc để khẳng định quyền lực, thì lễ Ban Sóc của các vua Việt Nam chính là một hình ảnh soi gương ngược lại — vua Việt Nam làm đúng điều tương tự, nhưng dành cho chính thần dân của mình: <em>"Ta, chứ không phải ai khác, là người quyết định thời gian trên mảnh đất này."</em></div>
+
+      <p>Một chi tiết đáng chú ý dưới triều Minh Mệnh: nhà vua cho dời lễ Ban Sóc ra tổ chức trước cửa Ngọ Môn, với quan niệm rằng việc ban lịch năm mới không chỉ dành riêng cho triều đình, mà phải đến được với muôn dân.</p>
+    </div>
+  </section>
+
+  <!-- ============ PHẦN 5 ============ -->
+  <section class="part" id="part5">
+    <div class="part-watermark" aria-hidden="true">
+      <svg viewBox="0 0 200 200" fill="none">
+        <ellipse cx="100" cy="100" rx="86" ry="86" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="86" ry="34" stroke="#2B4258" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="34" ry="86" stroke="#2B4258" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="part-head">
+      <div class="part-num">伍</div>
+      <div class="part-titles">
+        <div class="part-kicker">Phần Năm</div>
+        <h2 class="part-title">Khi Hai Hệ Quy Chiếu Tính Cùng Một Bầu Trời</h2>
+      </div>
+    </div>
+    <div class="part-body">
+      <p>Câu chuyện không dừng lại ở thời phong kiến. Đến thế kỷ 20 và hiện tại, sự khác biệt vẫn tiếp diễn — chỉ là dưới một hình thức khác: <strong>múi giờ pháp định</strong>.</p>
+
+      <h4 class="sub">Trước hết: lịch Việt Nam vận hành như thế nào?</h4>
+      <p>Nhiều người quen gọi lịch cổ truyền là "âm lịch", nhưng gọi vậy chưa thật chính xác. Lịch Việt Nam (cũng như lịch Trung Quốc) thực chất là <strong>lịch âm-dương</strong> — một hệ thống lai, cố gắng thỏa mãn cùng lúc hai chu kỳ tự nhiên độc lập với nhau:</p>
+      <ul>
+        <li><strong>Tháng</strong> đi theo chu kỳ Mặt Trăng: mỗi tháng bắt đầu từ một thời điểm thiên văn gọi là <strong>điểm Sóc</strong> — lúc Mặt Trăng nằm giữa Trái Đất và Mặt Trời, hoàn toàn không có ánh trăng (dân gian gọi là "trăng non"). Ngày chứa điểm Sóc được lấy làm mùng Một.</li>
+        <li><strong>Năm</strong> đi theo chu kỳ Mặt Trời: được chia thành 24 <strong>Trung Khí</strong> (các mốc như Xuân phân, Hạ chí, Đông chí...) — dùng để xác định cấu trúc của các tháng trong năm và làm cơ sở tính mùa vụ.</li>
+        <li>Vì 12 tháng Mặt Trăng (~354 ngày) ngắn hơn một năm Mặt Trời (~365 ngày) khoảng 11 ngày, cứ vài năm phải chèn thêm một <strong>tháng nhuận</strong> để kéo lịch âm-dương về khớp lại với chu kỳ mùa — nếu không, chỉ vài chục năm là Tết sẽ trôi dần sang giữa mùa hè.</li>
+      </ul>
+
+      <div class="soc-box" id="socDiagram">
+        <div class="soc-col">
+          <div class="soc-label">Trục Mặt Trăng</div>
+          <div class="soc-flow">
+            <div class="soc-node"><span class="emoji">🌑</span> Điểm Sóc</div>
+            <div class="soc-arrow">↓<span class="soc-dot"></span></div>
+            <div class="soc-node">Mùng Một</div>
+            <div class="soc-arrow">↓<span class="soc-dot"></span></div>
+            <div class="soc-node">Tháng âm lịch</div>
+          </div>
+        </div>
+        <div class="soc-col">
+          <div class="soc-label">Trục Mặt Trời</div>
+          <div class="soc-flow">
+            <div class="soc-node"><span class="emoji">☀️</span> Trung Khí</div>
+            <div class="soc-arrow">↓<span class="soc-dot"></span></div>
+            <div class="soc-node">Điều chỉnh</div>
+            <div class="soc-arrow">↓<span class="soc-dot"></span></div>
+            <div class="soc-node">Cấu trúc tháng</div>
+          </div>
+        </div>
+      </div>
+
+      <p>Chính vì lịch phải "khớp" đồng thời cả Mặt Trăng lẫn Mặt Trời, nên việc tính toán đòi hỏi xác định chính xác đến từng giờ, từng phút các thời điểm thiên văn nói trên — và đây là chỗ mà sự khác biệt giữa Việt Nam và Trung Quốc bắt đầu xuất hiện.</p>
+
+      <h4 class="sub">Gốc rễ khoa học: kinh tuyến pháp định khác nhau</h4>
+      <p>Về bản chất kỹ thuật, sự khác biệt không chỉ nằm ở "múi giờ" như một quy ước hành chính đơn thuần, mà ở <strong>kinh tuyến pháp định</strong> dùng làm chuẩn cho mọi tính toán thiên văn: Việt Nam lấy kinh tuyến <strong>105° Đông</strong> (đi qua gần Hà Nội, tương ứng múi giờ UTC+7), trong khi Trung Quốc lấy kinh tuyến <strong>120° Đông</strong> (giờ Bắc Kinh, tương ứng UTC+8). Vì điểm Sóc và các Trung Khí là những thời điểm thiên văn tuyệt đối, chỉ cần một trong các thời điểm ấy rơi vào khung giờ 23:00–23:59 theo giờ Việt Nam (tức đã sang 00:00–00:59 ngày hôm sau theo giờ Bắc Kinh) là đủ để ngày Sóc, và kéo theo cả tháng âm lịch, bị lệch một ngày giữa hai nước.</p>
+
+      <div class="meridian-box">
+        <div class="meridian-title">Kéo thử: 105°Đ (Việt Nam) ↔ 120°Đ (Trung Quốc)</div>
+        <div class="meridian-readout">
+          <div class="m-side" id="mVnSide">
+            <div class="m-city">Việt Nam · 105°Đ</div>
+            <div class="m-time" id="mVnTime">23:30</div>
+            <div class="m-day" id="mVnDay">hôm nay</div>
+          </div>
+          <div class="m-divider">UTC+7 ↔ UTC+8</div>
+          <div class="m-side" id="mCnSide">
+            <div class="m-city">Trung Quốc · 120°Đ</div>
+            <div class="m-time" id="mCnTime">00:30</div>
+            <div class="m-day" id="mCnDay">ngày mai</div>
+          </div>
+        </div>
+        <input type="range" class="meridian-slider" id="meridianSlider" min="-60" max="60" step="1" value="-30" aria-label="Kéo để xem giờ Việt Nam và Trung Quốc">
+        <div class="meridian-scale"><span>22:00 (VN)</span><span>00:00</span><span>02:00 (VN)</span></div>
+        <div class="meridian-note" id="meridianNote">Việt Nam 23:30 hôm nay — nhưng Bắc Kinh đã sang 00:30 <strong>ngày hôm sau</strong>. Nếu điểm Sóc rơi đúng vào lúc này, hai nước sẽ tính mùng Một lệch nhau một ngày.</div>
+      </div>
+
+
+      <p>Thực ra, câu chuyện "hai múi giờ" trên đất Việt không phải đến 1960 mới bắt đầu. Trong Thế chiến II, khi Nhật chiếm toàn bộ Đông Dương, cả vùng bị chuyển sang múi giờ Tokyo (GMT+9) từ 23 giờ ngày 14/3/1945. Chỉ nửa năm sau, ngay sau Cách mạng Tháng Tám, Chính phủ lâm thời Việt Nam Dân chủ Cộng hòa đã vặn đồng hồ lùi lại 2 tiếng — từ 24 giờ ngày 1/9/1945 — trở về múi giờ GMT+7. Nhưng đến 1/4/1947, các vùng do Pháp kiểm soát lại đổi sang GMT+8, trong khi vùng do chính quyền cách mạng quản lý vẫn giữ GMT+7 — nghĩa là ngay từ giai đoạn 1945–1947, đất nước đã từng tồn tại song song hai múi giờ khác nhau, một kịch bản sẽ lặp lại gần hai mươi năm sau. Tuy vậy, cần lưu ý: mốc 1945 này là chuyện đổi <em>giờ đồng hồ dân sự</em>, còn việc chính thức lấy giờ ấy làm <em>cơ sở tính âm lịch</em> thì phải đợi đến Quyết định 121/CP năm 1967 mới được luật hóa rõ ràng.</p>
+      <p>Đến giai đoạn kháng chiến chống Mỹ, tình trạng lệch múi giờ lặp lại một lần nữa, lần này kéo dài và có hệ quả lớn hơn nhiều:</p>
+      <ul>
+        <li>Từ 23 giờ ngày 1/1/1960, miền Nam chuyển sang múi giờ <strong>GMT+8</strong> (giống giờ Bắc Kinh).</li>
+        <li>Miền Bắc (Việt Nam Dân chủ Cộng hòa) chính thức khẳng định dùng múi giờ <strong>GMT+7</strong> từ tháng 1/1968, theo Quyết định số 121/CP do Thủ tướng Phạm Văn Đồng ký ngày 8/8/1967.</li>
+        <li>Sự lệch múi giờ rõ rệt nhất, vì vậy, rơi vào giai đoạn <strong>1968–1975</strong>.</li>
+        <li>Sau khi thống nhất đất nước, ngày 13/6/1975, Sài Gòn và các vùng phía Nam vặn đồng hồ lùi lại 60 phút, cả nước chính thức thống nhất dùng múi giờ UTC+7.</li>
+      </ul>
+
+      <h4 class="sub">Câu chuyện Tết Mậu Thân 1968 — hệ quả không ngờ của việc lệch múi giờ</h4>
+      <p>Đây là một minh chứng sống động, đầy ám ảnh, cho thấy việc lệch lịch không chỉ là chuyện học thuật. Vì Quyết định 121/CP đổi mốc tính lịch của miền Bắc sang GMT+7 có hiệu lực từ đầu năm 1968, trong khi miền Nam vẫn tính theo GMT+8 (giống lịch Trung Quốc), tháng Chạp âm lịch năm đó ở miền Bắc chỉ có 29 ngày, còn ở miền Nam có 30 ngày. Hệ quả: hai miền đón giao thừa Tết Mậu Thân lệch nhau tới 23 tiếng đồng hồ (miền Nam giao thừa lúc 23h00 ngày 29/1, miền Bắc giao thừa lúc 0h–1h ngày 29/1 theo giờ mới). Sự lệch lịch này được cho là một trong những nguyên nhân góp phần gây ra sự thiếu đồng bộ giữa các mặt trận trong đêm mở màn cuộc Tổng tiến công và nổi dậy Xuân Mậu Thân — một cái giá không ai ngờ tới chỉ vì một quyết định thay đổi mốc tính lịch.</p>
+
+      <h4 class="sub">Vậy sự lệch nhau có phải là "sai"?</h4>
+      <p>Không. Đây không phải là lỗi cần sửa, mà là hệ quả tự nhiên của việc hai quốc gia sử dụng hai kinh tuyến pháp định — hai hệ quy chiếu thời gian độc lập với nhau — đúng như tinh thần mà tổ tiên người Việt đã theo đuổi từ thời Lý – Trần.</p>
+
+      <h4 class="sub">Câu chuyện vẫn còn tiếp diễn đến hôm nay</h4>
+      <p>Việc "giữ lấy thời gian của riêng mình" không dừng lại ở những trang sử. Ngày nay, việc tính toán và công bố lịch âm dương chính thức của Việt Nam do Phòng Nghiên cứu lịch thuộc Trung tâm Thông tin — Tư liệu (Viện Hàn lâm Khoa học và Công nghệ Việt Nam) đảm nhiệm — hậu duệ hiện đại của những Khâm Thiên Giám, Tư Thiên Giám năm xưa. Vì vẫn dựa trên kinh tuyến 105°Đ làm chuẩn, lịch âm Việt Nam thỉnh thoảng vẫn lệch một ngày so với lịch Trung Quốc — chẳng hạn giai đoạn cuối năm 2018, hai lịch từng khác nhau kéo dài cả tháng trời.</p>
+
+      <div class="callout">Mỗi lần bạn mở lịch vạn niên trên điện thoại và thấy ngày âm không trùng với ngày âm trên các trang mạng Trung Quốc, đó chính là dấu vết còn sót lại của cả nghìn năm giữ chủ quyền lịch pháp mà bài viết này vừa kể.</div>
+    </div>
+  </section>
+
+  <!-- ============ KẾT ============ -->
+  <section class="closing">
+    <svg class="closing-seal" viewBox="0 0 100 100" aria-hidden="true">
+      <rect x="8" y="8" width="84" height="84" rx="4" fill="none" stroke="#96793F" stroke-width="3"/>
+      <circle cx="50" cy="50" r="6" fill="#96793F"/>
+    </svg>
+    <div class="glyph-divider"><span style="font-family:'Noto Serif Display',serif; font-size:15px; letter-spacing:0.1em; color:var(--bronze);">終</span></div>
+    <h2 class="part-title" style="margin-top:22px;">Một Cuốn Lịch, Một Lời Tuyên Ngôn</h2>
+    <div class="part-body" style="text-align:left; margin-top:22px;">
+      <p>Từ khái niệm "chính sóc" thời phong kiến, qua từng lần đổi tên lịch mỗi khi thay triều đại, đến nghi lễ Ban Sóc mang đậm tính biểu tượng, và cho tới quyết định chọn kinh tuyến 105° Đông làm chuẩn của thời hiện đại — tất cả đều xoay quanh cùng một sợi chỉ đỏ xuyên suốt: <strong>người Việt luôn xem việc "giữ lấy thời gian của riêng mình" là một phần không thể tách rời của bản sắc và chủ quyền dân tộc.</strong></p>
+      <p>Lần tới, khi bạn mở lịch để xem ngày tốt xấu, hay chuẩn bị đón một cái Tết Nguyên Đán, hãy nhớ rằng: bạn đang thừa hưởng một di sản đã được gìn giữ âm thầm suốt gần một nghìn năm — để không bao giờ phải "theo chính sóc" của bất kỳ ai khác.</p>
+    </div>
+  </section>
+
+  <!-- ============ PHỤ LỤC: TIMELINE ============ -->
+  <section class="part" id="timeline">
+    <div class="timeline-title">Phụ lục — Dòng thời gian</div>
+    <div class="timeline-sub">Trích lục các mốc chính, theo thứ tự niên đại</div>
+
+    <div class="timeline">
+      <div class="t-row"><div class="t-year">939</div><div class="t-event">Ngô Quyền giành độc lập, nhiều khả năng vẫn dùng lịch phương Bắc.</div></div>
+      <div class="t-row"><div class="t-year">~1075–78</div><div class="t-event">Chiến tranh Đại Việt – Tống; suy đoán Đại Việt bắt đầu tự tính lịch.</div></div>
+      <div class="t-row"><div class="t-year">1080–1300</div><div class="t-event">Thời Lý – Trần, tự tính toán dựa trên phép lịch gốc Tống.</div></div>
+      <div class="t-row"><div class="t-year">1339</div><div class="t-event">Trần Hiến Tông đổi lịch Thụ Thời → Hiệp Kỷ.</div></div>
+      <div class="t-row"><div class="t-year">1401</div><div class="t-event">Nhà Hồ đổi lịch Hiệp Kỷ → Thuận Thiên.</div></div>
+      <div class="t-row"><div class="t-year">1407</div><div class="t-event">Nhà Minh đô hộ, áp đặt lịch Đại Thống.</div></div>
+      <div class="t-row"><div class="t-year">1428</div><div class="t-event">Độc lập trở lại, triều Lê vẫn dùng phép Đại Thống (tên gọi Vạn Toàn).</div></div>
+      <div class="t-row"><div class="t-year">1541</div><div class="t-event">Mạc Đăng Dung đầu hàng nhà Minh, xin "kính theo chính sóc".</div></div>
+      <div class="t-row"><div class="t-year">1644</div><div class="t-event">Nhà Thanh đổi sang lịch Thời Hiến; Việt Nam vẫn giữ Vạn Toàn/Đại Thống.</div></div>
+      <div class="t-row"><div class="t-year">1812</div><div class="t-event">Gia Long đổi tên Vạn Toàn → Hiệp Kỷ, áp dụng phép Thời Hiến từ 1813.</div></div>
+      <div class="t-row"><div class="t-year">1945</div><div class="t-event">CP lâm thời VNDCCH đổi múi giờ dân sự từ GMT+9 về GMT+7 (1/9/1945).</div></div>
+      <div class="t-row"><div class="t-year">1947</div><div class="t-event">Vùng Pháp kiểm soát đổi sang GMT+8, vùng cách mạng giữ GMT+7.</div></div>
+      <div class="t-row"><div class="t-year">1960</div><div class="t-event">Miền Nam chuyển sang múi giờ GMT+8.</div></div>
+      <div class="t-row"><div class="t-year">1968</div><div class="t-event">Miền Bắc chính thức chốt GMT+7 cho việc tính lịch; hai miền lệch Tết.</div></div>
+      <div class="t-row"><div class="t-year">1975</div><div class="t-event">Thống nhất đất nước, cả nước dùng chung múi giờ UTC+7.</div></div>
+      <div class="t-row"><div class="t-year">2002</div><div class="t-event">Quyết định 134/2002/QĐ-TTg tái khẳng định UTC+7 (kinh tuyến 105°Đ).</div></div>
+    </div>
+  </section>
+
+  <!-- ============ NGUỒN ============ -->
+  <section class="part" id="sources">
+    <div class="sources-box">
+      <h3>Nguồn tham khảo</h3>
+      <ul>
+        <li>Đại Việt Sử Ký Toàn Thư (các mốc đổi lịch thời Trần, Hồ)</li>
+        <li>Đại Nam Thực Lục — Quốc sử quán triều Nguyễn (các mốc thời Nguyễn, sự kiện Nguyễn Hữu Thận đi sứ 1812)</li>
+        <li>Khâm Định Việt Sử Thông Giám Cương Mục (khái niệm "chính sóc")</li>
+        <li>Hoàng Xuân Hãn, <em>Lịch và lịch Việt Nam</em> (dẫn lại qua nhiều bài nghiên cứu và tạp chí Khoa học Xã hội)</li>
+        <li>"Lịch Hiệp Kỷ dưới triều Nguyễn (1802–1883)" và "Cơ quan Khâm Thiên Giám qua các triều đại quân chủ Việt Nam" — tạp chí khoa học (vjol.info.vn)</li>
+        <li>Quyết định số 121/CP ngày 8/8/1967 của Hội đồng Chính phủ</li>
+        <li>Quyết định số 134/2002/QĐ-TTg ngày 14/10/2002</li>
+        <li>Wikipedia tiếng Việt: "Giờ ở Việt Nam", "Sự kiện Tết Mậu Thân", "Khâm thiên giám", "Nhà Trần"</li>
+        <li>Báo Công An Nhân Dân, Đại Đoàn Kết, VOV, Tuổi Trẻ — về lễ Ban Sóc triều Nguyễn và sự kiện Mạc Đăng Dung 1541</li>
+        <li>Tư liệu về lịch Jokyo và Shibukawa Harumi (lịch sử thiên văn Nhật Bản)</li>
+        <li>Báo Thanh Niên, phỏng vấn ông Trần Tiến Bình (Trung tâm Thông tin — Tư liệu, Viện Hàn lâm KH&CN Việt Nam)</li>
+      </ul>
+    </div>
+    <p class="footnote">Lưu ý: một số mốc lịch sử giai đoạn Lý–Trần và giai đoạn đầu tự chủ (939–1078) hiện còn thiếu sử liệu gốc để phục dựng chi tiết; các nhận định liên quan được trình bày như giả thuyết được giới nghiên cứu đồng thuận rộng rãi, không phải sự kiện đã có văn bản xác quyết trực tiếp.</p>
+  </section>
+
+</div>
+
+<script>
+  // Reveal sections on scroll
+  const parts = document.querySelectorAll('section.part:not(.in-view)');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('in-view');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -60px 0px'});
+    parts.forEach(p=>io.observe(p));
+  } else {
+    parts.forEach(p=>p.classList.add('in-view'));
+  }
+
+  // Mobile TOC toggle
+  const tocToggle = document.getElementById('tocToggle');
+  const tocPanel = document.getElementById('tocPanel');
+  if(tocToggle){
+    tocToggle.addEventListener('click', ()=>{
+      const open = tocPanel.classList.toggle('open');
+      tocToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    tocPanel.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=>{
+        tocPanel.classList.remove('open');
+        tocToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // Active link highlight on scroll
+  const navLinks = document.querySelectorAll('.toc-links a');
+  const trackedIds = ['hero','part1','part2','part3','part4','part5','timeline'];
+  const trackedEls = trackedIds.map(id=>document.getElementById(id)).filter(Boolean);
+  if('IntersectionObserver' in window && navLinks.length){
+    const navIo = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const id = e.target.id;
+          navLinks.forEach(a=>{
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+    trackedEls.forEach(el=>navIo.observe(el));
+  }
+
+  // Meridian slider (105°Đ VN ↔ 120°Đ TQ)
+  const mSlider = document.getElementById('meridianSlider');
+  if(mSlider){
+    const vnTimeEl = document.getElementById('mVnTime');
+    const vnDayEl = document.getElementById('mVnDay');
+    const cnTimeEl = document.getElementById('mCnTime');
+    const cnDayEl = document.getElementById('mCnDay');
+    const noteEl = document.getElementById('meridianNote');
+    const vnSide = document.getElementById('mVnSide');
+    const cnSide = document.getElementById('mCnSide');
+
+    const fmt = function(mins){
+      let m = ((mins % 1440) + 1440) % 1440;
+      const h = Math.floor(m/60);
+      const mm = m % 60;
+      return String(h).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
+    };
+
+    const render = function(val){
+      // val = minutes offset from VN midnight (00:00), range -60..+60 => 23:00..01:00
+      const vnMinutes = val; // relative to VN midnight "today" (0)
+      const cnMinutes = val + 60; // Beijing is UTC+8, one hour ahead
+
+      const vnDayOffset = Math.floor((1440 + vnMinutes) / 1440) - 1; // -1 = hôm qua chưa dùng, 0 = hôm nay, 1 = ngày mai
+      const cnDayOffset = Math.floor((1440 + cnMinutes) / 1440) - 1;
+
+      vnTimeEl.textContent = fmt(vnMinutes);
+      cnTimeEl.textContent = fmt(cnMinutes);
+
+      const dayLabel = (off)=> off <= 0 ? 'hôm nay' : 'ngày mai';
+      vnDayEl.textContent = dayLabel(vnDayOffset);
+      cnDayEl.textContent = dayLabel(cnDayOffset);
+
+      const differs = dayLabel(vnDayOffset) !== dayLabel(cnDayOffset);
+      vnSide.classList.toggle('diff', differs);
+      cnSide.classList.toggle('diff', differs);
+
+      if(differs){
+        noteEl.classList.add('hot');
+        noteEl.innerHTML = 'Việt Nam <strong>' + fmt(vnMinutes) + ' hôm nay</strong> — nhưng Bắc Kinh đã sang <strong>' + fmt(cnMinutes) + ' ngày hôm sau</strong>. Nếu điểm Sóc rơi đúng vào lúc này, hai nước sẽ tính mùng Một lệch nhau một ngày.';
+      } else {
+        noteEl.classList.remove('hot');
+        noteEl.innerHTML = 'Ở khung giờ này, Việt Nam và Trung Quốc vẫn đang <strong>cùng một ngày dương lịch</strong> — chưa đủ tạo ra chênh lệch.';
+      }
+    };
+
+    render(parseInt(mSlider.value,10));
+    mSlider.addEventListener('input', ()=> render(parseInt(mSlider.value,10)));
+  }
+
+  // Sóc diagram: animate dot travel when scrolled into view
+  const socDiagram = document.getElementById('socDiagram');
+  if(socDiagram && 'IntersectionObserver' in window){
+    const socIo = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        e.target.querySelectorAll('.soc-col').forEach(col=>{
+          col.classList.toggle('animate', e.isIntersecting);
+        });
+      });
+    }, {threshold:0.4});
+    socIo.observe(socDiagram);
+  }
+  // Theme toggle (dark mode) — dùng chung key 'bookroom-theme' với toàn site
+  const themeBtn = document.getElementById('themeToggle');
+  const bodyEl = document.body;
+  if (bodyEl.classList.contains('dark')) { themeBtn.textContent = '◑'; }
+  themeBtn.addEventListener('click', () => {
+    bodyEl.classList.toggle('dark');
+    const isDark = bodyEl.classList.contains('dark');
+    themeBtn.textContent = isDark ? '◑' : '◐';
+    try { localStorage.setItem('bookroom-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+  });
+
+  // Music toggle
+  const musicBtn = document.getElementById('musicToggle');
+  const bgMusic = document.getElementById('bgMusic');
+  musicBtn.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play().catch(() => {
+        musicBtn.title = 'Không tìm thấy file nhạc';
+      });
+      musicBtn.classList.add('playing');
+      musicBtn.textContent = '❚❚';
+    } else {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      musicBtn.textContent = '♪';
+    }
+  });
+</script>
+
+</body>
+</html>

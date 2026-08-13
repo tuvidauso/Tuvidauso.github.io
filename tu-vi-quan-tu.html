@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tử Vi — Nhìn Từ Con Mắt Người Quân Tử</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,600;0,700;0,800;1,500&family=Source+Serif+4:wght@400;500;600&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #f1ead9;
+    --paper-deep: #e6dcc4;
+    --paper-edge: #d9cba3;
+    --ink: #211d17;
+    --ink-soft: #52493c;
+    --ink-faint: #8a7d68;
+    --seal: #9c2b22;
+    --seal-deep: #7a1f18;
+    --bronze: #a9812f;
+    --bronze-soft: #c9a869;
+    --jade: #3e5c4e;
+    --stele: #221e18;
+    --stele-text: #ece2cb;
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(169,129,47,0.06), transparent 55%),
+      radial-gradient(ellipse at 85% 30%, rgba(60,92,78,0.05), transparent 50%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', serif;
+    font-size:18px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* subtle paper grain */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:0.35;
+    mix-blend-mode:multiply;
+    background-image:
+      radial-gradient(rgba(0,0,0,0.035) 1px, transparent 1px);
+    background-size: 3px 3px;
+    z-index:0;
+  }
+
+  .wrap{
+    position:relative;
+    max-width:700px;
+    margin:0 auto;
+    padding: 6vw 26px 10vw;
+    z-index:1;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    text-align:center;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  .seal{
+    width:76px;
+    height:76px;
+    margin:0 auto 2rem;
+    background: var(--seal);
+    background-image: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.10), transparent 60%);
+    border-radius: 6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.15), 0 6px 16px -8px rgba(122,31,24,0.55);
+    transform: rotate(-2deg);
+    position:relative;
+  }
+  .seal::after{
+    content:"";
+    position:absolute; inset:5px;
+    border:1px solid rgba(241,234,217,0.55);
+    border-radius:3px;
+  }
+  .seal span{
+    font-family:'Noto Serif TC', serif;
+    font-weight:700;
+    color: var(--paper);
+    font-size: 30px;
+    line-height:1;
+    letter-spacing:2px;
+    writing-mode: vertical-rl;
+    opacity:0.95;
+  }
+
+  .eyebrow{
+    font-family:'Source Serif 4', serif;
+    font-size:13px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--bronze);
+    margin-bottom: 1.1rem;
+  }
+
+  h1.title{
+    font-family:'Literata', serif;
+    font-weight:800;
+    font-size: clamp(2.1rem, 6vw, 3.1rem);
+    line-height:1.18;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    margin: 0 0 2.2rem;
+  }
+
+  .divider{
+    width:100%;
+    margin: 0 auto 2.4rem;
+    height:1px;
+    background:
+      linear-gradient(to right, transparent, var(--ink-faint) 15%, var(--ink-faint) 85%, transparent);
+    opacity:0.4;
+    position:relative;
+  }
+  .divider::before{
+    content:"◆";
+    position:absolute;
+    left:50%; top:50%;
+    transform:translate(-50%,-52%);
+    background:var(--paper);
+    color:var(--bronze);
+    font-size:9px;
+    padding:0 12px;
+  }
+
+  blockquote.classic{
+    margin: 0 auto 2.4rem;
+    max-width:520px;
+    text-align:left;
+    padding: 0.2rem 0 0.2rem 1.4rem;
+    border-left: 3px solid var(--seal);
+    font-family:'Literata', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.18rem;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  blockquote.classic cite{
+    display:block;
+    margin-top:0.6rem;
+    font-style:normal;
+    font-family:'Source Serif 4', serif;
+    font-size:0.82rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--bronze);
+  }
+
+  .lede{
+    text-align:left;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+  }
+  .lede p{ margin:0 0 1.2rem; }
+  .lede p:last-child{ margin-bottom:0; }
+
+  /* ---------- SECTIONS ---------- */
+  section.chapter{
+    margin-top: 5.2rem;
+    position:relative;
+    scroll-margin-top: 4rem;
+  }
+
+  .chapter-head{
+    display:flex;
+    align-items:baseline;
+    gap: 0.9rem;
+    margin-bottom: 1.6rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid var(--paper-edge);
+  }
+
+  .numeral{
+    font-family:'Literata', serif;
+    font-weight:700;
+    font-size: 1.6rem;
+    color: var(--seal);
+    flex-shrink:0;
+    line-height:1;
+  }
+
+  h2.chapter-title{
+    font-family:'Literata', serif;
+    font-weight:700;
+    font-size: clamp(1.35rem, 3.6vw, 1.65rem);
+    line-height:1.3;
+    color:var(--ink);
+    margin:0;
+  }
+
+  .chapter p{
+    margin: 0 0 1.15rem;
+    color:var(--ink);
+  }
+
+  .chapter p strong{
+    color:var(--ink);
+    font-weight:600;
+  }
+
+  .chapter ul{
+    margin: 0 0 1.15rem;
+    padding-left: 1.3rem;
+  }
+  .chapter li{
+    margin-bottom: 0.7rem;
+    padding-left: 0.2rem;
+  }
+  .chapter li::marker{
+    color: var(--bronze);
+  }
+
+  .sub-label{
+    font-family:'Literata', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    color:var(--jade);
+    margin: 1.9rem 0 0.9rem;
+  }
+
+  .two-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem;
+    margin: 1.2rem 0 1.4rem;
+  }
+  @media (max-width:600px){
+    .two-col{ grid-template-columns: 1fr; }
+  }
+  .col-card{
+    background: var(--paper-deep);
+    border: 1px solid var(--paper-edge);
+    border-radius: 4px;
+    padding: 1.2rem 1.3rem;
+  }
+  .col-card.right{ border-left: 3px solid var(--jade); }
+  .col-card.wrong{ border-left: 3px solid var(--seal); }
+  .col-card h3{
+    font-family:'Source Serif 4', serif;
+    font-size: 0.82rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    margin: 0 0 0.9rem;
+  }
+  .col-card.right h3{ color: var(--jade); }
+  .col-card.wrong h3{ color: var(--seal); }
+  .col-card ul{ margin:0; padding-left:1.1rem; }
+  .col-card li{ margin-bottom:0.6rem; font-size:0.97rem; }
+
+  /* ---------- FOUR TẦNG ---------- */
+  .tang-list{
+    position:relative;
+    margin: 1.6rem 0 0.6rem;
+    padding-left: 2.4rem;
+  }
+  .tang-list::before{
+    content:"";
+    position:absolute;
+    left: 11px; top: 6px; bottom: 6px;
+    width:1px;
+    background: linear-gradient(to bottom, var(--bronze-soft), var(--paper-edge));
+  }
+  .tang{
+    position:relative;
+    margin-bottom: 2rem;
+  }
+  .tang:last-child{ margin-bottom:0; }
+  .tang::before{
+    content: attr(data-han);
+    position:absolute;
+    left: -2.4rem;
+    top: 0.15rem;
+    width: 24px; height:24px;
+    border-radius:50%;
+    background: var(--paper);
+    border: 1.5px solid var(--bronze);
+    color: var(--bronze);
+    font-family:'Noto Serif TC', serif;
+    font-size: 12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .tang h3{
+    font-family:'Literata', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    margin: 0 0 0.5rem;
+    color:var(--ink);
+  }
+  .tang p{ margin:0 0 0.7rem; font-size:0.99rem; }
+  .tang p:last-child{ margin-bottom:0; }
+
+  .maxim{
+    text-align:center;
+    font-family:'Literata', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.15rem;
+    color:var(--ink-soft);
+    margin: 2.4rem 0 0;
+    padding: 1.5rem 1rem 0;
+    border-top: 1px solid var(--paper-edge);
+  }
+
+  /* ---------- STELE / LỜI KẾT ---------- */
+  .stele{
+    margin-top: 5.6rem;
+    scroll-margin-top: 4rem;
+    background: var(--stele);
+    color: var(--stele-text);
+    border-radius: 6px;
+    padding: 3.2rem 2.4rem;
+    position: relative;
+    box-shadow: 0 24px 48px -24px rgba(0,0,0,0.4);
+  }
+  .stele::before, .stele::after{
+    content:"";
+    position:absolute;
+    left:50%; transform:translateX(-50%);
+    width: 46px; height:1px;
+    background: var(--bronze-soft);
+    opacity:0.6;
+  }
+  .stele::before{ top: 1.5rem; }
+  .stele::after{ bottom: 1.5rem; }
+
+  .stele .eyebrow2{
+    text-align:center;
+    font-size:12px;
+    letter-spacing:0.34em;
+    text-transform:uppercase;
+    color: var(--bronze-soft);
+    margin-bottom: 1.6rem;
+  }
+
+  .stele p{
+    margin: 0 0 1.15rem;
+    font-size: 1.02rem;
+    line-height:1.85;
+    color: var(--stele-text);
+  }
+  .stele p:last-child{
+    margin-bottom:0;
+    font-family:'Literata', serif;
+    font-style:italic;
+    font-size:1.12rem;
+    color:var(--paper);
+    text-align:center;
+    margin-top:1.8rem;
+    padding-top:1.6rem;
+    border-top:1px solid rgba(201,168,105,0.28);
+  }
+
+  /* ---------- COLOPHON ---------- */
+  .colophon{
+    margin-top: 3.2rem;
+    text-align:center;
+  }
+  .seal-small{
+    width:38px; height:38px;
+    margin: 0 auto 1.2rem;
+    background: var(--seal);
+    border-radius:4px;
+    display:flex; align-items:center; justify-content:center;
+    transform: rotate(3deg);
+    opacity:0.9;
+  }
+  .seal-small span{
+    font-family:'Noto Serif TC', serif;
+    font-weight:700;
+    color: var(--paper);
+    font-size:15px;
+    writing-mode: vertical-rl;
+  }
+  .refs{
+    font-size:0.82rem;
+    line-height:1.8;
+    color: var(--ink-faint);
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .refs em{ font-style:italic; }
+
+  ::selection{ background: rgba(156,43,34,0.18); }
+
+  /* ---------- DARK MODE ---------- */
+  body.dark{
+    --paper: #1c1913;
+    --paper-deep: #262119;
+    --paper-edge: #3a3324;
+    --ink: #ece2cb;
+    --ink-soft: #c9bd9e;
+    --ink-faint: #8a7d68;
+    --stele: #100e0a;
+    --stele-text: #ece2cb;
+  }
+  body.dark .seal, body.dark .seal-small{
+    box-shadow: 0 1px 0 rgba(0,0,0,0.4), 0 6px 16px -8px rgba(0,0,0,0.6);
+  }
+  body.dark .col-card{ background: rgba(255,255,255,0.03); }
+
+  .toolbar{
+    position:fixed;
+    top:50%; right:14px;
+    transform:translateY(-50%);
+    z-index:20;
+    display:flex;
+    flex-direction:column;
+    gap: 0.5rem;
+  }
+  .toolbar button{
+    width:34px; height:34px;
+    border-radius:50%;
+    border:1px solid transparent;
+    background:transparent;
+    color:var(--ink-faint);
+    font-size:14px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0.45;
+    transition: opacity 0.2s, color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .toolbar button:hover{
+    opacity:1;
+    color:var(--seal);
+    border-color:var(--paper-edge);
+    background:var(--paper);
+  }
+  .toolbar button.playing{ opacity:1; color:var(--seal); }
+
+  @media (max-width:600px){
+    .toolbar{ right:8px; gap:0.4rem; }
+    .toolbar button{ width:30px; height:30px; font-size:13px; }
+  }
+
+  /* ---------- TOC ---------- */
+  .toc-nav{
+    position:sticky;
+    top:0;
+    z-index:15;
+    background: rgba(241,234,217,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--paper-edge);
+    padding: 0.7rem 0;
+    margin: 0 -26px 0;
+  }
+  body.dark .toc-nav{ background: rgba(28,25,19,0.92); }
+  .toc-inner{
+    max-width:700px;
+    margin:0 auto;
+    padding: 0 26px;
+    display:flex;
+    gap: 1.1rem;
+    overflow-x:auto;
+    scrollbar-width:none;
+    font-size:0.8rem;
+    letter-spacing:0.02em;
+  }
+  .toc-inner::-webkit-scrollbar{ display:none; }
+  .toc-inner a{
+    color:var(--ink-faint);
+    text-decoration:none;
+    white-space:nowrap;
+    padding-bottom:2px;
+    border-bottom:1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .toc-inner a:hover{ color:var(--seal); border-color:var(--seal); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button id="musicToggle" aria-label="Bật/tắt nhạc nền" title="Bật/tắt nhạc nền">♪</button>
+  <button id="themeToggle" aria-label="Chuyển giao diện sáng/tối" title="Chuyển giao diện sáng/tối">◐</button>
+</div>
+<audio id="bgMusic" src="Beethoven-Moonlight-64kbps.mp3" loop preload="none"></audio>
+
+<nav class="toc-nav" aria-label="Mục lục">
+  <div class="toc-inner">
+    <a href="#chuong-1">I. Lịch sử</a>
+    <a href="#chuong-2">II. Phát triển</a>
+    <a href="#chuong-3">III. Phân chia</a>
+    <a href="#chuong-4">IV. Thành tựu</a>
+    <a href="#chuong-5">V. Đúng sai</a>
+    <a href="#chuong-6">VI. Cái nhìn quân tử</a>
+    <a href="#loi-ket">Lời kết</a>
+  </div>
+</nav>
+
+<main class="wrap">
+<article>
+
+  <header class="hero">
+    <div class="seal"><span>君子</span></div>
+    <div class="eyebrow">Tử Vi Đẩu Số</div>
+    <h1 class="title">Nhìn Từ Con Mắt<br>Người Quân Tử</h1>
+
+    <blockquote class="classic">
+      "Bất tri mệnh, vô dĩ vi quân tử dã" — Không biết mệnh, không thể làm quân tử.
+      <cite>Khổng Tử</cite>
+    </blockquote>
+
+    <div class="lede">
+      <p>Người quân tử xem tử vi để biết mình, để chuẩn bị cho những việc mình sắp gánh vác, để biết mà giữ gìn sức khỏe hơn. Số không đổi, nhưng có sức khỏe để đi qua những cơn bão của đời thì vẫn đáng. Xem để biết cha mẹ, vợ con, để tự nhắc mình dành nhiều thời gian cho nhau hơn trong một đời hữu hạn. Xem tử vi, suy cho cùng, là để sống như thể hôm nay là ngày cuối để sống trọn.</p>
+      <p>Bài viết này không để bạn tin tử vi, cũng không để bạn bài xích tử vi. Chỉ để bạn hiểu nó như một di sản, và dùng nó như người quân tử dùng gương soi, không phải dùng như kẻ mê đi hỏi đường.</p>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- I -->
+  <section class="chapter" id="chuong-1">
+    <div class="chapter-head">
+      <span class="numeral">I</span>
+      <h2 class="chapter-title">Lịch sử: Tử vi từ đâu tới?</h2>
+    </div>
+    <p>Nhiều người nghĩ tử vi có từ 5000 năm. Không phải.</p>
+    <p>Gốc của nó là <strong>Ngũ Tinh Thuật</strong>, môn tính toán thiên văn trong Khâm Thiên Giám đời Đường, dùng để tính lịch, xem thiên tượng cho việc nước.</p>
+    <p>Đến thời Ngũ Đại - đầu Tống, theo truyền thuyết được giới tử vi lưu truyền và công nhận, một đạo sĩ ẩn cư ở Hoa Sơn tên là <strong>Trần Đoàn, hiệu Hi Di (871-989)</strong>, là người đầu tiên hệ thống hóa các luồng tư tưởng từ Kinh Dịch, Đạo gia và thiên văn dân gian thành một mô hình nhất quán để "đọc" đời người qua thời điểm sinh. Dân gian còn truyền rằng Lữ Đồng Tân đã truyền sách cho ông - đây là một chi tiết mang màu sắc huyền thoại hơn là sử liệu đã kiểm chứng.</p>
+    <p>Vì được truyền thừa bí mật qua nhiều đời, sách về tử vi rất hiếm. Mãi đến đời Gia Tĩnh nhà Minh, tiến sĩ <strong>La Hồng Tiên</strong> - một nhân vật có thật, đỗ tiến sĩ và ghi danh trong sử sách nhà Minh - mới sưu tập và biên soạn lại thành cuốn <strong>Tử Vi Đẩu Số Toàn Thư</strong> mà chúng ta có ngày nay. Vì thế giới tử vi đều tôn Hi Di Trần Đoàn là Lão Tổ của khoa này, dù phần gốc tích của ông vẫn nằm nhiều ở truyền thuyết hơn là sử liệu.</p>
+    <p>Một môn học đi từ quan khâm thiên, qua tay đạo sĩ, rồi mới đến dân gian. Ngay từ gốc, nó đã vừa mang tính quan sát trời đất, vừa mang tính tu hành.</p>
+  </section>
+
+  <!-- II -->
+  <section class="chapter" id="chuong-2">
+    <div class="chapter-head">
+      <span class="numeral">II</span>
+      <h2 class="chapter-title">Phát triển: Khi tử vi về đến Việt Nam</h2>
+    </div>
+    <p>Tử vi vào Việt Nam theo con đường Nho giáo và quan chế.</p>
+    <p><strong>Thời Lý - Trần - Lê:</strong> Nằm trong Viện Khâm Thiên, dùng để kén chọn quan lại, xem thế nước. Vua chúa không xem tử vi để làm giàu, mà để biết người.</p>
+    <p><strong>Thời Lê Trung Hưng:</strong> Đây là giai đoạn Việt hóa rực rỡ nhất. Các cụ đồ Nho không đọc chữ Hán suông nữa mà dịch ra phú Nôm, thơ lục bát cho dễ nhớ. Đỉnh cao là kho <strong>Phú Tử Vi của Lê Quý Đôn</strong> với 683 câu thất ngôn, gói trọn tính lý của 14 chính tinh và 12 cung vào thơ. Đó là lúc tử vi từ sách quan thành văn hóa làng.</p>
+    <p><strong>Thời hiện đại:</strong> Từ sách giấy chép tay sang phần mềm an sao bằng điện thoại. Từ ông thầy áo dài sang group Facebook. Cái mất đi là sự kính trọng, cái được là sự phổ cập. Ai cũng an được lá số, nhưng ít người hiểu được lý đằng sau lá số.</p>
+  </section>
+
+  <!-- III -->
+  <section class="chapter" id="chuong-3">
+    <div class="chapter-head">
+      <span class="numeral">III</span>
+      <h2 class="chapter-title">Phân chia: Vì sao xem hai thầy ra hai kết quả?</h2>
+    </div>
+    <p>Đây là lý do tử vi hay bị chê là lung tung. Thực ra không phải lung tung, mà vì có nhiều trường phái.</p>
+
+    <p class="sub-label">1. Chia theo vùng — Nam Phái và Bắc Phái</p>
+    <ul>
+      <li><strong>Bắc Phái (Trung Châu Phái):</strong> Vương Đình Chi làm đại diện. Trọng lý, trọng Tứ Hóa (Hóa Lộc, Hóa Quyền, Hóa Khoa, Hóa Kỵ), trọng Tam Hợp. Xem biến hóa của khí.</li>
+      <li><strong>Nam Phái (Thiên Lương Phái, phái Vân Đằng Thái Thứ Lang ở Việt Nam):</strong> Trọng hình, trọng cách cục, trọng sao nào Miếu Vượng Đắc Hãm. Cụ Thiên Lương ở Sài Gòn trước 75 là người đưa hệ thống này thành nề nếp ở miền Nam. Xem hình tượng của sao.</li>
+    </ul>
+    <p>Không có phái nào sai. Như hai người cùng tả con voi, người tả xương, người tả da.</p>
+
+    <p class="sub-label">2. Chia theo công cụ</p>
+    <ul>
+      <li><strong>Tử Vi Đẩu Số:</strong> Dùng 110 sao, 12 cung, 1 lá số. Giống như chụp ảnh toàn cảnh cuộc đời, xem môi trường và tính cách tương tác.</li>
+      <li><strong>Tử Bình (Tứ Trụ):</strong> Dùng 8 chữ Can Chi của năm tháng ngày giờ. Giống như đo nồng độ ngũ hành trong máu.</li>
+    </ul>
+
+    <p class="sub-label">3. Chia theo mục đích</p>
+    <ul>
+      <li>Phái nghiệm lý: Coi lá số là cơ sở dữ liệu thống kê ngàn đời, để nghiên cứu.</li>
+      <li>Phái tư vấn: Coi lá số là công cụ để khuyên người ta sống tốt hơn.</li>
+    </ul>
+
+    <p class="sub-label">4. Chia theo quốc gia — Tử vi Việt Nam và tử vi Trung Quốc</p>
+    <p>Tử vi có gốc từ Trung Hoa, nhưng khi sang đến Việt Nam, nó không được sao chép nguyên xi mà biến đổi theo ba hướng.</p>
+    <ul>
+      <li><strong>Khác ở gốc lịch pháp:</strong> Trung Quốc tính lịch theo múi giờ UTC+8, còn Việt Nam theo UTC+7. Chênh nhau một giờ nghe nhỏ, nhưng với người sinh vào giờ Tý hay ngày giáp ranh đầu/cuối tháng âm, giờ và ngày lập lá số có thể lệch hẳn sang một ngày khác - kéo theo cả cung Mệnh lẫn vận hạn đổi theo. Đây là lý do một lá số lập theo lịch Trung Quốc và lập theo lịch Việt Nam đôi khi cho ra hai kết quả khác nhau, dù cùng một giờ sinh dương lịch.</li>
+      <li><strong>Khác ở cách an sao:</strong> Theo một số tài liệu lưu truyền trong giới nghiên cứu (như <em>Cốt Tủy Khoa Tử Vi</em> của Yên Tử Cư Sĩ Trần Đại Sỹ), cách an cung Mệnh của Việt Nam khởi từ cung Dần, còn của Trung Quốc khởi từ cung Sửu. Cách tính tuế hạn (vận hạn theo tuổi) của Việt Nam cũng tùy vào chi của tuổi người xem, trong khi Trung Quốc dùng một cách tính cố định.</li>
+      <li><strong>Khác ở lớp bồi đắp văn hóa:</strong> Các học giả Việt như Nguyễn Bỉnh Khiêm, Lê Quý Đôn không chỉ dịch mà còn bổ sung, diễn giải thêm tinh đẩu và cách cục cho phù hợp với hoàn cảnh, tâm thức người Việt - biến tử vi từ một khoa thiên văn cung đình Trung Hoa thành một phần văn hóa bình dân Việt Nam, gắn chặt với việc xem ngày cưới hỏi, đặt tên, làm nhà, chọn hướng - những ứng dụng đời thường mà bản gốc Trung Hoa không nhấn mạnh bằng.</li>
+    </ul>
+    <p>Vì những lệch nhau từ gốc lịch pháp đến ngọn diễn giải này, một lá số "chuẩn Trung Quốc" và một lá số "chuẩn Việt Nam" của cùng một người, đôi khi không hoàn toàn giống nhau. Đó không phải vì bên nào sai, mà vì tử vi khi di cư qua biên giới cũng mang theo dấu ấn bản địa, giống như mọi tri thức ngoại lai khác khi vào Việt Nam.</p>
+    <p>Hiểu được sự phân chia này, bạn sẽ không còn hỏi "sao thầy này nói khác thầy kia" nữa.</p>
+  </section>
+
+  <!-- IV -->
+  <section class="chapter" id="chuong-4">
+    <div class="chapter-head">
+      <span class="numeral">IV</span>
+      <h2 class="chapter-title">Thành tựu: Tử vi làm được gì, nếu không phải đoán trúng số?</h2>
+    </div>
+    <p>Nếu bỏ đi phần đoán trúng trật, tử vi còn lại ba thành tựu rất lớn mà ngay cả người không tin cũng phải nể.</p>
+
+    <p class="sub-label">1. Một mô hình tâm lý học cổ đại cực kỳ tinh gọn</p>
+    <p>12 cung chính là 12 lĩnh vực của một đời người: Mệnh là bản ngã, Phụ Mẫu là gốc gác, Phúc Đức là tư duy, Điền Trạch là nơi ở, Quan Lộc là hành động, Nô Bộc là bạn bè, Thiên Di là ra ngoài, Tật Ách là nỗi lo, Tài Bạch là cách kiếm tiền, Tử Tức là thế hệ sau, Phu Thê là bạn đời, Huynh Đệ là anh em. Chỉ 12 cung mà gói trọn nhân sinh quan.</p>
+
+    <p class="sub-label">2. Một ngôn ngữ mã hóa tính cách</p>
+    <p>14 chính tinh như 14 kiểu người nguyên mẫu. Tử Vi là người muốn làm chủ, Thiên Phủ là người muốn giữ, Vũ Khúc là người thực dụng, Tham Lang là người ham khám phá, Cự Môn là người đa nghi hay nói, Thiên Đồng là đứa trẻ... Khi đặt chúng vào 12 cung, bạn có hàng nghìn tổ hợp, như MBTI nhưng sâu hơn và mang tính Á Đông.</p>
+
+    <p class="sub-label">3. Một chức năng an ủi và định hướng xã hội</p>
+    <p>Trước khi có life-coach, con người khi khổ sẽ đi đâu? Đến cửa thầy đồ, thầy tử vi. Một lá số xấu được luận khéo sẽ thành lời khuyên: "Số này nên đi xa lập nghiệp, lấy nghề giải nghiệp, lấy đức thắng số". Đó là trị liệu tâm lý bằng văn hóa.</p>
+  </section>
+
+  <!-- V -->
+  <section class="chapter" id="chuong-5">
+    <div class="chapter-head">
+      <span class="numeral">V</span>
+      <h2 class="chapter-title">Đúng sai: Ranh giới mong manh giữa minh triết và mê tín</h2>
+    </div>
+    <p>Tôi chia làm hai cột cho rõ.</p>
+
+    <div class="two-col">
+      <div class="col-card right">
+        <h3>Tử vi đúng ở đâu</h3>
+        <ul>
+          <li>Đúng ở triết học: Con người là sản phẩm của thời gian và không gian. Sinh ra vào mùa đông giá rét khác với sinh ra vào mùa hè nóng bức, đó là có cơ sở.</li>
+          <li>Đúng ở xác suất: Lá số chỉ nói về khuynh hướng, không nói về kết cục. Hai người cùng lá số Tử Vi cư Ngọ, một người sinh ở Hà Nội, một người sinh ở bản vùng cao, cuộc đời khác nhau hoàn toàn vì Phúc Đức và môi trường khác nhau.</li>
+          <li>Đúng ở giá trị tu dưỡng: Nó bắt bạn nhìn lại mình.</li>
+        </ul>
+      </div>
+      <div class="col-card wrong">
+        <h3>Tử vi sai, bị lạm dụng</h3>
+        <ul>
+          <li>Định mệnh luận tuyệt đối: "Mệnh này Vô Chính Diệu yểu", "Giáp Không Giáp Kiếp bần tiện". Đây là phú cổ, nói về cái lý, không phải án tử. Người nói câu này để dọa bạn là người ác hoặc dốt.</li>
+          <li>Buôn thần bán thánh: Dùng sát tinh để bắt cúng sao, giải hạn, cắt duyên. Cổ nhân giải hạn bằng cách tu tâm, làm việc thiện, đổi nghề, đổi chỗ ở, không phải bằng lễ lạt.</li>
+          <li>Lấy ngọn bỏ gốc: Chỉ chăm chăm hỏi "khi nào giàu, khi nào lấy chồng" mà không hỏi "tôi cần sửa tính gì".</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- VI -->
+  <section class="chapter" id="chuong-6">
+    <div class="chapter-head">
+      <span class="numeral">VI</span>
+      <h2 class="chapter-title">Cái nhìn quân tử: Vậy người trí thức nên xem tử vi thế nào?</h2>
+    </div>
+    <p>Người quân tử không phải người không xem tử vi. Người quân tử là người xem mà không bị nó trói.</p>
+    <p>Tôi tâm đắc bốn tầng:</p>
+
+    <div class="tang-list">
+      <div class="tang" data-han="一">
+        <h3>Tầng 1 · Tri mệnh</h3>
+        <p>Biết mình có gì, không có gì. Mệnh bạn có Cự Môn thì biết mình hay nói thẳng, dễ mất lòng, vậy thì phải học cách nói chậm lại. Mệnh bạn có Không Kiếp thì biết mình không hợp giữ tiền mặt, vậy thì chuyển sang giữ tài sản, giữ tri thức. Tri mệnh là biết giới hạn để không ảo tưởng.</p>
+      </div>
+      <div class="tang" data-han="二">
+        <h3>Tầng 2 · Tận lực</h3>
+        <p>Kinh Dịch nói: "Cùng tắc biến, biến tắc thông". Lá số cùng thì phải biến. Cổ nhân đã dạy 5 cách hóa giải mà tôi luôn ghi trong file phá cách: Dùng Tuần Triệt để khoanh vùng, lấy Phúc Đức làm gốc, đi xa lập nghiệp, lấy nghề giải nghiệp, tích đức hành thiện.</p>
+        <p>Số không đổi, nhưng cách đi trên số thì đổi được. Đó là tận lực.</p>
+      </div>
+      <div class="tang" data-han="三">
+        <h3>Tầng 3 · Trân quý — biết hạn để không lỡ</h3>
+        <p>Cung Tật Ách không chỉ để lo, mà để chuẩn bị. Biết mình có điểm yếu ở đâu, thì gắng bồi bổ nó trước khi việc lớn ập tới - không phải để cãi mệnh, mà để có đủ sức mà gánh khi mệnh gọi tên mình. Người sức khỏe tốt và người sức khỏe kém, đứng trước cùng một cơn giông, sẽ đi qua nó theo hai cách rất khác nhau.</p>
+        <p>Cung Phụ Mẫu, Phu Thê, Tử Tức cũng vậy - chúng không chỉ nói về vận tình duyên hay hiếu hạnh, mà còn là lời nhắc thầm rằng những người ấy không ở cạnh ta mãi. Một đời người là hữu hạn, thời gian dành cho nhau lại càng hữu hạn hơn. Nhìn vào những cung này để mà tranh thủ, chứ không phải để mà lo sợ.</p>
+      </div>
+      <div class="tang" data-han="四">
+        <h3>Tầng 4 · Tùy duyên và lạc thiên</h3>
+        <p>Sau khi đã biết mình và đã làm hết sức, thì an nhiên với kết quả. Giàu thì không kiêu, nghèo thì không oán. Đó là "lạc thiên tri mệnh cố bất ưu" - vui với trời, biết mệnh nên không lo.</p>
+      </div>
+    </div>
+
+    <p class="maxim">Người tiểu nhân xem tử vi để hỏi "Tôi được gì?"<br>Người quân tử xem tử vi để hỏi "Tôi nên sống thế nào?"</p>
+  </section>
+
+  <!-- LỜI KẾT -->
+  <section class="stele" id="loi-ket">
+    <div class="eyebrow2">Lời kết</div>
+    <p>Tử vi không cho bạn tấm bản đồ kho báu. Nó cho bạn tấm bản đồ địa hình. Trên bản đồ đó có núi, có sông, có hố sâu. Bạn không thể dời núi, nhưng bạn có thể chọn đi vòng qua núi, bắc cầu qua sông, và không rơi xuống hố.</p>
+    <p>Hơn hai nghìn năm trước, Khổng Tử nói không biết mệnh thì không thể làm quân tử. Ngài không dạy biết mệnh để mà sợ hãi, cũng không dạy biết mệnh để mà ỷ lại chờ trời. Biết mệnh là để đứng thẳng trước những gì mình không chọn được — nơi mình sinh ra, người mình sinh cùng, giới hạn của chính thân xác mình — rồi vẫn ung dung sống trọn với những gì mình chọn được: cách đối xử, cách gắng sức, cách yêu thương.</p>
+    <p>Tri mệnh để không ảo tưởng. Tận lực để không buông xuôi. Trân quý để không lỡ những người mình thương. Tùy duyên để không oán trách khi đã làm hết sức. Bốn tầng ấy không phải bốn bước đi rồi xong, mà là bốn việc phải làm cùng lúc, suốt một đời người.</p>
+    <p>Người tiểu nhân xem lá số xong thì hỏi trời tại sao bất công với mình. Người quân tử xem lá số xong thì đứng dậy, sống tiếp — biết ơn những gì đang có trong tay, vì hiểu rằng chúng cũng hữu hạn như chính mình.</p>
+    <p>Đó là cái nhìn của người quân tử. Không phải nhìn để biết trước tương lai, mà nhìn để sống trọn từng ngày đang có.</p>
+  </section>
+
+  <div class="colophon">
+    <div class="seal-small"><span>印</span></div>
+    <p class="refs">
+      Tài liệu tham khảo chính: <em>Tử Vi Đẩu Số Toàn Thư</em> do La Hồng Tiên biên soạn đời Minh, <em>Triệu Thị Minh Thuyết Tử Vi Kinh</em>, kho 683 câu <em>Phú Tử Vi</em> của Lê Quý Đôn, và <em>Cốt Tủy Khoa Tử Vi</em> của Yên Tử Cư Sĩ Trần Đại-Sỹ.
+    </p>
+  </div>
+
+</article>
+</main>
+
+<script>
+  // Theme toggle (dark mode) — resilient to localStorage being blocked (e.g. file:// in some browsers)
+  const btn = document.getElementById('themeToggle');
+  const body = document.body;
+  let stored = null;
+  try { stored = localStorage.getItem('tuvi-theme'); } catch (e) {}
+  let prefersDark = false;
+  try { prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+  if (stored === 'dark' || (!stored && prefersDark)) {
+    body.classList.add('dark');
+    btn.textContent = '◑';
+  }
+  btn.addEventListener('click', () => {
+    body.classList.toggle('dark');
+    const isDark = body.classList.contains('dark');
+    btn.textContent = isDark ? '◑' : '◐';
+    try { localStorage.setItem('tuvi-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+  });
+
+  const musicBtn = document.getElementById('musicToggle');
+  const audio = document.getElementById('bgMusic');
+  musicBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play().catch(() => {
+        musicBtn.title = 'Không tìm thấy file nhạc';
+      });
+      musicBtn.classList.add('playing');
+      musicBtn.textContent = '❚❚';
+    } else {
+      audio.pause();
+      musicBtn.classList.remove('playing');
+      musicBtn.textContent = '♪';
+    }
+  });
+</script>
+</body>
+</html>
