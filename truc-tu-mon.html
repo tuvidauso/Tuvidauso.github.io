@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trục và Tứ Môn — Bốn Cổng Trên Lá Số</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#e9e3d4;
+    --ink-dim:#a9a293;
+    --bg:#0e1013;
+    --bg-raised:#15181c;
+    --line:#2a2e33;
+    --gold:#c9a24b;
+    --gold-dim:#8a7038;
+    --teal:#3f7d73;
+    --teal-dim:#2b544d;
+    --red:#9a4a42;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-weight:300;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold-dim); color:#fff;}
+
+  .wrap{max-width:760px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:80px 24px 60px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:28px;
+  }
+  .hero h1{
+    font-family:'Spectral', serif;
+    font-weight:500;
+    font-size:clamp(40px, 8vw, 72px);
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    margin-bottom:18px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-weight:300;
+    color:var(--gold);
+  }
+  .hero-sub{
+    font-family:'Spectral', serif;
+    font-style:italic;
+    font-weight:300;
+    font-size:19px;
+    color:var(--ink-dim);
+    max-width:480px;
+    margin-bottom:56px;
+  }
+
+  /* ---------- Compass (signature element) ---------- */
+  .compass-holder{ width:min(78vw, 420px); aspect-ratio:1/1; margin:0 auto; }
+  .compass-holder svg{ width:100%; height:100%; overflow:visible; }
+  .gate-pulse{
+    animation:pulse 3.4s ease-in-out infinite;
+    transform-origin:center;
+  }
+  .gate-pulse.delay{ animation-delay:1.7s; }
+  @keyframes pulse{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.45; }
+  }
+  .chi-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    fill:var(--ink-dim);
+  }
+  .gate-label{
+    font-family:'Spectral', serif;
+    font-size:13px;
+    font-weight:500;
+    fill:var(--gold);
+  }
+  .gate-label.teal{ fill:var(--teal); }
+  .scroll-cue{
+    margin-top:56px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.2em;
+    color:var(--ink-dim);
+    text-transform:uppercase;
+  }
+
+  /* ---------- Sections ---------- */
+  section{ padding:90px 0; }
+  section + section{ border-top:1px solid var(--line); }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:16px;
+  }
+  h2{
+    font-family:'Spectral', serif;
+    font-weight:500;
+    font-size:clamp(26px,4vw,34px);
+    color:var(--ink);
+    margin-bottom:28px;
+    max-width:22ch;
+  }
+  h3{
+    font-family:'Spectral', serif;
+    font-weight:500;
+    font-size:20px;
+    color:var(--gold);
+    margin:36px 0 12px;
+  }
+  p{ color:var(--ink-dim); font-size:16px; margin-bottom:16px; max-width:64ch; }
+  p strong{ color:var(--ink); font-weight:500; }
+  .lead{ font-size:18px; color:var(--ink); font-family:'Spectral', serif; font-weight:400; max-width:60ch; }
+
+  /* ---------- Gọng kìm cards ---------- */
+  .kim-grid{ display:grid; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:36px; }
+  .kim{ background:var(--bg); padding:28px 26px; }
+  .kim-num{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--gold); letter-spacing:0.15em; margin-bottom:10px; }
+  .kim h4{ font-family:'Spectral', serif; font-size:19px; font-weight:500; color:var(--ink); margin-bottom:10px; }
+  .kim p{ font-size:14.5px; margin-bottom:0; }
+
+  /* ---------- Four gates table ---------- */
+  .gate-table{ margin-top:36px; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .gate-row{ background:var(--bg); display:grid; grid-template-columns:100px 1fr; gap:22px; padding:24px 26px; }
+  .gate-row .tag{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--gold); }
+  .gate-row .tag.teal{ color:var(--teal); }
+  .gate-row h4{ font-family:'Spectral', serif; font-size:18px; font-weight:500; color:var(--ink); margin-bottom:6px; }
+  .gate-row p{ font-size:14.5px; margin-bottom:8px; }
+  @media(max-width:520px){ .gate-row{ grid-template-columns:1fr; gap:8px; } }
+
+  /* ---------- Quote / bí quyết callouts ---------- */
+  .keyquote{
+    border-left:2px solid var(--gold);
+    padding:4px 0 4px 24px;
+    margin:30px 0;
+    font-family:'Spectral', serif;
+    font-style:italic;
+    font-size:18px;
+    color:var(--ink);
+  }
+  .keyquote span{ display:block; font-family:'IBM Plex Mono', monospace; font-style:normal; font-size:10.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+
+  /* ---------- Lock diagram ---------- */
+  .lock-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:36px; }
+  .lock{ background:var(--bg); padding:26px 22px; }
+  .lock .dir{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-dim); margin-bottom:8px; }
+  .lock h4{ font-family:'Spectral', serif; font-size:17px; color:var(--gold); margin-bottom:10px; }
+  .lock.teal h4{ color:var(--teal); }
+  .lock p{ font-size:14px; margin-bottom:0; }
+  @media(max-width:560px){ .lock-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- Practice steps ---------- */
+  .tier{ margin-top:44px; }
+  .tier-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:14px; }
+  .tier-num{ font-family:'Spectral', serif; font-style:italic; font-size:34px; color:var(--gold-dim); line-height:1; }
+  .tier-title{ font-family:'Spectral', serif; font-size:20px; color:var(--ink); font-weight:500; }
+  .tier-body{ padding-left:48px; border-left:1px solid var(--line); margin-left:4px; }
+  .tier-body h5{ font-family:'Inter', sans-serif; font-size:13px; font-weight:600; letter-spacing:0.04em; color:var(--gold); margin:18px 0 6px; text-transform:uppercase; }
+  .tier-body p{ font-size:15px; }
+
+  /* ---------- Footer note ---------- */
+  .footnote{
+    padding:60px 0 100px;
+    text-align:center;
+  }
+  .footnote p{
+    max-width:48ch;
+    margin:0 auto;
+    font-family:'Spectral', serif;
+    font-style:italic;
+    font-size:15px;
+    color:var(--ink-dim);
+  }
+
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .gate-pulse{ animation:none; }
+    .reveal{ transition:none; opacity:1; transform:none; }
+  }
+  .music-btn{
+    position:fixed; top:58px; right:18px; z-index:9997;
+    width:40px; height:40px; border-radius:50%;
+    background:var(--bg-raised); border:1px solid var(--line);
+    color:var(--gold); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:16px; line-height:1;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .music-btn:hover{ border-color:var(--gold-dim); transform:scale(1.05); }
+  .music-btn.playing{ animation:musicPulse 2.2s ease-in-out infinite; }
+  @keyframes musicPulse{
+    0%,100%{ box-shadow:0 0 0 0 rgba(201,162,75,.35); }
+    50%{ box-shadow:0 0 0 9px rgba(201,162,75,0); }
+  }
+</style>
+</head>
+<body>
+<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
+  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a></div>
+
+<button class="music-btn" id="musicBtn" aria-label="Bật/tắt nhạc nền" title="Bật/tắt nhạc nền">♪</button>
+<audio id="bgm" src="music1.mp3" loop preload="none"></audio>
+
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="hero-eyebrow">Tử Vi Đẩu Số — Ghi chú chuyên sâu</div>
+  <h1>Trục và <em>Tứ Môn</em><br>Bốn Cổng Trên Lá Số</h1>
+  <p class="hero-sub">12 cung không đứng riêng lẻ. Chúng bị ba gọng kìm ghì lại, và mở ra bốn cánh cổng — nơi vận mệnh một người thật sự xoay chuyển.</p>
+
+  <div class="compass-holder">
+    <svg viewBox="0 0 400 400">
+      <circle cx="200" cy="200" r="188" fill="none" stroke="#2a2e33" stroke-width="1"/>
+      <circle cx="200" cy="200" r="140" fill="none" stroke="#2a2e33" stroke-width="1"/>
+      <circle cx="200" cy="200" r="3" fill="#8a7038"/>
+
+      <!-- 12 chi positions, starting Tý at top, clockwise -->
+      <!-- radius for tick 188, label 164, dot 140 -->
+      <!-- Tý 0deg(top) Suu 30 Dan 60 Mao 90 Thin 120 Ti 150 Ngo 180 Mui 210 Than 240 Dau 270 Tuat 300 Hoi 330 -->
+
+      <g stroke="#2a2e33" stroke-width="1">
+        <line x1="200" y1="12" x2="200" y2="388"/>
+        <line x1="12" y1="200" x2="388" y2="200"/>
+      </g>
+
+      <!-- Tứ Sinh gates: Dan(NE,60) Ti(SE,150) Than(SW,240) Hoi(NW,330) -->
+      <g class="gate-pulse">
+        <circle cx="332.7" cy="270" r="7" fill="#c9a24b"/>
+        <text x="332.7" y="252" text-anchor="middle" class="gate-label">Tỵ</text>
+        <text x="332.7" y="296" text-anchor="middle" class="gate-label" font-size="10">Thiên Môn</text>
+      </g>
+      <g class="gate-pulse delay">
+        <circle cx="67.3" cy="130" r="7" fill="#3f7d73"/>
+        <text x="67.3" y="112" text-anchor="middle" class="gate-label teal">Hợi</text>
+        <text x="67.3" y="152" text-anchor="middle" class="gate-label teal" font-size="10">Địa Môn</text>
+      </g>
+      <circle cx="332.7" cy="130" r="5.5" fill="#5b5f66"/>
+      <text x="352" y="122" class="chi-label">Dần · Nhân Môn</text>
+      <circle cx="67.3" cy="270" r="5.5" fill="#5b5f66"/>
+      <text x="48" y="292" text-anchor="end" class="chi-label">Thân · Quỷ Môn</text>
+
+      <!-- Tứ Chính: Ty(top,N) Ngo(bottom,S) Mao(E,90) Dau(W,270) -->
+      <circle cx="200" cy="12" r="4" fill="#8a7038"/>
+      <text x="200" y="2" text-anchor="middle" class="chi-label" dy="-2">Tý</text>
+      <circle cx="200" cy="388" r="4" fill="#8a7038"/>
+      <text x="200" y="399" text-anchor="middle" class="chi-label">Ngọ</text>
+      <circle cx="388" cy="200" r="4" fill="#8a7038"/>
+      <text x="393" y="204" class="chi-label">Mão</text>
+      <circle cx="12" cy="200" r="4" fill="#8a7038"/>
+      <text x="7" y="204" text-anchor="end" class="chi-label">Dậu</text>
+
+      <!-- Tứ Mộ: Thin(60+30=... ) place at 30,120,210,300 -->
+      <circle cx="298" cy="67.3" r="4" fill="#5b5f66"/>
+      <text x="306" y="60" class="chi-label">Sửu</text>
+      <circle cx="298" cy="332.7" r="4" fill="#5b5f66"/>
+      <text x="306" y="345" class="chi-label">Thìn</text>
+      <circle cx="102" cy="332.7" r="4" fill="#5b5f66"/>
+      <text x="94" y="345" text-anchor="end" class="chi-label">Mùi</text>
+      <circle cx="102" cy="67.3" r="4" fill="#5b5f66"/>
+      <text x="94" y="60" text-anchor="end" class="chi-label">Tuất</text>
+    </svg>
+  </div>
+
+  <div class="scroll-cue">Cuộn xuống ↓</div>
+</div>
+
+<!-- ============ KHUNG ĐỊNH VỊ HỌC THUẬT ============ -->
+<section style="padding-top:56px; padding-bottom:56px;">
+  <div class="wrap reveal">
+    <div class="keyquote" style="border-left-color:var(--teal);">
+      <span>Về tính chính phái của bài viết</span>
+      Khái niệm "Tứ Môn" không xuất hiện trong các sách gốc của Tử Vi Đẩu Số (như <em>Tử Vi Đẩu Số Toàn Thư</em>, <em>Tử Vi Hàm Số</em>). Đây là một lớp diễn giải tổng hợp — ghép trục Dần Thân Tỵ Hợi trong Tử Vi với la bàn Hậu Thiên Bát Quái, phong thủy nhà ở, và tín ngưỡng dân gian — theo cách nhìn của một số nhánh truyền miệng, không phải giáo lý thống nhất của toàn ngành. Phần "6 trục — Lục Xung" (cung đối xung, tam hợp) là nền tảng chính thống; các phần Tứ Môn, khóa ngoài/khóa trong, bùa và trấn pháp nên được đọc như một hệ quy chiếu bổ sung, không phải chân lý duy nhất — và các chi tiết mang tính lịch pháp (như Không Vong) đã được đối chiếu lại cho đúng ở phần liên quan. Ở phần "tầng tâm truyền" (sáu trục), các đoạn từng gộp chung dưới nhãn "Gốc Hà Đồ" thực ra bắt nguồn từ ba hệ cổ khác nhau — Lạc Thư/Dịch lý (Tứ Chính), Hậu Thiên Bát Quái (Tứ Sinh), vòng Mộ Khố Ngũ Hành (Tứ Mộ) — nay đã ghi đúng tên từng hệ.
+    </div>
+  </div>
+</section>
+
+<!-- ============ 0. SÁU TRỤC - LỤC XUNG ============ -->
+<section>
+  <div class="wrap reveal">
+    <div class="eyebrow">Phần một</div>
+    <h2>Sáu trục — Lục Xung: khi luận một cung, phải xem cả cung xung chiếu</h2>
+    <p class="lead">Trong Tử Vi, 12 cung không đứng rời rạc mà đi theo từng cặp Trục — hai cung đối xung nhau, luôn nhìn nhau, khắc nhau, và làm nên nhau. Sáu trục chia làm ba nhóm tính chất.</p>
+
+    <h3>Nhóm Tứ Chính — Tý Ngọ Mão Dậu: trục của bản thể, của cái Tôi</h3>
+    <p>Bốn cung chính phương, mạnh nhất, chủ về sự đoan chính và bất biến.</p>
+    <p><strong>Tý – Ngọ</strong> — trục Nhật Nguyệt, trục Phụ Tử. Tý là cực Âm, con, hạ tầng, bóng tối. Ngọ là cực Dương, cha, danh vọng, ánh sáng. Người Mệnh/Thân ở trục này cả đời giằng co giữa cái bên trong và cái bên ngoài, giữa nhà và đời. Đây là nơi Nhật Nguyệt miếu vượng nên rất sợ Tuần Triệt, Kình Đà.</p>
+    <p><strong>Mão – Dậu</strong> — trục Đào Hoa, trục Phu Thê – Thiên Di. Mão là cửa chính Đông, nơi mặt trời mọc, chủ nhân hòa, tình cảm nội tâm. Dậu là cửa chính Tây, nơi mặt trời lặn, chủ sự dứt khoát, quả quyết. Trục của tình duyên, của sự đoan chính và phá cách. Mệnh ở Mão Dậu thường tình cảm, chuộng hình thức.</p>
+
+    <h3>Nhóm Tứ Sinh — Dần Thân Tỵ Hợi: trục của biến động, dịch chuyển</h3>
+    <p>Bốn cung của sự sống, của sự bắt đầu. Đặc trưng là Dịch Mã, không bao giờ yên.</p>
+    <p><strong>Dần – Thân</strong> — Nhân Môn – Quỷ Môn, trục quan trọng nhất của Tứ Sinh. Dần ở Đông Bắc là Nhân Môn, cửa của con người, nơi cấn thổ sinh sôi, chủ sinh khí, sự khởi nghiệp, lòng nhân. Thân ở Tây Nam là Quỷ Môn, cửa của quỷ, nơi sát khí và biến động mạnh nhất. Dần Thân là trục của tranh đấu, làm ăn táo bạo, ly hương lập nghiệp. Người Mệnh ở Dần Thân thường vất vả lúc trẻ, phải bôn ba.</p>
+    <p><strong>Tỵ – Hợi</strong> — Thiên Môn – Địa Môn. Tỵ ở Đông Nam là Thiên Môn, cửa Trời, nơi giao thoa của trời đất, gió lốc. Hợi ở Tây Bắc là Địa Môn / Địa Hộ, cửa Đất, nơi tận cùng của nước, nơi quy tụ.</p>
+    <div class="keyquote">
+      <span>Nguyên văn</span>
+      Vì thế trục Tỵ Hợi được gọi là trục của tâm linh, tôn giáo, triết học và dịch chuyển đường dài. Người Mệnh an ở Tỵ Hợi là người "phiêu". Rất thông minh, khôn ngoan, có duyên với huyền học, xuất ngoại, nhưng tâm không yên, hay thay đổi lý tưởng. Tỵ Hợi cũng là trục của trùng phùng — các sao đôi như Không Kiếp, Hình Diêu ở đây rất phức tạp. Có câu: "Mệnh Tỵ Hợi, phiêu bồng lãng tử".
+    </div>
+
+    <h3>Nhóm Tứ Mộ — Thìn Tuất Sửu Mùi: trục của tích lũy, kết thúc</h3>
+    <p>Bốn cung kho chứa của Ngũ Hành, chủ về sự trì trệ, tích tụ.</p>
+    <p><strong>Thìn – Tuất</strong> — Thiên La – Địa Võng. Đây là trục khắc nghiệt nhất trong Tử Vi. Lưới trời lồng lộng — mọi hung tinh, sao xấu hãm địa rơi vào đây đều bị nhốt lại, trở nên nguy hiểm hơn. Người Mệnh ở Thìn Tuất thường cảm thấy bị kìm kẹp, nhiều tham vọng nhưng khó thoát, phải có sao mạnh như Phá Quân, Thất Sát, La Võng mới phá được lưới.</p>
+    <p><strong>Sửu – Mùi</strong> — trục Tài Bạch – Tứ Mộ Khố. Trục của tài sản, đất đai, tích lũy. Sửu là Kim khố, Mùi là Mộc khố. Người trục này thường nặng về tiền bạc, thực tế, chậm nhưng chắc. Rất hợp với các sao kho như Tử Vi, Vũ Khúc, Thiên Phủ.</p>
+
+    <h3>Vì sao phải xem Trục: nguyên tắc "Cát hung tương bán"</h3>
+    <p>Ví dụ Mệnh ở Tỵ thì cung đối là Hợi ở Thiên Di. Người Mệnh Tỵ Hợi thì Thân cư Thiên Di là số — ra ngoài đời mới làm nên, ở nhà thì chìm. Khi xem hạn, nếu Đại Vận đi vào một cung, cung xung chiếu sẽ được kích hoạt: hạn vào Thiên La thì Địa Võng động, hạn vào Thiên Môn thì Địa Môn mở.</p>
+  </div>
+</section>
+
+<!-- ============ 1. BA GỌNG KÌM ============ -->
+<section>
+  <div class="wrap reveal">
+    <div class="eyebrow">Phần hai</div>
+    <h2>Không phải sáu trục — mà là ba gọng kìm</h2>
+    <p class="lead">Cách hiểu phổ thông xem sáu trục là sáu đường thẳng đối xung nhau. Nhưng nhìn kỹ, chúng gộp thành ba cặp lực khác bản chất, mỗi cặp ghì một khía cạnh của số phận.</p>
+
+    <div class="kim-grid">
+      <div class="kim">
+        <div class="kim-num">01 — TÝ NGỌ MÃO DẬU</div>
+        <h4>Gọng kìm Thời Gian</h4>
+        <p>Bốn cung Tứ Chính, gắn với bốn điểm chí/phân trong năm. Sao nào an vào đây thì tính chất bị "đóng đinh" — cố định suốt đời, không đổi. Đây cũng là trục của cực Âm cực Dương: dễ sinh cách đoản mệnh hoặc trường thọ khi gặp hung tinh hội đủ.</p>
+      </div>
+      <div class="kim">
+        <div class="kim-num">02 — DẦN THÂN TỴ HỢI</div>
+        <h4>Gọng kìm Không Gian</h4>
+        <p>Bốn cung Tứ Sinh, chính là Tứ Môn — bốn cánh cổng để thoát ra khỏi mệnh bàn. Đặc trưng bởi Dịch Mã: không bao giờ yên một chỗ. Đây là nơi vận mệnh thật sự "mở" hay "đóng".</p>
+      </div>
+      <div class="kim">
+        <div class="kim-num">03 — THÌN TUẤT SỬU MÙI</div>
+        <h4>Gọng kìm Nhân Quả</h4>
+        <p>Bốn cung Tứ Mộ — nơi chôn cất nghiệp quả của hai gọng kìm trên. Thành bại, thiện ác gây ra ở Dần Thân Tỵ Hợi đều được đem "cất kho" ở đây để tính tiếp.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. GỐC TỨ MÔN ============ -->
+<section>
+  <div class="wrap reveal">
+    <div class="eyebrow">Phần ba</div>
+    <h2>Gốc của Tứ Môn: Hậu Thiên Bát Quái</h2>
+    <p class="lead">Bốn cổng không phải phát minh riêng của Tử Vi — chúng rót thẳng từ la bàn Hậu Thiên Bát Quái vào lá số. Mỗi cổng có một hướng, một quái, một tính khí riêng.</p>
+
+    <div class="gate-table">
+      <div class="gate-row">
+        <div class="tag">TỴ — TỐN<br>Đông Nam</div>
+        <div>
+          <h4>Thiên Môn — Cổng Trời</h4>
+          <p>Tốn là Gió, là lệnh của Trời. Tỵ là nơi Thiên Khí rót xuống, cũng là nơi Hỏa Đế Vượng tàng — rất nóng, rất động. Sợ nhất Hóa Kỵ án ngữ: cổng trời đóng, có tài mà không ai biết.</p>
+        </div>
+      </div>
+      <div class="gate-row">
+        <div class="tag teal">HỢI — CÀN<br>Tây Bắc</div>
+        <div>
+          <h4>Địa Môn — Cổng Đất</h4>
+          <p>Càn là Trời nhưng Hợi là tận cùng của Thủy — nơi thủy triều rút về lòng đất, điểm kết một vòng Trường Sinh. Sợ nhất Địa Không, Địa Kiếp: kho thủng đáy, tiền vào bao nhiêu cũng trôi.</p>
+        </div>
+      </div>
+      <div class="gate-row">
+        <div class="tag">DẦN — CẤN<br>Đông Bắc</div>
+        <div>
+          <h4>Nhân Môn — Cổng Người</h4>
+          <p>Cấn là Núi, nơi cấn thổ sinh sôi, chủ sinh khí và sự khởi nghiệp. Cần Ân Quang, Thiên Quý để có quý nhân dẫn lối.</p>
+        </div>
+      </div>
+      <div class="gate-row">
+        <div class="tag teal">THÂN — KHÔN<br>Tây Nam</div>
+        <div>
+          <h4>Quỷ Môn — Cổng Quỷ</h4>
+          <p>Khôn là Đất, nơi âm khí nặng nhất; Thân là Kim Đế Vượng, sát khí mạnh nhất. Không có sát tinh trấn giữ thì "quỷ" tự ra — người hiền quá ở cung này dễ bị nhiễu động tinh thần.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="keyquote">
+      <span>Bí quyết nền</span>
+      Thiên Môn sợ Kỵ, Địa Môn sợ Không. Một bên đóng cổng vì lời nguyền, một bên mở toang vì đáy thủng.
+    </div>
+
+    <h3>Mỗi Môn có hai chiếc khóa</h3>
+    <p>Không chỉ một chìa — mỗi cổng có khóa ngoài và khóa trong, thiếu một cũng khó mở trọn vẹn:</p>
+    <div class="gate-table">
+      <div class="gate-row">
+        <div class="tag">THIÊN MÔN</div>
+        <div><p style="margin-bottom:0"><strong>Khóa ngoài:</strong> Tả Phù – Hữu Bật. <strong>Khóa trong:</strong> Hóa Khoa. Muốn cầu danh, cầu học vấn, cầu duyên tâm linh thì phải có một trong hai.</p></div>
+      </div>
+      <div class="gate-row">
+        <div class="tag teal">ĐỊA MÔN</div>
+        <div><p style="margin-bottom:0"><strong>Khóa ngoài:</strong> Lộc Tồn – Hóa Lộc. <strong>Khóa trong:</strong> Long Trì – Phượng Các. Đây là cửa của tiền chôn, đất cát, thừa kế — không Lộc thì không mở.</p></div>
+      </div>
+      <div class="gate-row">
+        <div class="tag">NHÂN MÔN</div>
+        <div><p style="margin-bottom:0"><strong>Khóa:</strong> Ân Quang – Thiên Quý. Dần là cửa người, muốn có quý nhân dẫn dắt thì bắt buộc cần cặp sao này.</p></div>
+      </div>
+      <div class="gate-row">
+        <div class="tag teal">QUỶ MÔN</div>
+        <div><p style="margin-bottom:0"><strong>Khóa:</strong> Kình – Đà – Hỏa – Linh. Thân là cửa quỷ; không có sát tinh trấn giữ, quỷ khí tự lộ ra ngoài.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14 CHÍNH TINH TRÊN SÁU TRỤC ============ -->
+<section>
+  <div class="wrap reveal">
+    <div class="eyebrow">Phần bốn</div>
+    <h2>14 Chính Tinh trên sáu trục — gốc của phú đoán</h2>
+    <p class="lead">Trục không phải một khối tính chất chung chung. Muốn luận đắt, phải xem từng cặp Chính Tinh cụ thể ngồi trên trục nào — vì chính cái trục sẽ làm đổi tính ngôi sao. 14 sao chia hai phe: <strong>phe Tử Vi</strong> (Tử, Phủ, Vũ, Tướng, Liêm, Sát, Phá, Tham — thiên về hành động) hợp với Dần Thân Tỵ Hợi và Thìn Tuất Sửu Mùi; <strong>phe Nhật Nguyệt</strong> (Cơ, Lương, Đồng, Cự, Nhật, Nguyệt — thiên về trí tuệ) hợp với Tý Ngọ Mão Dậu.</p>
+
+    <h3>Trục Tỵ Hợi — trục yếu nhất, buộc phải "đi"</h3>
+    <p><strong>Tử Vi Thất Sát</strong> — Đế Ngộ Sát: đế phải ra biên ải, chí lớn, cô độc, tự gây dựng. Gặp Kình Đà Hỏa Linh là đế gặp nạn; gặp Tả Hữu Khoa Quyền Lộc là đế xuất chinh, đại thành ở xa.</p>
+    <p><strong>Vũ Khúc Phá Quân</strong> — cách kinh điển nhất của trục này. Phú cổ: <em>"Vũ Phá Tỵ Hợi, tiền bần hậu phú"</em>. Tiền tụ rồi tán, đời lên voi xuống chó vài lần mới nên; hợp ngành phá cách như công nghệ, quân đội, phẫu thuật.</p>
+    <p><strong>Cơ Lương / Cơ Cự</strong> — cách của nhà tu hành, nhà tư tưởng. Đầu óc thông minh về huyền học nhưng không thực tế; "thiên môn khai, địa hộ mở" — có căn, hay mộng mị.</p>
+    <p><strong>Nhật Nguyệt tại Tỵ Hợi</strong> — gọi là Nhật Trầm Thủy Để: Dương ở Tỵ là ban mai chưa tỏ, Âm ở Hợi là trăng tàn. Duyên cha mẹ mỏng, dễ làm con nuôi mới yên.</p>
+
+    <h3>Trục Dần Thân — trục mạnh nhất của phe Tử Vi</h3>
+    <p><strong>Tử Vi Thiên Phủ</strong> — Tử Phủ Đồng Cung, cách Đế-Hậu hợp nhất, giàu sang nhất của Tử Vi. Gặp Tuần Triệt lại thành "đế ngộ hung đồ" — vua bị nhốt.</p>
+    <p><strong>Cơ Lương Dần Thân</strong> — cách quân sư, tham mưu, giỏi mưu lược nhưng vất vả, phải tha phương mới thành danh. Phú: <em>"Cơ Lương hội, thiện đàm binh"</em>.</p>
+    <p><strong>Thất Sát độc tọa</strong> — Thất Sát Triều Đẩu, sát tinh đắc địa nhất, như tướng trấn ải Nhân Môn Quỷ Môn. Không Văn tinh chế hóa thì cô độc, khắc lục thân.</p>
+
+    <h3>Trục Thìn Tuất — trục lưới trời, chỉ hai sao phá được</h3>
+    <p><strong>Tử Vi Thiên Tướng</strong> — Tử Tướng Thìn Tuất, vua bị vây trong lưới. Ngay thẳng nhưng hay bị tiểu nhân gièm pha; cần Tả Hữu, Thiên Khôi mới phá lưới.</p>
+    <p><strong>Cơ Cự Thìn Tuất</strong> — bình thường "đa học thiểu thành"; nhưng gặp Hóa Lộc, Song Hao lại thành <em>"thạch trung ẩn ngọc"</em> — tài ngầm, phải qua đại nạn mới bộc phát.</p>
+    <p><strong>Cự Nhật Thìn Tuất</strong> — Nhật ở Thìn là bình minh xé lưới; nếu Thái Dương thủ Mệnh tại Tuất gọi là "Nhật chiếu La Võng" — phá lưới trời, rất quý, hợp luật sư, ngoại giao, truyền thông.</p>
+
+    <h3>Trục Sửu Mùi — hai cái kho</h3>
+    <p><strong>Vũ Tham Sửu Mùi</strong> — Tham Vũ Đồng Hành. Không Hỏa Linh chỉ là tiểu thương; có Hỏa Linh thành <em>"bạo phát hoạnh tài"</em> — cách của đầu cơ, crypto thời nay. Phú: <em>"Tham Vũ mộ trung, tam thập tảo đăng khoa tọa"</em>.</p>
+    <p><strong>Nhật Nguyệt Sửu Mùi</strong> — Thái Âm sáng, Thái Dương mờ; giỏi giữ tiền, quản tài sản nhưng tình duyên hay lận đận.</p>
+    <p><strong>Tử Phá Sửu Mùi</strong> — đế gặp giặc trong kho; tư tưởng luôn muốn đổi mới, lật đổ cái cũ — hợp thời đại startup, cải cách.</p>
+
+    <h3>Trục Tý Ngọ — trục đế tọa, đẹp nhưng cô độc</h3>
+    <p><strong>Tử Vi cư Ngọ</strong> — "Đế tọa Ly cung", vị trí đẹp nhất của Tử Vi, không cần nhiều cát tinh vẫn quý hiển. Nhưng vua ngồi ngai thì cô độc — người xung quanh đều là bề tôi.</p>
+    <p><strong>Cự Môn Tý Ngọ</strong> — Thạch Trung Ẩn Ngọc: ngoài vụng về, trong đầy mưu trí. Rất hợp Hóa Lộc, Lộc Tồn.</p>
+    <p><strong>Đồng Âm tại Tý</strong> — Thủy Trừng Quế Ngạc, trăng trong nước — cách đẹp cho nữ mệnh, vừa phúc hậu vừa giàu có.</p>
+
+    <h3>Trục Mão Dậu — đào hoa của thất bại</h3>
+    <p><strong>Liêm Trinh Phá Quân</strong> — cổ nhân sợ nhất: <em>"Liêm Phá Mão Dậu, nam đa lãng đãng, nữ đa dâm bôn"</em>. Tình cảm lận đận; nhưng thời nay lại hợp giới sáng tạo, nghệ sĩ.</p>
+    <p><strong>Thái Dương Thiên Lương</strong> — Nhật Lương Mão Dậu, "Nhật xuất phù tang". Thái Dương ở Mão là mặt trời mọc, cực sáng — cách của người học vấn cao, làm thầy thiên hạ.</p>
+  </div>
+</section>
+
+<!-- ============ 3. MỞ KHÓA ============ -->
+<section>
+  <div class="wrap reveal">
+    <div class="eyebrow">Phần năm</div>
+    <h2>Nguyên tắc mở khóa: Xung với Hợp</h2>
+    <p class="lead">Biết cổng ở đâu chưa đủ — phải biết chìa khóa nào mở được nó. Hai cổng chính, hai cơ chế hoàn toàn trái ngược.</p>
+
+    <div class="lock-grid">
+      <div class="lock">
+        <div class="dir">THIÊN MÔN · TỴ</div>
+        <h4>Mở bằng XUNG</h4>
+        <p>Cần sao mạnh ở cung Hợi xung chiếu lên — Sát Phá Tham, Cự Nhật vô chính diệu. Mệnh Tỵ mà cung Di ở Hợi quá hiền lành, êm đẹp thì Thiên Môn đóng im ỉm, cả đời làm người thường.</p>
+      </div>
+      <div class="lock teal">
+        <div class="dir">ĐỊA MÔN · HỢI</div>
+        <h4>Mở bằng HỢP</h4>
+        <p>Cần Lộc Quyền Khoa hội về từ tam hợp Tỵ–Dậu–Sửu. Mệnh Hợi mà tam hợp trống rỗng thì Địa Môn khóa chặt — làm bao nhiêu cũng không giữ được.</p>
+      </div>
+    </div>
+
+    <div class="keyquote">
+      <span>Khẩu quyết</span>
+      "Tỵ vô chính diệu thì phiêu, Hợi vô chính diệu thì túng." Mệnh Tỵ trống phải nương người/đối tác tuổi Hợi; mệnh Hợi trống phải hợp tác người tuổi Tỵ, Dậu, Sửu.
+    </div>
+  </div>
+</section>
+
+<!-- ============ TẦNG TÂM TRUYỀN: 5 TRỤC CÒN LẠI ============ -->
+<section>
+  <div class="wrap reveal">
+    <div class="eyebrow">Phần sáu</div>
+    <h2>Mỗi trục đều có hai khóa — tầng tâm truyền của 5 trục còn lại</h2>
+    <p class="lead">Tỵ Hợi không phải là trục duy nhất có khóa ngoài, khóa trong. Cả sáu trục đều vận hành theo cùng một cơ chế — chỉ khác chìa khóa. Đây là tầng ít sách nào viết, thường chỉ truyền miệng.</p>
+
+    <div class="keyquote">
+      <span>Ba tầng vũ trụ quan, không phải một</span>
+      Nhìn kỹ "gốc" của ba nhóm trục thì thấy chúng không đến từ cùng một hệ: Tứ Chính (Tý Ngọ Mão Dậu) đứng trên Lạc Thư và Dịch lý — hệ đo <em>vị trí và thời điểm chuyển hóa</em>, nên tính chất "đóng đinh, không đổi". Tứ Sinh (Dần Thân Tỵ Hợi) đứng trên Hậu Thiên Bát Quái — hệ mô tả <em>chức năng và hành động</em>, nên tính chất "khởi sự, dịch chuyển". Tứ Mộ (Thìn Tuất Sửu Mùi) đứng trên vòng Mộ Khố Ngũ Hành — hệ mô tả <em>chu trình tích tụ và kết thúc</em>, nên tính chất "tàng chứa, trì trệ". Ba gọng kìm ở Phần hai (Thời Gian – Không Gian – Nhân Quả) thực chất là tên gọi trực giác cho đúng ba hệ cổ này.
+    </div>
+
+    <h3>Tý – Ngọ: Trục Đế Tọa, trục Sống Chết</h3>
+    <p><strong>Gốc Lạc Thư & Dịch lý:</strong> Trong Cửu Cung Lạc Thư, Tý là 1 (Bắc), Ngọ là 9 (Nam) — số nhỏ nhất và lớn nhất trong chín cung. Theo Dịch lý Thập Nhị Tiêu Tức, Tý là nơi Nhất Dương Sinh (quẻ Địa Lôi Phục), Ngọ là nơi Nhất Âm Sinh (quẻ Thiên Phong Cấu): đây là trục mà Trời Đất đổi ngôi. Người Mệnh ở Tý Ngọ, đời có một lần như chết đi sống lại, một lần đổi đời hoàn toàn.</p>
+    <p><strong>Bí mật Không Vong:</strong> Tý Ngọ không sợ Không Vong, mà chính nó tạo ra Không Vong cho trục khác — Tý là Không Vong của Mão, Ngọ là Không Vong của Dậu.</p>
+    <p><strong>Khóa ngoài:</strong> Thai – Tọa – Quang – Quý (Đế cần ngai, không có thì ngồi đất). <strong>Khóa trong:</strong> Hóa Lộc – Hóa Khoa (Đế cần chiếu chỉ, không có thì nói không ai nghe).</p>
+    <p>Tử Vi ở Ngọ gặp Tuần Triệt là "đế ngộ Triệt, vua mất nước" — sinh trong nhà giàu có quyền thế nhưng đến đời mình thì suy. Thiên Phủ ở Tý là "kho ở đáy biển" — giàu ngầm, không ai biết, cần Lộc Tồn, Hỏa Linh chiếu mới nổi lên.</p>
+    <p><strong>Bệnh của trục:</strong> tim, huyết áp, mắt. <strong>Khai/Trấn:</strong> thắp sáng phương Nam, nhà hướng Ngọ luôn phải sáng; nghề có danh, có ánh sáng (giáo viên, lãnh đạo, người của công chúng) mới vượng. Trấn thì làm tối phương Bắc, góc Bắc kỵ để bể nước động.</p>
+
+    <h3>Mão – Dậu: Trục Đào Hoa, trục Ly Hương</h3>
+    <p><strong>Gốc Lạc Thư:</strong> Trong Cửu Cung Lạc Thư, Mão là 3 (Đông), Dậu là 7 (Tây) — Mộc Kim giao chiến. Người Mão Dậu cả đời phải chọn: tình hay tiền, ở lại hay ra đi.</p>
+    <p><strong>Bí mật:</strong> Theo đúng cách an sao, Thiên Mã chỉ đóng ở bốn cung Dần Thân Tỵ Hợi — không bao giờ an trực tiếp vào Mão hay Dậu. Vì vậy Mão Dậu là trục duy nhất trong 12 cung <em>không thể</em> có Mã tại bản cung: cái "động" của trục này không đến từ việc tự mình có Mã, mà chỉ mượn được qua tam hợp hoặc xung chiếu từ Tỵ/Hợi/Dần/Thân. Đây là lý do trục Đào Hoa thiên về "ở lại mà lòng muốn đi" hơn là dịch chuyển thật sự như Tứ Sinh.</p>
+    <p><strong>Khóa ngoài:</strong> Đào Hoa – Hồng Loan – Hỷ Thần (không có thì cô độc). <strong>Khóa trong:</strong> Hóa Kỵ – Thiên Hình (đào hoa không có Kỵ Hình gác thì thành dâm; có thì giữ được đào hoa chính).</p>
+    <p>Liêm Trinh Phá Quân ở đây xưa gọi "bất chính", nhưng đọc lại theo thời nay là cách của người làm nghệ thuật, làm đẹp, thẩm mỹ, showbiz — càng lả lơi càng giàu, nhưng tình duyên nát. Thiên Cơ Cự Môn ở Dậu là "ngọc ẩn trong đá" — giỏi ăn nói, hợp luật sư, ngoại giao, nhưng không Hóa Lộc thì cả đời thị phi.</p>
+    <p><strong>Bệnh của trục:</strong> gan, thần kinh (vì nghĩ nhiều). <strong>Khai/Trấn:</strong> mở cửa chính, nhà phải thoáng không bít bùng. Muốn trấn đào hoa xấu, dùng cây có gai (xương rồng, hồng có gai) đặt ở chính Tây.</p>
+
+    <h3>Dần – Thân: Trục Nhân Quỷ, trục Quyền Lực</h3>
+    <p><strong>Gốc Bát Quái:</strong> Theo Hậu Thiên Bát Quái, Dần là Cấn (núi), Thân là Khôn (đất) — chồng lên nhau, núi trên đất, thành quẻ Sơn Địa Bác. Người Dần Thân cả đời phải "đập núi tìm đất": phá cái cũ để lập cái mới.</p>
+    <p><strong>Lưu ý:</strong> vòng Lộc Tồn đi theo Can năm sinh (cố định), còn chiều thuận/nghịch của vòng Tràng Sinh phụ thuộc Âm Dương Nam Nữ của từng lá số — nên câu "Dần Thân là trục duy nhất hai vòng cùng chiều" không phải một quy luật an sao cố định, mà là một cách nói biểu tượng: Dần Thân là nơi cả hai vòng sao lớn nhất bàn cùng "khởi đầu" (Lộc Tồn và Tràng Sinh của nhiều cục đều xuất phát gần Dần Thân) — nên khi phát thường phát cả danh cả lợi cùng lúc, khi bại cũng dễ bại cả hai.</p>
+    <p><strong>Khóa ngoài:</strong> Kình Dương – Đà La (cửa quyền, không gươm đao thì không ai sợ). <strong>Khóa trong:</strong> Tả Phù – Hữu Bật (có gươm phải có quân, không thì Thất Sát chỉ là tướng cướp).</p>
+    <p>Thất Sát ở Dần Thân là Thất Sát Triều Đẩu — tướng trời, không hợp làm công ăn lương; gặp Xương Khúc thì thành "Sát phò Đế", phò người giỏi hơn mình lại giàu to. Tử Phủ ở Dần Thân gặp Tuần Triệt gọi là "Đế Hậu lạc cung" — vợ chồng mỗi người một nơi.</p>
+    <p><strong>Bệnh của trục:</strong> xương khớp, tai nạn xe cộ (vì Mã). <strong>Khai/Trấn:</strong> khai Nhân Môn (Dần) bằng trồng cây, nuôi vật ở góc Đông Bắc; khai Quỷ Môn (Thân) bằng đốt lửa, thắp đèn ở góc Tây Nam.</p>
+
+    <h3>Thìn – Tuất: Trục La Võng, trục Oan Nghiệt</h3>
+    <p><strong>Gốc Mộ Khố:</strong> Theo vòng Trường Sinh Ngũ Hành, Thìn là mộ của Thủy, Tuất là mộ của Hỏa — Thủy Hỏa xung nhau trong mộ, nên người Thìn Tuất cả đời tự mâu thuẫn với chính mình, sáng muốn thế này chiều muốn thế khác.</p>
+    <p><strong>Bí mật:</strong> Thìn Tuất là trục duy nhất mà Thiên La và Địa Võng nhìn thấy nhau — làm gì cũng như có camera soi, không giấu được.</p>
+    <p><strong>Khóa ngoài:</strong> Thiên Hình – Hóa Kỵ (không có thì lưới chưa thành lưới thật). <strong>Khóa trong:</strong> Phá Quân – Thất Sát (chỉ hai sao này cắt được La Võng — muốn thoát phải dám phá).</p>
+    <p>Cự Môn nhập La Võng là oan không kêu được, cả đời hay bị hiểu lầm, hàm oan — có Hóa Lộc, Song Hao mới thành "thạch trung ẩn ngọc". Tử Vi Thiên Tướng ở đây là vua bị nhốt trong lưới — ngay thẳng nhưng hay bị tiểu nhân gièm pha, bị kìm kẹp.</p>
+    <p><strong>Bệnh của trục:</strong> dạ dày, u bướu, tắc nghẽn (vì bị nhốt). <strong>Khai/Trấn:</strong> không trấn được, chỉ có cắt — đổi nhà, đổi nghề, đổi phong cách chừng 3 năm một lần thì lưới mới lỏng ra. Góc Thìn Tuất trong nhà tuyệt đối không để dao kéo, vật nhọn, nước bẩn.</p>
+
+    <h3>Sửu – Mùi: Trục Tài Khố, trục Nhân Quả</h3>
+    <p><strong>Gốc Mộ Khố:</strong> Theo vòng Trường Sinh Ngũ Hành, Sửu là kho Kim, Mùi là kho Mộc — Kim khắc Mộc, nên người Sửu Mùi cả đời giữ tiền của mình nhưng lại tiêu tiền cho người khác.</p>
+    <p><strong>Bí mật lớn nhất:</strong> Sửu Mùi là trục duy nhất Nhật Nguyệt cùng sáng hoặc cùng tối — ở Sửu thì cùng tối, ở Mùi thì Nguyệt sáng Nhật tối. Cha và mẹ, chồng và vợ, tiền và danh không bao giờ được cả hai cùng lúc.</p>
+    <p><strong>Khóa ngoài:</strong> Hỏa Tinh – Linh Tinh (kho phải có lửa mới mở; Vũ Tham không Hỏa Linh chỉ là thủ kho, có thì là ông chủ kho). <strong>Khóa trong:</strong> Tả Phù – Hữu Bật + Long Trì – Phượng Các (kho phải có người gác, không thì bị trộm).</p>
+    <p>Vũ Tham gặp Kình Đà thành "Tham Vũ thủ kho, 30 mới phát". Nhật Nguyệt Sửu Mùi là "tranh huy" — cha mẹ bất hòa, hoặc phải xa cha hoặc xa mẹ mới nên người.</p>
+    <p><strong>Bệnh của trục:</strong> sỏi thận, gan nhiễm mỡ, u mỡ (bệnh tích tụ). <strong>Khai/Trấn:</strong> muốn có phải cho đi trước — càng keo kiệt càng nghèo. Góc Sửu Mùi đặt két sắt, giữ sáng sủa; két đặt nhầm sang Tây Bắc (Địa Môn) thì tiền trôi hết.</p>
+
+    <div class="keyquote">
+      <span>Ghi nhớ cả đời</span>
+      Muốn xem Danh, nhìn Tý Ngọ. Muốn xem Tình, nhìn Mão Dậu. Muốn xem Động, nhìn Dần Thân. Muốn xem Nghiệp, nhìn Thìn Tuất. Muốn xem Tiền, nhìn Sửu Mùi. Muốn xem Căn, nhìn Tỵ Hợi.
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. ĐẶC THÙ TỴ HỢI ============ -->
+<section>
+  <div class="wrap reveal">
+    <div class="eyebrow">Phần bảy</div>
+    <h2>Vì sao Tỵ Hợi được gọi là "đường hầm"</h2>
+    <p class="lead">Năm trục kia là đường thẳng, đi từ điểm A đến điểm B. Riêng Tỵ Hợi vận hành khác — nó là nơi hai vòng sao lớn nhất của lá số chạy ngược chiều nhau, và là cửa duy nhất mà vua của 12 cung cũng không quản nổi.</p>
+
+    <h3>Nơi Thái Tuế bất lực</h3>
+    <p>Theo lịch pháp Lục Giáp Tuần Không (10 Can phối 12 Chi dư ra 2 Chi mỗi tuần): tuần Giáp Tý dư ra Tuất–Hợi, tuần Giáp Ngọ dư ra Thìn–Tỵ. Nghĩa là <strong>Hợi là Không Vong của tuần Giáp Tý (cùng với Tuất)</strong>, còn <strong>Tỵ là Không Vong của tuần Giáp Ngọ (cùng với Thìn)</strong> — mỗi cung thực ra "kết đôi" không vong với một cung Tứ Mộ liền kề, chứ không phải Tỵ và Hợi cùng không vong với nhau trong một tuần. Cách nói "Tỵ Hợi cùng thoát khỏi Thái Tuế" ở trên là một diễn giải mang tính biểu tượng của dân gian — ghép việc cả hai cung đều từng là Không Vong (ở hai tuần khác nhau) thành một đặc điểm chung của trục — chứ không phải hệ quả trực tiếp của phép tính Lục Giáp. Đọc phần này như một tầng ẩn dụ, không phải một quy tắc lịch pháp chặt chẽ.</p>
+    <p>Điều còn giữ nguyên giá trị luận đoán: người Mệnh Tỵ Hợi vẫn được nhiều phái xem là sợ nhất Thiên Hình hơn là sợ Không Vong thông thường — thanh gươm canh cổng trời, làm sai bị chém ngay, làm đúng thì được nó bảo vệ; người Tỵ Hợi vì thế nên giữ giới.</p>
+
+    <h3>Trục của bào thai</h3>
+    <p>Trong Tử Vi Thai Nguyên, cung Mệnh là nơi sinh ra, nhưng cung bào thai lại luôn nằm ở trục Tỵ Hợi. Người sinh tháng hoặc giờ Tỵ, Hợi là người "đứng ở cửa" — kiếp trước chưa đi hết, kiếp này quay lại làm nốt, <em>theo cách diễn giải của phái xem Tử Vi gắn với luân hồi</em>. Mệnh Tỵ Hợi có Hoa Cái, Long Phượng, Thai Tọa, Tứ Đức thường được xem là người có căn tu, căn đồng — không tu thì khổ, càng chống lại càng khổ. Gặp Kình Đà Linh Hỏa hội Không Kiếp, dân gian gọi là cách "phạm Thiên La, phá Địa Môn" và gán cho câu chuyện tiền kiếp làm thầy pháp — đây thuần túy là một lối kể mang tính tín ngưỡng, không phải một nguyên lý có thể kiểm chứng, nên đọc như một ẩn dụ chứ không phải khẳng định.</p>
+
+    <h3>Nơi hai vòng sao đánh nhau</h3>
+    <p>Vòng Lộc Tồn đi thuận, vòng Tràng Sinh đi nghịch — hai vòng gặp nhau đúng tại Tỵ Hợi. Người Mệnh ở đây cả đời giằng xé giữa hai câu hỏi: <strong>sống để làm gì</strong> (Tràng Sinh) và <strong>làm để có gì</strong> (Lộc Tồn). Người thường chỉ chọn được một; người đắc cách hợp nhất cả hai — gọi là "Tỵ Hợi dĩ hợp vi quý". Có Tuần hoặc Triệt đóng tại đây mới cắt được xung đột này — phần lớn lá số vĩ nhân, kỳ nhân có Mệnh Tỵ Hợi đều có Tuần Triệt tại đó.</p>
+  </div>
+</section>
+
+<!-- ============ 5. KHAI MÔN ============ -->
+<section>
+  <div class="wrap reveal">
+    <div class="eyebrow">Phần tám</div>
+    <h2>Khi nào cần Trấn, khi nào cần Khai</h2>
+    <p class="lead">Phần dưới đây thuộc tín ngưỡng dân gian và phong thủy cổ — kể như một câu chuyện văn hóa để hiểu cơ chế người xưa, hoàn toàn không phải cơ sở khoa học hay giáo lý chính thống của Tử Vi Đẩu Số, và không nhằm khuyến khích mê tín dị đoan. Không phải ai Mệnh Tỵ Hợi cũng cần trấn; phải phân biệt cổng đóng hay cổng mở quá to.</p>
+
+    <h3>Cần Khai khi cổng bị đóng</h3>
+    <p>Dấu hiệu: Hóa Kỵ, Tuần, Triệt, Thiên Hình án ngữ ở Tỵ Hợi, lại thiếu Tả Hữu, Lộc, Khoa xung/hợp. Biểu hiện: có tài không ai biết, có tiền không giữ được, hay bị bóng đè, ác mộng, đi đâu cũng bị cản.</p>
+
+    <h3>Cần Trấn — Bế khi cổng mở quá to</h3>
+    <p>Dấu hiệu: Không Kiếp, Hỏa Linh, Kình Đà, Song Hao hội về mà không có Tuần Triệt kìm lại. Biểu hiện: đầu óc trên mây, tiền vào ra như nước qua cổng, không ở yên một chỗ quá hai năm, người nhà hay ốm vặt không rõ nguyên nhân. Người xưa nói: <em>"Môn to không trấn, tán gia bại sản. Môn đóng không khai, cô độc một đời."</em></p>
+
+    <h3>Cách trấn theo Hậu Thiên Bát Quái</h3>
+    <p><strong>Trấn Thiên Môn (Đông Nam):</strong> Tốn là gió, tính động — không dùng tường chặn (chặn là gãy), mà dùng vật nặng, tĩnh, có gốc: chậu cây thân to rễ chắc (tùng, trúc) hoặc một tảng đá tự nhiên, luôn giữ nơi đó sáng sủa. Tối tăm ở Thiên Môn là đại kỵ.</p>
+    <p><strong>Trấn Địa Môn (Tây Bắc):</strong> kỵ nhất đặt nhà vệ sinh, bể phốt, bếp ở góc này — gọi là "hỏa thiêu Thiên Môn, thủy dìm Địa Môn". Cách hóa giải: giữ khô, ấm, cao; dùng vật thuộc Hỏa, Thổ để trung hòa như đèn vàng bật thường xuyên, tông màu vàng, đỏ đất.</p>
+
+    <h3>Bùa và trấn pháp</h3>
+    <p style="font-size:13px; color:var(--ink-dim); font-style:italic;">Mục này thuật lại như tư liệu dân gian — một tập tục có thật trong một số môn phái, không phải khuyến nghị hay xác nhận hiệu quả. Đọc để hiểu văn hóa, không phải để làm theo.</p>
+    <p>Trong một số môn phái, lá số Tỵ Hợi bị gọi là "Phạm Môn" (Không Kiếp, Thiên Hình, Kỵ cùng đóng) được truyền lại là nên dùng lá phù "An Môn Phù" — thực chất là tờ giấy viết bốn chữ Tả Phù – Hữu Bật – Ân Quang – Thiên Quý, chính là bốn chìa khóa của Nhân Môn và Thiên Môn theo cách gọi tên ở trên, dán ở hai cung Tỵ Hợi trên lá số hoặc đặt dưới gối, với ý mượn quý nhân, mượn ánh sáng để gác cổng. Một tập tục khác là dùng đá khắc chữ "Thái Sơn Thạch Cảm Đương" đặt ở góc đất, mượn khí núi để trấn.</p>
+    <p>Cả hai đều dựa trên cùng một nguyên lý biểu tượng: lấy cái Tĩnh để chế cái Động của Tỵ Hợi. Cách "trấn cổng" chắc chắn và không cần vật phẩm nào là cố tình tạo sự tĩnh trong đời sống: ở một chỗ lâu hơn, làm một nghề lâu hơn, yêu một người lâu hơn.</p>
+  </div>
+</section>
+
+<!-- ============ KHAI MÔN ============ -->
+<section>
+  <div class="wrap reveal">
+    <div class="eyebrow">Phần chín</div>
+    <h2>Khai môn: ba tầng, từ thân đến tâm</h2>
+    <p class="lead">Trấn thì chỉ cần đè xuống. Khai thì phải mời lên. Người xưa chia việc khai môn làm ba tầng, làm được tầng nào thì cổng mở đến đó.</p>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">I</span><span class="tier-title">Khai bằng Thân</span></div>
+      <div class="tier-body">
+        <h5>Thiên Môn — Tỵ</h5>
+        <p>Bái sư: tìm một người thầy giỏi trong lĩnh vực mình theo đuổi — Tỵ là Tốn, Tốn là người đi trước. Xuất khẩu: phải nói ra, viết ra, giảng ra — nghề dùng miệng và chữ. Sống khép kín là tự đóng cổng mình.</p>
+        <h5>Địa Môn — Hợi</h5>
+        <p>Tích phúc trước khi cầu tài: sửa mộ gia tiên, giúp người khó khăn, làm việc thiện. Trầm xuống: chạm tay vào đất — trồng cây, làm vườn, ở yên một chỗ đủ lâu để khí tụ lại.</p>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">II</span><span class="tier-title">Khai bằng Nhà</span></div>
+      <div class="tier-body">
+        <p>Góc Đông Nam (Tỵ) trong nhà: giữ sáng sủa, sạch sẽ, có ánh đèn vàng và nơi để đọc/học — "đăng hỏa chiếu Thiên Môn". Góc Tây Bắc (Hợi): giữ khô, ấm, cao; kỵ đặt nhà vệ sinh hay bếp ở đó; có thể đặt vật tích lũy như két sắt, hũ gạo để "báo cho đất biết chỗ này có chủ".</p>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">III</span><span class="tier-title">Khai bằng Tâm</span></div>
+      <div class="tier-body">
+        <p>Tầng cao nhất, không cần thầy, không cần vật phẩm. Tỵ Hợi là cổng luân hồi — muốn qua cổng phải trả xong một món nợ: một lời xin lỗi còn nợ, một sự chăm sóc còn thiếu, một con đường tu học cứ lần lữa mãi chưa bắt đầu. Làm xong việc đó, cổng tự mở.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footnote">
+  <p>Ghi chú này tổng hợp phần lý luận về Trục và Tứ Môn — dùng làm nền cho việc đọc sâu một lá số cụ thể, đối chiếu cùng phần Cục và Nạp Âm.</p>
+</div>
+
+<script>
+  (function(){
+    const btn = document.getElementById('musicBtn');
+    const audio = document.getElementById('bgm');
+    let playing = false;
+    btn.addEventListener('click', function(){
+      if(!playing){
+        audio.play().then(function(){
+          playing = true;
+          btn.classList.add('playing');
+          btn.textContent = '♫';
+        }).catch(function(){ /* trình duyệt chặn autoplay, bỏ qua im lặng */ });
+      } else {
+        audio.pause();
+        playing = false;
+        btn.classList.remove('playing');
+        btn.textContent = '♪';
+      }
+    });
+  })();
+
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.12});
+  els.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
