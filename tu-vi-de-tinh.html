@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tử Vi Đế Tinh — Đế Vương Học &amp; Phi Hóa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Noto+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0908;
+    --bg-panel:#121011;
+    --bg-raised:#181514;
+    --gold:#c9a227;
+    --gold-bright:#e8c468;
+    --seal:#8c1f28;
+    --seal-bright:#b23a3a;
+    --text:#e9e0c9;
+    --text-muted:#9a8f72;
+    --hairline:rgba(201,162,39,0.22);
+    --shadow:rgba(0,0,0,0.5);
+    --paper-noise: none;
+  }
+  html[data-theme="light"]{
+    --bg:#f1e7c9;
+    --bg-panel:#e9dcb5;
+    --bg-raised:#efe3c1;
+    --gold:#8a6a1c;
+    --gold-bright:#a4801f;
+    --seal:#7a1620;
+    --seal-bright:#8c1f28;
+    --text:#2a2013;
+    --text-muted:#6b5a3e;
+    --hairline:rgba(122,22,32,0.18);
+    --shadow:rgba(90,70,30,0.18);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 120% 60% at 50% -10%, rgba(201,162,39,0.08), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Noto Serif', serif;
+    line-height:1.85;
+    font-size:18px;
+    transition:background .4s ease, color .4s ease;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--gold); color:#1a1408; }
+
+  /* ---------- Texture overlay ---------- */
+  .texture{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    opacity:0.5;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px);
+  }
+  html[data-theme="light"] .texture{ opacity:0.35; }
+
+  /* ---------- Reading progress ---------- */
+  .progress-track{
+    position:fixed; top:0; left:0; right:0; height:3px;
+    background:var(--hairline);
+    z-index:60;
+  }
+  .progress-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--seal), var(--gold), var(--gold-bright));
+    transition:width .08s linear;
+  }
+
+  /* ---------- Sticky TOC bar ---------- */
+  .toc-bar{
+    position:sticky; top:3px; z-index:55;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .toc-inner{
+    max-width:900px; margin:0 auto;
+    display:flex; align-items:center; gap:14px;
+    padding:9px 14px;
+  }
+  .toc-mark{
+    flex-shrink:0; width:22px; height:22px;
+    color:var(--gold);
+    opacity:.9;
+  }
+  .toc-mark svg{ width:100%; height:100%; }
+  .toc-links{
+    display:flex; gap:6px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    flex:1;
+  }
+  .toc-links::-webkit-scrollbar{ display:none; }
+  .toc-link{
+    flex-shrink:0;
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:.82rem;
+    letter-spacing:.03em;
+    color:var(--text-muted);
+    background:transparent;
+    border:1px solid var(--hairline);
+    border-radius:20px;
+    padding:6px 13px;
+    cursor:pointer;
+    transition:all .25s ease;
+    white-space:nowrap;
+  }
+  .toc-link:hover{ color:var(--gold-bright); border-color:var(--gold); }
+  .toc-link.active{
+    color:#1a1408;
+    background:linear-gradient(135deg, var(--gold-bright), var(--gold));
+    border-color:var(--gold);
+  }
+  html[data-theme="light"] .toc-link.active{ color:#fbf3dc; }
+
+  .ctrl-btn{
+    flex-shrink:0;
+    width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--hairline);
+    background:var(--bg-panel);
+    color:var(--gold-bright);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .ctrl-btn:hover{ transform:translateY(-2px); border-color:var(--gold); }
+  .ctrl-btn svg{ width:17px; height:17px; }
+
+  /* ---------- Music button ---------- */
+  .music-btn{
+    position:fixed; bottom:24px; right:24px; z-index:50;
+    width:58px; height:58px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--bg-raised), var(--bg-panel));
+    border:1.5px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    box-shadow:0 8px 26px var(--shadow);
+    color:var(--gold-bright);
+  }
+  .music-btn::before{
+    content:"";
+    position:absolute; inset:-8px; border-radius:50%;
+    border:1px solid var(--gold);
+    opacity:0;
+  }
+  .music-btn.playing::before{
+    animation:pulse-ring 2.4s ease-out infinite;
+  }
+  @keyframes pulse-ring{
+    0%{ opacity:.55; transform:scale(.85); }
+    100%{ opacity:0; transform:scale(1.5); }
+  }
+  .music-btn svg{ width:21px; height:21px; }
+  .music-btn .icon-pause{ display:none; }
+  .music-btn.playing .icon-play{ display:none; }
+  .music-btn.playing .icon-pause{ display:block; }
+
+  /* ---------- Seal / signature mark ---------- */
+  .seal{
+    width:64px; height:64px; margin:0 auto 28px;
+    display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--seal);
+    border-radius:6px;
+    color:var(--seal-bright);
+    transform:rotate(-2deg);
+    box-shadow: inset 0 0 0 3px transparent;
+  }
+  .seal svg{ width:38px; height:38px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative; z-index:1;
+    max-width:760px; margin:0 auto;
+    padding:76px 28px 70px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'Noto Serif', serif;
+    font-weight:500;
+    letter-spacing:.32em;
+    font-size:12px;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:26px;
+  }
+  h1.title{
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    font-size:clamp(2.4rem, 6vw, 4.1rem);
+    line-height:1.08;
+    margin:0 0 18px;
+    letter-spacing:-0.01em;
+    background:linear-gradient(180deg, var(--gold-bright), var(--gold) 60%, var(--text-muted));
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .subtitle{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.25rem;
+    color:var(--text-muted);
+    margin-bottom:46px;
+  }
+
+  .epigraph{
+    position:relative;
+    max-width:640px; margin:0 auto;
+    padding:30px 34px 26px;
+    background:var(--bg-panel);
+    border:1px solid var(--hairline);
+    border-radius:2px;
+    text-align:left;
+  }
+  .epigraph::before, .epigraph::after{
+    content:"";
+    position:absolute; width:16px; height:16px;
+    border:1.5px solid var(--gold);
+  }
+  .epigraph::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .epigraph::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+  .epigraph .han{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:600;
+    color:var(--gold-bright);
+    font-size:1.06rem;
+    margin:0 0 10px;
+    line-height:1.6;
+  }
+  .epigraph .viet{
+    font-size:.98rem;
+    color:var(--text-muted);
+    margin:0 0 18px;
+  }
+  .epigraph .commentary{
+    font-size:.95rem;
+    color:var(--text);
+    border-top:1px solid var(--hairline);
+    padding-top:16px;
+    margin:0;
+  }
+  .epigraph .commentary .name{
+    color:var(--gold);
+    font-style:normal;
+  }
+
+  /* ---------- Main column ---------- */
+  main{
+    position:relative; z-index:1;
+    max-width:700px; margin:0 auto;
+    padding:0 28px 140px;
+  }
+
+  .phan{
+    padding:64px 0;
+    border-top:1px solid var(--hairline);
+    scroll-margin-top:64px;
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .phan.in-view{ opacity:1; transform:translateY(0); }
+  .phan:first-of-type{ border-top:none; }
+
+  .phan-head{
+    display:flex; align-items:baseline; gap:18px;
+    margin-bottom:30px;
+  }
+  .phan-num{
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    font-size:2.3rem;
+    color:var(--gold);
+    flex-shrink:0;
+    line-height:1;
+    transition:color .5s ease, text-shadow .5s ease;
+  }
+  .phan.in-view .phan-num{
+    color:var(--gold-bright);
+    text-shadow:0 0 22px color-mix(in srgb, var(--gold) 55%, transparent);
+  }
+  h2.phan-title{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.45rem;
+    line-height:1.35;
+    margin:0;
+    color:var(--text);
+  }
+  h2.phan-title .sub{
+    display:block;
+    font-family:'Noto Serif', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:.98rem;
+    color:var(--text-muted);
+    margin-top:6px;
+  }
+
+  .phan p{ margin:0 0 20px; color:var(--text); }
+  .phan p:last-child{ margin-bottom:0; }
+
+  strong{
+    color:var(--gold-bright);
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+
+  h3.muc{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:1.08rem;
+    color:var(--gold-bright);
+    margin:32px 0 14px;
+  }
+
+  ul.decree, ol.decree{
+    list-style:none; margin:0 0 22px; padding:0;
+  }
+  ul.decree li, ol.decree li{
+    position:relative;
+    padding:2px 0 16px 28px;
+    color:var(--text);
+  }
+  ul.decree li::before{
+    content:"";
+    position:absolute; left:2px; top:11px;
+    width:7px; height:7px;
+    background:var(--seal);
+    transform:rotate(45deg);
+  }
+  ol.decree{ counter-reset:cach; }
+  ol.decree li{ padding-left:38px; }
+  ol.decree li::before{
+    counter-increment:cach;
+    content: counter(cach);
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:.78rem;
+    left:0; top:2px;
+    width:22px; height:22px;
+    background:none;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    transform:none;
+  }
+
+  .callout{
+    position:relative;
+    margin:26px 0;
+    padding:22px 26px;
+    background:
+      radial-gradient(circle at 12% 22%, color-mix(in srgb, var(--gold) 7%, transparent), transparent 45%),
+      radial-gradient(circle at 88% 78%, color-mix(in srgb, var(--seal) 9%, transparent), transparent 50%),
+      var(--bg-panel);
+    border-left:2px solid var(--seal);
+    font-style:italic;
+    color:var(--text-muted);
+    font-size:.98rem;
+    overflow:hidden;
+  }
+  .callout::after{
+    content:"";
+    position:absolute; top:-20px; right:-20px;
+    width:70px; height:70px;
+    border:1px solid color-mix(in srgb, var(--seal) 40%, transparent);
+    border-radius:50%;
+    opacity:.35;
+  }
+
+  .divider{
+    display:flex; align-items:center; justify-content:center; gap:14px;
+    margin:64px 0 0;
+    color:var(--gold);
+  }
+  .divider svg{ width:22px; height:22px; opacity:.8; }
+  .divider .line{ flex:1; max-width:120px; height:1px; background:var(--hairline); }
+
+  footer{
+    position:relative; z-index:1;
+    max-width:700px; margin:0 auto; padding:0 28px 100px;
+    text-align:center;
+  }
+  footer .final-line{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.35rem;
+    color:var(--gold-bright);
+    line-height:1.6;
+    margin-bottom:36px;
+  }
+  footer .colophon{
+    font-size:.82rem;
+    color:var(--text-muted);
+    line-height:1.9;
+  }
+  footer .colophon .brand{
+    font-family:'Cinzel', serif;
+    letter-spacing:.22em;
+    color:var(--gold);
+    font-size:.72rem;
+    text-transform:uppercase;
+    margin-bottom:10px;
+    display:block;
+  }
+
+  audio{ display:none; }
+
+  @media (max-width:600px){
+    body{ font-size:16.5px; }
+    .hero{ padding:90px 20px 50px; }
+    .phan{ padding:46px 0; }
+    .phan-head{ gap:12px; }
+    .phan-num{ font-size:1.7rem; }
+    h2.phan-title{ font-size:1.2rem; }
+    .music-btn{ width:52px; height:52px; bottom:18px; right:18px; }
+    .ctrl-btn{ width:34px; height:34px; }
+    .toc-link{ padding:5px 10px; font-size:.76rem; }
+    .hero{ padding:64px 20px 50px; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .music-btn.playing::before{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="texture"></div>
+
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<nav class="toc-bar" id="tocBar" aria-label="Mục lục">
+  <div class="toc-inner">
+    <span class="toc-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M12 6v12M6 12h12" stroke-width="1"/></svg>
+    </span>
+    <div class="toc-links" id="tocLinks">
+      <button class="toc-link" data-target="phan-1" title="Tử Vi Một Mình Không Bao Giờ Là Vua">I</button>
+      <button class="toc-link" data-target="phan-2" title="Tử Vi Tại 12 Cung">II</button>
+      <button class="toc-link" data-target="phan-3" title="Tử Vi &amp; Tứ Hóa Phi Tinh">III</button>
+      <button class="toc-link" data-target="phan-4" title="7 Đại Cách Cục Tử Vi">IV</button>
+      <button class="toc-link" data-target="phan-5" title="Tử Vi &amp; Vòng Trường Sinh">V</button>
+      <button class="toc-link" data-target="phan-6" title="Luận Về Nữ Mệnh Tử Vi">VI</button>
+      <button class="toc-link" data-target="phan-7" title="Bí Quyết Cuối Cùng">VII</button>
+    </div>
+    <button class="ctrl-btn" id="themeToggle" aria-label="Đổi giao diện sáng / tối">
+      <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="display:none"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+    </button>
+  </div>
+</nav>
+
+<button class="music-btn" id="musicBtn" aria-label="Bật / tắt nhạc nền">
+  <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+  <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4.5" height="14"/><rect x="13.5" y="5" width="4.5" height="14"/></svg>
+</button>
+<audio id="bgMusic" src="music2.mp3" loop preload="none"></audio>
+
+<div class="hero">
+  <div class="seal">
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8">
+      <rect x="4" y="4" width="40" height="40" rx="2"/>
+      <path d="M24 10v28M10 24h28M14 14l20 20M34 14l-20 20" stroke-width="1"/>
+      <circle cx="24" cy="24" r="6" stroke-width="1.4"/>
+    </svg>
+  </div>
+  <div class="eyebrow">Đế Vương Học · Tầng Cao Cấp</div>
+  <h1 class="title">Tử Vi Đế Tinh</h1>
+  <p class="subtitle">Đế Vương Học &amp; Phi Hóa — dành cho người đã thấy mình là Vua Cô Độc</p>
+
+  <div class="epigraph">
+    <p class="han">"Phàm an Đế, tiên khán quần thần, thứ khán phúc, chung khán vận. Đế bất tự đế, thần tự vi đế."</p>
+    <p class="viet">Phàm an sao Vua, trước xem quần thần, sau xem phúc đức, cuối cùng xem vận. Vua không tự làm Vua được, quần thần mới làm nên Vua.</p>
+    <p class="commentary">Trần Hi Di, trong <em>"Chư Tinh Vấn Đáp"</em>, cũng từng luận về Tử Vi theo đúng tinh thần ấy: là ngôi sao có thể giáng phúc, hóa giải hung sát của các sao khác, chế được Hỏa Tinh, biến Thất Sát thành quyền — nhưng nếu thiếu Tả Hữu Xương Khúc phò trợ, thì dù gặp Tứ Sát cũng chỉ dừng ở mức trung bình, không đến mức hèn kém. Tức Tử Vi có nội lực riêng, nhưng nội lực ấy chỉ nở trọn khi có quần thần vây quanh.</p>
+  </div>
+</div>
+
+<main>
+
+  <section class="phan" id="phan-1">
+    <div class="phan-head">
+      <span class="phan-num">I</span>
+      <h2 class="phan-title">Tử Vi Một Mình Không Bao Giờ Là Vua<span class="sub">Học thuyết Quần Thần</span></h2>
+    </div>
+    <p>Đây là sai lầm chí tử của người mới: cứ thấy Tử Vi miếu là khen quý.</p>
+    <p>Bậc thầy Trung Châu nói: <strong>Tử Vi vô Tả Hữu như cô quân</strong>. Không phải câu văn hoa, mà là định luật.</p>
+
+    <h3 class="muc">1. Bộ khung Bách Quan thực sự là gì?</h3>
+    <p>Không phải cứ nhiều cát tinh là tốt. Phải đủ bộ:</p>
+    <ul class="decree">
+      <li><strong>Văn Võ:</strong> Tả Phù, Hữu Bật là thừa tướng văn võ. Thiếu một là què.</li>
+      <li><strong>Kho Khố:</strong> Thiên Phủ, Lộc Tồn, Vũ Khúc. Vua mà không có kho thì chỉ là Vua danh nghĩa.</li>
+      <li><strong>Ngai Vàng:</strong> Thiên Khôi, Thiên Việt, Long Trì, Phượng Các, Tam Thai, Bát Tọa. Là ghế, là bục, là nghi trượng. Không có, Vua phải ngồi đất.</li>
+      <li><strong>Ấn Kiếm:</strong> Hóa Quyền, Hóa Khoa. Là con dấu.</li>
+    </ul>
+    <p>Một lá số Tử Vi tại Ngọ, gặp đủ Tả Hữu Khôi Việt Quyền Lộc, dù gặp một Sát Tinh cũng không sợ. Gọi là <strong>Chân Đế</strong>.<br>
+    Một lá số Tử Vi tại Ngọ, trơ trọi một mình, gặp Địa Không, Địa Kiếp. Gọi là <strong>Hư Đế, Cô Đế</strong>. Người ngoài nhìn sang, tự mình biết khổ.</p>
+
+    <h3 class="muc">2. Tử Vi tối kỵ gì nhất theo tầng cao cấp?</h3>
+    <p>Không phải Kình Đà. Kình Đà Vua còn chém được. Vua sợ nhất 3 thứ theo thứ tự:</p>
+    <ol class="decree">
+      <li><strong>Sợ nhất — Không Vong (Tuần, Triệt, Thiên Không).</strong> Là Vua bị giam, bị vô hình hóa. Có tài không ai biết, có quyền không ai nghe. Đặc biệt Tử Vi gặp Triệt — cả đời phải làm lại từ đầu ít nhất một lần.</li>
+      <li><strong>Sợ nhì — Cô Quả, Cô Thần, Quả Tú.</strong> Vua cô độc. Gia đình không hiểu, vợ chồng không chia sẻ được. Thành công bên ngoài, trống rỗng bên trong.</li>
+      <li><strong>Sợ ba — Kỵ xung phá.</strong> Tức là Liêm Trinh Hóa Kỵ hoặc Vũ Khúc Hóa Kỵ xung thẳng vào cung có Tử Vi. Chủ về kiện tụng, bị lật đổ, bị phản bội bởi người thân tín nhất.</li>
+    </ol>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l2.2 6.8H21l-5.6 4.1 2.2 6.8L12 16.6l-5.6 4.1 2.2-6.8L3 9.8h6.8z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-2">
+    <div class="phan-head">
+      <span class="phan-num">II</span>
+      <h2 class="phan-title">Tử Vi Tại 12 Cung<span class="sub">Giải mã theo Phi Cung Bắc Phái</span></h2>
+    </div>
+    <p>Đây là tầng mà Nam Phái không có.</p>
+
+    <h3 class="muc">Tử Vi tại Tý (Cực hướng)</h3>
+    <p>Đừng lấy ngũ hành thông thường ra luận vượng suy cho Đế Tinh. Tử Vi là Âm Thổ, hóa khí vi Tôn Quý, chủ Đế Tọa — không phải Thổ bình thường, mà là Thổ trung cung, Thổ của trục. Theo đúng vòng ngũ hành tương khắc chuẩn (Mộc khắc Thổ, Thổ khắc Thủy, Thủy khắc Hỏa, Hỏa khắc Kim, Kim khắc Mộc), chính Thổ mới là bên khắc Thủy — tức sao khắc cung, Vua đi trị nước chứ không phải bị nước làm hao. Tượng là Đại Vũ trị thủy: có việc để làm, nên không thể gọi là suy, chỉ là vất vả và phải làm trong âm thầm.</p>
+    <p>Về thiên văn, Tử Vi vốn là sao Bắc Đẩu — sao của phương Bắc, mà Tý chính là chính Bắc, là gốc nhà của nó. Ngọ là chính Nam, nơi có Ngọ Môn — cổng chính hoàng cung, nơi Vua ngồi nhìn ra ngoài cho muôn dân thấy. Nên Tử Vi tại Ngọ là Cực Minh: Đế lộ mặt, ngồi chỗ sáng nhất, mọi hành vi đều bị soi, sinh ra đã gánh áp lực phải hoàn hảo. Còn Tử Vi tại Tý là Cực Hướng: cùng trục Tý – Ngọ, nhưng ở Tý thì Đế quay lưng về Nam, mặt hướng vào Bắc — không cần dân thấy, đang nhìn vào nội cung để tính kế. Trong Chu Dịch, Tý là quẻ Phục, nhất dương sinh trong lòng thuần âm, vạn vật quy tàng. Đế ở đây không suy, mà tàng quang dưỡng hối — giấu ánh sáng để nuôi chí lớn, giống người lãnh đạo giỏi không đứng trên sân khấu mà ngồi phòng họp kín vẽ bản đồ. Vì vậy cổ nhân xem Tử Vi tại Tý hợp làm cố vấn, quân sư, chiến lược gia, người đứng sau. Họ không cần hào quang, họ cần kết quả.</p>
+    <p>Ẩn chỉ biến thành Suy thật khi gặp Không Vong. Tử Vi tại Tý + Tả Hữu + Khôi Việt + Khoa Quyền gọi là <strong>Ẩn Đế</strong> — Vua vi hành, ra ngoài không ai biết là Vua nhưng về phủ thì quân lệnh như sơn; đây là cách của những CEO đứng sau, cầm nhiều công ty mà không bao giờ lên báo. Nhưng Tử Vi tại Tý + Tuần Triệt + Địa Không + Địa Kiếp + Cô Thần thì Ẩn mới biến thành Suy thật — Vua ẩn đã đành, lại còn bị nhốt, bị vô hình hóa hoàn toàn, có tài không ai biết, có quyền không ai nghe. Đây mới đúng là <strong>"Đế Ngộ Không Vong — hữu danh vô thực"</strong>.</p>
+    <p class="callout">Người Tử Vi tại Tý thường rất kín tiếng, ít nói về tham vọng của mình, nhưng trong đầu luôn có một bàn cờ lớn hơn người khác nhiều nước. Họ khổ vì không ai hiểu được bàn cờ đó, chứ không phải khổ vì yếu.</p>
+
+    <h3 class="muc">Tử Vi tại Ngọ (Cực minh)</h3>
+    <p>Đế lộ. Người sinh ra đã phải ở chỗ sáng nhất. Không cho phép mình tầm thường. Áp lực lớn nhất. Nếu Mệnh có Tử Vi Ngọ mà cung Nô bộc xấu, cả đời sẽ khổ vì câu: "Không ai làm được việc như tôi".</p>
+
+    <h3 class="muc">Tử Vi tại Thìn – Tuất (Thiên La Địa Võng)</h3>
+    <p>Đây là vị trí biến động nhất. Thìn Tuất là Mộ Khố. Tử Vi ở đây như Vua trong kho. Một là cực giàu vì nắm kho, hai là cực khổ vì bị nhốt trong kho. Người Tử Vi Thìn Tuất bắt buộc phải làm ngành: bất động sản, tài chính, luật, kho vận, công nghệ lưu trữ dữ liệu. Càng trói buộc càng giàu.</p>
+
+    <h3 class="muc">Tử Vi tại Sửu Mùi (Tử Phá)</h3>
+    <p>Đây là Đế ngộ hao. Bản chất của Phá Quân là phá cũ lập mới. Nên người này trong đời phải ít nhất 2 lần bỏ hết đi làm lại. Ly hương, đổi nghề, ly hôn rồi tái hợp, phá sản rồi làm lại. Nếu hiểu được, đây lại là cách của doanh nhân, vì họ dám phá.</p>
+
+    <h3 class="muc">Tử Vi tại Tỵ Hợi (Tử Sát)</h3>
+    <p>Vua cầm gươm. Tỵ Hợi là đất của Thiên Mã, của dịch chuyển. Người này không thể ngồi yên một chỗ. Phải đi, phải chỉ huy, phải áp lực. Hợp nhất với quân đội, công an, quản lý dự án, startup.</p>
+
+    <h3 class="muc">Tử Vi tại Mão Dậu (Tử Tham)</h3>
+    <p>Vua gặp tham vọng. Mão Dậu là đất đào hoa. Tử Vi ở đây rất đẹp trai, xinh gái, khéo léo, đa tài nhưng tham. Tham ở đây là tham muốn ôm đồm. Nếu có Hỏa Tinh, Linh Tinh đi cùng, Tham Lang sẽ biến thành tài năng kỹ thuật, nghệ thuật đỉnh cao. Nếu có Không Kiếp, sẽ thành "tài hoa bạc mệnh".</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l2.2 6.8H21l-5.6 4.1 2.2 6.8L12 16.6l-5.6 4.1 2.2-6.8L3 9.8h6.8z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-3">
+    <div class="phan-head">
+      <span class="phan-num">III</span>
+      <h2 class="phan-title">Tử Vi &amp; Tứ Hóa Phi Tinh<span class="sub">Linh hồn của Đế Nghiệp</span></h2>
+    </div>
+    <p>Người mới học thường nghe truyền miệng rằng Tử Vi không tự Hóa, chỉ ngồi yên nhận Hóa từ sao khác bay vào. Đây là một nửa sự thật. Đúng là Tử Vi phần lớn đóng vai trò tiếp Hóa, nhưng theo đúng bảng Thập Can Tứ Hóa gốc (Trung Châu — Vương Đình Chi), Tử Vi vẫn có 2 lần tự mình hóa:</p>
+    <ul class="decree">
+      <li><strong>Can Ất:</strong> Tử Vi Hóa Khoa. Vua được phong danh — không phải phong quyền, phong tiền, mà là phong tiếng. Người sinh năm Ất mà Tử Vi thủ Mệnh, đi đâu cũng được nể, được tin, dễ có quý nhân, dễ thành danh trong học thuật, nghệ thuật, truyền thông. Nhưng Khoa không phải Lộc, có danh chưa chắc có tiền, có tiếng chưa chắc có thực quyền.</li>
+      <li><strong>Can Nhâm:</strong> Tử Vi Hóa Quyền. Vua nắm thực quyền trong tay. Đây là cách mạnh nhất trong 2 cách tự Hóa của Tử Vi — quyết đoán, có sức chi phối người khác, hợp làm lãnh đạo, chủ doanh nghiệp. Nhược điểm: dễ độc đoán, càng có quyền càng khó nghe lời can gián, nếu không có Tả Hữu kiềm lại rất dễ thành chuyên quyền.</li>
+    </ul>
+    <p>Ngoài 2 trường hợp tự Hóa này, ở các can năm sinh khác, Tử Vi đúng là chỉ đóng vai trò tiếp nhận Hóa từ các sao khác bay đến — đây mới là phần lý luận về "Vua nhận Hóa" mà tầng cao cấp cần nắm:</p>
+
+    <h3 class="muc">1. Vũ Khúc Hóa Lộc / Hóa Quyền bay vào Tử Vi</h3>
+    <p>Đây là cách đẹp nhất. Vũ Khúc là tiền của Vua. Khi Vũ Khúc Hóa Lộc phi vào cung Tử Vi, gọi là <strong>Kho tiền chảy về cung điện</strong>. Đại phú. Trong 10 năm đó, tiền tự tìm đến.</p>
+
+    <h3 class="muc">2. Liêm Trinh Hóa Kỵ bay vào Tử Vi</h3>
+    <p>Đây là cách nguy hiểm nhất. Liêm Trinh là tù tinh, là quy củ. Khi Hóa Kỵ, nó là pháp luật, là xiềng xích. Bay vào Tử Vi, gọi là <strong>Đế vi tù</strong>. Rất dễ dính kiện tụng, điều tra, bị chính quy định do mình đặt ra trói lại.</p>
+
+    <h3 class="muc">3. Tử Vi phi Kỵ ra ngoài</h3>
+    <p>Tử Vi ở cung nào, cung đó tự hóa Kỵ xung ra, thì cung đó chính là nơi Vua phải gánh nợ. Ví dụ Tử Vi ở Tài phi Kỵ về Điền: cả đời đi kiếm tiền để trả nợ nhà đất, hoặc vì nhà đất mà hao tài.</p>
+    <p class="callout">Đây là cách xem nợ nghiệp của Đế Tinh.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l2.2 6.8H21l-5.6 4.1 2.2 6.8L12 16.6l-5.6 4.1 2.2-6.8L3 9.8h6.8z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-4">
+    <div class="phan-head">
+      <span class="phan-num">IV</span>
+      <h2 class="phan-title">7 Đại Cách Cục Tử Vi<span class="sub">Từ cổ thư</span></h2>
+    </div>
+    <ol class="decree">
+      <li><strong>Tử Phủ Đồng Cung Cách.</strong> Tại Dần Thân. Không cần xem gì khác, đây là cách của người sinh ra đã có người dọn sẵn con đường. Cứ đi là tới. Nhưng nhược điểm: ý chí kém, vì sướng quá sớm.</li>
+      <li><strong>Tử Vi Triều Đẩu — Thất Sát Triều Đẩu.</strong> Tử Vi ở Tý Ngọ, Thất Sát ở Dần Thân Tỵ Hợi triều về. Người này sinh ra để làm lãnh đạo trong loạn lạc. Càng loạn càng hiển.</li>
+      <li><strong>Quân Thần Khánh Hội.</strong> Tử Vi Đẩu Số Toàn Thư có câu "Quân thần khánh hội, phú quý song toàn" — Vua tôi hội đủ thì giàu sang trọn vẹn. Đây vốn là tên gọi chung cho mọi trường hợp Tử Vi hội đủ bộ sao phò trợ (Tả Hữu làm tướng súy, Xương Khúc làm phụ tá, Khôi Việt làm quan truyền lệnh, Thiên Phủ coi kho, Lộc Mã giữ sổ bộ), chứ không riêng một cung nào. Một biến thể đáng chú ý của cách này là Tử Phá tại Sửu Mùi có đủ Tả Hữu Khôi Việt: lúc đó Phá Quân không còn là phản thần, mà hóa thành công thần khai quốc — cách của người dám phá bỏ công ty cũ để xây đế chế mới.</li>
+      <li><strong>Đào Hoa Phạm Chủ</strong> (Tử Tham + Không Kiếp + Đào Hồng). Vua vì gái mà mất nước. Đây là cách xấu nguyên bản — Tử Vi trao quyền cho Đào Hoa, nếu còn thêm Hồng Loan, Đào Hoa, Đại Hao thì càng ứng nghiệm theo hướng phóng túng, sa đà. Nhưng cách này chỉ chuyển hóa thành tốt khi có điều kiện đủ: không có thêm sao đào hoa nào khác, mà được Tả Phù Văn Xương, Hữu Bật Văn Khúc giáp cung hoặc đồng cung, tốt hơn nữa nếu có Hóa Khoa Hóa Quyền đi cùng. Khi đó, tài hoa và sức hút cá nhân được nâng thành năng lực chuyên môn thật sự, chứ không tan vào hưởng lạc. Thời nay, nếu hội đủ điều kiện này và làm về nghệ thuật, giải trí, làm đẹp, thời trang, thì đây mới là cách Vua của ngành đào hoa, kiếm tiền từ sắc đẹp. Thiếu Xương Khúc phò trợ, dù ở thời nào, cách này vẫn nghiêng về hao tán, thị phi, chứ không tự động thành đẹp.</li>
+      <li><strong>Đế Ngọc Tỳ Vết</strong> (Tử Vi + Kình Dương / Đà La). Vua có vết sẹo. Người có cách này thường có một dị tật nhỏ, một vết sẹo lớn, hoặc một lần tai nạn thập tử nhất sinh. Vượt qua được thì uy quyền tăng gấp bội, vì "ngọc không mài không sáng".</li>
+      <li><strong>Đế Ngộ Hung Đồ</strong> — cách cần cứu. Tử Vi + Hỏa Linh + Không Kiếp + Kỵ. Đây là lúc Vua mất hết. Người có cách này, bậc thầy không xem giàu nghèo, mà xem làm sao để cứu. Phải dùng Phúc Đức và Thiên Di để hóa giải. Phải đi xa, phải cho đi, phải làm phước. Càng ôm giữ càng mất.</li>
+      <li><strong>Tử Vi Vô Sát — Bách Quan Triều Củng.</strong> Cách quý nhất. Mệnh Tử Vi, không có bất kỳ sát tinh nào, mà toàn cát tinh. Người này phúc cực dày. Nhưng cổ nhân nói: "Quý mà vô Sát, bất năng vi đại quý, chỉ vi tiểu khang". Vì không có áp lực, nên khó làm nên nghiệp lớn. Phải có một Sát tinh đắc địa để làm gai, như hoa hồng phải có gai.</li>
+    </ol>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l2.2 6.8H21l-5.6 4.1 2.2 6.8L12 16.6l-5.6 4.1 2.2-6.8L3 9.8h6.8z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-5">
+    <div class="phan-head">
+      <span class="phan-num">V</span>
+      <h2 class="phan-title">Tử Vi &amp; Vòng Trường Sinh<span class="sub">Bí mật sinh tử</span></h2>
+    </div>
+    <p>Đây là chỗ người học Tử Vi rất dễ nhầm, kể cả người đã lâu năm: vòng Trường Sinh <strong>không phải là thuộc tính cố định của riêng sao Tử Vi</strong>. Nó được an theo Cục của cả lá số — tức Ngũ hành Nạp Âm tính từ Can Chi năm sinh — nên cổ nhân gọi là vòng Nhân Hòa, đi cùng với vòng Thiên Thời (Lộc Tồn, theo Can) và vòng Địa Lợi (Thái Tuế, theo Chi). Cùng một sao Tử Vi, nhưng lá số thuộc Kim cục, Mộc cục, Thủy cục, Hỏa cục hay Thổ cục thì vòng Trường Sinh sẽ khởi ở 12 cung khác nhau; và cùng một Cục, tuổi Dương Nam – Âm Nữ đi thuận, tuổi Âm Nam – Dương Nữ đi nghịch, ra kết quả đảo ngược nhau hoàn toàn.</p>
+    <p>Trường hợp "Trường Sinh tại Thân, Đế Vượng tại Tý, Mộ tại Thìn" mà nhiều sách hay nhắc chỉ đúng khi <strong>lá số thuộc Thổ ngũ cục</strong> (Thổ ngũ cục và Thủy nhị cục đều khởi Trường Sinh tại Thân) <strong>và</strong> tuổi thuộc Dương Nam hoặc Âm Nữ (an thuận chiều kim đồng hồ). Nếu là Âm Nam hay Dương Nữ, cùng Thổ ngũ cục ấy, vòng Trường Sinh sẽ an ngược lại — Đế Vượng khi đó rơi vào Thân chứ không phải Tý.</p>
+    <p>Vì vậy, muốn luận vòng Trường Sinh cho một lá số có Tử Vi, phải làm đúng 3 bước: xác định Cục của lá số (không phải ngũ hành riêng của sao Tử Vi), xác định Âm Dương Nam Nữ để biết chiều an, rồi mới xem sao Tử Vi rơi đúng vào cung mang tên gì trong 12 sao của vòng (Trường Sinh, Mộc Dục, Quan Đới, Lâm Quan, Đế Vượng, Suy, Bệnh, Tử, Mộ, Tuyệt, Thai, Dưỡng). Một người Tử Vi tại Thìn nhưng lá số thuộc Hỏa cục sẽ mang một sao hoàn toàn khác trong vòng này, không phải Mộ.</p>
+    <p class="callout">Với riêng trường hợp Thổ ngũ cục, an thuận, Tử Vi rơi vào Thìn thì đúng là gặp sao Mộ — và Mộ của Thổ chính là Kho, nên mới có câu "càng già càng giàu, tiền chôn trong đất". Đây là một cách cục đẹp có thật, nhưng là một trường hợp cụ thể cần đủ điều kiện Cục và Âm Dương, chứ không phải quy luật chung cho mọi người mang Tử Vi tại Thìn.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l2.2 6.8H21l-5.6 4.1 2.2 6.8L12 16.6l-5.6 4.1 2.2-6.8L3 9.8h6.8z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-6">
+    <div class="phan-head">
+      <span class="phan-num">VI</span>
+      <h2 class="phan-title">Luận Về Nữ Mệnh Tử Vi<span class="sub">Thời đại mới</span></h2>
+    </div>
+    <p>Cổ thư chê nữ mệnh Tử Vi, vì xã hội phong kiến không cần nữ Vua.</p>
+    <p>Thời nay, nữ mệnh Tử Vi là báu vật, nếu hiểu:</p>
+    <ul class="decree">
+      <li><strong>Nữ Tử Vi + Tả Hữu + Hóa Khoa:</strong> Bà chủ, nữ CEO, người phụ nữ vừa có sắc vừa có quyền.</li>
+      <li><strong>Nữ Tử Vi + Kình Đà + Cô Quả:</strong> Cách này thường chủ muộn duyên hơn là sớm duyên — nếu kết hôn quá sớm, khi cả hai chưa đủ độ chín, hôn nhân dễ trắc trở, vì khí của Vua khá mạnh, không phải người bạn đời nào cũng đủ vững vàng để đồng hành. Cổ nhân thường khuyên nữ mệnh dạng này nên chọn người chồng chín chắn, từng trải, đủ bản lĩnh và sự thấu hiểu — tuổi tác, hoàn cảnh cụ thể không quan trọng bằng việc tìm được người thực sự ngang tầm để cùng gánh vác, thay vì một người bị "khí Đế" của mình lấn át.</li>
+      <li><strong>Nữ Tử Vi gặp Đào Hoa:</strong> Rất đẹp, rất đào hoa, nhưng trong lòng luôn cô đơn, vì không ai hiểu được tham vọng của mình.</li>
+    </ul>
+    <p class="callout">Lời khuyên cho nữ Tử Vi: Đừng cố làm hoàng hậu của ai cả. Hãy làm Nữ Vương của chính mình. Khi bạn làm Nữ Vương, hoàng đế sẽ tự tìm đến.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l2.2 6.8H21l-5.6 4.1 2.2 6.8L12 16.6l-5.6 4.1 2.2-6.8L3 9.8h6.8z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-7">
+    <div class="phan-head">
+      <span class="phan-num">VII</span>
+      <h2 class="phan-title">Bí Quyết Cuối Cùng<span class="sub">Dụng Tử Vi</span></h2>
+    </div>
+    <p>Bậc thầy không dùng Tử Vi để đoán, mà dùng để dụng.</p>
+    <ul class="decree">
+      <li>Mệnh bạn Tử Vi hãm, gặp Không Kiếp? Vậy thì đừng làm Vua trong công ty nữa. Hãy làm Vua trong một lĩnh vực ngách, một kỹ năng sâu mà không ai cạnh tranh được.</li>
+      <li>Tử Vi của bạn cô độc? Vậy thì hãy chủ động đi tìm Tả Hữu của mình: tìm một người trợ lý giỏi, một người bạn đời hiểu chuyện, một người thầy sáng.</li>
+      <li>Đại vận của bạn đến Tử Sát? Đừng sợ. 10 năm đó hãy mặc áo giáp vào, đi đánh trận. Đừng mong an nhàn. Đánh thắng trận này, 20 năm sau bạn sẽ ngồi ngai vững.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <p class="final-line">Tử Vi không cho bạn sự giàu sang.<br>Tử Vi cho bạn tư cách của người có thể gánh được giàu sang.<br>Và tư cách đó, phải tu.</p>
+  <div class="colophon">
+    <span class="brand">Mèo Đen</span>
+    Soạn lần 2 — Tầng Đế Vương Học — 2026<br>
+    Hiệu đính lần 1: bổ sung Tử Vi tự Hóa (Ất/Nhâm), chỉnh lại nguyên lý vòng Trường Sinh theo Cục, bổ sung trích dẫn cổ thư (Trần Hi Di, Tử Vi Đẩu Số Toàn Thư)<br>
+    Người viết vẫn là học trò
+  </div>
+</footer>
+
+<script>
+  // Theme toggle
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  const iconMoon = document.getElementById('iconMoon');
+  const iconSun = document.getElementById('iconSun');
+
+  function applyTheme(theme){
+    root.setAttribute('data-theme', theme);
+    if(theme === 'light'){
+      iconMoon.style.display = 'none';
+      iconSun.style.display = 'block';
+    } else {
+      iconMoon.style.display = 'block';
+      iconSun.style.display = 'none';
+    }
+    try{ localStorage.setItem('tuvi-theme', theme); }catch(e){}
+  }
+
+  let savedTheme = 'dark';
+  try{ savedTheme = localStorage.getItem('tuvi-theme') || 'dark'; }catch(e){}
+  applyTheme(savedTheme);
+
+  themeBtn.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    applyTheme(current === 'light' ? 'dark' : 'light');
+  });
+
+  // Reading progress bar
+  const progressFill = document.getElementById('progressFill');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    const pct = max > 0 ? (scrolled / max) * 100 : 0;
+    progressFill.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive:true });
+  updateProgress();
+
+  // TOC: click to jump
+  const tocLinks = document.querySelectorAll('.toc-link');
+  tocLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if(target){ target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    });
+  });
+
+  // Active section tracking + reveal animation
+  const sections = document.querySelectorAll('.phan');
+  const tocLinksMap = {};
+  tocLinks.forEach(l => tocLinksMap[l.dataset.target] = l);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+      }
+    });
+  }, { threshold:0.12, rootMargin:'0px 0px -10% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  const activeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = tocLinksMap[entry.target.id];
+      if(!link) return;
+      if(entry.isIntersecting){
+        tocLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        link.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+      }
+    });
+  }, { rootMargin:'-45% 0px -50% 0px', threshold:0 });
+  sections.forEach(s => activeObserver.observe(s));
+
+  // Music toggle
+  const musicBtn = document.getElementById('musicBtn');
+  const bgMusic = document.getElementById('bgMusic');
+  let isPlaying = false;
+
+  musicBtn.addEventListener('click', () => {
+    if(isPlaying){
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      isPlaying = false;
+    } else {
+      bgMusic.play().catch(()=>{});
+      musicBtn.classList.add('playing');
+      isPlaying = true;
+    }
+  });
+</script>
+
+</body>
+</html>

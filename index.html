@@ -16,6 +16,8 @@
 <meta name="twitter:title" content="Học Tử Vi — Dừa &amp; Mixue">
 <meta name="twitter:description" content="Nơi học tử vi như học một di sản — tri mệnh để không ảo tưởng, tận lực để không buông xuôi.">
 <link rel="canonical" href="https://duamixue-hoctuvi.github.io/">
+<meta name="theme-color" content="#f2ead6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101726" media="(prefers-color-scheme: dark)">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,6 +45,7 @@
     --shadow-lift:rgba(36,32,26,.12);
     --quote-glow: rgba(169,129,47,.14);
     --star-op: 0;
+    --hanh-thuy: #3d5a78;
   }
   [data-theme="dark"]{
     --paper:      #101726;
@@ -63,6 +66,7 @@
     --shadow-lift:rgba(0,0,0,.5);
     --quote-glow: rgba(216,180,110,.18);
     --star-op: 1;
+    --hanh-thuy: #86b0d4;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -171,7 +175,6 @@
   }
   [data-theme="dark"] .compass-glow{ background:radial-gradient(circle, rgba(216,180,110,.16), transparent 68%); }
   .palace-chi{ font-family:'Literata', serif; font-weight:600; fill:var(--ink-soft); }
-  .palace-giap{ font-family:'Source Serif 4', serif; font-style:italic; fill:var(--ink-faint); }
   .twinkle{ animation:twinkle 5s ease-in-out infinite; }
   @keyframes twinkle{ 0%,100%{ opacity:.25; } 50%{ opacity:.9; } }
 
@@ -235,10 +238,10 @@
 
   /* ── SECTION LABEL ── */
   .section-label{ display:flex;align-items:center;gap:14px; margin:60px 0 26px; }
-  .section-label span{
+  .section-label h2{
     font-family:ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
     font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--bronze);white-space:nowrap;
+    color:var(--bronze);white-space:nowrap;font-weight:500;
     display:flex;align-items:center;gap:8px;
   }
   .section-label::after{ content:"";flex:1;height:1px;background:var(--line); }
@@ -253,6 +256,15 @@
   }
   .tag-chip:hover{ border-color:var(--line-hv); color:var(--ink); }
   .tag-chip.active{ background:var(--seal); border-color:var(--seal); color:var(--paper); font-weight:600; box-shadow:0 6px 14px -6px var(--line-hv); }
+
+  .skip-link{
+    position:absolute; left:12px; top:-48px; z-index:50;
+    background:var(--seal); color:var(--paper);
+    padding:10px 16px; border-radius:4px; text-decoration:none;
+    font-family:ui-monospace, monospace; font-size:12.5px;
+    transition:top .2s ease;
+  }
+  .skip-link:focus{ top:12px; }
 
   /* ── SHELF / THẺ BÀI ── */
   .shelf{display:flex;flex-direction:column;gap:18px;margin-bottom:30px;}
@@ -375,6 +387,7 @@
 </style>
 </head>
 <body data-theme="light">
+<a href="#shelf" class="skip-link">Bỏ qua, đến danh sách bài viết</a>
 <div class="wrap">
 
   <nav>
@@ -395,7 +408,7 @@
     <div class="compass-glow" aria-hidden="true"></div>
     <div class="compass" aria-hidden="true">
       <svg viewBox="0 0 240 240">
-        <rect x="2" y="2" width="236" height="236" rx="3" fill="none" stroke="var(--line-hv)" stroke-width="1.4"/>
+        <g id="corner-tint"></g>
         <rect x="60" y="60" width="120" height="120" fill="none" stroke="var(--line-hv)" stroke-width="1"/>
         <line x1="60" y1="0" x2="60" y2="60" stroke="var(--line-hv)" stroke-width="1"/>
         <line x1="180" y1="0" x2="180" y2="60" stroke="var(--line-hv)" stroke-width="1"/>
@@ -405,6 +418,12 @@
         <line x1="180" y1="60" x2="240" y2="60" stroke="var(--line-hv)" stroke-width="1"/>
         <line x1="0" y1="180" x2="60" y2="180" stroke="var(--line-hv)" stroke-width="1"/>
         <line x1="180" y1="180" x2="240" y2="180" stroke="var(--line-hv)" stroke-width="1"/>
+        <g class="corner-brackets" fill="none" stroke="var(--bronze)" stroke-width="1.6" stroke-linecap="square">
+          <path d="M2,26 V2 H26"/>
+          <path d="M214,2 H238 V26"/>
+          <path d="M238,214 V238 H214"/>
+          <path d="M26,238 H2 V214"/>
+        </g>
         <g id="palaces"></g>
         <circle cx="120" cy="120" r="26" fill="var(--ink)"/>
         <path d="M120,94 a26,26 0 0 1 0,52 13,13 0 0 1 0,-26 13,13 0 0 0 0,-26 z" fill="var(--paper)"/>
@@ -427,7 +446,7 @@
     <div class="search-row">
       <div class="search-box">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" id="search-input" placeholder="Tìm một bài viết..." aria-label="Tìm bài viết" oninput="filterArticles()">
+        <input type="search" id="search-input" placeholder="Tìm một bài viết..." aria-label="Tìm bài viết" autocomplete="off" enterkeyhint="search" oninput="filterArticles()">
       </div>
     </div>
 
@@ -439,7 +458,7 @@
   <div class="chapter-divider" aria-hidden="true">· · ·</div>
 
   <section>
-    <div class="section-label reveal"><span>◆ Bài viết</span></div>
+    <div class="section-label reveal"><h2>◆ Bài viết</h2></div>
     <div class="tag-row reveal" id="tag-row"></div>
     <div class="shelf" id="shelf"></div>
     <div class="empty-shelf" id="empty" style="display:none;"><span class="empty-mark" aria-hidden="true">✦</span>Chưa tìm thấy trang nào phù hợp...</div>
@@ -458,29 +477,51 @@
    Thiên Bàn ở giữa. Đây là bố cục "chữ điền" đúng chuẩn lá số tử vi thật,
    không phải mô típ la bàn bát quái chung chung. ══ */
 (function drawCompass(){
+  const HANH = {
+    "Thủy": "var(--hanh-thuy)",
+    "Mộc":  "var(--hanh-moc, var(--jade))",
+    "Hỏa":  "var(--hanh-hoa, var(--seal))",
+    "Thổ":  "var(--hanh-tho, var(--bronze))",
+    "Kim":  "var(--hanh-kim, var(--bronze-lt))"
+  };
   const PALACES = [
-    { chi:"Tị",  giap:"Rắn",   col:0, row:0 },
-    { chi:"Ngọ", giap:"Ngựa",  col:1, row:0 },
-    { chi:"Mùi", giap:"Dê",    col:2, row:0 },
-    { chi:"Thân",giap:"Khỉ",   col:3, row:0 },
-    { chi:"Dậu", giap:"Gà",    col:3, row:1 },
-    { chi:"Tuất",giap:"Chó",   col:3, row:2 },
-    { chi:"Hợi", giap:"Lợn",   col:3, row:3 },
-    { chi:"Tý",  giap:"Chuột", col:2, row:3 },
-    { chi:"Sửu", giap:"Trâu",  col:1, row:3 },
-    { chi:"Dần", giap:"Hổ",    col:0, row:3 },
-    { chi:"Mão", giap:"Mèo",   col:0, row:2 },
-    { chi:"Thìn",giap:"Rồng",  col:0, row:1 }
+    { chi:"Tị",  hanh:"Hỏa",  col:0, row:0 },
+    { chi:"Ngọ", hanh:"Hỏa",  col:1, row:0 },
+    { chi:"Mùi", hanh:"Thổ",  col:2, row:0 },
+    { chi:"Thân",hanh:"Kim",  col:3, row:0 },
+    { chi:"Dậu", hanh:"Kim",  col:3, row:1 },
+    { chi:"Tuất",hanh:"Thổ",  col:3, row:2 },
+    { chi:"Hợi", hanh:"Thủy", col:3, row:3 },
+    { chi:"Tý",  hanh:"Thủy", col:2, row:3 },
+    { chi:"Sửu", hanh:"Thổ",  col:1, row:3 },
+    { chi:"Dần", hanh:"Mộc",  col:0, row:3 },
+    { chi:"Mão", hanh:"Mộc",  col:0, row:2 },
+    { chi:"Thìn",hanh:"Thổ",  col:0, row:1 }
   ];
+  const TU_SINH = new Set(["Tị","Thân","Hợi","Dần"]); // 4 góc — điểm khởi sinh trong vòng Trường Sinh
+
   const palaces = document.getElementById('palaces');
+  const cornerTint = document.getElementById('corner-tint');
   const cell = 60;
+
+  let tintHTML = '';
+  PALACES.forEach(p=>{
+    if(TU_SINH.has(p.chi)){
+      tintHTML += `<rect x="${p.col*cell}" y="${p.row*cell}" width="${cell}" height="${cell}" fill="var(--bronze)" opacity="0.05"><title>Tứ Sinh — ${p.chi}, điểm khởi vòng Trường Sinh</title></rect>`;
+    }
+  });
+  cornerTint.innerHTML = tintHTML;
+
   let html = '';
   PALACES.forEach(p=>{
     const x = p.col*cell + cell/2;
     const y = p.row*cell + cell/2;
-    html += `<g><title>Địa chi ${p.chi} (${p.giap})</title>
-      <text x="${x}" y="${y-6}" text-anchor="middle" dominant-baseline="central" class="palace-chi" font-size="15">${p.chi}</text>
-      <text x="${x}" y="${y+12}" text-anchor="middle" dominant-baseline="central" class="palace-giap" font-size="9.5" opacity="0.8">${p.giap}</text>
+    const color = HANH[p.hanh];
+    const dx = x + 17, dy = y + 17;
+    html += `<g><title>Địa chi ${p.chi} — hành ${p.hanh}</title>
+      <text x="${x}" y="${y-2}" text-anchor="middle" dominant-baseline="central" class="palace-chi" font-size="17">${p.chi}</text>
+      <circle cx="${dx}" cy="${dy}" r="3.1" fill="none" stroke="${color}" stroke-width="1.2"/>
+      <circle cx="${dx}" cy="${dy}" r="1" fill="${color}"/>
     </g>`;
   });
   palaces.innerHTML = html;
@@ -528,7 +569,11 @@ const ICONS = {
   star: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5.2 5.6.6-4.2 3.9 1.2 5.5L12 15.8 6.9 18.7l1.2-5.5-4.2-3.9 5.6-.6z"/></svg>`,
   scroll: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h9a3 3 0 0 1 3 3v10a3 3 0 0 0 3 3H9a3 3 0 0 1-3-3z"/><path d="M6 4a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3"/><path d="M9 9h6M9 13h6"/></svg>`,
   wheel: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><path d="M12 3.5v5M12 15.5v5M20.5 12h-5M8.5 12h-5M18.1 5.9l-3.5 3.5M9.4 14.6l-3.5 3.5"/></svg>`,
-  net: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l16 16M20 4 4 20M4 4h16v16H4z"/></svg>`
+  net: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l16 16M20 4 4 20M4 4h16v16H4z"/></svg>`,
+  crown: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M4 18h16l-1.4-8-4.1 3.2L12 7.5l-2.5 5.7L5.4 10z"/><path d="M4 18v2.2h16V18"/></svg>`,
+  clocksun: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.2v5l3.6 2"/></svg>`,
+  sunrays: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.3"/><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>`,
+  gear: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 3.2v2.6M12 18.2v2.6M20.8 12h-2.6M5.8 12H3.2M18.1 5.9l-1.9 1.9M7.8 16.3l-1.9 1.9M18.1 18.1l-1.9-1.9M7.8 7.7 5.9 5.9"/></svg>`
 };
 
 const ARTICLES = [
@@ -538,7 +583,8 @@ const ARTICLES = [
     quote: "Bài viết này không để bạn tin tử vi, cũng không để bạn bài xích tử vi — chỉ để bạn hiểu nó như một di sản, và dùng nó như người quân tử dùng gương soi.",
     mood: "phù hợp khi bạn muốn nhìn lại chính mình",
     minutes: 13,
-    date: "2026",
+    dateISO: "2026-06-01",
+    date: "06/2026",
     tags: ["tử vi", "văn hóa"],
     icon: ICONS.trigram
   },
@@ -548,7 +594,8 @@ const ARTICLES = [
     quote: "Đằng sau mỗi cuốn lịch âm mà ông bà ta treo trên tường, là một cuộc gìn giữ chủ quyền âm thầm kéo dài gần một nghìn năm.",
     mood: "phù hợp khi bạn tò mò về cội nguồn",
     minutes: 19,
-    date: "2026",
+    dateISO: "2026-06-15",
+    date: "06/2026",
     tags: ["lịch sử", "văn hóa"],
     icon: ICONS.calendar
   },
@@ -558,7 +605,8 @@ const ARTICLES = [
     quote: "Mệnh là chủ, Cục là đất. Không có Cục, Mệnh không có nơi để diễn.",
     mood: "phù hợp khi bạn muốn hiểu sâu kỹ thuật lập số",
     minutes: 10,
-    date: "2026",
+    dateISO: "2026-08-12",
+    date: "08/2026",
     tags: ["tử vi", "kỹ thuật"],
     icon: ICONS.wheel
   },
@@ -568,11 +616,56 @@ const ARTICLES = [
     quote: "Tuần là nhà tù trên đất liền — Triệt là nhà tù trên đảo, cách biệt hoàn toàn.",
     mood: "phù hợp khi bạn cảm thấy bị mắc kẹt, giới hạn",
     minutes: 16,
-    date: "2026",
+    dateISO: "2026-08-13",
+    date: "08/2026",
     tags: ["tử vi", "triết lý"],
     icon: ICONS.net
+  },
+  {
+    title: "Tử Vi Đế Tinh — Đế Vương Học & Phi Hóa",
+    file: "tu-vi-de-tinh.html",
+    quote: "Tử Vi vô Tả Hữu như cô quân — vua không tự làm vua được, quần thần mới làm nên vua.",
+    mood: "phù hợp khi bạn muốn hiểu sâu về sao Tử Vi và học thuyết Quần Thần",
+    minutes: 16,
+    dateISO: "2026-08-14",
+    date: "08/2026",
+    tags: ["tử vi", "kỹ thuật"],
+    icon: ICONS.crown
+  },
+  {
+    title: "Giờ Tý Trôi Vì Đâu — Hiểu Đúng Bản Chất",
+    file: "gio-ty-va-chan-thai-duong-thoi.html",
+    quote: "Hai nguyên nhân vật lý, một hệ quả logic — chỉ vậy thôi.",
+    mood: "phù hợp khi bạn băn khoăn về giờ sinh chuẩn xác",
+    minutes: 9,
+    dateISO: "2026-08-14",
+    date: "08/2026",
+    tags: ["tử vi", "kỹ thuật"],
+    icon: ICONS.clocksun
+  },
+  {
+    title: "Tử Vi và Tiết Khí — Giữ Hình, Thêm Khí",
+    file: "tiet-khi-tu-vi.html",
+    quote: "Không giống môn Ngũ Tinh quá chú trọng Tiết Khí, chỉ luận năm tháng ngày giờ sinh.",
+    mood: "phù hợp khi bạn muốn tranh biện học thuật nghiêm túc",
+    minutes: 17,
+    dateISO: "2026-08-14",
+    date: "08/2026",
+    tags: ["tử vi", "kỹ thuật"],
+    icon: ICONS.sunrays
+  },
+  {
+    title: "Thiên Cơ — Quân Sư Chi Thần",
+    file: "Thien-Co-Quan-Su-Chi-Than.html",
+    quote: "Cơ bất động, bất thành Cơ. Cơ nhất động, toàn bàn giai động.",
+    mood: "phù hợp khi bạn cần một cái đầu lạnh giữa nhiều lựa chọn",
+    minutes: 14,
+    dateISO: "2026-08-14",
+    date: "08/2026",
+    tags: ["tử vi", "chính tinh"],
+    icon: ICONS.gear
   }
-];
+].sort((a, b) => new Date(b.dateISO) - new Date(a.dateISO));
 
 /* ══ STRUCTURED DATA (JSON-LD) cho SEO ══ */
 (function injectArticleSchema(){
@@ -585,7 +678,7 @@ const ARTICLES = [
       "headline": a.title,
       "description": a.quote,
       "url": base + a.file,
-      "datePublished": a.date,
+      "datePublished": a.dateISO,
       "keywords": (a.tags || []).join(", "),
       "author": { "@type": "Person", "name": "Bố của Dừa & Mixue" },
       "publisher": { "@type": "Person", "name": "Bố của Dừa & Mixue" }

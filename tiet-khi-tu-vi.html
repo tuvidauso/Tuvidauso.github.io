@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tử Vi và Tiết Khí — Giữ hình, thêm khí</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=Noto+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f1e7d2;
+    --paper-2:#e7d9ba;
+    --paper-3:#ddc99f;
+    --ink:#231d12;
+    --ink-soft:#4a4028;
+    --gold:#a97a1f;
+    --gold-soft:#c99a3f;
+    --cinnabar:#9c3b2e;
+    --jade:#3f5d4a;
+    --azure:#2c4a63;
+    --rule: rgba(35,29,18,0.16);
+    --shadow: 0 1px 0 rgba(35,29,18,0.06);
+    --bg: var(--paper);
+    --surface: var(--paper-2);
+    --surface-2: var(--paper-3);
+    --text: var(--ink);
+    --text-soft: var(--ink-soft);
+    --accent: var(--gold);
+    transition: background .5s ease, color .5s ease;
+  }
+  html[data-theme="night"]{
+    --bg:#0c0f1a;
+    --surface:#141a2c;
+    --surface-2:#1b2338;
+    --text:#e9dfc4;
+    --text-soft:#b7ab8a;
+    --rule: rgba(233,223,196,0.14);
+    --accent: var(--gold-soft);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Noto Serif', serif;
+    font-size:17px;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold-soft); color:#1a1305;}
+
+  .display{ font-family:'Be Vietnam Pro', sans-serif; }
+  .mono{ font-family:'Noto Sans Mono', monospace; letter-spacing:.04em; }
+
+  a{ color:var(--accent); }
+
+  /* ---------- Controls ---------- */
+  .controls{
+    position:fixed;
+    top:18px; right:18px;
+    display:flex; gap:10px;
+    z-index:50;
+  }
+  .ctrl-btn{
+    width:46px; height:46px;
+    border-radius:50%;
+    border:1px solid var(--rule);
+    background:var(--surface);
+    color:var(--text);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    box-shadow: var(--shadow);
+    transition: transform .25s ease, background .3s ease, border-color .3s ease;
+  }
+  .ctrl-btn:hover{ transform: translateY(-2px); border-color: var(--accent); }
+  .ctrl-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .ctrl-btn svg{ width:20px; height:20px; }
+  .ctrl-btn.playing{ color: var(--cinnabar); border-color: var(--cinnabar); }
+  html[data-theme="night"] .ctrl-btn.playing{ color: var(--gold-soft); border-color: var(--gold-soft); }
+
+  .note-orbit{ position:relative; }
+  .note-orbit::after{
+    content:"";
+    position:absolute; inset:-6px;
+    border-radius:50%;
+    border:1px dashed var(--accent);
+    opacity:0;
+    animation:none;
+  }
+  .note-orbit.playing::after{
+    opacity:.55;
+    animation: spin 6s linear infinite;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding: 92px 24px 40px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .hero-eyebrow{
+    font-size:12.5px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--text-soft);
+    margin-bottom:26px;
+  }
+  .wheel-wrap{
+    width:min(360px, 78vw);
+    margin:0 auto 28px;
+    position:relative;
+  }
+  .wheel-wrap svg{ width:100%; height:auto; display:block; }
+  .wheel-caption{
+    font-size:12px;
+    color:var(--text-soft);
+    margin-top:10px;
+    letter-spacing:.03em;
+  }
+  h1.title{
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:800;
+    font-size: clamp(28px, 5vw, 44px);
+    line-height:1.18;
+    letter-spacing:-0.01em;
+    max-width:760px;
+    margin: 0 auto 22px;
+  }
+  .lede{
+    max-width:600px;
+    margin: 0 auto;
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:19px;
+  }
+  .hero-rule{
+    width:64px; height:2px; background:var(--accent);
+    margin:36px auto 0; border-radius:2px;
+  }
+
+  /* ---------- Article shell ---------- */
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding: 10px 24px 120px;
+  }
+  .lead-para{
+    font-size:18px;
+    color:var(--text-soft);
+    margin: 34px 0 10px;
+  }
+
+  section.chapter{ margin-top:70px; }
+  .chapter-head{
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom: 22px;
+  }
+  .chapter-num{
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    letter-spacing:.08em;
+    white-space:nowrap;
+  }
+  h2{
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:700;
+    font-size: clamp(22px, 3.4vw, 28px);
+    line-height:1.3;
+    margin:0;
+  }
+  h3{
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:600;
+    font-size:19px;
+    margin: 30px 0 10px;
+    color: var(--text);
+  }
+  p{ margin: 0 0 18px; }
+  ul{ margin:0 0 18px; padding-left:22px; }
+  li{ margin-bottom:10px; }
+  strong{ color:var(--text); font-weight:600; }
+
+  .term{
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:600;
+    color:var(--accent);
+  }
+
+  blockquote.verse{
+    margin: 26px 0;
+    padding: 22px 26px;
+    background:var(--surface);
+    border-left: 3px solid var(--cinnabar);
+    border-radius: 2px;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  blockquote.verse p{ margin:0 0 6px; }
+  blockquote.verse p:last-child{ margin:0; }
+  blockquote.verse cite{
+    display:block; margin-top:10px;
+    font-style:normal; font-size:12.5px;
+    color:var(--text-soft); opacity:.8;
+  }
+
+  .flaw{
+    margin: 20px 0;
+    padding: 20px 22px;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    background: var(--surface);
+  }
+  .flaw-label{
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.05em;
+    color:var(--cinnabar);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .flaw p{ margin:0; }
+
+  .callout{
+    margin:24px 0;
+    padding: 20px 22px;
+    background: var(--surface-2);
+    border-radius:6px;
+    border-left:3px solid var(--jade);
+  }
+  .callout .flaw-label{ color: var(--jade); }
+
+  .correction{
+    margin:24px 0;
+    padding: 20px 22px;
+    background: var(--surface-2);
+    border-radius:6px;
+    border-left:3px solid var(--azure);
+  }
+  .correction .flaw-label{ color: var(--azure); }
+
+  .divider{
+    display:flex; align-items:center; gap:14px;
+    margin: 54px 0 0;
+    color:var(--text-soft);
+  }
+  .divider::before, .divider::after{
+    content:""; flex:1; height:1px; background:var(--rule);
+  }
+  .divider span{ font-size:12px; letter-spacing:.12em; }
+
+  .seasons-row{
+    display:grid; grid-template-columns: repeat(4,1fr);
+    gap:10px; margin: 22px 0 8px;
+  }
+  .season-chip{
+    padding:12px 10px; border-radius:6px;
+    background:var(--surface);
+    text-align:center;
+    border:1px solid var(--rule);
+  }
+  .season-chip .dot{
+    width:9px; height:9px; border-radius:50%;
+    margin:0 auto 8px;
+  }
+  .season-chip.xuan .dot{ background:var(--jade); }
+  .season-chip.ha .dot{ background:var(--cinnabar); }
+  .season-chip.thu .dot{ background:var(--gold); }
+  .season-chip.dong .dot{ background:var(--azure); }
+  .season-chip b{ display:block; font-family:'Be Vietnam Pro',sans-serif; font-size:13px; }
+  .season-chip small{ color:var(--text-soft); font-size:11px; }
+
+  footer.sources{
+    margin-top:80px;
+    padding-top:28px;
+    border-top:1px solid var(--rule);
+  }
+  footer.sources h3{ margin-top:0; }
+  footer.sources ul{ padding-left:18px; }
+  footer.sources li{ font-size:15px; color:var(--text-soft); margin-bottom:8px; }
+  .note-final{
+    margin-top:24px;
+    font-size:14px;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+
+  @media (max-width:560px){
+    .hero{ padding-top:74px; }
+    .seasons-row{ grid-template-columns:repeat(2,1fr); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .note-orbit.playing::after{ animation:none; }
+    #pointer{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button class="ctrl-btn" id="themeBtn" aria-label="Chuyển giao diện sáng / tối" title="Nhật / Nguyệt">
+    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.6"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg>
+  </button>
+  <button class="ctrl-btn note-orbit" id="musicBtn" aria-pressed="false" aria-label="Bật / tắt nhạc nền ngũ cung" title="Nhạc nền">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="17" cy="16" r="3"></circle></svg>
+  </button>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow mono">Tử Vi Đẩu Số &middot; Lịch pháp &middot; Thiên văn</div>
+
+  <div class="wheel-wrap">
+    <svg id="wheel" viewBox="0 0 320 320" role="img" aria-label="Vòng 24 Tiết Khí trong năm">
+      <circle cx="160" cy="160" r="150" fill="none" stroke="var(--rule)" stroke-width="1"></circle>
+      <circle cx="160" cy="160" r="96" fill="none" stroke="var(--rule)" stroke-width="1"></circle>
+      <g id="segments"></g>
+      <g id="labels" class="mono"></g>
+      <line id="pointer" x1="160" y1="160" x2="160" y2="26" stroke="var(--cinnabar)" stroke-width="2" stroke-linecap="round" style="transition: transform 1.2s cubic-bezier(.4,0,.2,1);"></line>
+      <circle cx="160" cy="160" r="5.5" fill="var(--cinnabar)"></circle>
+      <circle cx="160" cy="160" r="96" fill="none" stroke="var(--rule)" stroke-width="1"></circle>
+    </svg>
+  </div>
+  <h1 class="title">Tử Vi và Tiết Khí<br>— Giữ hình, thêm khí</h1>
+  <p class="lede">An sao là hình; còn khí trời có cần tính riêng hay không — đó là câu hỏi chưa có hồi kết suốt hàng chục năm.</p>
+  <div class="hero-rule"></div>
+</div>
+
+<main class="wrap">
+
+  <p class="lead-para">Đây là câu hỏi gây chia rẽ giới Tử Vi hàng chục năm nay. Phe chính thống nói <span class="term">"Bất y Ngũ Tinh yếu quá Tiết"</span> — Tử Vi chỉ dùng âm lịch. Phe thực chiến nói không dùng Tiết Khí thì sai cả tháng nhuận và không biết sao vượng suy thực sự. Bài viết gốc nổi tiếng nhất về chủ đề này là <em>"Tiết Khí với Tử Vi Đẩu Số"</em> của tác giả Phan Văn Khâm (Đài Loan, bản dịch Quách Ngọc Bội, đăng tại tuvi.cohoc.net) — bài đi thẳng vào gốc thiên văn, cổ thư, và chính tác giả cũng thẳng thắn thừa nhận đây là vấn đề chưa có hồi kết. Bài dưới đây tổng hợp lại, có bổ sung phần phản biện hai chiều.</p>
+
+  <section class="chapter" id="s1">
+    <div class="chapter-head">
+      <span class="chapter-num mono">01</span>
+      <h2>Trời có hai cái đồng hồ</h2>
+    </div>
+    <p>Muốn hiểu vì sao Tiết Khí gây tranh cãi, trước hết phải thấy: trời có hai cái đồng hồ chạy không cùng nhịp.</p>
+
+    <h3>Đồng hồ Mặt Trời — bản đồ tọa độ, đứng yên</h3>
+    <p>Mặt Trời đi hết một vòng quanh trời trong 365,25 ngày. Cổ nhân chia vòng đó thành 12 ô, mỗi ô 30°. Mỗi ô lại chia làm hai, mỗi nửa 15° chính là một <span class="term">Tiết Khí</span>. Vậy 1 ô = 2 Tiết Khí = 1 "tháng Mặt Trời" ~30,44 ngày. Đây chính là 12 cung Dần, Mão, Thìn... trên lá số — một bản đồ tọa độ cố định, không phụ thuộc Mặt Trăng.</p>
+
+    <h3>Đồng hồ Mặt Trăng — số đếm, luôn trôi</h3>
+    <p>Mặt Trăng đi hết một vòng quanh Trái Đất trong 29,5 ngày — đó là một tháng âm lịch. 12 tháng âm lịch chỉ được 354 ngày, thiếu 11 ngày so với đồng hồ Mặt Trời. Hai đồng hồ này không bao giờ khớp tuyệt đối với nhau.</p>
+
+    <p>Cổ nhân đánh dấu đồng hồ Mặt Trời bằng 24 điểm cách đều 15°, chia thành 12 <span class="term">Tiết</span> (Tiết Lệnh — mốc mở đầu mỗi ô, khí đổi mạnh) và 12 <span class="term">Khí</span> (Trung Khí — điểm giữa ô):</p>
+    <ul>
+      <li><strong>12 Tiết</strong> — Lập Xuân, Kinh Trập, Thanh Minh, Lập Hạ, Mang Chủng, Tiểu Thử, Lập Thu, Bạch Lộ, Hàn Lộ, Lập Đông, Đại Tuyết, Tiểu Hàn.</li>
+      <li><strong>12 Khí</strong> — Vũ Thủy, Xuân Phân, Cốc Vũ, Tiểu Mãn, Hạ Chí, Đại Thử, Xử Thử, Thu Phân, Sương Giáng, Tiểu Tuyết, Đông Chí, Đại Hàn.</li>
+    </ul>
+    <p>Một tháng âm lịch bình thường phải có đủ 1 Tiết và 1 Trung Khí thì mới được coi là khớp với một ô của đồng hồ Mặt Trời. Tháng nào chỉ có Tiết mà không có Trung Khí lọt vào — do 29,5 ngày trôi nhanh hơn 30,44 ngày, sai số dồn lại sau 2–3 năm — thì tháng đó bị đẩy thành tháng nhuận: một ô trên lịch xã hội không có tọa độ Mặt Trời thật đứng bên trong. Nó là miếng vá lịch, không phải vị trí trời thực.</p>
+
+    <div class="seasons-row">
+      <div class="season-chip xuan"><div class="dot"></div><b>Xuân</b><small>Lập Xuân → Cốc Vũ</small></div>
+      <div class="season-chip ha"><div class="dot"></div><b>Hạ</b><small>Lập Hạ → Đại Thử</small></div>
+      <div class="season-chip thu"><div class="dot"></div><b>Thu</b><small>Lập Thu → Sương Giáng</small></div>
+      <div class="season-chip dong"><div class="dot"></div><b>Đông</b><small>Lập Đông → Đại Hàn</small></div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="mono">TRANH LUẬN</span></div>
+
+  <section class="chapter" id="s2">
+    <div class="chapter-head">
+      <span class="chapter-num mono">02</span>
+      <h2>Gốc tranh cãi: câu "Bất y Ngũ Tinh yếu quá Tiết" là chân hay ngụy?</h2>
+    </div>
+    <p>Toàn bộ phe "Tử Vi không dùng Tiết Khí" dựa vào một câu trong bài <em>"Tử Vi Đẩu Số Tổng Quyết"</em>, tương truyền là lời Hi Di (Trần Đoàn) tự thuật việc ngắm sao trời mà lập ra môn Đẩu Số:</p>
+
+    <blockquote class="verse">
+      <p>Hi Di ngưỡng quan thiên thượng tinh,<br>
+      Tác thành Đẩu Số thôi nhân mệnh,<br>
+      Bất y Ngũ Tinh yếu quá Tiết,<br>
+      Chích luận niên nguyệt nhật thì sinh.</p>
+      <cite>Không giống môn Ngũ Tinh quá chú trọng Tiết Khí, chỉ luận năm tháng ngày giờ sinh &mdash; Tử Vi Đẩu Số Tổng Quyết</cite>
+    </blockquote>
+
+    <p>Câu này chỉ xuất hiện trong bản cổ thư <em>Thập Bát Phi Tinh sách thiên Tử Vi Đẩu Số toàn tập</em> (Trần Nhạc Kỳ công bố tại Đài Loan, 1966), còn bản cổ thư trụ cột khác — <em>Tử Vi Đẩu Số Toàn Thư</em> (La Hồng Tiên, đời Minh) — hoàn toàn không ghi lại. Dưới đây là năm lỗ hổng khiến câu phú khó đứng vững làm căn cứ tuyệt đối.</p>
+
+    <div class="flaw">
+      <div class="flaw-label">Lỗ hổng 1 — Nguồn không thống nhất</div>
+      <p>Hai bản cổ thư trụ cột không thống nhất về việc có tồn tại bài quyết này hay không. Chính Phan Văn Khâm đặt câu hỏi: nhỡ câu "Bất y Ngũ Tinh yếu quá Tiết" — hoặc cả bài Tổng Quyết — chính là "ngụy quyết" (câu giả, gán ghép sau) thì sao?</p>
+    </div>
+
+    <div class="flaw">
+      <div class="flaw-label">Lỗ hổng 2 — Sao Thái Dương vẫn phải an trong lá số</div>
+      <p>Nếu Tử Vi chỉ dùng Thái Âm lịch mà bỏ hẳn Thái Dương, tại sao vẫn phải an sao Thái Dương — sao được xem là chủ về quan lộc, nguồn chiếu sáng của cả lá số? Bỏ ảnh hưởng Mặt Trời thì an sao Mặt Trời để làm gì?</p>
+    </div>
+
+    <div class="flaw">
+      <div class="flaw-label">Lỗ hổng 3 — Tính ngoại lệ khó tin, và một mốc thời gian đáng chú ý</div>
+      <p>Mọi môn thuật số khác — Bát Tự, Lục Hào, Mai Hoa, Kỳ Môn, Phong Thủy, kể cả Chiêm Tinh phương Tây (Thái Dương qua 12 chòm sao Hoàng Đạo chính là Tiết Khí) — đều lấy Tiết Khí làm gốc. Ánh sáng và nhiệt Mặt Trời là điều kiện sống của mọi sinh vật; khó có lý do để Tử Vi là ngoại lệ duy nhất. Điều đáng chú ý hơn là mốc thời gian: hệ 24 Tiết Khí đã được hoàn thiện thành lịch pháp chính thức từ lịch Thái Sơ đời Hán Vũ Đế, năm 104 TCN — tức khoảng một nghìn năm trước khi Trần Đoàn (được cho là sống vào thời Ngũ Đại – Tống sơ, thế kỷ 10) lập ra Tử Vi. Nếu quả thật ông cố ý không dùng Tiết Khí, đó phải là một lựa chọn có chủ đích của người chắc chắn đã biết rõ hệ thống này — không phải một khái niệm chưa ra đời hay ông chưa từng nghe tới.</p>
+    </div>
+
+    <div class="flaw">
+      <div class="flaw-label">Lỗ hổng 4 — Hiểu sai chữ "Ngũ Tinh"</div>
+      <p>"Ngũ Tinh" không đồng nghĩa với "Thất Chính Tứ Dư" như nhiều người lầm tưởng. Thất Chính gồm Thái Dương, Thái Âm và Ngũ Tinh (Kim, Mộc, Thủy, Hỏa, Thổ tinh) — chỉ Thái Dương và Thái Âm vận hành theo quy luật thời gian cố định (nên diễn thành Tiết Khí và tuần trăng), còn 5 hành tinh di chuyển không theo quy luật đơn giản, phải tính toán thiên văn phức tạp mới biết vị trí. Vậy câu phú chỉ có nghĩa: Tử Vi không cần tính phức tạp như định vị 5 hành tinh — không hề phủ nhận việc dùng Tiết Khí của Thái Dương.</p>
+    </div>
+
+    <div class="flaw">
+      <div class="flaw-label">Lỗ hổng 5 — Cổ văn không có dấu câu</div>
+      <p>Cổ nhân viết văn không chấm câu. "Bất y Ngũ Tinh yếu quá Tiết" hoàn toàn có thể ngắt thành <em>"Bất y Ngũ Tinh, yếu quá Tiết"</em> — nghĩa là "Không giống Ngũ Tinh, (Tử Vi) cần phải xét qua Tiết Khí". Ngắt câu theo cách này, ý nghĩa đảo ngược hoàn toàn so với cách hiểu truyền thống.</p>
+    </div>
+
+    <div class="callout">
+      <div class="flaw-label">Bằng chứng bổ sung — Đẩu Bính</div>
+      <p>Có ý kiến cho rằng Tử Vi định tháng theo "Đẩu bính" (đuôi chòm Bắc Đẩu chỉ vào 12 cung) chứ không liên quan Tiết Khí. Nhưng theo Hoài Nam Tử, vị trí Đẩu Bính chỉ Đông/Nam/Tây/Bắc tương ứng chính xác với bốn mùa Xuân/Hạ/Thu/Đông — bản thân Đẩu Bính cũng chỉ là cách cổ nhân ghi lại quan sát Tiết Khí, hệ quả của việc Trái Đất quay quanh Mặt Trời.</p>
+    </div>
+
+    <div class="correction">
+      <div class="flaw-label">Chiều ngược lại — để công bằng</div>
+      <p>Phan Văn Khâm cũng nhấn mạnh: vấn đề chưa ngã ngũ. Trong <em>Tử Vi Đẩu Số Toàn Thư</em> có quy định cách an Thân Mệnh cho người sinh tháng nhuận (dồn về tháng sau) mà không hề nhắc Tiết Khí — đây vẫn là căn cứ mà nhiều đại sư (Tử Vân tiên sinh, Liễu Vô Cư Sĩ...) tiếp tục dựa vào để giữ lập trường không dùng Tiết Khí. Bản thân quy định đó cũng có thể chỉ là ý kiến cá nhân của La Hồng Tiên khi biên soạn sách — nhưng đây vẫn là khả năng, không phải kết luận chắc chắn theo chiều nào.</p>
+    </div>
+  </section>
+
+  <div class="divider"><span class="mono">LỊCH PHÁP</span></div>
+
+  <section class="chapter" id="s3">
+    <div class="chapter-head">
+      <span class="chapter-num mono">03</span>
+      <h2>Vấn đề: nhét số đếm Mặt Trăng vào ô Mặt Trời</h2>
+    </div>
+    <p>Cách an sao truyền thống làm thế này: "Bạn sinh tháng 2 âm lịch? Vậy tôi đặt bạn vào ô Mão." Nhìn kỹ sẽ thấy chỗ vô lý: đây là lấy số đếm của đồng hồ Mặt Trăng (tháng, 29,5 ngày) rồi nhét thẳng vào ô của đồng hồ Mặt Trời (cung, 30,44 ngày) — coi hai con số ấy là một, trong khi chúng chỉ trùng nhau tương đối, không khớp tuyệt đối. Đó là phép quy đổi gần đúng cho tiện dùng, không phải một phép đo chính xác.</p>
+    <p>Đi 2–3 năm, sai số dồn lại thành gần một tháng — đó là lúc phải đẻ ra tháng nhuận để kéo hai đồng hồ về gần nhau. Bội số chung nhỏ nhất giữa hai chu kỳ rơi vào khoảng 19 năm (gọi là 1 "Chương"), trong đó cần đúng 7 tháng nhuận. Tháng nhuận vì vậy chỉ có Tiết mà không có Trung Khí — một ô trên lịch xã hội không có cột mốc tọa độ Mặt Trời thực đứng bên trong. Người sinh vào tháng nhuận, nếu chỉ an theo tháng âm lịch thuần túy, vị trí Mặt Trời thực tế trên Hoàng Đạo đã lệch hẳn so với con số tháng ghi trên lịch.</p>
+
+    <div class="callout" style="margin-top:0;">
+      <div class="flaw-label">Câu hỏi thực ra đang hỏi sai</div>
+      <p>Vì vậy "Tử Vi có cần Tiết Khí không" không phải câu hỏi đúng/sai — mà là câu hỏi <strong>đang đứng ở tầng nào</strong>. Muốn giữ sự thống nhất với hơn 500 năm nghiệm lý — từ La Hồng Tiên đến nay, ai cũng an theo âm lịch — thì cứ an theo tháng âm lịch như mọi phần mềm đang làm: đây là tầng quy ước xã hội. Muốn quay về đúng định nghĩa gốc của Thiên Bàn là bản đồ Hoàng Đạo, thì phải dùng Tiết Khí, vì Tiết Khí chính là tọa độ thực của Mặt Trời — cái gốc để định nghĩa 12 cung ngay từ đầu: đây là tầng tọa độ thực.</p>
+    </div>
+  </section>
+
+  <section class="chapter" id="s4">
+    <div class="chapter-head">
+      <span class="chapter-num mono">04</span>
+      <h2>Phép thử thực tế: sinh sau Lập Xuân nhưng trước Tết thì tính năm nào?</h2>
+    </div>
+    <p>Đây là chỗ tranh luận rời khỏi lý thuyết suông và trở thành một câu hỏi có thể tự kiểm chứng bằng lịch vạn niên. Tiết Lập Xuân — mốc khởi đầu năm mới theo lịch Tiết Khí — trong nhiều năm rơi vào tháng Chạp (tháng 12 âm lịch) của năm cũ, tức là <em>trước</em> Tết Nguyên Đán cả nửa tháng đến một tháng. Ví dụ năm 2006, Lập Xuân rơi vào 17 tháng Chạp âm lịch — lúc đó vẫn còn là năm Ất Dậu theo Tết, nhưng đã bước sang năm mới nếu tính theo Tiết Khí.</p>
+    <p>Một người sinh trong khoảng "đã qua Lập Xuân nhưng chưa tới Tết" đó thuộc năm Can Chi nào — năm cũ hay năm mới? Đây chính là câu hỏi thực tế mà người xem số vẫn hỏi nhau trên các diễn đàn. Câu trả lời phổ biến nhất trên diễn đàn Lý Số Việt Nam (lyso.vn) cho trường hợp này là: Tử Vi vẫn tính theo năm cũ — tức theo Tết Nguyên Đán, còn Tứ Trụ (Tử Bình) và Hà Lạc mới tính theo năm mới của Tiết Khí, và nguyên tắc chung được nhắc lại là "học môn nào thì theo quy tắc của môn đó".</p>
+    <div class="callout" style="margin-top:0;">
+      <div class="flaw-label">Vì sao đây là phép thử đắt giá</div>
+      <p>Khác với các lỗ hổng ở mục 2 — vốn là tranh luận về cách hiểu một câu cổ văn — phép thử này không phụ thuộc vào việc diễn giải chữ nghĩa. Bất kỳ ai có ngày sinh rơi đúng vào khoảng giữa Lập Xuân và Tết đều có thể tự kiểm tra: nếu lấy Can Chi năm theo Tiết Khí, cung Mệnh, Cục và toàn bộ lá số Tử Vi sẽ đổi khác so với lấy theo Tết. Đây là bằng chứng cụ thể nhất cho thấy, trong thực hành phổ biến hiện nay, ranh giới năm của Tử Vi và ranh giới năm của Tứ Trụ là hai quy ước khác nhau — dù cùng xuất phát từ tranh cãi Tiết Khí.</p>
+    </div>
+
+    <h3>Về việc "quy đổi giờ sinh theo mùa" — một điểm cần đính chính</h3>
+    <div class="correction" style="margin-top:0;">
+      <div class="flaw-label">Đính chính nguồn</div>
+      <p>Bản tóm tắt trước từng dẫn TuviGLOBAL để "chứng minh" nên dùng Tiết Khí — đây là trích sai chiều lập luận. Nguyên văn phổ biến trên các diễn đàn khi nói về cách tính giờ của TuviGLOBAL thực chất viết ngược lại: khoa Tử Vi dùng ngày sinh của tháng âm lịch bình thường, <strong>không</strong> tính theo Tiết Khí như khoa Tử Bình (Tứ Trụ) — Tử Bình mới là môn cần quy đổi ngày sinh về đúng Tiết Khí. Chuyện "lùi lại 1 tiếng" trong nguồn đó là quy đổi múi giờ lịch sử ở Việt Nam, không liên quan trực tiếp Tiết Khí.</p>
+    </div>
+    <p>Việc giờ Tý (và các giờ khác) không cố định 23h–1h mà thay đổi nhẹ theo từng tháng âm lịch là một kỹ thuật gây tranh cãi của một số phái (liên quan chênh lệch giữa giờ Mặt Trời thực và giờ đồng hồ theo mùa), không phải quy tắc được đồng thuận rộng rãi — nhiều người thực hành vẫn dùng khung giờ cố định 2 tiếng/canh giờ.</p>
+    <p>Nói cách khác: bằng chứng thực hành đại chúng hiện nay cho thấy đa số vẫn an sao theo âm lịch thuần túy, còn phe đòi quy về Tiết Khí chủ yếu là các nhà nghiên cứu muốn kết hợp Tử Vi với Bát Tự hoặc đào sâu gốc thiên văn.</p>
+  </section>
+
+  <div class="divider"><span class="mono">ỨNG DỤNG</span></div>
+
+  <section class="chapter" id="s5">
+    <div class="chapter-head">
+      <span class="chapter-num mono">05</span>
+      <h2>Tiết Lệnh dùng để làm gì? Ba tầng ứng dụng</h2>
+    </div>
+
+    <h3>Tầng 1 — Cách phái Tiết Khí an sao</h3>
+    <p>Đây là quy tắc riêng của phái chủ trương dùng Tiết Khí, không phải cách làm được thừa nhận chung: an Mệnh cung vẫn theo tháng âm lịch, nhưng định Nguyệt Lệnh thì theo Tiết Khí. Cách an cung Mệnh của Thất Chính Tứ Dư là lấy Thái Dương đến cung Hoàng Đạo (tức Tiết Khí) mà khởi giờ sinh, đi thuận đến Mão an Mệnh; Tử Vi truyền thống thì khởi từ cung Dần tính là tháng Giêng, đếm thuận đến cung tháng sinh; rồi từ cung đó coi như giờ Tý, đếm nghịch theo giờ sinh ra cung Mệnh — không đả động gì đến Tiết Khí. Hai cách tuy thuận nghịch khác nhau nhưng cùng gốc lấy Nguyệt Lệnh làm điểm khởi, nên phái Tiết Khí lập luận: nếu sinh vào tháng nhuận mà đã qua Tiết Thanh Minh (tiết của tháng 3), khí lúc đó thực chất đã là khí tháng 3, nên an theo tháng 2 sẽ lệch khí thực. Đây là lý lẽ của một trường phái, không phải kết luận đã được kiểm chứng — như đã nói ở mục 2 và 4, cách an sao theo âm lịch thuần túy vẫn là dòng chính hiện nay.</p>
+
+    <h3>Tầng 2 — Định Đắc Lệnh: sao mạnh yếu theo thời gian</h3>
+    <p>Đây là phần mang tính đề xuất/mở rộng cá nhân nhiều hơn quy tắc kinh điển của Tử Vi, vay mượn khái niệm "Nguyệt Lệnh" và "đắc lệnh / thất lệnh" — trụ cột của Tử Bình (Bát Tự). Ý tưởng: Thái Dương thuộc Hỏa — sinh vào tiết Lập Hạ, Tiểu Mãn (Hỏa lệnh) dù tọa cung hãm địa vẫn ví như mặt trời giữa trưa hè; sinh tiết Lập Đông, Tiểu Tuyết (Thủy lệnh) dù ở cung miếu vượng cũng như mặt trời mùa đông bị mây che. Áp dụng vào Cục: Thủy Nhị Cục sinh tiết Đông Chí, Đại Hàn (Thủy lệnh) thì Thủy mênh mông, trí tuệ sâu nhưng dễ trôi dạt; sinh tiết Hạ Chí, Đại Thử (Hỏa khắc Thủy) thì như nước bị nấu cạn, nóng nảy, thông minh nhưng đứt quãng. Nên xem đây là hướng thể nghiệm cá nhân đáng tham khảo, không phải quy tắc đã kiểm chứng rộng rãi.</p>
+
+    <h3>Tầng 3 — Đoán hạn đến ngày</h3>
+    <p>Đại Hạn, Tiểu Hạn đi theo năm âm lịch, nhưng muốn ứng vào ngày/tháng dương lịch cụ thể thì cần quy về Tiết Khí, vì mỗi tiết chỉ cách nhau 14–16 ngày — mịn hơn nhiều so với đơn vị tháng âm lịch. Ví dụ hạn gặp Thiên Hình, Bạch Hổ (chủ mổ xẻ) thuộc Kim, nếu rơi đúng tiết Mang Chủng (Hỏa lệnh, khắc Kim) thì khả năng ứng vào khoảng tháng 5–6 dương lịch cao hơn.</p>
+  </section>
+
+  <div class="divider"><span class="mono">KẾT</span></div>
+
+  <section class="chapter" id="s6">
+    <div class="chapter-head">
+      <span class="chapter-num mono">06</span>
+      <h2>Kết luận</h2>
+    </div>
+    <blockquote class="verse">
+      <p>Thiên Bàn vốn là Hoàng Đạo. Dùng tháng âm lịch là dùng lịch xã hội quy ước để điền vào bản đồ thiên văn. Dùng Tiết Khí là quay về tọa độ thực. Không có đúng sai tuyệt đối, chỉ có bạn đang chọn đứng ở tầng nào: tầng quy ước xã hội để dễ nghiệm lý chung, hay tầng tọa độ thực để luận khí sâu.</p>
+    </blockquote>
+    <p>Hiểu đến chỗ này, ba tầng ứng dụng ở mục 05 tự nhiên xếp đúng chỗ của nó — không phải ba mức độ "nên dùng nhiều hay ít", mà là ba lần chọn tầng khác nhau cho ba mục đích khác nhau:</p>
+    <ul>
+      <li><strong>Tầng 1 (an sao)</strong> đứng ở tầng quy ước xã hội, vì mục đích ở đây là tương thích với hơn 500 năm nghiệm lý — từ La Hồng Tiên đến mọi phần mềm đang chạy hôm nay đều xây trên nền âm lịch. Đổi nền tảng này là đánh mất khả năng đối chiếu với kho phú đoán tích lũy qua nhiều thế hệ.</li>
+      <li><strong>Tầng 2 (đắc lệnh)</strong> và <strong>Tầng 3 (đoán hạn)</strong> trượt sang tầng tọa độ thực, vì mục đích lúc này không còn là giữ tương thích, mà là luận khí cho sâu và cho mịn hơn đơn vị tháng âm lịch cho phép.</li>
+    </ul>
+    <p>Vậy câu hỏi đúng không phải "Tử Vi có cần Tiết Khí không", mà là: ở bước bạn đang làm — dựng lá số hay luận đoán — bạn cần đứng ở tầng quy ước hay tầng tọa độ thực? Tử Vi là hình, dựng trên tầng quy ước; Tiết Khí là khí, tham chiếu thêm từ tầng tọa độ thực khi cần đọc sâu. Hai tầng không loại trừ nhau — chúng chỉ phục vụ hai việc khác nhau trong cùng một lá số.</p>
+  </section>
+
+  <footer class="sources">
+    <h3>Nguồn tham khảo</h3>
+    <ul>
+      <li>Phan Văn Khâm, <em>"Tiết Khí với Tử Vi Đẩu Số"</em> (bản dịch Quách Ngọc Bội, đăng tại tuvi.cohoc.net)</li>
+      <li>Thập Bát Phi Tinh sách thiên Tử Vi Đẩu Số toàn tập (bản Trần Nhạc Kỳ công bố, Đài Loan, 1966)</li>
+      <li>Tử Vi Đẩu Số Toàn Thư (La Hồng Tiên, đời Minh)</li>
+      <li>Trịnh Thiên Kiệt, <em>Lịch Pháp Tùng Đàm</em> (Đại Học Văn Hóa Trung Quốc xuất bản)</li>
+      <li>Thảo luận thực hành về cách tính giờ sinh và ranh giới năm sinh (Lập Xuân/Tết) trên lyso.vn (diễn đàn Lý Số Việt Nam)</li>
+      <li>VietAA, <em>"Giải thích vấn đề tính năm sinh theo lịch tiết khí"</em> (vietaa.com)</li>
+      <li>Minh Huệ Net, <em>"Cũng nói về 24 tiết khí"</em> — mốc hoàn thiện lịch Thái Sơ năm 104 TCN</li>
+    </ul>
+    <p class="note-final">Đây vẫn là chủ đề còn tranh luận mở trong giới Tử Vi, không có kết luận học thuật đồng thuận tuyệt đối.</p>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  /* ---------------- Theme toggle ---------------- */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const themeIcon = document.getElementById('themeIcon');
+  const sunPath = '<circle cx="12" cy="12" r="4.6"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path>';
+  const moonPath = '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z"></path>';
+
+  function setTheme(t){
+    root.setAttribute('data-theme', t);
+    themeIcon.innerHTML = t === 'night' ? moonPath : sunPath;
+  }
+  // Default: follow system preference once, no persistence (artifact storage rules)
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(prefersDark ? 'night' : 'day');
+
+  themeBtn.addEventListener('click', function(){
+    const next = root.getAttribute('data-theme') === 'night' ? 'day' : 'night';
+    setTheme(next);
+  });
+
+  /* ---------------- 24 Tiết Khí wheel ---------------- */
+  const names = [
+    "Lập Xuân","Vũ Thủy","Kinh Trập","Xuân Phân","Thanh Minh","Cốc Vũ",
+    "Lập Hạ","Tiểu Mãn","Mang Chủng","Hạ Chí","Tiểu Thử","Đại Thử",
+    "Lập Thu","Xử Thử","Bạch Lộ","Thu Phân","Hàn Lộ","Sương Giáng",
+    "Lập Đông","Tiểu Tuyết","Đại Tuyết","Đông Chí","Tiểu Hàn","Đại Hàn"
+  ];
+  const seasonColors = ['var(--jade)','var(--cinnabar)','var(--gold)','var(--azure)'];
+  const cx = 160, cy = 160, rOuter = 150, rInner = 96;
+  const segGroup = document.getElementById('segments');
+  const labelGroup = document.getElementById('labels');
+  const svgNS = 'http://www.w3.org/2000/svg';
+
+  function polar(cx, cy, r, deg){
+    const rad = (deg - 90) * Math.PI / 180;
+    return [cx + r*Math.cos(rad), cy + r*Math.sin(rad)];
+  }
+
+  for(let i=0;i<24;i++){
+    const a0 = i * 15, a1 = (i+1)*15;
+    const seasonIdx = Math.floor(i/6);
+    const isTiet = i % 2 === 0; // even index = Tiết (bold), odd = Khí (soft)
+    const [x0,y0] = polar(cx,cy,rOuter,a0);
+    const [x1,y1] = polar(cx,cy,rOuter,a1);
+    const [xi1,yi1] = polar(cx,cy,rInner,a1);
+    const [xi0,yi0] = polar(cx,cy,rInner,a0);
+    const path = document.createElementNS(svgNS,'path');
+    const d = `M ${x0} ${y0} A ${rOuter} ${rOuter} 0 0 1 ${x1} ${y1} L ${xi1} ${yi1} A ${rInner} ${rInner} 0 0 0 ${xi0} ${yi0} Z`;
+    path.setAttribute('d', d);
+    path.setAttribute('fill', seasonColors[seasonIdx]);
+    path.setAttribute('opacity', isTiet ? '0.85' : '0.35');
+    path.setAttribute('stroke', 'var(--bg)');
+    path.setAttribute('stroke-width', '1.2');
+    segGroup.appendChild(path);
+
+    // label — two stacked words (e.g. "Lập" / "Xuân"), still following the wedge
+    const mid = (a0+a1)/2;
+    const [lx,ly] = polar(cx,cy,(rOuter+rInner)/2 + 2, mid);
+    const words = names[i].split(' ');
+    const text = document.createElementNS(svgNS,'text');
+    text.setAttribute('x', lx);
+    text.setAttribute('y', ly);
+    text.setAttribute('font-size', '7.6');
+    text.setAttribute('font-family', "'Noto Sans Mono', monospace");
+    text.setAttribute('font-weight', '500');
+    text.setAttribute('fill', 'var(--bg)');
+    text.setAttribute('text-anchor','middle');
+    text.setAttribute('transform', `rotate(${mid}, ${lx}, ${ly})`);
+
+    const tspan1 = document.createElementNS(svgNS,'tspan');
+    tspan1.setAttribute('x', lx);
+    tspan1.setAttribute('dy', '-3.4');
+    tspan1.textContent = words[0];
+    text.appendChild(tspan1);
+
+    const tspan2 = document.createElementNS(svgNS,'tspan');
+    tspan2.setAttribute('x', lx);
+    tspan2.setAttribute('dy', '8.6');
+    tspan2.textContent = words[1] || '';
+    text.appendChild(tspan2);
+
+    labelGroup.appendChild(text);
+  }
+
+  /* pointer: approximate position based on today's date, starting Lập Xuân ~ Feb 4 */
+  function updatePointer(){
+    const now = new Date();
+    const year = now.getFullYear();
+    const start = new Date(year, 1, 4); // Feb 4 approx Lập Xuân
+    let diffDays = Math.floor((now - start) / 86400000);
+    if(diffDays < 0) diffDays += 365;
+    const segLen = 365.25/24;
+    const idx = Math.floor(diffDays/segLen) % 24;
+    const deg = (idx + 0.5) * 15;
+    const pointer = document.getElementById('pointer');
+    pointer.style.transform = `rotate(${deg}deg)`;
+    pointer.style.transformOrigin = `${cx}px ${cy}px`;
+  }
+  updatePointer();
+
+  /* ---------------- Ambient pentatonic music toggle ---------------- */
+  const musicBtn = document.getElementById('musicBtn');
+  let audioCtx, masterGain, nodes = [], playing = false;
+
+  const scale = [130.81, 146.83, 196.00, 220.00, 261.63]; // Cung Thương Chủy Vũ Cung(oct) - ngũ cung C D G A C
+
+  function buildVoice(freq, delayOffset){
+    const osc = audioCtx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+
+    const lfo = audioCtx.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.value = 0.06 + Math.random()*0.05;
+    const lfoGain = audioCtx.createGain();
+    lfoGain.gain.value = freq * 0.004;
+    lfo.connect(lfoGain);
+    lfoGain.connect(osc.frequency);
+
+    const voiceGain = audioCtx.createGain();
+    voiceGain.gain.value = 0;
+
+    osc.connect(voiceGain);
+    voiceGain.connect(masterGain);
+
+    osc.start();
+    lfo.start();
+
+    const target = 0.05 + Math.random()*0.03;
+    voiceGain.gain.setTargetAtTime(target, audioCtx.currentTime + delayOffset, 2.2);
+
+    return {osc, lfo, voiceGain};
+  }
+
+  function startAudio(){
+    if(!audioCtx){
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0;
+    masterGain.connect(audioCtx.destination);
+    masterGain.gain.setTargetAtTime(0.7, audioCtx.currentTime, 1.5);
+
+    nodes = scale.map((f, i) => buildVoice(f, i*0.9));
+    playing = true;
+  }
+
+  function stopAudio(){
+    if(!audioCtx) return;
+    const now = audioCtx.currentTime;
+    masterGain.gain.setTargetAtTime(0.0001, now, 0.8);
+    const toStop = nodes;
+    setTimeout(function(){
+      toStop.forEach(function(n){
+        try{ n.osc.stop(); n.lfo.stop(); }catch(e){}
+      });
+    }, 1600);
+    nodes = [];
+    playing = false;
+  }
+
+  musicBtn.addEventListener('click', function(){
+    if(!playing){
+      startAudio();
+      musicBtn.classList.add('playing');
+      musicBtn.classList.add('note-orbit');
+      musicBtn.setAttribute('aria-pressed','true');
+    } else {
+      stopAudio();
+      musicBtn.classList.remove('playing');
+      musicBtn.setAttribute('aria-pressed','false');
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

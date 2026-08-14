@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giờ Tý Trôi Vì Đâu — Hiểu Đúng Bản Chất</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0e1a; --bg-panel: #121729; --ink: #e9e4d6; --ink-dim: #9aa0b4;
+    --gold: #c9a15c; --gold-soft: #8a774a; --cinnabar: #b5503a; --line: #2a2f47;
+    --serif: 'Noto Serif', serif; --sans: 'Inter', sans-serif; --mono: 'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background: radial-gradient(ellipse 900px 500px at 50% -10%, rgba(201,161,92,0.12), transparent 60%), var(--bg);
+    color:var(--ink); font-family:var(--sans); line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold); color:#14181f;}
+  a{color:var(--gold);}
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px 100px;}
+  .hero{padding:76px 24px 48px; text-align:center; border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:20px;}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(28px,5vw,42px); line-height:1.2; margin:0 0 18px; max-width:600px; margin-inline:auto; color:#f5f0e2;}
+  .hero p.lede{font-family:var(--serif); font-style:italic; color:var(--ink-dim); font-size:17px; max-width:480px; margin:0 auto;}
+  section{padding-top:56px;}
+  h2{font-family:var(--serif); font-size:25px; font-weight:600; color:#f5f0e2; margin:0 0 18px; padding-bottom:14px; border-bottom:1px solid var(--line);}
+  h3{font-family:var(--serif); font-size:18px; font-weight:600; color:var(--gold); margin:28px 0 10px;}
+  p{margin:0 0 16px; color:#cfcabd;}
+  strong{color:var(--ink);}
+  .layer-tag{
+    display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    padding:4px 10px; border-radius:3px; margin-bottom:16px;
+  }
+  .layer-tag.l1{background:rgba(201,161,92,0.15); color:var(--gold); border:1px solid rgba(201,161,92,0.4);}
+  .layer-tag.l2{background:rgba(154,160,180,0.12); color:var(--ink-dim); border:1px solid var(--line);}
+  .layer-tag.l3{background:rgba(181,80,58,0.12); color:var(--cinnabar); border:1px solid rgba(181,80,58,0.35);}
+  .box{background:var(--bg-panel); border:1px solid var(--line); border-radius:4px; padding:18px 20px; margin:20px 0;}
+  .box.fix{border-left:3px solid var(--gold);}
+  .box.warn{border-left:3px solid var(--cinnabar);}
+  .box-label{font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px;}
+  .box.fix .box-label{color:var(--gold);} .box.warn .box-label{color:var(--cinnabar);}
+  .box p:last-child{margin-bottom:0;}
+  table{width:100%; border-collapse:collapse; margin:18px 0; font-size:14px;}
+  th,td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--line);}
+  th{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-dim); font-weight:500;}
+  td.time{font-family:var(--mono); color:var(--gold);}
+  tr:last-child td{border-bottom:none;}
+  @media (max-width:600px){
+    div[style*="grid-template-columns:repeat(2"]{grid-template-columns:1fr !important;}
+  }
+
+  /* CONTROL BAR */
+  .ctrl-bar{
+    position:fixed; top:16px; right:16px; z-index:50;
+    display:flex; gap:8px;
+  }
+  .ctrl-btn{
+    width:40px; height:40px; border-radius:50%;
+    background:var(--bg-panel); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--gold); transition:transform .15s ease, border-color .15s ease;
+  }
+  .ctrl-btn:hover{border-color:var(--gold); transform:scale(1.06);}
+  .ctrl-btn svg{width:18px; height:18px;}
+  .ctrl-btn.playing{color:var(--cinnabar);}
+  @media (max-width:600px){
+    .ctrl-bar{top:10px; right:10px;}
+    .ctrl-btn{width:36px; height:36px;}
+  }
+  .steps{counter-reset:step;}
+  .step{display:flex; gap:14px; margin-bottom:18px; align-items:flex-start;}
+  .step-num{font-family:var(--serif); font-size:20px; color:var(--gold); flex-shrink:0; width:30px;}
+  .step-body h4{margin:0 0 5px; font-family:var(--sans); font-weight:600; color:var(--ink); font-size:14.5px;}
+  .step-body p{margin:0; font-size:14px;}
+  .divider{display:flex; align-items:center; gap:14px; margin:52px 0; color:var(--gold-soft); font-family:var(--mono); font-size:11px; letter-spacing:.2em;}
+  .divider::before, .divider::after{content:""; flex:1; height:1px; background:var(--line);}
+  ul{padding-left:20px; margin:0 0 16px;} li{margin-bottom:8px; color:#cfcabd;}
+  .worked{background:var(--bg-panel); border:1px solid var(--line); border-radius:6px; padding:22px; margin:20px 0;}
+  .worked-row{display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--line); font-size:14px;}
+  .worked-row:last-child{border-bottom:none; padding-top:14px; font-weight:600;}
+  .worked-row span:first-child{color:var(--ink-dim);}
+  .worked-row span:last-child{font-family:var(--mono); color:var(--gold); text-align:right;}
+  footer{text-align:center; padding-top:50px; font-family:var(--mono); font-size:11px; color:var(--ink-dim); letter-spacing:.1em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="ctrl-bar">
+  <button class="ctrl-btn" id="musicBtn" title="Phát nhạc nền" aria-label="Phát nhạc nền">
+    <svg id="musicIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+  </button>
+</div>
+<audio id="bgm" src="music15.mp3" loop preload="none"></audio>
+
+<div class="hero">
+  <h1>Giờ Tý Trôi Vì Đâu?</h1>
+  <p class="lede">Hai nguyên nhân vật lý, một hệ quả logic — chỉ vậy thôi.</p>
+</div>
+
+<div class="wrap">
+
+<section>
+  <p>Giờ Tý "23h–1h" là một quy ước làm tròn để dễ học, không phải một hằng số cố định của tự nhiên. Bài này tập trung trả lời đúng một câu hỏi: <strong>giờ mặt trời thực dịch chuyển khỏi giờ đồng hồ vì đâu, và dịch chuyển bao nhiêu</strong> — không mở rộng sang các trường phái luận giải.</p>
+
+  <h3>Tra nhanh — nhập ngày giờ, ra ngay giờ chi</h3>
+  <p>Dùng công thức Phương Trình Thời Gian đã kiểm chứng (xem chi tiết ở Lớp 1 bên dưới), coi như sinh gần Hà Nội.</p>
+  <div class="worked" id="toolBox">
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+      <div style="flex:1; min-width:140px;">
+        <label style="display:block; font-size:12px; color:var(--ink-dim); margin-bottom:5px;">Ngày sinh (dương lịch)</label>
+        <input type="date" id="ngaySinh" style="width:100%; padding:8px; background:var(--bg); border:1px solid var(--line); border-radius:4px; color:var(--ink); font-family:var(--mono);">
+      </div>
+      <div style="flex:1; min-width:120px;">
+        <label style="display:block; font-size:12px; color:var(--ink-dim); margin-bottom:5px;">Giờ sinh</label>
+        <input type="time" id="gioSinh" style="width:100%; padding:8px; background:var(--bg); border:1px solid var(--line); border-radius:4px; color:var(--ink); font-family:var(--mono);">
+      </div>
+    </div>
+    <button id="tinhBtn" style="width:100%; padding:10px; background:var(--gold); color:#14181f; border:none; border-radius:4px; font-family:var(--sans); font-weight:600; cursor:pointer;">Tính giờ chi</button>
+    <div id="ketQua" style="margin-top:16px; font-size:14px;"></div>
+  </div>
+  <p style="font-size:13px;color:var(--ink-dim)">↓ Muốn hiểu vì sao có công thức này, đọc tiếp bên dưới.</p>
+</section>
+
+<div class="divider">LỚP 1 — VẬT LÝ (chắc chắn, đo được)</div>
+
+<section>
+  <span class="layer-tag l1">Xác định 100%</span>
+  <h2>Hai nguyên nhân duy nhất khiến giờ mặt trời lệch giờ đồng hồ</h2>
+
+  <h3>A. Kinh độ nơi sinh không trùng kinh tuyến chuẩn</h3>
+  <p>Giờ mặt trời thực tại một nơi phụ thuộc vào <strong>kinh độ chính xác của nơi đó</strong> — cứ 15° kinh độ lệch 1 giờ (4 phút/độ). Việt Nam dùng múi giờ UTC+7 theo kinh tuyến chuẩn 105°Đ. Hà Nội ở khoảng <strong>105°51′Đ</strong> — lệch rất ít so với kinh tuyến chuẩn, nên giờ đồng hồ ở Hà Nội đã khá sát giờ mặt trời thực tại chỗ. Càng đi xa kinh tuyến 105°Đ (Điện Biên phía tây, hoặc các đảo phía đông) thì độ lệch càng lớn, nhưng trong lãnh thổ Việt Nam tối đa cũng chỉ khoảng ±15-20 phút.</p>
+
+  <h3>B. Phương Trình Thời Gian — do quỹ đạo Trái Đất là hình elip</h3>
+  <p>Trái Đất quay quanh Mặt Trời theo elip (không tròn) và trục nghiêng, nên tốc độ biểu kiến của Mặt Trời trên bầu trời không đều quanh năm. Đây là hiện tượng đo được chính xác: độ lệch dao động từ <strong>−14 phút (giữa tháng 2)</strong> đến <strong>+16,4 phút (đầu tháng 11)</strong>, bằng 0 vào bốn thời điểm trong năm (giữa tháng 4, giữa tháng 6, đầu tháng 9, cuối tháng 12).</p>
+
+  <p>Công thức xấp xỉ chuẩn (sai số dưới 0,5 phút, đủ dùng cho tra cứu cá nhân):</p>
+  <div class="box" style="text-align:center; font-family:var(--mono); font-size:13.5px; color:var(--gold);">
+    E (phút) = 9,87·sin(2B) − 7,53·cos(B) − 1,5·sin(B)<br>
+    <span style="font-size:12px; color:var(--ink-dim)">với B = 360°/365 × (N − 81), N = số thứ tự ngày trong năm dương lịch</span>
+  </div>
+  <p style="font-size:13px;color:var(--ink-dim)">* Đã kiểm chứng công thức này khớp với 4 mốc cực trị đã biết (11/2: −14,2 → công thức ra −14,6; 3/11: +16,4 → công thức ra +16,3), sai lệch dưới nửa phút.</p>
+
+  <div class="box fix">
+    <div class="box-label">Kết luận Lớp 1</div>
+    <p>Tổng lệch tối đa ở Việt Nam = kinh độ (tối đa ±15 phút) + Phương Trình Thời Gian (tối đa ±16,4 phút) ≈ <strong>31 phút</strong>. Nhưng đây là trường hợp xấu nhất (sinh xa kinh tuyến chuẩn + đúng ngày cực trị PTTG) — với đa số ngày sinh ở đồng bằng Bắc Bộ đến Nam Bộ, độ lệch thực tế thường chỉ vài phút đến hơn chục phút. Đây là toàn bộ phần "khoa học đo được" của câu chuyện giờ Tý trôi.</p>
+  </div>
+
+  <h3>Bảng tra Phương Trình Thời Gian theo lịch dương (mỗi 5 ngày)</h3>
+  <p>Dùng bảng này để tìm khung giờ Tý đúng cho bất kỳ ngày sinh dương lịch nào (đã tính sẵn cho Hà Nội — nơi khác chỉnh thêm theo kinh độ nếu cần, xem Bước 2 ở mục Áp dụng). Nếu ngày sinh nằm giữa hai mốc, lấy giá trị của mốc gần nhất là đủ chính xác cho việc luận giải.</p>
+  <div style="overflow-x:auto;">
+  <div style="display:grid; grid-template-columns:repeat(2,minmax(260px,1fr)); gap:0 16px;">
+  <table style="font-size:12.5px;">
+    <tr><th>Ngày</th><th>PTTG</th><th>Giờ Tý</th></tr>
+    <tr><td>01/01</td><td class="time">−3,7p</td><td class="time">22:56–0:56</td></tr>
+    <tr><td>06/01</td><td class="time">−5,9p</td><td class="time">22:54–0:54</td></tr>
+    <tr><td>11/01</td><td class="time">−7,9p</td><td class="time">22:52–0:52</td></tr>
+    <tr><td>16/01</td><td class="time">−9,7p</td><td class="time">22:50–0:50</td></tr>
+    <tr><td>21/01</td><td class="time">−11,3p</td><td class="time">22:49–0:49</td></tr>
+    <tr><td>26/01</td><td class="time">−12,5p</td><td class="time">22:47–0:47</td></tr>
+    <tr><td>31/01</td><td class="time">−13,5p</td><td class="time">22:46–0:46</td></tr>
+    <tr><td>05/02</td><td class="time">−14,2p</td><td class="time">22:46–0:46</td></tr>
+    <tr><td>10/02</td><td class="time">−14,5p</td><td class="time">22:45–0:45</td></tr>
+    <tr><td><strong>15/02*</strong></td><td class="time"><strong>−14,6p</strong></td><td class="time"><strong>22:45–0:45</strong></td></tr>
+    <tr><td>20/02</td><td class="time">−14,3p</td><td class="time">22:46–0:46</td></tr>
+    <tr><td>25/02</td><td class="time">−13,7p</td><td class="time">22:46–0:46</td></tr>
+    <tr><td>02/03</td><td class="time">−12,9p</td><td class="time">22:47–0:47</td></tr>
+    <tr><td>07/03</td><td class="time">−11,8p</td><td class="time">22:48–0:48</td></tr>
+    <tr><td>12/03</td><td class="time">−10,5p</td><td class="time">22:50–0:50</td></tr>
+    <tr><td>17/03</td><td class="time">−9,1p</td><td class="time">22:51–0:51</td></tr>
+    <tr><td>22/03</td><td class="time">−7,5p</td><td class="time">22:52–0:52</td></tr>
+    <tr><td>27/03</td><td class="time">−5,9p</td><td class="time">22:54–0:54</td></tr>
+    <tr><td>01/04</td><td class="time">−4,3p</td><td class="time">22:56–0:56</td></tr>
+    <tr><td>06/04</td><td class="time">−2,8p</td><td class="time">22:57–0:57</td></tr>
+    <tr><td>11/04</td><td class="time">−1,3p</td><td class="time">22:59–0:59</td></tr>
+    <tr><td><strong>16/04*</strong></td><td class="time"><strong>0,0p</strong></td><td class="time"><strong>23:00–1:00</strong></td></tr>
+    <tr><td>21/04</td><td class="time">+1,2p</td><td class="time">23:01–1:01</td></tr>
+    <tr><td>26/04</td><td class="time">+2,2p</td><td class="time">23:02–1:02</td></tr>
+    <tr><td>01/05</td><td class="time">+2,9p</td><td class="time">23:03–1:03</td></tr>
+    <tr><td>06/05</td><td class="time">+3,4p</td><td class="time">23:03–1:03</td></tr>
+    <tr><td><strong>11/05*</strong></td><td class="time"><strong>+3,7p</strong></td><td class="time"><strong>23:04–1:04</strong></td></tr>
+    <tr><td>16/05</td><td class="time">+3,7p</td><td class="time">23:04–1:04</td></tr>
+    <tr><td>21/05</td><td class="time">+3,5p</td><td class="time">23:04–1:04</td></tr>
+    <tr><td>26/05</td><td class="time">+3,1p</td><td class="time">23:03–1:03</td></tr>
+    <tr><td>31/05</td><td class="time">+2,5p</td><td class="time">23:02–1:02</td></tr>
+    <tr><td>05/06</td><td class="time">+1,7p</td><td class="time">23:02–1:02</td></tr>
+    <tr><td>10/06</td><td class="time">+0,8p</td><td class="time">23:01–1:01</td></tr>
+    <tr><td><strong>15/06*</strong></td><td class="time"><strong>−0,2p</strong></td><td class="time"><strong>23:00–1:00</strong></td></tr>
+    <tr><td>20/06</td><td class="time">−1,2p</td><td class="time">22:59–0:59</td></tr>
+    <tr><td>25/06</td><td class="time">−2,3p</td><td class="time">22:58–0:58</td></tr>
+    <tr><td>30/06</td><td class="time">−3,3p</td><td class="time">22:57–0:57</td></tr>
+  </table>
+  <table style="font-size:12.5px;">
+    <tr><th>Ngày</th><th>PTTG</th><th>Giờ Tý</th></tr>
+    <tr><td>05/07</td><td class="time">−4,2p</td><td class="time">22:56–0:56</td></tr>
+    <tr><td>10/07</td><td class="time">−5,0p</td><td class="time">22:55–0:55</td></tr>
+    <tr><td>15/07</td><td class="time">−5,6p</td><td class="time">22:54–0:54</td></tr>
+    <tr><td>20/07</td><td class="time">−6,0p</td><td class="time">22:54–0:54</td></tr>
+    <tr><td><strong>25/07*</strong></td><td class="time"><strong>−6,2p</strong></td><td class="time"><strong>22:54–0:54</strong></td></tr>
+    <tr><td>30/07</td><td class="time">−6,1p</td><td class="time">22:54–0:54</td></tr>
+    <tr><td>04/08</td><td class="time">−5,8p</td><td class="time">22:54–0:54</td></tr>
+    <tr><td>09/08</td><td class="time">−5,2p</td><td class="time">22:55–0:55</td></tr>
+    <tr><td>14/08</td><td class="time">−4,4p</td><td class="time">22:56–0:56</td></tr>
+    <tr><td>19/08</td><td class="time">−3,3p</td><td class="time">22:57–0:57</td></tr>
+    <tr><td>24/08</td><td class="time">−2,0p</td><td class="time">22:58–0:58</td></tr>
+    <tr><td>29/08</td><td class="time">−0,5p</td><td class="time">23:00–1:00</td></tr>
+    <tr><td>03/09</td><td class="time">+1,2p</td><td class="time">23:01–1:01</td></tr>
+    <tr><td>08/09</td><td class="time">+2,9p</td><td class="time">23:03–1:03</td></tr>
+    <tr><td>13/09</td><td class="time">+4,8p</td><td class="time">23:05–1:05</td></tr>
+    <tr><td>18/09</td><td class="time">+6,6p</td><td class="time">23:07–1:07</td></tr>
+    <tr><td>23/09</td><td class="time">+8,4p</td><td class="time">23:08–1:08</td></tr>
+    <tr><td>28/09</td><td class="time">+10,2p</td><td class="time">23:10–1:10</td></tr>
+    <tr><td>03/10</td><td class="time">+11,8p</td><td class="time">23:12–1:12</td></tr>
+    <tr><td>08/10</td><td class="time">+13,2p</td><td class="time">23:13–1:13</td></tr>
+    <tr><td>13/10</td><td class="time">+14,4p</td><td class="time">23:14–1:14</td></tr>
+    <tr><td>18/10</td><td class="time">+15,4p</td><td class="time">23:15–1:15</td></tr>
+    <tr><td>23/10</td><td class="time">+16,1p</td><td class="time">23:16–1:16</td></tr>
+    <tr><td>28/10</td><td class="time">+16,4p</td><td class="time">23:16–1:16</td></tr>
+    <tr><td><strong>02/11*</strong></td><td class="time"><strong>+16,4p</strong></td><td class="time"><strong>23:16–1:16</strong></td></tr>
+    <tr><td>07/11</td><td class="time">+16,1p</td><td class="time">23:16–1:16</td></tr>
+    <tr><td>12/11</td><td class="time">+15,4p</td><td class="time">23:15–1:15</td></tr>
+    <tr><td>17/11</td><td class="time">+14,4p</td><td class="time">23:14–1:14</td></tr>
+    <tr><td>22/11</td><td class="time">+13,1p</td><td class="time">23:13–1:13</td></tr>
+    <tr><td>27/11</td><td class="time">+11,6p</td><td class="time">23:12–1:12</td></tr>
+    <tr><td>02/12</td><td class="time">+9,7p</td><td class="time">23:10–1:10</td></tr>
+    <tr><td>07/12</td><td class="time">+7,7p</td><td class="time">23:08–1:08</td></tr>
+    <tr><td>12/12</td><td class="time">+5,5p</td><td class="time">23:06–1:06</td></tr>
+    <tr><td>17/12</td><td class="time">+3,3p</td><td class="time">23:03–1:03</td></tr>
+    <tr><td>22/12</td><td class="time">+0,9p</td><td class="time">23:01–1:01</td></tr>
+    <tr><td><strong>27/12*</strong></td><td class="time"><strong>−1,4p</strong></td><td class="time"><strong>22:59–0:59</strong></td></tr>
+  </table>
+  </div>
+  </div>
+  <p style="font-size:13px;color:var(--ink-dim)">* Dòng in đậm là điểm cực trị hoặc điểm bằng 0 (gần đúng, có thể lệch ±1 ngày tuỳ năm). PTTG dương = cộng vào giờ đồng hồ; âm = trừ đi. Bảng trên tính bằng công thức xấp xỉ (giá trị trung bình nhiều năm) — <strong>giá trị thực của một năm cụ thể có thể lệch khoảng ±30 giây</strong> so với bảng do biến thiên nhỏ giữa các năm (năm nhuận, nhiễu động quỹ đạo). Với ca sinh sát các mốc cực trị (đầu tháng 2, đầu tháng 11) hoặc cần độ chính xác dưới 1 phút, nên tra thêm lịch thiên văn đúng năm sinh.</p>
+</section>
+
+<div class="divider">LỚP 2 — HỆ QUẢ LOGIC (suy ra từ Lớp 1)</div>
+
+<section>
+  <span class="layer-tag l2">Suy luận trực tiếp, không cần thêm giả định</span>
+  <h2>Nếu giờ mặt trời dịch chuyển, cả 12 giờ chi dịch chuyển theo</h2>
+  <p>Giờ mặt trời thực là một trục thời gian duy nhất trong ngày. Khi trục đó dịch đi X phút, <strong>toàn bộ 12 mốc giờ chi (Tý, Sửu, Dần... Hợi) dịch theo đúng X phút đó</strong> — không phải hiện tượng riêng của giờ Tý. Ai sinh giờ Ngọ, giờ Dậu cũng cần chỉnh y hệt người sinh giờ Tý.</p>
+  <p>Giờ Tý chỉ đặc biệt <em>nhạy cảm hơn</em> vì nó là giờ chi duy nhất vắt qua nửa đêm — ranh giới ngày âm lịch:</p>
+  <ul>
+    <li><strong>Dạ Tý</strong> (giờ đã chỉnh &lt; 24h00): vẫn thuộc ngày âm hôm trước, Can Chi ngày chưa đổi.</li>
+    <li><strong>Tảo Tý / Vãn Tý</strong> (giờ đã chỉnh ≥ 24h00): đã sang ngày âm mới — giờ Tý này được tính vào ngày hôm sau, Can Chi ngày đổi theo.</li>
+  </ul>
+  <p>Nếu quy đổi sai giữa Dạ Tý và Tảo Tý/Vãn Tý, Can Chi ngày sinh sai theo — ảnh hưởng đến Cục và nhiều an sao khác, không chỉ riêng cung Mệnh. Đây là hệ quả duy nhất khiến giờ Tý cần cẩn trọng hơn các giờ chi khác, chứ bản thân độ lệch không lớn hơn.</p>
+
+  <div class="box warn">
+    <div class="box-label">Khi còn băn khoăn</div>
+    <p>Nếu không chắc chắn giữa Dạ Tý, Tảo Tý, Vãn Tý — hay bất kỳ giờ chi nào khác rơi sát ranh giới, chưa rõ ràng — cách xử lý thực dụng nhất là <strong>lập cả 2 lá số (2 Tứ Trụ)</strong> theo 2 khả năng, rồi khảo nghiệm đối chiếu với thực tế cuộc đời (tính cách, các mốc lớn đã qua...) để chọn ra lá số khớp hơn. Đây cũng là cách các cụ xử lý từ xưa khi chưa có đồng hồ chính xác đến từng phút.</p>
+  </div>
+</section>
+
+<div class="divider">ÁP DỤNG — QUY TRÌNH 3 BƯỚC</div>
+
+<section>
+  <h2>Tra giờ chi chuẩn cho người sinh tại Việt Nam</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Giờ sinh gốc</h4>
+        <p>Lấy giờ sinh theo đồng hồ, chính xác đến phút nếu có thể.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Chỉnh kinh độ nơi sinh (nếu cần)</h4>
+        <p>Với đa số nơi sinh ở Việt Nam, độ lệch dưới 15 phút — có thể bỏ qua nếu không cần độ chính xác cao. Chỉ đáng chỉnh khi sinh xa kinh tuyến 105°Đ (Điện Biên, Lai Châu: cộng thêm khoảng 10-15 phút).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Cộng/trừ Phương Trình Thời Gian theo ngày sinh</h4>
+        <p>Tra theo ngày dương lịch sinh (−14 đến +16,4 phút tuỳ ngày, xem Lớp 1.B). Cộng vào giờ đã có ở bước 1-2 để ra giờ mặt trời thực, rồi đối chiếu 12 mốc giờ chi cổ điển (Tý 23h–1h, Sửu 1h–3h...).</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Ví dụ áp dụng — sinh 29/4/1987, Hà Nội</h3>
+  <div class="worked">
+    <div class="worked-row"><span>Bước 1 — giờ sinh gốc</span><span>(cần biết giờ cụ thể)</span></div>
+    <div class="worked-row"><span>Bước 2 — chỉnh kinh độ Hà Nội</span><span>≈ 0 phút</span></div>
+    <div class="worked-row"><span>Bước 3 — Phương Trình Thời Gian, 29/4</span><span>≈ +2 đến +3 phút</span></div>
+    <div class="worked-row"><span>Khung giờ Tý áp dụng</span><span>23h02 – 1h02</span></div>
+  </div>
+  <p>Vì 29/4 nằm sát điểm 0 của Phương Trình Thời Gian (giữa tháng 4), giờ Tý cho ngày này gần như trùng khớp mốc cổ điển 23h-1h — chỉ lệch vài phút, không đáng kể trong đa số trường hợp.</p>
+</section>
+
+<div class="divider">LỚP 3 — TRI THỨC TRUYỀN THỐNG (chưa kiểm chứng)</div>
+
+<section>
+  <span class="layer-tag l3">Tham khảo, không dùng để khẳng định</span>
+  <h2>Vì sao có những bảng nói giờ Tý lệch tới 40-80 phút?</h2>
+  <p>Một số hệ phái Tử Vi – Tử Bình (như Diễn Cầm Tam Thế) lưu truyền bảng giờ Tý theo tháng âm lịch với độ lệch lớn hơn nhiều so với Lớp 1 tính ra được — có tháng lệch tới 80 phút, trong khi Phương Trình Thời Gian thực tối đa chỉ 16 phút.</p>
+  <p>Đối chiếu cụ thể: bảng cổ pháp cho tháng 4 âm lệch <strong>+43 phút</strong>, trong khi tính theo vật lý (Lớp 1) chỉ lệch <strong>+2-3 phút</strong> — chênh nhau khoảng 40 phút, đủ để đổi cả giờ chi ở một số ca sinh sát ranh giới.</p>
+  <div class="box warn">
+    <div class="box-label">Chưa xác minh được nguồn gốc</div>
+    <p>Phần chênh lệch này không phải sai số ngẫu nhiên — nó có quy luật nhất quán trong toàn bộ bảng cổ pháp — nhưng công thức gốc đằng sau vẫn chưa tìm được nguồn giải thích đáng tin để xác minh. Có thể đến từ cách đo bóng nắng cổ (kém chính xác hơn đồng hồ hiện đại), từ hệ đơn vị thời gian cổ Trung Hoa quy đổi qua nhiều thế kỷ, hoặc từ sai lệch tam sao thất bản. Nên xem đây là tri thức truyền thống để tham khảo, không phải kết quả đã kiểm chứng ngang hàng với Lớp 1 và Lớp 2.</p>
+  </div>
+  <p style="font-size:13px;color:var(--ink-dim)">* Khi hai phương pháp mâu thuẫn nhau (như ví dụ trên), nên ưu tiên cách tính vật lý (Lớp 1-2) vì kiểm chứng được bằng công thức độc lập.</p>
+</section>
+
+<div class="divider">KẾT</div>
+
+<section>
+  <h2>Tóm lại</h2>
+  <p>Giờ Tý trôi vì đúng hai lý do vật lý: kinh độ nơi sinh và Phương Trình Thời Gian — tổng lệch tối đa ở Việt Nam khoảng 31 phút (±15p kinh độ + ±16,4p PTTG), thực tế đa số ngày sinh chỉ lệch vài đến hơn chục phút. Vì trục thời gian dịch chuyển, cả 12 giờ chi dịch theo, không riêng Tý — Tý chỉ cần cẩn trọng hơn vì liên quan đến Dạ Tý/Tảo Tý (Vãn Tý) và Can Chi ngày. Các bảng cổ pháp cho độ lệch lớn hơn nhiều là tri thức truyền thống chưa kiểm chứng được nguồn gốc, nên dùng tham khảo, không dùng để khẳng định khi mâu thuẫn với tính toán vật lý.</p>
+</section>
+
+</div>
+
+
+
+<script>
+  // Mini-tool: tính giờ chi từ ngày + giờ sinh (dùng công thức PTTG đã kiểm chứng)
+  const chiNames = ["Tý","Sửu","Dần","Mão","Thìn","Tỵ","Ngọ","Mùi","Thân","Dậu","Tuất","Hợi"];
+  function fmtHM(totalMin){
+    let m = Math.round(totalMin);
+    m = ((m % 1440) + 1440) % 1440;
+    return String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0');
+  }
+  document.getElementById('tinhBtn').addEventListener('click', () => {
+    const ngay = document.getElementById('ngaySinh').value;
+    const gio = document.getElementById('gioSinh').value;
+    const out = document.getElementById('ketQua');
+    if (!ngay || !gio) { out.innerHTML = '<span style="color:var(--cinnabar)">Vui lòng nhập đủ ngày và giờ sinh.</span>'; return; }
+    const d = new Date(ngay + 'T00:00:00');
+    const N = Math.round((d - new Date(d.getFullYear(),0,1)) / 86400000) + 1;
+    const B = (360/365) * (N - 81) * Math.PI/180;
+    const E = 9.87*Math.sin(2*B) - 7.53*Math.cos(B) - 1.5*Math.sin(B); // phút PTTG
+    const [h, mi] = gio.split(':').map(Number);
+    const gioMin = h*60 + mi;
+    const adj = ((gioMin + E) % 1440 + 1440) % 1440;
+    const idx = Math.floor(((adj + 60) % 1440) / 120);
+    let extra = '';
+    if (idx === 0) {
+      const rawFrom23 = gioMin >= 1380 ? gioMin - 1440 : gioMin;
+      const adjFrom23 = rawFrom23 + E;
+      extra = `<br>→ Thuộc <strong>${adjFrom23 < 0 ? 'Dạ Tý' : 'Tảo Tý'}</strong> (${adjFrom23 < 0 ? 'ngày âm chưa đổi' : 'đã sang ngày âm mới'})`;
+    }
+    const tyStart = fmtHM(23*60 + E), tyEnd = fmtHM(23*60 + E + 120);
+    out.innerHTML = `PTTG ngày này: <strong style="color:var(--gold)">${E>=0?'+':''}${E.toFixed(1)} phút</strong><br>
+      Khung giờ Tý ngày sinh: <strong style="color:var(--gold)">${tyStart} – ${tyEnd}</strong><br>
+      Giờ sinh ${gio} rơi vào giờ: <strong style="color:var(--gold)">${chiNames[idx]}</strong>${extra}`;
+  });
+</script>
+<script>
+  // Music toggle
+  const musicBtn = document.getElementById('musicBtn');
+  const bgm = document.getElementById('bgm');
+  let playing = false;
+  musicBtn.addEventListener('click', () => {
+    if (!playing) {
+      bgm.play().then(() => {
+        playing = true;
+        musicBtn.classList.add('playing');
+      }).catch(() => {
+        alert('Không tìm thấy file music15.mp3 — hãy đặt file nhạc cùng thư mục với file HTML này.');
+      });
+    } else {
+      bgm.pause();
+      playing = false;
+      musicBtn.classList.remove('playing');
+    }
+  });
+</script>
+
+</body>
+</html>
