@@ -165,15 +165,6 @@
 
   /* ── HERO : lá số tử vi thu nhỏ ── */
   .hero{ padding:72px 0 60px; text-align:center; position:relative; }
-  .compass{ width:236px;height:236px;margin:0 auto 34px; position:relative; }
-  .compass svg{ width:100%;height:100%; }
-  .compass-glow{
-    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    width:286px;height:286px; border-radius:50%;
-    background:radial-gradient(circle, rgba(169,129,47,.24), transparent 68%);
-    filter:blur(2px); pointer-events:none;
-  }
-  [data-theme="dark"] .compass-glow{ background:radial-gradient(circle, rgba(216,180,110,.16), transparent 68%); }
   .palace-chi{ font-family:'Literata', serif; font-weight:600; fill:var(--ink-soft); }
   .twinkle{ animation:twinkle 5s ease-in-out infinite; }
   @keyframes twinkle{ 0%,100%{ opacity:.25; } 50%{ opacity:.9; } }
@@ -245,6 +236,50 @@
     display:flex;align-items:center;gap:8px;
   }
   .section-label::after{ content:"";flex:1;height:1px;background:var(--line); }
+  .section-hint{ font-size:13.5px; color:var(--ink-faint); max-width:58ch; margin-bottom:26px; }
+
+  /* ── 12 CUNG — lá số phóng to, bấm được ── */
+  .palace-board{ width:min(440px, 90vw); margin:0 auto 8px; }
+  .palace-board svg{ width:100%; height:auto; display:block; }
+  .palace-cell{ cursor:pointer; }
+  .palace-cell .palace-hit{ fill:var(--bronze); opacity:0; transition:opacity .2s ease; }
+  .palace-cell:hover .palace-hit,
+  .palace-cell:focus-visible .palace-hit{ opacity:.08; }
+  .palace-cell.active .palace-hit{ opacity:.16; }
+  .palace-cell.active .palace-chi{ fill:var(--seal); }
+  .palace-cell:focus-visible{ outline:none; }
+  .palace-cell:focus-visible .palace-hit{ opacity:.14; }
+
+  /* ── 14 SAO — bầu trời mô phỏng, luôn tối bất kể theme ── */
+  .sky-map{
+    width:100%; max-width:640px; margin:0 auto;
+    border-radius:14px; overflow:hidden;
+    background:radial-gradient(ellipse at 28% 18%, #1c2740 0%, #0b111d 72%);
+    box-shadow:inset 0 0 50px rgba(0,0,0,.45), 0 14px 36px -20px rgba(0,0,0,.5);
+    padding:10px;
+  }
+  .sky-map svg{ width:100%; height:auto; display:block; }
+  .star-point{ cursor:pointer; }
+  .star-core{ transition:r .2s ease; }
+  .star-hit{ fill:transparent; }
+  .star-point:hover .star-core, .star-point:focus-visible .star-core{ filter:brightness(1.3); }
+  .star-point.active .star-core{ fill:#fff2d0 !important; }
+  .star-point.active .star-label{ fill:#fff2d0; font-weight:600; }
+  .star-point:focus-visible{ outline:none; }
+  .star-label{ font-family:'Source Serif 4', serif; font-size:9.5px; fill:#c9bd9c; pointer-events:none; }
+  .constellation-line{ stroke:#8a7550; stroke-width:.6; fill:none; opacity:.32; }
+  .sky-dust{ fill:#e8dcc0; }
+
+  /* ── Trạng thái đang lọc theo sao/cung ── */
+  .filter-status{
+    display:flex; align-items:center; gap:10px; margin-bottom:18px;
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+    font-size:12px; color:var(--ink-soft);
+  }
+  .filter-status button{
+    background:var(--seal); color:var(--paper); border:none; border-radius:999px;
+    padding:4px 11px; font-size:11px; cursor:pointer; font-family:inherit;
+  }
 
   /* ── TAGS ── */
   .tag-row{ display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px; }
@@ -373,7 +408,6 @@
   @media (max-width:480px){
     .wrap{padding:0 20px;}
     .hero{padding:56px 0 48px;}
-    .compass{width:200px;height:200px;}
     .leaf{padding:22px 20px;}
     .leaf-body{gap:14px;}
     .leaf-thumb{width:48px;height:48px;}
@@ -405,10 +439,35 @@
   </nav>
 
   <header class="hero">
-    <div class="compass-glow" aria-hidden="true"></div>
-    <div class="compass" aria-hidden="true">
-      <svg viewBox="0 0 240 240">
-        <g id="corner-tint"></g>
+    <div class="hero-eyebrow">Tri Mệnh · Tận Lực · An Nhiên</div>
+    <div class="hero-quote" id="hero-quote">
+      <span id="quote-line1">Số có định, người vô định.</span><br>
+      <span class="line2" id="quote-line2">Vận có xoay, lòng người xoay theo được.</span>
+    </div>
+    <div class="hero-rule"></div>
+    <h1 class="hero-title">Học Tử Vi — Nhìn Số Mệnh Bằng Con Mắt Của Người Quân Tử</h1>
+    <p class="hero-intro">Đây không phải nơi xem bói, đoán vận. Đây là nơi <strong>Bố của Dừa &amp; Mixue</strong> học lại tử vi như học một di sản — hiểu gốc gác, hiểu trường phái, hiểu ranh giới giữa minh triết và mê tín, rồi dùng nó như người quân tử dùng gương soi.</p>
+    <p class="hero-intro">Biết mệnh không phải để sợ hãi, cũng không phải để ỷ lại chờ trời — mà để đứng thẳng trước những gì mình không chọn được, và sống trọn với những gì mình chọn được.</p>
+
+    <div class="search-row">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" id="search-input" placeholder="Tìm một bài viết..." aria-label="Tìm bài viết" autocomplete="off" enterkeyhint="search" oninput="filterArticles()">
+      </div>
+    </div>
+
+    <a href="#palace-section" class="scroll-cue" aria-label="Cuộn xuống xem lá số">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+    </a>
+  </header>
+
+  <div class="chapter-divider" aria-hidden="true">· · ·</div>
+
+  <section id="palace-section">
+    <div class="section-label reveal"><h2>◆ 12 Cung — Địa Bàn</h2></div>
+    <p class="section-hint reveal">Đây là 12 vị trí cố định trên lá số. Bấm vào một cung để lọc các bài viết liên quan tới vị trí đó.</p>
+    <div class="palace-board" id="palaceBoard">
+      <svg viewBox="0 0 240 240" id="palaceSvg" role="group" aria-label="Lá số 12 cung, bấm để lọc bài viết">
         <rect x="60" y="60" width="120" height="120" fill="none" stroke="var(--line-hv)" stroke-width="1"/>
         <line x1="60" y1="0" x2="60" y2="60" stroke="var(--line-hv)" stroke-width="1"/>
         <line x1="180" y1="0" x2="180" y2="60" stroke="var(--line-hv)" stroke-width="1"/>
@@ -429,36 +488,30 @@
         <path d="M120,94 a26,26 0 0 1 0,52 13,13 0 0 1 0,-26 13,13 0 0 0 0,-26 z" fill="var(--paper)"/>
         <circle cx="120" cy="107" r="5" fill="var(--paper)"/>
         <circle cx="120" cy="133" r="5" fill="var(--ink)"/>
-        <g id="stars"></g>
+        <g id="centerStars"></g>
       </svg>
     </div>
+  </section>
 
-    <div class="hero-eyebrow">Tri Mệnh · Tận Lực · An Nhiên</div>
-    <div class="hero-quote" id="hero-quote">
-      <span id="quote-line1">Số có định, người vô định.</span><br>
-      <span class="line2" id="quote-line2">Vận có xoay, lòng người xoay theo được.</span>
+  <div class="chapter-divider" aria-hidden="true">· · ·</div>
+
+  <section id="star-section">
+    <div class="section-label reveal"><h2>◆ 14 Chính Tinh</h2></div>
+    <p class="section-hint reveal">Mô phỏng cách 14 sao chia thành hai chòm — Tử Vi (6 sao) và Thiên Phủ (8 sao). Bấm vào một sao để lọc bài viết về sao đó. (Vị trí mang tính minh họa, không phải tọa độ thiên văn thật.)</p>
+    <div class="sky-map" id="skyMap">
+      <svg viewBox="0 0 400 250" id="skySvg" role="group" aria-label="Bầu trời 14 chính tinh, bấm để lọc bài viết">
+        <g id="skyDust"></g>
+        <g id="constellations"></g>
+        <g id="skyStars"></g>
+      </svg>
     </div>
-    <div class="hero-rule"></div>
-    <h1 class="hero-title">Học Tử Vi — Nhìn Số Mệnh Bằng Con Mắt Của Người Quân Tử</h1>
-    <p class="hero-intro">Đây không phải nơi xem bói, đoán vận. Đây là nơi <strong>Bố của Dừa &amp; Mixue</strong> học lại tử vi như học một di sản — hiểu gốc gác, hiểu trường phái, hiểu ranh giới giữa minh triết và mê tín, rồi dùng nó như người quân tử dùng gương soi.</p>
-    <p class="hero-intro">Biết mệnh không phải để sợ hãi, cũng không phải để ỷ lại chờ trời — mà để đứng thẳng trước những gì mình không chọn được, và sống trọn với những gì mình chọn được.</p>
-
-    <div class="search-row">
-      <div class="search-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="search" id="search-input" placeholder="Tìm một bài viết..." aria-label="Tìm bài viết" autocomplete="off" enterkeyhint="search" oninput="filterArticles()">
-      </div>
-    </div>
-
-    <a href="#shelf" class="scroll-cue" aria-label="Cuộn xuống xem bài viết">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-    </a>
-  </header>
+  </section>
 
   <div class="chapter-divider" aria-hidden="true">· · ·</div>
 
   <section>
     <div class="section-label reveal"><h2>◆ Bài viết</h2></div>
+    <div class="filter-status" id="filterStatus" style="display:none;"></div>
     <div class="tag-row reveal" id="tag-row"></div>
     <div class="shelf" id="shelf"></div>
     <div class="empty-shelf" id="empty" style="display:none;"><span class="empty-mark" aria-hidden="true">✦</span>Chưa tìm thấy trang nào phù hợp...</div>
@@ -476,7 +529,7 @@
 /* ══ VẼ LÁ SỐ TỬ VI THU NHỎ: 12 cung Địa Chi quanh viền (Địa Bàn — cố định),
    Thiên Bàn ở giữa. Đây là bố cục "chữ điền" đúng chuẩn lá số tử vi thật,
    không phải mô típ la bàn bát quái chung chung. ══ */
-(function drawCompass(){
+(function drawPalaceBoard(){
   const HANH = {
     "Thủy": "var(--hanh-thuy)",
     "Mộc":  "var(--hanh-moc, var(--jade))",
@@ -498,19 +551,8 @@
     { chi:"Mão", hanh:"Mộc",  col:0, row:2 },
     { chi:"Thìn",hanh:"Thổ",  col:0, row:1 }
   ];
-  const TU_SINH = new Set(["Tị","Thân","Hợi","Dần"]); // 4 góc — điểm khởi sinh trong vòng Trường Sinh
-
   const palaces = document.getElementById('palaces');
-  const cornerTint = document.getElementById('corner-tint');
   const cell = 60;
-
-  let tintHTML = '';
-  PALACES.forEach(p=>{
-    if(TU_SINH.has(p.chi)){
-      tintHTML += `<rect x="${p.col*cell}" y="${p.row*cell}" width="${cell}" height="${cell}" fill="var(--bronze)" opacity="0.05"><title>Tứ Sinh — ${p.chi}, điểm khởi vòng Trường Sinh</title></rect>`;
-    }
-  });
-  cornerTint.innerHTML = tintHTML;
 
   let html = '';
   PALACES.forEach(p=>{
@@ -518,7 +560,8 @@
     const y = p.row*cell + cell/2;
     const color = HANH[p.hanh];
     const dx = x + 17, dy = y + 17;
-    html += `<g><title>Địa chi ${p.chi} — hành ${p.hanh}</title>
+    html += `<g class="palace-cell" data-chi="${p.chi}" tabindex="0" role="button" aria-label="Cung ${p.chi}, hành ${p.hanh}">
+      <rect class="palace-hit" x="${p.col*cell}" y="${p.row*cell}" width="${cell}" height="${cell}"/>
       <text x="${x}" y="${y-2}" text-anchor="middle" dominant-baseline="central" class="palace-chi" font-size="17">${p.chi}</text>
       <circle cx="${dx}" cy="${dy}" r="3.1" fill="none" stroke="${color}" stroke-width="1.2"/>
       <circle cx="${dx}" cy="${dy}" r="1" fill="${color}"/>
@@ -526,12 +569,140 @@
   });
   palaces.innerHTML = html;
 
-  const stars = document.getElementById('stars');
+  const stars = document.getElementById('centerStars');
   const twinklePts = [[75,75,1.6,'0s'],[165,75,1.3,'1.4s'],[75,165,1.4,'2.6s'],[165,165,1.7,'3.6s'],[120,80,1.1,'0.8s']];
   stars.innerHTML = twinklePts.map(([sx,sy,sr,delay])=>
     `<circle class="twinkle" cx="${sx}" cy="${sy}" r="${sr}" fill="var(--bronze)" style="animation-delay:${delay}"/>`
   ).join('');
+
+  document.getElementById('palaceBoard').addEventListener('click', e=>{
+    const cell = e.target.closest('.palace-cell');
+    if(cell) setPalaceFilter(cell.dataset.chi);
+  });
+  document.getElementById('palaceBoard').addEventListener('keydown', e=>{
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    const cell = e.target.closest('.palace-cell');
+    if(cell){ e.preventDefault(); setPalaceFilter(cell.dataset.chi); }
+  });
 })();
+
+/* ══ BẦU TRỜI 14 CHÍNH TINH (mô phỏng minh họa, không phải tọa độ thiên văn thật) ══ */
+(function drawSkyMap(){
+  const STARS = [
+    // chòm Tử Vi — 6 sao
+    { name:"Tử Vi",     x:110, y:60,  r:6.2, chom:"tuvi" },
+    { name:"Thiên Cơ",  x:72,  y:88,  r:3.6, chom:"tuvi" },
+    { name:"Thái Dương",x:150, y:92,  r:4.4, chom:"tuvi" },
+    { name:"Vũ Khúc",   x:48,  y:128, r:3.6, chom:"tuvi" },
+    { name:"Thiên Đồng",x:175, y:132, r:3.6, chom:"tuvi" },
+    { name:"Liêm Trinh",x:100, y:148, r:3.6, chom:"tuvi" },
+    // chòm Thiên Phủ — 8 sao
+    { name:"Thiên Phủ", x:290, y:150, r:6.2, chom:"thienphu" },
+    { name:"Thái Âm",   x:255, y:118, r:4.0, chom:"thienphu" },
+    { name:"Tham Lang", x:322, y:114, r:3.6, chom:"thienphu" },
+    { name:"Cự Môn",    x:228, y:158, r:3.6, chom:"thienphu" },
+    { name:"Thiên Tướng",x:345,y:168, r:3.6, chom:"thienphu" },
+    { name:"Thiên Lương",x:262,y:200, r:3.6, chom:"thienphu" },
+    { name:"Thất Sát",  x:305, y:206, r:3.6, chom:"thienphu" },
+    { name:"Phá Quân",  x:355, y:126, r:3.6, chom:"thienphu" }
+  ];
+  const CHOM_ORDER = {
+    tuvi: ["Tử Vi","Thiên Cơ","Thái Dương","Thiên Đồng","Liêm Trinh","Vũ Khúc","Tử Vi"],
+    thienphu: ["Thiên Phủ","Thái Âm","Tham Lang","Phá Quân","Thiên Tướng","Thất Sát","Thiên Lương","Cự Môn","Thiên Phủ"]
+  };
+  const byName = Object.fromEntries(STARS.map(s=>[s.name,s]));
+
+  // bụi sao nền
+  const dust = document.getElementById('skyDust');
+  let dustHTML = '';
+  for(let i=0;i<38;i++){
+    const dx = (i*53.7)%400, dy = (i*29.3)%250, dr = (i%3===0)?1.1:0.6;
+    dustHTML += `<circle class="sky-dust" cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="${dr}" opacity="${0.15+((i%5)*0.06)}"/>`;
+  }
+  dust.innerHTML = dustHTML;
+
+  // đường nối chòm sao
+  const cons = document.getElementById('constellations');
+  let consHTML = '';
+  Object.values(CHOM_ORDER).forEach(seq=>{
+    const pts = seq.map(n=>byName[n]).map(s=>`${s.x},${s.y}`).join(' ');
+    consHTML += `<polyline class="constellation-line" points="${pts}"/>`;
+  });
+  cons.innerHTML = consHTML;
+
+  // các sao
+  const skyStars = document.getElementById('skyStars');
+  let starsHTML = '';
+  STARS.forEach((s,i)=>{
+    const delay = (i*0.35).toFixed(2)+'s';
+    starsHTML += `<g class="star-point" data-star="${s.name}" tabindex="0" role="button" aria-label="Sao ${s.name}">
+      <circle class="star-hit" cx="${s.x}" cy="${s.y}" r="16"/>
+      <circle class="star-core twinkle" cx="${s.x}" cy="${s.y}" r="${s.r}" fill="#e8cf94" style="animation-delay:${delay}"/>
+      <text class="star-label" x="${s.x}" y="${s.y + s.r + 12}" text-anchor="middle">${s.name}</text>
+    </g>`;
+  });
+  skyStars.innerHTML = starsHTML;
+
+  document.getElementById('skyMap').addEventListener('click', e=>{
+    const pt = e.target.closest('.star-point');
+    if(pt) setStarFilter(pt.dataset.star);
+  });
+  document.getElementById('skyMap').addEventListener('keydown', e=>{
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    const pt = e.target.closest('.star-point');
+    if(pt){ e.preventDefault(); setStarFilter(pt.dataset.star); }
+  });
+})();
+
+/* ══ LỌC THEO SAO / CUNG ══ */
+let activeStar = null;
+let activePalace = null;
+
+function setStarFilter(name){
+  activeStar = (activeStar === name) ? null : name;
+  activePalace = null;
+  document.querySelectorAll('.star-point').forEach(el=>{
+    el.classList.toggle('active', el.dataset.star === activeStar);
+  });
+  document.querySelectorAll('.palace-cell').forEach(el=>el.classList.remove('active'));
+  renderShelf();
+  updateFilterStatus();
+  document.getElementById('shelf').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function setPalaceFilter(chi){
+  activePalace = (activePalace === chi) ? null : chi;
+  activeStar = null;
+  document.querySelectorAll('.palace-cell').forEach(el=>{
+    el.classList.toggle('active', el.dataset.chi === activePalace);
+  });
+  document.querySelectorAll('.star-point').forEach(el=>el.classList.remove('active'));
+  renderShelf();
+  updateFilterStatus();
+  document.getElementById('shelf').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function clearStarPalaceFilter(){
+  activeStar = null;
+  activePalace = null;
+  document.querySelectorAll('.star-point, .palace-cell').forEach(el=>el.classList.remove('active'));
+  renderShelf();
+  updateFilterStatus();
+}
+
+function updateFilterStatus(){
+  const el = document.getElementById('filterStatus');
+  if(activeStar){
+    el.style.display = '';
+    el.innerHTML = `Đang lọc theo sao: <strong>${activeStar}</strong> <button onclick="clearStarPalaceFilter()">Bỏ lọc ×</button>`;
+  } else if(activePalace){
+    el.style.display = '';
+    el.innerHTML = `Đang lọc theo cung: <strong>${activePalace}</strong> <button onclick="clearStarPalaceFilter()">Bỏ lọc ×</button>`;
+  } else {
+    el.style.display = 'none';
+    el.innerHTML = '';
+  }
+}
 
 /* ══ CÂU XOAY VÒNG ══ */
 const QUOTES = [
@@ -588,6 +759,7 @@ const ARTICLES = [
     dateISO: "2026-06-01",
     date: "06/2026",
     tags: ["tử vi", "văn hóa"],
+    star: "Tử Vi",
     icon: ICONS.trigram
   },
   {
@@ -632,6 +804,7 @@ const ARTICLES = [
     dateISO: "2026-08-14",
     date: "08/2026",
     tags: ["tử vi", "kỹ thuật"],
+    star: "Tử Vi",
     icon: ICONS.crown
   },
   {
@@ -665,6 +838,7 @@ const ARTICLES = [
     dateISO: "2026-08-14",
     date: "08/2026",
     tags: ["tử vi", "chính tinh"],
+    star: "Thiên Cơ",
     icon: ICONS.gear
   },
   {
@@ -698,6 +872,7 @@ const ARTICLES = [
     dateISO: "2026-08-15",
     date: "08/2026",
     tags: ["tử vi", "chính tinh"],
+    star: "Thái Dương",
     icon: ICONS.sunrays
   }
 ].sort((a, b) => new Date(b.dateISO) - new Date(a.dateISO));
@@ -776,15 +951,19 @@ function renderShelf(){
   const empty = document.getElementById('empty');
   const filtered = ARTICLES.filter(a =>
     (normalizeVi(a.title).includes(q) || normalizeVi(a.quote).includes(q)) &&
-    (activeTag === 'all' || (a.tags||[]).includes(activeTag))
+    (activeTag === 'all' || (a.tags||[]).includes(activeTag)) &&
+    (!activeStar || a.star === activeStar) &&
+    (!activePalace || a.palace === activePalace)
   );
   if(filtered.length){
     empty.style.display = 'none';
   } else {
     empty.style.display = '';
-    empty.innerHTML = q
-      ? `<span class="empty-mark" aria-hidden="true">✦</span>Không tìm thấy bài nào với từ khóa "${raw}"...`
-      : `<span class="empty-mark" aria-hidden="true">✦</span>Chưa có bài nào trong mục này...`;
+    let msg = `Chưa có bài nào trong mục này...`;
+    if(q) msg = `Không tìm thấy bài nào với từ khóa "${raw}"...`;
+    else if(activeStar) msg = `Chưa có bài nào về sao <strong>${activeStar}</strong> — mình sẽ viết dần.`;
+    else if(activePalace) msg = `Chưa có bài nào về cung <strong>${activePalace}</strong> — mình sẽ viết dần.`;
+    empty.innerHTML = `<span class="empty-mark" aria-hidden="true">✦</span>${msg}`;
   }
   shelf.innerHTML = '';
   filtered.forEach((a, i) => {
