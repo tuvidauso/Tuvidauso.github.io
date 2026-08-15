@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hà Đồ • Lạc Thư — Toàn Thư</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f2e9d5; --paper-2:#ece0c6; --ink:#2c2116; --ink-soft:#4a3728;
+    --brown:#7a5230; --gold:#c9a87a; --gold-line:#b8925c; --red:#9c2f2f; --red-soft:#b5473f;
+    --note-bg:#e9dcbd; --max:760px;
+  }
+  body.dark{
+    --paper:#171009; --paper-2:#221808; --ink:#ecdfc4; --ink-soft:#d3c2a0;
+    --brown:#c9a87a; --gold:#8a6a3f; --gold-line:#7a5c38; --red:#e08a7c; --red-soft:#e6a89b;
+    --note-bg:#2a1e10;
+  }
+  body{ transition:background-color .25s ease, color .25s ease; }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{ margin:0; background:radial-gradient(ellipse at top left, rgba(255,255,255,.15), transparent 60%), var(--paper);
+    color:var(--ink); font-family:"Noto Serif", serif; line-height:1.75; font-size:16px; }
+  .texture{ position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.5;
+    background-image: repeating-linear-gradient(0deg, rgba(122,82,48,.035) 0px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(90deg, rgba(122,82,48,.02) 0px, transparent 1px, transparent 3px); }
+  .wrap{ position:relative; z-index:1; max-width:var(--max); margin:0 auto; padding:0 20px 80px; }
+  h1,h2,h3{ font-family:"Noto Serif SC","Noto Serif",serif; }
+
+  .cover{ padding:64px 4px 40px; text-align:center; border-bottom:3px double var(--gold-line); margin-bottom:36px; }
+  .cover .seal{ display:inline-flex; align-items:center; justify-content:center; width:52px; height:52px;
+    border:2px solid var(--red); color:var(--red); font-family:"Noto Serif SC",serif; font-weight:700; font-size:22px;
+    transform:rotate(-4deg); margin-bottom:18px; }
+  .cover .eyebrow{ letter-spacing:.25em; text-transform:uppercase; font-size:12px; color:var(--brown); margin-bottom:14px; }
+  .cover h1{ font-size:34px; font-weight:700; color:var(--ink); margin:0 0 10px; line-height:1.3; }
+  .cover .sub{ color:var(--ink-soft); font-size:15px; margin-bottom:22px; }
+  .cover p.desc{ font-size:14.5px; color:var(--ink-soft); max-width:560px; margin:0 auto 22px; }
+  .thesis{ font-family:"Noto Serif SC",serif; font-size:18px; color:var(--red-soft);
+    border-top:1px solid var(--gold-line); border-bottom:1px solid var(--gold-line);
+    padding:12px 0; margin:0 auto 14px; max-width:420px; letter-spacing:.03em; }
+  .total-line{ font-size:13px; color:var(--brown); letter-spacing:.08em; }
+  .taiji-cover{ margin:0 auto 20px; }
+
+  .toc{ margin:36px 0 44px; }
+  .toc .label{ font-size:12px; letter-spacing:.2em; color:var(--brown); text-transform:uppercase; margin-bottom:10px; }
+  .toc ol{ list-style:none; margin:0; padding:0; counter-reset:ch; }
+  .toc li{ counter-increment:ch; display:flex; gap:12px; align-items:baseline; padding:9px 0;
+    border-bottom:1px dashed var(--gold-line); font-size:14.5px; }
+  .toc li::before{ content: counter(ch,decimal-leading-zero); font-family:"Noto Serif SC",serif; color:var(--red-soft);
+    font-size:13px; width:22px; flex:none; }
+  .toc a{ color:var(--ink); text-decoration:none; }
+  .toc a:hover{ color:var(--red-soft); }
+
+  section{ margin-bottom:56px; scroll-margin-top:16px; }
+  .chnum{ font-family:"Noto Serif SC",serif; color:var(--red-soft); font-size:13px; letter-spacing:.15em; }
+  h2.chtitle{ font-size:23px; margin:4px 0 20px; padding-bottom:12px; border-bottom:2px solid var(--gold-line); }
+  h3{ font-size:16.5px; color:var(--ink); margin:26px 0 8px; }
+  p{ margin:0 0 14px; font-size:15px; color:var(--ink-soft); }
+  strong{ color:var(--ink); }
+
+  .card-grid{ display:grid; grid-template-columns:1fr; gap:12px; margin:18px 0 26px; }
+  @media(min-width:560px){ .card-grid{ grid-template-columns:1fr 1fr; } }
+  .card{ background:var(--paper-2); border:1px solid var(--gold-line); padding:14px 16px; }
+  .card h4{ margin:0 0 6px; font-size:14px; color:var(--red-soft); font-family:"Noto Serif SC",serif; }
+  .card p{ margin:0; font-size:13.5px; }
+
+  blockquote{ margin:18px 0; padding:14px 18px; border-left:3px solid var(--gold-line);
+    background:var(--paper-2); font-style:italic; font-size:14.5px; color:var(--ink-soft); }
+
+  .figure{ margin:24px 0; border:1px solid var(--gold-line); background:var(--paper-2); padding:18px; text-align:center; }
+  .figure .cap{ font-size:12.5px; color:var(--brown); margin-top:12px; }
+  .fig-row{ display:flex; flex-wrap:wrap; gap:16px; justify-content:center; }
+  .fig-row .figure{ flex:1 1 260px; margin:0; }
+
+  /* dot emblem system */
+  .dots{ display:flex; flex-wrap:wrap; gap:3px; justify-content:center; align-items:center; max-width:70px; }
+  .dw,.db{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .dw{ background:#f2e9d5; border:1.4px solid #2c2116; }
+  .db{ background:#4a3728; border:1.4px solid #4a3728; }
+
+  .hado-diagram{ display:flex; justify-content:center; padding:6px 0; }
+  .hado-grid{ display:grid; grid-template-columns:repeat(3,84px); grid-template-rows:repeat(3,84px); gap:5px; }
+  .hado-cell{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    font-size:10px; border:1px solid var(--gold-line); background:#fbf5e6; padding:4px; color:#7a5230;}
+  .hado-cell.center{ background:#f0e2c0; }
+  .hado-cell .lbl{ font-size:9.5px; color:#7a5230; margin-top:2px; }
+
+  table.magic{ border-collapse:collapse; margin:14px auto; }
+  table.magic td{ width:74px; height:64px; text-align:center; border:1px solid var(--gold-line);
+    background:#fbf5e6; font-size:11px; vertical-align:middle; color:#4a3728; padding:4px;}
+  table.magic td b{ display:block; font-family:"Noto Serif SC",serif; font-size:16px; color:#b5473f; }
+  table.magic td.center{ background:#f0e2c0; }
+
+  .lacthu-dot-grid{ display:grid; grid-template-columns:repeat(3,84px); grid-template-rows:repeat(3,84px); gap:5px; justify-content:center; }
+  .lacthu-dot-cell{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    border:1px solid var(--gold-line); background:#fbf5e6; }
+  .lacthu-dot-cell.center{ background:#f0e2c0; }
+
+  table.compare{ width:100%; border-collapse:collapse; font-size:13px; margin:16px 0; }
+  table.compare th, table.compare td{ border:1px solid var(--gold-line); padding:8px 10px; text-align:left; vertical-align:top; }
+  table.compare th{ background:var(--paper-2); font-family:"Noto Serif SC",serif; font-weight:500; color:var(--red-soft); }
+
+  .timeline{ list-style:none; margin:16px 0; padding:0; border-left:2px solid var(--gold-line); }
+  .timeline li{ position:relative; padding:0 0 20px 20px; font-size:13.5px; }
+  .timeline li::before{ content:""; position:absolute; left:-6px; top:4px; width:9px; height:9px; border-radius:50%; background:var(--red-soft); }
+  .timeline .era{ font-family:"Noto Serif SC",serif; color:var(--red-soft); font-size:13px; display:block; margin-bottom:2px; }
+
+  /* bagua wheel */
+  .wheel{ position:relative; width:250px; height:250px; margin:10px auto; border:2px solid var(--gold-line);
+    border-radius:50%; background:radial-gradient(circle, #fbf5e6 55%, var(--paper-2) 56%); }
+  .wheel .center-lbl{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+  .wheel .center-lbl .cn{ font-family:"Noto Serif SC",serif; font-size:15px; color:#b5473f; }
+  .wheel .center-lbl .vn{ font-size:10px; color:#7a5230; }
+  .bg-item{ position:absolute; top:50%; left:50%; width:54px; margin-left:-27px; margin-top:-24px; text-align:center; }
+  .bg-item .tri{ font-size:22px; color:#2c2116; letter-spacing:1px; }
+  .bg-item .nm{ font-family:"Noto Serif SC",serif; font-size:12px; color:#b5473f; }
+  .bg-item .dir{ font-size:9px; color:#7a5230; }
+
+  .caveat{ font-size:12.5px; background:var(--note-bg); border:1px dashed var(--red-soft); padding:10px 14px;
+    color:var(--ink-soft); margin:14px 0; }
+  .caveat b{ color:var(--red-soft); }
+
+  .app-block{ margin-bottom:22px; padding-bottom:18px; border-bottom:1px dashed var(--gold-line); }
+  .app-block:last-child{ border-bottom:none; }
+  .app-block h3{ margin-top:0; }
+  .disclaimer{ font-size:12px; color:var(--brown); font-style:italic; margin-top:6px; }
+
+  .final-diagram{ text-align:center; margin:26px 0; }
+  .final-diagram .ring{ display:inline-flex; flex-direction:column; align-items:center; gap:10px;
+    border:2px double var(--gold-line); padding:22px 30px; background:var(--paper-2); }
+
+  .refs{ list-style:none; margin:0; padding:0; }
+  .refs li{ padding:12px 0; border-bottom:1px solid var(--gold-line); font-size:13.5px; }
+  .refs .tag{ display:inline-block; font-size:10.5px; letter-spacing:.1em; color:#fff; background:#7a5230;
+    padding:2px 7px; margin-right:8px; text-transform:uppercase; }
+  .refs .tag.modern{ background:#b5473f; }
+  .refs b{ font-family:"Noto Serif SC",serif; color:var(--ink); font-weight:500; }
+
+  /* Lo Ban ruler */
+  .loban{ display:flex; border:2px solid var(--ink-soft); margin:16px auto; max-width:520px; overflow:hidden; }
+  .loban div{ flex:1; text-align:center; padding:12px 2px; font-size:11px; color:#fff; }
+  .loban .cat{ background:#b5473f; }
+  .loban .hung{ background:#4a3728; }
+
+  /* Long Ma / Than Quy emblems */
+  .emblem-row{ display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin:14px 0; }
+  .emblem{ text-align:center; }
+  .emblem .cap{ font-size:12px; color:var(--brown); margin-top:8px; }
+
+  footer{ text-align:center; padding:30px 0 10px; font-size:12px; color:var(--brown);
+    border-top:3px double var(--gold-line); margin-top:40px; }
+  a.top{ position:fixed; right:16px; bottom:16px; width:38px; height:38px; border-radius:50%;
+    background:var(--ink-soft); color:var(--paper); display:flex; align-items:center; justify-content:center;
+    text-decoration:none; font-size:16px; z-index:5; opacity:.85; }
+  .floatbtn{ position:fixed; right:16px; width:38px; height:38px; border-radius:50%;
+    background:var(--ink-soft); color:var(--paper); border:none; display:flex; align-items:center; justify-content:center;
+    font-size:16px; z-index:5; opacity:.85; cursor:pointer; }
+  .floatbtn.dark-toggle{ bottom:64px; }
+  .floatbtn.music{ bottom:112px; }
+</style>
+</head>
+<body>
+<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
+  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a>
+</div>
+
+<div class="texture"></div>
+<div class="wrap">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="seal">河洛</div>
+    <div class="eyebrow">Văn hiến • Dịch học • Chính thống</div>
+    <h1>Hà Đồ • Lạc Thư<br>— Toàn Thư —</h1>
+    <div class="sub">Nguồn gốc • Cấu trúc số • Ứng dụng • Triết lý</div>
+    <svg class="taiji-cover" width="70" height="70" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="49" fill="none" stroke="#b8925c" stroke-width="2"/>
+      <circle cx="50" cy="50" r="46" fill="#2c2116"/>
+      <path d="M50 4 A46 46 0 0 1 50 96 A23 23 0 0 1 50 50 A23 23 0 0 0 50 4" fill="#f2e9d5"/>
+      <circle cx="50" cy="27" r="7" fill="#f2e9d5"/>
+      <circle cx="50" cy="73" r="7" fill="#2c2116"/>
+    </svg>
+    <p class="desc">Từ Hoàng Hà đến Lạc Thủy, từ Long Mã đến Thần Quy — hệ thống số học nền tảng của Dịch học Đông Á: cấu trúc sinh thành của Hà Đồ, ma phương cửu cung của Lạc Thư, và toàn bộ mạch triết lý Thể–Dụng xuyên suốt Bát Quái, Hồng Phạm, phong thủy và mệnh lý.</p>
+    <div class="thesis">Hà Đồ vi Thể — Lạc Thư vi Dụng</div>
+    <div class="total-line">55 + 45 = 100 — Toàn số Thiên Địa</div>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="label">Mục lục • 7 chương + 2 phụ lục</div>
+    <ol>
+      <li><a href="#ch1">Nguồn gốc &amp; tranh luận</a></li>
+      <li><a href="#ch2">Hà Đồ 55 điểm — sinh thành</a></li>
+      <li><a href="#ch3">Lạc Thư 45 điểm — ma phương</a></li>
+      <li><a href="#ch4">Mô hình chuyển hóa Hà Đồ → Lạc Thư</a></li>
+      <li><a href="#ch5">Tiên/Hậu Thiên &amp; Hồng Phạm</a></li>
+      <li><a href="#ch6">Ứng dụng thuật số</a></li>
+      <li><a href="#ch7">Kết tinh triết học</a></li>
+      <li><a href="#appendix-math">Hà Lạc dưới góc nhìn toán học</a></li>
+      <li><a href="#ch8">Tài liệu tham khảo</a></li>
+    </ol>
+  </nav>
+
+  <!-- EXEC SUMMARY -->
+  <section id="summary">
+    <span class="chnum">TÓM TẮT</span>
+    <h2 class="chtitle">Bảy Điểm Cốt Lõi</h2>
+    <div class="card-grid">
+      <div class="card"><h4>Hà Đồ là Thể</h4><p>Tổng 55 điểm, chia sinh 1-2-3-4-5 và thành 6-7-8-9-10. Vòng ngoài ứng ngũ hành ngũ phương.</p></div>
+      <div class="card"><h4>Lạc Thư là Dụng</h4><p>Tổng 45, ma phương 3×3, mọi hàng/cột/chéo = 15. Lõi 5 vận hành tứ chính tứ duy.</p></div>
+      <div class="card"><h4>Ma phương chí cực</h4><p>Số 15 = 3 × 5: ba lần trung cung. 5 điều hòa âm dương, 9 cung định phương vị.</p></div>
+      <div class="card"><h4>Liên hệ Hà Đồ – Lạc Thư</h4><p>Hai đồ thức quan hệ mật thiết về cấu trúc số học, được diễn giải qua nhiều mô hình xoay và hoán vị khác nhau.</p></div>
+      <div class="card"><h4>Tham Thiên Lưỡng Địa</h4><p>Trời 1-3-5, Đất 2-4. Hà Đồ dùng 1-2-3-4-5 làm sinh số — mật mã sinh thành.</p></div>
+      <div class="card"><h4>Tiên Thiên &amp; Hậu Thiên</h4><p>Phục Hy Tiên Thiên (Hà Đồ), Văn Vương Hậu Thiên (Lạc Thư). Một là Thể thường, một là Dụng biến.</p></div>
+      <div class="card"><h4>Nhất âm nhất dương</h4><p>Toàn bộ Hà Lạc quy về một câu: Âm dương tương giao, ngũ hành lưu chuyển.</p></div>
+    </div>
+  </section>
+
+  <!-- CH1 -->
+  <section id="ch1">
+    <span class="chnum">CHƯƠNG 01</span>
+    <h2 class="chtitle">Nguồn Gốc &amp; Tranh Luận — Từ Long Mã Đến Thần Quy</h2>
+    <p><b>Phục Hy — Long Mã phụ Hà Đồ:</b> <i>Hệ Từ Thượng Truyện</i> viết: "Hà xuất Đồ, Lạc xuất Thư, Thánh nhân tắc chi". Truyền thuyết kể Hoàng Hà hiện Long Mã, lưng mang điểm đồ 55 điểm, Phục Hy quan sát mà vạch Bát Quái Tiên Thiên.</p>
+    <p><b>Đại Vũ — Thần Quy phụ Lạc Thư:</b> Lạc Thủy hiện Thần Quy, mai có 9 số, Đại Vũ căn cứ mà định <i>Hồng Phạm Cửu Trù</i>; về sau Văn Vương diễn thành Hậu Thiên Bát Quái.</p>
+
+    <div class="figure">
+      <div class="emblem-row">
+        <div class="emblem">
+          <svg width="120" height="90" viewBox="0 0 120 90">
+            <rect x="4" y="4" width="112" height="82" rx="10" fill="#fbf5e6"/>
+            <ellipse cx="55" cy="55" rx="38" ry="20" fill="none" stroke="#4a3728" stroke-width="2.5"/>
+            <path d="M20 50 Q5 40 12 20 Q20 30 28 38" fill="none" stroke="#4a3728" stroke-width="2.5"/>
+            <path d="M88 45 Q100 30 96 12" fill="none" stroke="#4a3728" stroke-width="2.5"/>
+            <line x1="35" y1="72" x2="30" y2="88" stroke="#4a3728" stroke-width="2.5"/>
+            <line x1="70" y1="72" x2="75" y2="88" stroke="#4a3728" stroke-width="2.5"/>
+            <circle cx="30" cy="55" r="2.4" fill="#9c2f2f"/>
+            <circle cx="45" cy="50" r="2.4" fill="#2c2116"/>
+            <circle cx="60" cy="55" r="2.4" fill="#9c2f2f"/>
+            <circle cx="75" cy="50" r="2.4" fill="#2c2116"/>
+          </svg>
+          <div class="cap">Long Mã phụ Hà Đồ (cách điệu)</div>
+        </div>
+        <div class="emblem">
+          <svg width="120" height="90" viewBox="0 0 120 90">
+            <rect x="4" y="4" width="112" height="82" rx="10" fill="#fbf5e6"/>
+            <ellipse cx="60" cy="55" rx="34" ry="26" fill="none" stroke="#4a3728" stroke-width="2.5"/>
+            <path d="M60 29 L48 55 L60 81 L72 55 Z" fill="none" stroke="#4a3728" stroke-width="1.4"/>
+            <path d="M26 55 L48 55 M72 55 L94 55" stroke="#4a3728" stroke-width="1.4"/>
+            <circle cx="60" cy="55" r="3" fill="#9c2f2f"/>
+            <ellipse cx="26" cy="42" rx="8" ry="6" fill="none" stroke="#4a3728" stroke-width="2"/>
+            <line x1="34" y1="72" x2="30" y2="86" stroke="#4a3728" stroke-width="2"/>
+            <line x1="86" y1="72" x2="90" y2="86" stroke="#4a3728" stroke-width="2"/>
+          </svg>
+          <div class="cap">Thần Quy phụ Lạc Thư (cách điệu)</div>
+        </div>
+      </div>
+    </div>
+
+    <p><b>Tranh luận Tống Nho:</b> Trần Đoàn (Trần Hi Di), Thiệu Ung, Chu Hy là mốc phục hưng việc nghiên cứu Hà Lạc ở đời Tống. Chu Hy định vị: Hà Đồ 55 điểm (10 số), Lạc Thư 45 điểm (9 số) — cách hiểu này khác với các chú giải đời Ngụy–Tấn trước đó, vốn chỉ nói mơ hồ về "đồ thư" mà chưa mô tả cụ thể hình vẽ.</p>
+    <blockquote><b>Chu Hy phân biệt:</b> "Hà Đồ chi số 10, Lạc Thư chi số 9; Hà Đồ chủ thường, Lạc Thư chủ biến. Hà Đồ vị hợp, Lạc Thư vị phân."</blockquote>
+
+    <p>Cần phân biệt rõ hai tầng: <b>ý niệm</b> và <b>hình vẽ</b>. Từ Tiên Tần đến Hán, "Hà xuất Đồ, Lạc xuất Thư" chỉ được nhắc như một ý niệm vũ trụ luận — Thánh nhân lấy trời đất làm khuôn phép — chứ chưa hề có bản vẽ chấm đen trắng cụ thể nào lưu lại. Các chú giải sớm nhất (tương truyền của Khổng An Quốc — bản thân bị nghi là ngụy thư đời sau, của Trịnh Huyền, của Quản Lộ) đều mô tả rất mơ hồ, không thống nhất về hình dạng. Phải đến đời Tống, qua Trần Đoàn, Thiệu Ung và Lưu Mục, hai bản đồ 55 điểm và 45 điểm như ta thấy ngày nay mới thực sự xuất hiện thành hình vẽ cụ thể.</p>
+
+    <div class="caveat"><b>Một tranh luận học thuật đáng lưu tâm:</b> Các nhà Nghi cổ đời Thanh — tiêu biểu Hoàng Tông Hi với <i>Dịch Học Tượng Số Luận</i> và Hồ Vị với <i>Dịch Đồ Minh Biện</i> — lập luận rằng hình vẽ Hà Đồ – Lạc Thư như lưu truyền ngày nay chỉ định hình rõ nét từ đời Tống, không có bằng chứng văn bản tiên Tần nào mô tả cụ thể các chấm đen trắng, và cho rằng phần "đồ thư" mang dấu ấn Đạo giáo (qua Trần Đoàn) được ghép vào truyền thống Nho gia. Đây là tranh luận chưa có hồi kết tuyệt đối trong giới nghiên cứu Dịch học.</div>
+
+    <h3>Hai bằng chứng khảo cổ đáng chú ý</h3>
+    <p><b>"Quẻ số" trên giáp cốt văn:</b> Học giả Trương Chính Lãng, dựa trên các chữ số khắc trên mảnh giáp cốt đời Thương đào được ở An Dương, phát hiện những nhóm 3 hoặc 6 chữ số bí ẩn (gọi là "quẻ số" — 數字卦) trên giáp cốt văn lẫn kim văn (chữ khắc trên chuông, đỉnh đồng), từ đó suy đoán hào dương có thể bắt nguồn từ số lẻ, hào âm từ số 6. Đây là chứng cứ vật chất có niên đại sớm hơn nhiều so với bản vẽ Hà Đồ – Lạc Thư (vốn chỉ định hình từ đời Tống) — nhưng cần thận trọng: bản thân sự trùng hợp về số lượng vạch (3 hoặc 6) mới là điều kiện cần, chưa đủ để khẳng định chắc chắn đây chính là tiền thân trực tiếp của quẻ Dịch như ta biết ngày nay.</p>
+    <p><b>Bạch Thư Chu Dịch tại Mã Vương Đôi:</b> Năm 1973, bản Chu Dịch viết trên lụa (帛書周易) khai quật tại Mã Vương Đôi (Trường Sa, Hồ Nam) cho thấy một thứ tự 64 quẻ khác hẳn bản truyền thế đang lưu hành: vẫn mở đầu bằng quẻ Thuần Càn, nhưng quẻ kế tiếp đã là quẻ tương đương Thiên Địa Bĩ (không phải Khôn), và kết thúc ở quẻ tương đương Phong Lôi Ích (không phải Ký Tế — Vị Tế). Phát hiện này cho thấy: ngay cả trật tự 64 quẻ — chứ chưa nói đến các đồ hình Hà Đồ, Lạc Thư hay Tiên/Hậu Thiên Bát Quái — cũng từng tồn tại nhiều dị bản trong lịch sử truyền bản của Kinh Dịch, củng cố thêm cho luận điểm của phái Nghi cổ.</p>
+
+    <h3>Dòng thời gian học thuật</h3>
+    <ul class="timeline">
+      <li><span class="era">Phục Hy (truyền thuyết)</span>Quan Hà Đồ, họa Bát Quái Tiên Thiên, lấy Càn Khôn định vị.</li>
+      <li><span class="era">Đại Vũ (truyền thuyết)</span>Trị thủy, đắc Lạc Thư, tác Hồng Phạm Cửu Trù — 9 loại đại pháp.</li>
+      <li><span class="era">Khổng Tử / Hệ Từ</span>Lần đầu văn bản hóa: Hà Đồ – Lạc Thư là nguồn gốc của Dịch.</li>
+      <li><span class="era">Đời Tống — Trần Đoàn, Thiệu Ung</span>Đồ thư tái hiện qua Vô Cực Đồ, truyền cho Chủng Phóng; hình thành Tiên Thiên học, gắn số 55 với "đại diễn chi số".</li>
+      <li><span class="era">Chu Hy</span>Định hình đồ thức chuẩn mực như lưu truyền hiện nay (<i>Dịch Học Khải Mông</i>).</li>
+      <li><span class="era">Đời Thanh — Hoàng Tông Hi, Hồ Vị</span>Đặt lại vấn đề nguồn gốc, phê phán tính "ngụy tạo" của phần đồ thư, dù vẫn thừa nhận giá trị số học nội tại.</li>
+    </ul>
+  </section>
+
+  <!-- CH2 -->
+  <section id="ch2">
+    <span class="chnum">CHƯƠNG 02</span>
+    <h2 class="chtitle">Hà Đồ 55 Điểm — Sinh Thành &amp; Ngũ Hành Ngũ Phương</h2>
+    <p>Hà Đồ gồm các chấm từ 1 đến 10. Trong đó 1-2-3-4-5 là <b>sinh số</b> (Tham Thiên), 6-7-8-9-10 là <b>thành số</b> (Lưỡng Địa). Mỗi sinh số cộng 5 thành thành số tương ứng (1+5=6, 2+5=7…). Tổng sinh số = 15, tổng thành số = 40, tổng toàn = 55.</p>
+
+    <h3>Vì sao phải cộng 5 mới "thành"?</h3>
+    <p>Hệ Từ chép: "Thiên nhất sinh Thủy, Địa lục thành chi" — số Trời Đất riêng lẻ (1,2,3,4,5) mới chỉ là "sinh", là mầm; phải cộng thêm 5 — số của Trung cung, số của Thổ — thì mới đủ để "thành" vật. Đây là lý do Thổ được xem là hành trung gian, hòa hợp bốn hành còn lại: không có Thổ, sinh số mãi chỉ là tiềm năng chưa hiện thực.</p>
+    <p>Xét về số học, đây cũng là cầu nối trực tiếp sang Lạc Thư: tổng sinh số của Hà Đồ (1+2+3+4+5 = 15) trùng khớp với tổng mỗi hàng/cột/chéo của ma phương Lạc Thư (cũng bằng 15) — còn tổng thành số (40) cộng với 15 cho ra đúng 55, tổng điểm của Hà Đồ. Con số 15 vì vậy đóng vai trò như một hằng số xuyên suốt, nối liền hai đồ thức.</p>
+    <p class="caveat"><b>Về liên hệ với "Đại diễn chi số":</b> Một cách diễn giải phổ biến từ đời Tống liên hệ con số 55 với "đại diễn chi số 50" trong Hệ Từ (thêm 5 của Thổ trung ương = 55) — đây là một tầng ý nghĩa suy diễn thêm của hậu thế, vì nguyên văn Hệ Từ chỉ nói "Đại diễn chi số ngũ thập, kỳ dụng tứ thập hữu cửu" (số của đại diễn là 50, dùng 49) mà không trực tiếp nhắc tới số 55 của Hà Đồ.</p>
+
+    <div class="fig-row">
+      <div class="figure">
+        <div class="hado-diagram">
+          <div class="hado-grid">
+            <div class="hado-cell"></div>
+            <div class="hado-cell">
+              <div class="dots"><span class="db"></span><span class="db"></span></div>
+              <div class="dots"><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span></div>
+              <div class="lbl">Nam · 2-7 Hỏa</div>
+            </div>
+            <div class="hado-cell"></div>
+            <div class="hado-cell">
+              <div class="dots"><span class="dw"></span><span class="dw"></span><span class="dw"></span></div>
+              <div class="dots"><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span></div>
+              <div class="lbl">Đông · 3-8 Mộc</div>
+            </div>
+            <div class="hado-cell center">
+              <div class="dots"><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span></div>
+              <div class="dots"><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span></div>
+              <div class="lbl">Trung · 5-10 Thổ</div>
+            </div>
+            <div class="hado-cell">
+              <div class="dots"><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span></div>
+              <div class="dots"><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span></div>
+              <div class="lbl">Tây · 4-9 Kim</div>
+            </div>
+            <div class="hado-cell"></div>
+            <div class="hado-cell">
+              <div class="dots"><span class="dw"></span></div>
+              <div class="dots"><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span></div>
+              <div class="lbl">Bắc · 1-6 Thủy</div>
+            </div>
+            <div class="hado-cell"></div>
+          </div>
+        </div>
+        <div class="cap">Hình 1 • Hà Đồ dạng chấm cổ điển — vòng trắng (dương/lẻ) ôm vòng đen (âm/chẵn) tại mỗi phương</div>
+      </div>
+    </div>
+
+    <h3>Tham Thiên Lưỡng Địa</h3>
+    <p>Thiên số lẻ: 1+3+5 = 9. Địa số chẵn: 2+4 = 6. Số 9 ứng Càn thuần dương, số 6 ứng Khôn thuần âm. Hà Đồ vận hành theo nguyên lý "Thiên tam Địa nhị".</p>
+    <h3>Tính đối xứng</h3>
+    <p>Trên cổ đồ, chấm trắng là dương (Thiên), chấm đen là âm (Địa). Mỗi phương đều có âm dương ôm nhau: 1 dương ôm 6 âm, 2 âm ôm 7 dương… — đây chính là nguyên lý "nhất âm nhất dương".</p>
+  </section>
+
+  <!-- CH3 -->
+  <section id="ch3">
+    <span class="chnum">CHƯƠNG 03</span>
+    <h2 class="chtitle">Lạc Thư 45 Điểm — Ma Phương 15 &amp; Khẩu Quyết</h2>
+    <p>Lạc Thư là ma phương 3×3 cổ nhất được ghi chép trong văn hiến Đông Á. 9 số từ 1 đến 9 được sắp xếp sao cho mọi hàng, cột và đường chéo đều cho tổng bằng 15. Vì 15 = 3 × 5, con số này ứng với Tam Tài nhân Ngũ Hành.</p>
+
+    <div class="fig-row">
+      <div class="figure">
+        <table class="magic">
+          <tr><td>4 · Tốn<br><b>4</b></td><td>9 · Ly<br><b>9</b></td><td>2 · Khôn<br><b>2</b></td></tr>
+          <tr><td>3 · Chấn<br><b>3</b></td><td class="center">5 · Trung<br><b>5</b></td><td>7 · Đoài<br><b>7</b></td></tr>
+          <tr><td>8 · Cấn<br><b>8</b></td><td>1 · Khảm<br><b>1</b></td><td>6 · Càn<br><b>6</b></td></tr>
+        </table>
+        <div class="cap">Hình 2a • Cửu cung — mọi hàng / cột / chéo đều = 15</div>
+      </div>
+      <div class="figure">
+        <div class="lacthu-dot-grid">
+          <div class="lacthu-dot-cell"><div class="dots"><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span></div></div>
+          <div class="lacthu-dot-cell"><div class="dots"><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span></div></div>
+          <div class="lacthu-dot-cell"><div class="dots"><span class="db"></span><span class="db"></span></div></div>
+          <div class="lacthu-dot-cell"><div class="dots"><span class="dw"></span><span class="dw"></span><span class="dw"></span></div></div>
+          <div class="lacthu-dot-cell center"><div class="dots"><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span></div></div>
+          <div class="lacthu-dot-cell"><div class="dots"><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span><span class="dw"></span></div></div>
+          <div class="lacthu-dot-cell"><div class="dots"><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span></div></div>
+          <div class="lacthu-dot-cell"><div class="dots"><span class="dw"></span></div></div>
+          <div class="lacthu-dot-cell"><div class="dots"><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span><span class="db"></span></div></div>
+        </div>
+        <div class="cap">Hình 2b • Lạc Thư dạng chấm — số lẻ (trắng) tại 4 chính phương, số chẵn (đen) tại 4 duy phương</div>
+      </div>
+    </div>
+
+    <h3>Một mốc niên đại sớm hơn nhiều so với bản vẽ đời Tống</h3>
+    <p>Học giả Hà Bỉnh Úc (Ho Peng Yoke — cộng sự nghiên cứu 40 năm của Joseph Needham, từng là Viện trưởng Viện Needham tại Cambridge) chỉ ra: thiên Minh Đường trong sách <i>Đại Đái Lễ Ký</i> (soạn khoảng năm 80 CN, đời Đông Hán) đã ghi lại cách sắp 9 số thành ba bộ — 2-9-4, 7-5-3, 6-1-8 — trùng khớp gần như hoàn toàn với ma phương Lạc Thư. Bối cảnh gốc của các con số này gắn với nghi lễ tế tự "cửu cung" (chín gian) mà các vua nhà Chu (1045–256 TCN) thực hiện, chứ văn bản không hề gọi đó là "Lạc Thư" hay gắn với hình rùa thần. Điểm này giúp làm rõ ranh giới cho tranh luận Nghi cổ đã nêu ở Chương 1: <b>bản thân cấu trúc số học của ma phương 3×3</b> đã có chứng cứ văn bản từ đời Hán (sớm hơn cả nghìn năm so với bản vẽ 45 điểm thời Tống), nhưng <b>câu chuyện "Thần Quy phụ Lạc Thư"</b> và hình vẽ chấm đen trắng cụ thể vẫn là một lớp diễn giải/trình bày muộn hơn nhiều, do các nhà Tống Nho thêm vào. Nhà sử học khoa học Joseph Needham (<i>Science and Civilisation in China</i>, tập 3, 1959) xếp phát hiện này vào truyền thống phân tích tổ hợp (combinatorial analysis) lâu đời của toán học Trung Hoa cổ.</p>
+
+    <h3>Vì sao đây là ma phương "chí cực"</h3>
+    <p>Với 9 số từ 1 đến 9 và ràng buộc mọi hàng/cột/chéo đều bằng nhau, chỉ tồn tại đúng một cách sắp xếp gốc — mọi biến thể khác (xoay 90° bốn lần, lật ngang, lật dọc, lật chéo — tổng cộng 8 phép biến đổi đối xứng của hình vuông) đều chỉ là ảnh phản chiếu hoặc xoay của cùng một cấu trúc lõi. Nói cách khác, Lạc Thư là ma phương chuẩn tắc bậc 3 duy nhất tồn tại — đây là lý do người xưa gọi nó là "chí cực": không phải một trong nhiều lựa chọn, mà là kết quả toán học tất yếu duy nhất.</p>
+    <p>Cấu trúc số lẻ (1,3,7,9 — dương) luôn nằm ở 4 chính phương (Bắc Nam Đông Tây), số chẵn (2,4,6,8 — âm) luôn nằm ở 4 duy phương (bốn góc) không phải ngẫu nhiên: đó là cách duy nhất để mọi đường chéo (đi qua các duy phương) và mọi hàng/cột chính (đi qua các chính phương) đều đạt tổng 15. Đây chính là hiện thân số học của nguyên lý "dương động ở chính vị, âm tĩnh ở góc" trong Hà Lạc.</p>
+
+    <h3>Khẩu quyết chuẩn</h3>
+    <p class="chinese-line" style="font-family:'Noto Serif SC',serif;font-size:15px;color:var(--ink);margin-bottom:4px;">戴九履一，左三右七，二四為肩，六八為足，五居中央</p>
+    <p>"Đới cửu lý nhất, tả tam hữu thất, nhị tứ vi kiên, lục bát vi túc, ngũ cư trung ương" — (đội số 9, đạp số 1; trái 3 phải 7; 2-4 là vai; 6-8 là chân; 5 ở giữa). Một cách diễn giải dân gian còn liên hệ "đội 9" với việc đội sao — ứng với chòm Bắc Đẩu ở phương Nam trên bầu trời — và "đạp 1" với việc đạp đất ở phương Bắc; đây là lối liên tưởng thêm của hậu thế, không phải một phần cố định của chính văn khẩu quyết.</p>
+
+    <h3>Quy luật bội số</h3>
+    <p>Lấy trung cung 5 làm chuẩn: 5±1 = 4/6 (cặp Đông–Tây), 5±2 = 3/7 (cặp Đông Nam–Tây Bắc), 5±3 = 2/8, 5±4 = 1/9 (cặp Nam–Bắc). Các cặp đối xứng qua tâm luôn cộng lại bằng 10.</p>
+
+    <table class="compare">
+      <tr><th></th><th>Hà Đồ (Thể)</th><th>Lạc Thư (Dụng)</th></tr>
+      <tr><td>Số lượng</td><td>10 số, 55 điểm</td><td>9 số, 45 điểm</td></tr>
+      <tr><td>Hình dạng</td><td>Tròn (Thiên viên)</td><td>Vuông (Địa phương)</td></tr>
+      <tr><td>Vận hành</td><td>Thuận sinh (Thủy→Mộc→Hỏa→Thổ→Kim→Thủy)</td><td>Nghịch khắc / phi tinh nghịch hành</td></tr>
+      <tr><td>Trung ương</td><td>5-10 Thổ đôi</td><td>5 Thổ đơn, Hoàng Cực</td></tr>
+      <tr><td>Tính chất</td><td>Thường — Hợp</td><td>Biến — Phân</td></tr>
+    </table>
+  </section>
+
+  <!-- CH4 -->
+  <section id="ch4">
+    <span class="chnum">CHƯƠNG 04</span>
+    <h2 class="chtitle">Mô Hình Chuyển Hóa Hà Đồ → Lạc Thư</h2>
+    <p>Mối quan hệ giữa Hà Đồ và Lạc Thư trong Dịch học mang tính biểu tượng và cấu trúc — Thể sinh Dụng, tròn sinh vuông, thuận sinh nghịch — hơn là một phép tính đại số tường minh được văn hiến xác lập.</p>
+
+    <h3>Mô hình kinh điển: từ "vị hợp" đến "vị phân"</h3>
+    <p>Chu Hy gọi Hà Đồ là "vị hợp", Lạc Thư là "vị phân" (đã dẫn ở Chương 1). Đây là mô hình chuyển hóa chính thống nhất: trong Hà Đồ, sinh số và thành số của cùng một hành đứng chung một phương (1 và 6 cùng ở Bắc, 2 và 7 cùng ở Nam…) — gọi là "hợp". Sang Lạc Thư, cặp số ấy tách ra hai phương đối nhau qua tâm (1 ở Bắc, 9 ở Nam; 2 ở Tây Nam, 8 ở Đông Bắc…) — gọi là "phân". Nói ngắn gọn: Lạc Thư là Hà Đồ đã "mở khóa" các cặp sinh-thành đang ôm nhau, đẩy chúng ra hai cực đối xứng qua trung cung.</p>
+
+    <h3>Một mô hình số học minh họa</h3>
+    <p>Bên cạnh cách hiểu biểu tượng trên, một số nghiên cứu số học hiện đại còn thử diễn đạt mối liên hệ giữa hai đồ thức bằng phép tính (ví dụ: lấy số Hà Đồ trừ đi 5 rồi rút gọn theo modulo 9 để dò vị trí tương ứng trong Lạc Thư). Đây là hướng tiếp cận đáng chú ý nhưng thuộc dạng công thức minh họa, cần đối chiếu trực tiếp với công trình gốc trước khi trích dẫn gán cho một tác giả cụ thể — bản toàn thư này không khẳng định nó là kết luận đã được xác lập trong văn hiến kinh điển.</p>
+
+    <h3>Mô hình xoay bốn sinh số (công cụ ghi nhớ)</h3>
+    <p>Ngoài hai cách trên, nhiều tài liệu phổ thông còn dùng một mẹo hình dung đơn giản hơn: bốn sinh số 1-2-3-4 của Hà Đồ (bỏ qua số Trung) xoay quanh tâm theo trình tự <b>1 → 4 → 3 → 2 → (trở lại 1)</b>, mỗi bước một góc 90°, số 5 đứng yên làm trục. Đây thuần túy là một mẹo ghi nhớ trực quan, không phải một trong hai mô hình có căn cứ văn hiến hay toán học ở trên.</p>
+
+    <div class="figure">
+      <svg width="260" height="260" viewBox="0 0 260 260">
+        <circle cx="130" cy="130" r="95" fill="none" stroke="#b8925c" stroke-width="1.4" stroke-dasharray="4 4"/>
+        <circle cx="130" cy="130" r="26" fill="#f0e2c0" stroke="#b8925c"/>
+        <text x="130" y="136" text-anchor="middle" font-family="Noto Serif SC" font-size="18" fill="#2c2116">5</text>
+        <g font-family="Noto Serif SC" font-size="20" fill="#9c2f2f">
+          <circle cx="130" cy="35" r="20" fill="#fbf5e6" stroke="#b8925c"/>
+          <text x="130" y="42" text-anchor="middle">1</text>
+          <circle cx="225" cy="130" r="20" fill="#fbf5e6" stroke="#b8925c"/>
+          <text x="225" y="137" text-anchor="middle">4</text>
+          <circle cx="130" cy="225" r="20" fill="#fbf5e6" stroke="#b8925c"/>
+          <text x="130" y="232" text-anchor="middle">3</text>
+          <circle cx="35" cy="130" r="20" fill="#fbf5e6" stroke="#b8925c"/>
+          <text x="35" y="137" text-anchor="middle">2</text>
+        </g>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7a5230"/></marker>
+        </defs>
+        <path d="M148,45 A95,95 0 0,1 218,112" fill="none" stroke="#7a5230" stroke-width="1.6" marker-end="url(#arrow)"/>
+        <path d="M218,148 A95,95 0 0,1 148,215" fill="none" stroke="#7a5230" stroke-width="1.6" marker-end="url(#arrow)"/>
+        <path d="M112,215 A95,95 0 0,1 42,148" fill="none" stroke="#7a5230" stroke-width="1.6" marker-end="url(#arrow)"/>
+        <path d="M42,112 A95,95 0 0,1 112,45" fill="none" stroke="#7a5230" stroke-width="1.6" marker-end="url(#arrow)"/>
+      </svg>
+      <div class="cap">Hình 3 • Mẹo ghi nhớ: bốn sinh số xoay 90° mỗi bước quanh trục Trung 5</div>
+    </div>
+
+    <p>Trình tự 1→4→3→2→1 gợi lại cả hai chiều vận hành thường gặp trong Dịch học: đọc xuôi theo hướng tương sinh là chiều "Tiên Thiên thuận sinh"; đọc theo trật tự phi tinh trong Huyền Không lại cho cảm giác "Hậu Thiên nghịch hành". Giá trị của mô hình nằm ở tính gợi nhớ, giúp người học nắm được cảm quan chuyển động giữa hai đồ thức.</p>
+  </section>
+
+  <!-- CH5 -->
+  <section id="ch5">
+    <span class="chnum">CHƯƠNG 05</span>
+    <h2 class="chtitle">Tiên Thiên vs Hậu Thiên Bát Quái &amp; Hồng Phạm Cửu Trù</h2>
+
+    <div class="fig-row">
+      <div class="figure">
+        <div class="wheel">
+          <div class="center-lbl"><div class="cn">先天</div><div class="vn">Tiên Thiên</div></div>
+          <div class="bg-item" style="transform:rotate(0deg) translate(0,-102px) rotate(0deg)"><div class="tri">☰</div><div class="nm">Càn</div><div class="dir">Nam</div></div>
+          <div class="bg-item" style="transform:rotate(45deg) translate(0,-102px) rotate(-45deg)"><div class="tri">☱</div><div class="nm">Đoài</div><div class="dir">Đông Nam</div></div>
+          <div class="bg-item" style="transform:rotate(90deg) translate(0,-102px) rotate(-90deg)"><div class="tri">☲</div><div class="nm">Ly</div><div class="dir">Đông</div></div>
+          <div class="bg-item" style="transform:rotate(135deg) translate(0,-102px) rotate(-135deg)"><div class="tri">☳</div><div class="nm">Chấn</div><div class="dir">Đông Bắc</div></div>
+          <div class="bg-item" style="transform:rotate(180deg) translate(0,-102px) rotate(-180deg)"><div class="tri">☷</div><div class="nm">Khôn</div><div class="dir">Bắc</div></div>
+          <div class="bg-item" style="transform:rotate(225deg) translate(0,-102px) rotate(-225deg)"><div class="tri">☶</div><div class="nm">Cấn</div><div class="dir">Tây Bắc</div></div>
+          <div class="bg-item" style="transform:rotate(270deg) translate(0,-102px) rotate(-270deg)"><div class="tri">☵</div><div class="nm">Khảm</div><div class="dir">Tây</div></div>
+          <div class="bg-item" style="transform:rotate(315deg) translate(0,-102px) rotate(-315deg)"><div class="tri">☴</div><div class="nm">Tốn</div><div class="dir">Tây Nam</div></div>
+        </div>
+        <div class="cap">Hình 4a • Tiên Thiên Bát Quái (Phục Hy) — nền Hà Đồ, đối đãi qua tâm</div>
+      </div>
+      <div class="figure">
+        <div class="wheel">
+          <div class="center-lbl"><div class="cn">後天</div><div class="vn">Hậu Thiên</div></div>
+          <div class="bg-item" style="transform:rotate(0deg) translate(0,-102px) rotate(0deg)"><div class="tri">☲</div><div class="nm">Ly · 9</div><div class="dir">Nam</div></div>
+          <div class="bg-item" style="transform:rotate(45deg) translate(0,-102px) rotate(-45deg)"><div class="tri">☷</div><div class="nm">Khôn · 2</div><div class="dir">Tây Nam</div></div>
+          <div class="bg-item" style="transform:rotate(90deg) translate(0,-102px) rotate(-90deg)"><div class="tri">☱</div><div class="nm">Đoài · 7</div><div class="dir">Tây</div></div>
+          <div class="bg-item" style="transform:rotate(135deg) translate(0,-102px) rotate(-135deg)"><div class="tri">☰</div><div class="nm">Càn · 6</div><div class="dir">Tây Bắc</div></div>
+          <div class="bg-item" style="transform:rotate(180deg) translate(0,-102px) rotate(-180deg)"><div class="tri">☵</div><div class="nm">Khảm · 1</div><div class="dir">Bắc</div></div>
+          <div class="bg-item" style="transform:rotate(225deg) translate(0,-102px) rotate(-225deg)"><div class="tri">☶</div><div class="nm">Cấn · 8</div><div class="dir">Đông Bắc</div></div>
+          <div class="bg-item" style="transform:rotate(270deg) translate(0,-102px) rotate(-270deg)"><div class="tri">☳</div><div class="nm">Chấn · 3</div><div class="dir">Đông</div></div>
+          <div class="bg-item" style="transform:rotate(315deg) translate(0,-102px) rotate(-315deg)"><div class="tri">☴</div><div class="nm">Tốn · 4</div><div class="dir">Đông Nam</div></div>
+        </div>
+        <div class="cap">Hình 4b • Hậu Thiên Bát Quái (Văn Vương) — nền Lạc Thư, lưu hành theo mùa</div>
+      </div>
+    </div>
+
+    <p><b>Hồng Phạm Cửu Trù</b> (9 phép lớn trong thiên Hồng Phạm, sách Thượng Thư): Nhất Ngũ Hành, Nhị Ngũ Sự, Tam Bát Chính, Tứ Ngũ Kỷ, Ngũ Hoàng Cực, Lục Tam Đức, Thất Kê Nghi, Bát Thứ Trưng, Cửu Ngũ Phúc — Lục Cực. Mỗi trù được xem là ứng với một cung của Lạc Thư.</p>
+
+    <h3>Tiên Thiên và số nhị phân — một giao thoa lịch sử với Leibniz</h3>
+    <p>Thiệu Ung không chỉ sắp 8 quái Tiên Thiên mà còn suy rộng ra 64 quẻ theo phép nhân đôi nhị phân ("nhất sinh nhị, nhị sinh tứ, tứ sinh bát…" — hoành đồ Tiên Thiên). Nếu đọc hào dương là 1, hào âm là 0, trật tự 64 quẻ này trùng khớp chính xác với dãy số nhị phân từ 0 đến 63. Năm 1701, giáo sĩ Dòng Tên Joachim Bouvet ở Bắc Kinh gửi đồ hình này cho nhà toán học Gottfried Leibniz tại Hannover; thư đến tay Leibniz đầu năm 1703. Cần nói rõ để tránh hiểu lầm phổ biến: Leibniz đã phát triển hệ nhị phân từ trước đó nhiều năm (khoảng cuối thập niên 1670), không phải "học được" từ Kinh Dịch — phát hiện của Bouvet chỉ là một sự trùng khớp thú vị, xác nhận và thúc đẩy Leibniz công bố bài <i>Explication de l'Arithmétique Binaire</i> ngay trong năm 1703, chứ không phải nguồn gốc của ý tưởng nhị phân. Dù vậy, đây vẫn là minh chứng đẹp cho việc trật tự Tiên Thiên — ra đời độc lập với toán học phương Tây hàng thế kỷ — mang cấu trúc hình thức trùng khớp với hệ đếm nhị phân, nền tảng của toàn bộ máy tính hiện đại.</p>
+
+    <table class="compare">
+      <tr><th>Cung</th><th>Quái</th><th>Ý nghĩa</th><th>Hành</th></tr>
+      <tr><td>4</td><td>Tốn</td><td>Phong</td><td>Mộc</td></tr>
+      <tr><td>9</td><td>Ly</td><td>Hỏa</td><td>Hỏa</td></tr>
+      <tr><td>2</td><td>Khôn</td><td>Địa</td><td>Thổ</td></tr>
+      <tr><td>3</td><td>Chấn</td><td>Lôi</td><td>Mộc</td></tr>
+      <tr><td>5</td><td>Trung</td><td>Hoàng Cực</td><td>Thổ</td></tr>
+      <tr><td>7</td><td>Đoài</td><td>Trạch</td><td>Kim</td></tr>
+      <tr><td>8</td><td>Cấn</td><td>Sơn</td><td>Thổ</td></tr>
+      <tr><td>1</td><td>Khảm</td><td>Thủy</td><td>Thủy</td></tr>
+      <tr><td>6</td><td>Càn</td><td>Thiên</td><td>Kim</td></tr>
+    </table>
+  </section>
+
+  <!-- CH6 -->
+  <section id="ch6">
+    <span class="chnum">CHƯƠNG 06</span>
+    <h2 class="chtitle">Ứng Dụng: Phong Thủy, Thước Lỗ Ban, Đông Y, Bát Tự Hà Lạc</h2>
+    <p class="caveat">Các mục dưới đây trình bày khung tri thức truyền thống, không phải kết luận đã được kiểm chứng theo phương pháp khoa học hiện đại (đặc biệt với phần Đông Y) — người đọc quan tâm đến sức khỏe nên tham khảo ý kiến chuyên môn y tế thay vì dùng phần này để tự chẩn đoán hay điều trị.</p>
+
+    <div class="app-block">
+      <h3>Phong thủy Huyền Không Phi Tinh</h3>
+      <p>Trường phái này dùng cửu cung Lạc Thư làm bàn tính: sao trung cung "phi" thuận hoặc nghịch tùy theo vận khí 20 năm, các sao 1-9 lần lượt luân chuyển qua 9 cung để xác định vượng suy của từng phương vị trong nhà. Hà Đồ được dùng riêng để định "thủy pháp" theo các cặp số đồng tông (1-6, 2-7, 3-8, 4-9).</p>
+      <p>Khái niệm "hợp thập" (các cặp sao cộng lại bằng 10: 1-9, 2-8, 3-7, 4-6) và chu kỳ "cửu vận" kéo dài 180 năm (mỗi vận 20 năm) là hai công cụ tính toán trung tâm của phái này.</p>
+      <p><b>Ví dụ áp dụng:</b> Giai đoạn 2024–2043 thuộc Hạ Nguyên Vận 9 — sao 9 nhập trung cung, thay cho sao 8 của vận trước (2004–2023). Với một căn nhà hướng Nam trong vận này, cung Nam (nơi có cửa chính hoặc mặt tiền) sẽ mang vượng khí của sao 9 (Hỏa) — đây là lý do các nhà Huyền Không giai đoạn này thường khuyến khích bố cục thiên về Nam để "đón vượng khí", trái với vận 8 trước đó vốn thiên về Đông Bắc (nơi vượng của sao 8 - Thổ).</p>
+    </div>
+
+    <div class="app-block">
+      <h3>Thước Lỗ Ban</h3>
+      <p>Thước phong thủy truyền thống chia thành 8 cung mang ý nghĩa cát hung: Tài, Bệnh, Ly, Nghĩa, Quan, Kiếp, Hại, Bản — tương ứng 8 trong 9 cung Lạc Thư, bỏ qua cung trung tâm số 5.</p>
+      <div class="loban">
+        <div class="cat">Tài</div><div class="hung">Bệnh</div><div class="hung">Ly</div><div class="cat">Nghĩa</div>
+        <div class="cat">Quan</div><div class="hung">Kiếp</div><div class="hung">Hại</div><div class="cat">Bản</div>
+      </div>
+      <p>Theo cách diễn giải phổ biến trong giới thực hành, cung số 5 (trung cung, Hoàng Cực) bị loại khỏi thước vì được xem là quá tôn quý, chỉ dành riêng cho không gian thờ tự (miếu, điện) chứ không dùng để đo kích thước cửa hay đồ dùng sinh hoạt thường ngày — đây là lý do thước chỉ còn 8 cung thay vì 9.</p>
+      <p class="disclaimer">Cách chia và độ dài cụ thể của thước Lỗ Ban có nhiều dị bản theo từng vùng/trường phái; số liệu ở đây mang tính tham khảo tổng quát.</p>
+    </div>
+
+    <div class="app-block">
+      <h3>Đông Y — Ngũ Vận Lục Khí</h3>
+      <p>Y học cổ truyền dùng cấu trúc số Hà Đồ để gán ngũ tạng vào ngũ hành: Can (Mộc) ứng 3-8, Tâm (Hỏa) ứng 2-7, Tỳ (Thổ) ứng 5-10, Phế (Kim) ứng 4-9, Thận (Thủy) ứng 1-6. Lạc Thư được dùng để lập "cửu cung thân thể" trong một số trường phái châm cứu và khí công cổ truyền.</p>
+      <p><b>Công thức Ngũ Vận (dựa trên Thiên Can):</b> mỗi cặp Thiên Can hóa thành một "vận" của năm — Giáp-Kỷ hóa Thổ vận, Ất-Canh hóa Kim vận, Bính-Tân hóa Thủy vận, Đinh-Nhâm hóa Mộc vận, Mậu-Quý hóa Hỏa vận. Đây thực chất là một cách dùng số Hà Đồ (Thổ=5-10, Kim=4-9, Thủy=1-6, Mộc=3-8, Hỏa=2-7) để tính "khí trời" chi phối từng năm trong hệ thống Ngũ Vận Lục Khí của Nội Kinh.</p>
+
+      <div class="figure">
+        <svg width="230" height="230" viewBox="0 0 230 230">
+          <polygon points="115,20 200.6,82.2 168.2,182.8 61.8,182.8 29.4,82.2" fill="none" stroke="#b8925c" stroke-width="1.4"/>
+          <defs><marker id="ar2" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#7a5230"/></marker></defs>
+          <path d="M115,20 A97,97 0 0,1 200.6,82.2" fill="none" stroke="#7a5230" stroke-width="1.6" marker-end="url(#ar2)"/>
+          <path d="M200.6,82.2 A97,97 0 0,1 168.2,182.8" fill="none" stroke="#7a5230" stroke-width="1.6" marker-end="url(#ar2)"/>
+          <path d="M168.2,182.8 A97,97 0 0,1 61.8,182.8" fill="none" stroke="#7a5230" stroke-width="1.6" marker-end="url(#ar2)"/>
+          <path d="M61.8,182.8 A97,97 0 0,1 29.4,82.2" fill="none" stroke="#7a5230" stroke-width="1.6" marker-end="url(#ar2)"/>
+          <path d="M29.4,82.2 A97,97 0 0,1 115,20" fill="none" stroke="#7a5230" stroke-width="1.6" marker-end="url(#ar2)"/>
+          <g font-family="Noto Serif SC" font-size="14" fill="#9c2f2f" text-anchor="middle">
+            <circle cx="115" cy="20" r="17" fill="#fbf5e6" stroke="#b8925c"/><text x="115" y="25">木</text>
+            <circle cx="200.6" cy="82.2" r="17" fill="#fbf5e6" stroke="#b8925c"/><text x="200.6" y="87.2">火</text>
+            <circle cx="168.2" cy="182.8" r="17" fill="#fbf5e6" stroke="#b8925c"/><text x="168.2" y="187.8">土</text>
+            <circle cx="61.8" cy="182.8" r="17" fill="#fbf5e6" stroke="#b8925c"/><text x="61.8" y="187.8">金</text>
+            <circle cx="29.4" cy="82.2" r="17" fill="#fbf5e6" stroke="#b8925c"/><text x="29.4" y="87.2">水</text>
+          </g>
+        </svg>
+        <div class="cap">Hình 5 • Vòng tương sinh Ngũ Hành — Mộc sinh Hỏa, Hỏa sinh Thổ, Thổ sinh Kim, Kim sinh Thủy, Thủy sinh Mộc</div>
+      </div>
+      <p class="disclaimer">Đây là khung lý luận của y học cổ truyền, khác biệt về phương pháp luận so với y học hiện đại dựa trên bằng chứng; không nên dùng để thay thế chẩn đoán và điều trị y khoa.</p>
+    </div>
+
+    <div class="app-block">
+      <h3>Bát Tự Hà Lạc &amp; Tử Vi</h3>
+      <p>Trong luận Bát Tự (Tứ Trụ), người xem dùng số Hà Đồ để định vượng suy của Thiên Can theo cặp: Giáp-Ất ứng 3-8 (Mộc), Bính-Đinh ứng 2-7 (Hỏa), Mậu-Kỷ ứng 5-10 (Thổ), Canh-Tân ứng 4-9 (Kim), Nhâm-Quý ứng 1-6 (Thủy). Riêng phái "Hà Lạc" lấy cung phi Lạc Thư của năm sinh làm căn cứ luận đoán vận mệnh, kết hợp với hào quẻ Kinh Dịch.</p>
+    </div>
+  </section>
+
+  <!-- CH7 -->
+  <section id="ch7">
+    <span class="chnum">CHƯƠNG 07</span>
+    <h2 class="chtitle">Kết Tinh Triết Học — Từ Số Đến Đạo</h2>
+
+    <h3>Hà Đồ vi Thể, Lạc Thư vi Dụng, Thể Dụng bất nhị</h3>
+    <p>Hà Đồ nói về cái bất biến của vũ trụ — ngũ hành ngũ phương, sinh thành không đổi. Lạc Thư nói về cái biến dịch — ma phương vận hành, phi tinh lưu chuyển. Không có Thể thì Dụng không gốc; không có Dụng thì Thể không hiển.</p>
+    <p>Hà Đồ tròn như trời, Lạc Thư vuông như đất — người xưa lấy "trời tròn đất vuông" làm biểu tượng, nhưng cốt lõi vẫn là âm dương ôm nhau: trong Hà Đồ, mỗi phương đều có cặp âm dương; trong Lạc Thư, số 5 ở giữa điều hòa cả 8 phương.</p>
+
+    <h3>Thuận &amp; Nghịch</h3>
+    <p>Hà Đồ thuận sinh (Thủy→Mộc→Hỏa→Thổ→Kim), Lạc Thư vận hành theo lối phi tinh — thường được gọi là "nghịch". Thuận là quy luật tự nhiên; nghịch là công cụ nhân tạo để điều tiết, ứng dụng.</p>
+
+    <h3>Thường &amp; Biến</h3>
+    <p>Hà Đồ chủ thường (lý), Lạc Thư chủ biến (số, thuật). Thường là đạo, biến là thuật. Cốt lõi của việc học Hà Lạc, theo tinh thần Hệ Từ, là để ngộ Đạo: "Nhất âm nhất dương chi vị Đạo, kế chi giả thiện dã, thành chi giả tính dã."</p>
+
+    <div class="final-diagram">
+      <div class="ring">
+        <svg width="60" height="60" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="49" fill="none" stroke="#b8925c" stroke-width="2"/>
+          <circle cx="50" cy="50" r="46" fill="#2c2116"/>
+          <path d="M50 4 A46 46 0 0 1 50 96 A23 23 0 0 1 50 50 A23 23 0 0 0 50 4" fill="#f2e9d5"/>
+          <circle cx="50" cy="27" r="7" fill="#f2e9d5"/>
+          <circle cx="50" cy="73" r="7" fill="#2c2116"/>
+        </svg>
+        <div style="font-family:'Noto Serif SC',serif;font-size:30px;color:var(--red-soft)">中</div>
+        <div>Toàn bộ 100 số (55 + 45) quy về một chữ <b>Trung</b></div>
+      </div>
+    </div>
+    <p>Trung là 5, là Hoàng Cực, là Thổ, là điểm tựa. Giữ được Trung thì âm dương tự hòa, ngũ hành tự vận, Cửu Trù tự chính.</p>
+
+    <p>Nhưng Trung không chỉ dừng ở một con số. Trong Hồng Phạm, Trung là Hoàng Cực — trù thứ năm, đứng giữa chín trù, làm chuẩn mực cho tám trù còn lại. Trong Tứ Thư, Trung là cốt lõi của Trung Dung — không thiên lệch, không thái quá. Và trong Hệ Từ, "đại diễn chi số 50, kỳ dụng tứ thập hữu cửu" — dùng 49, còn lại 1 không dùng đến, tượng cho Thái Cực bất động, cái gốc sinh ra vạn số nhưng tự nó không tham gia vào phép tính (đã nói ở Chương 2, con số 50 này không đồng nhất với 55 của Hà Đồ, nhưng cùng chia sẻ một tinh thần: luôn phải chừa lại một phần bất động làm gốc). Từ một con số hình học, Trung trở thành một phạm trù đạo đức và vũ trụ luận xuyên suốt Nho gia — toàn bộ 100 số (55 + 45) của Hà Đồ và Lạc Thư, xét đến cùng, đều quy về một chữ Trung ấy: cái Đạo không lời, chỉ có thể sống mà không thể nói hết bằng số.</p>
+  </section>
+
+  <!-- APPENDIX: MATH -->
+  <section id="appendix-math">
+    <span class="chnum">PHỤ LỤC 1</span>
+    <h2 class="chtitle">Hà Lạc Dưới Góc Nhìn Toán Học</h2>
+    <p>Tách khỏi lớp ý nghĩa vũ trụ luận, bản thân cấu trúc số của Hà Đồ và Lạc Thư cũng là những đối tượng đáng chú ý về mặt toán học thuần túy:</p>
+    <ul class="refs">
+      <li><b>Hà Đồ 55 là số tam giác bậc 10.</b> Tổng 1+2+…+10 = 55 chính là số tam giác thứ 10 (T₁₀), loại số được nghiên cứu trong lý thuyết tổ hợp — mỗi số tam giác Tₙ đếm số cách chọn 2 phần tử từ (n+1) phần tử.</li>
+      <li><b>Lạc Thư là ma phương chuẩn tắc bậc 3 duy nhất.</b> Như đã nói ở Chương 3, tập hợp mọi cách sắp 9 số 1-9 thành ma phương 3×3 chỉ có một cấu trúc lõi, với 8 biến thể sinh ra từ nhóm đối xứng của hình vuông (4 phép xoay × 2 phép lật) — về mặt lý thuyết nhóm, đây là một quỹ đạo duy nhất dưới tác động của nhóm nhị diện bậc 8 (D₄).</li>
+      <li><b>Ma phương như một lớp đối tượng toán học phổ quát.</b> Ma phương 3×3, 4×4… được nhiều nền văn minh nghiên cứu độc lập (Trung Hoa, Ấn Độ, Ả Rập, châu Âu thời Phục Hưng), mỗi nơi với niên đại và mục đích riêng (bói toán, bùa chú, giải trí toán học, kiến trúc). Bản toàn thư này không so sánh niên đại giữa các truyền thống — như đã nêu ở Chương 1, ngay cả niên đại hình vẽ Lạc Thư trong văn hiến Trung Hoa cũng còn là vấn đề tranh luận học thuật.</li>
+    </ul>
+  </section>
+
+  <!-- REFERENCES -->
+  <section id="ch8">
+    <span class="chnum">PHỤ LỤC 2</span>
+    <h2 class="chtitle">Tài Liệu Tham Khảo</h2>
+
+    <h3>Nguồn kinh điển</h3>
+    <ul class="refs">
+      <li><span class="tag">Kinh điển</span><b>Chu Dịch — Hệ Từ Thượng/Hạ Truyện.</b> "Thiên nhất Địa nhị… Hà xuất Đồ, Lạc xuất Thư."</li>
+      <li><span class="tag">Kinh điển</span><b>Thượng Thư — thiên Hồng Phạm.</b> Nguồn gốc lý luận Cửu Trù, cơ sở văn bản cho Lạc Thư.</li>
+      <li><span class="tag">Kinh điển</span><b>Hậu Hán Thư — truyện Khổng An Quốc.</b> Một trong những ghi chép sớm về Hà Đồ – Lạc Thư.</li>
+    </ul>
+
+    <h3>Tống — Minh lý học</h3>
+    <ul class="refs">
+      <li><span class="tag">Tống Nho</span><b>Hoàng Cực Kinh Thế Thư</b> (Thiệu Ung). Tiên Thiên học, gắn số 55 với vũ trụ luận.</li>
+      <li><span class="tag">Tống Nho</span><b>Chu Tử Ngữ Loại; Dịch Học Khải Mông</b> (Chu Hy). Định hình đồ thức Hà Lạc chuẩn mực lưu truyền đến nay.</li>
+    </ul>
+
+    <h3>Phê phán &amp; nghiên cứu hiện đại</h3>
+    <ul class="refs">
+      <li><span class="tag modern">Thanh Nho</span><b>Dịch Đồ Minh Biện</b> (Hồ Vị). Phê phán tính "ngụy tạo hậu thế" của phần đồ thư, song vẫn bảo lưu giá trị số học nội tại.</li>
+      <li><span class="tag modern">Hiện đại</span><b>Kim Cảnh Phương (1987), Hà Đồ Lạc Thư dữ Dịch.</b> Phân tích toán học của ma phương bậc 3, đối chiếu với magic square trong toán học phương Tây.</li>
+    </ul>
+  </section>
+
+  <footer>
+    河圖洛書 · Văn Hiến Dịch Học<br>
+    100 số Thiên Địa • 55 + 45
+  </footer>
+</div>
+<a class="top" href="#" title="Lên đầu trang">↑</a>
+<button class="floatbtn dark-toggle" id="darkBtn" title="Chế độ tối" aria-label="Bật/tắt chế độ tối">☾</button>
+<button class="floatbtn music" id="musicBtn" title="Phát nhạc nền" aria-label="Phát/tạm dừng nhạc nền">♪</button>
+<audio id="bgm" src="music7.mp3" loop preload="none"></audio>
+<script>
+  document.getElementById('darkBtn').addEventListener('click', function(){
+    document.body.classList.toggle('dark');
+    this.textContent = document.body.classList.contains('dark') ? '☀' : '☾';
+  });
+  var bgm = document.getElementById('bgm');
+  var musicBtn = document.getElementById('musicBtn');
+  musicBtn.addEventListener('click', function(){
+    if(bgm.paused){
+      bgm.play().catch(function(){ musicBtn.textContent = '⚠'; });
+      musicBtn.textContent = '⏸';
+    } else {
+      bgm.pause();
+      musicBtn.textContent = '♪';
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thái Dương — Quý Tinh Học &amp; Phi Hóa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Noto+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0908;
+    --bg-panel:#121011;
+    --bg-raised:#181514;
+    --gold:#c9a227;
+    --gold-bright:#e8c468;
+    --seal:#8c1f28;
+    --seal-bright:#b23a3a;
+    --text:#e9e0c9;
+    --text-muted:#9a8f72;
+    --hairline:rgba(201,162,39,0.22);
+    --shadow:rgba(0,0,0,0.5);
+    --paper-noise: none;
+  }
+  html[data-theme="light"]{
+    --bg:#f1e7c9;
+    --bg-panel:#e9dcb5;
+    --bg-raised:#efe3c1;
+    --gold:#8a6a1c;
+    --gold-bright:#a4801f;
+    --seal:#7a1620;
+    --seal-bright:#8c1f28;
+    --text:#2a2013;
+    --text-muted:#6b5a3e;
+    --hairline:rgba(122,22,32,0.18);
+    --shadow:rgba(90,70,30,0.18);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 120% 60% at 50% -10%, rgba(201,162,39,0.08), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Noto Serif', serif;
+    line-height:1.85;
+    font-size:18px;
+    transition:background .4s ease, color .4s ease;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--gold); color:#1a1408; }
+
+  /* ---------- Texture overlay ---------- */
+  .texture{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    opacity:0.5;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px);
+  }
+  html[data-theme="light"] .texture{ opacity:0.35; }
+
+  /* ---------- Reading progress ---------- */
+  .progress-track{
+    position:fixed; top:0; left:0; right:0; height:3px;
+    background:var(--hairline);
+    z-index:60;
+  }
+  .progress-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--seal), var(--gold), var(--gold-bright));
+    transition:width .08s linear;
+  }
+
+  /* ---------- Sticky TOC bar ---------- */
+  .toc-bar{
+    position:sticky; top:3px; z-index:55;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .toc-inner{
+    max-width:900px; margin:0 auto;
+    display:flex; align-items:center; gap:14px;
+    padding:9px 14px;
+  }
+  .toc-mark{
+    flex-shrink:0; width:22px; height:22px;
+    color:var(--gold);
+    opacity:.9;
+  }
+  .toc-mark svg{ width:100%; height:100%; }
+  .toc-links{
+    display:flex; gap:6px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    flex:1;
+  }
+  .toc-links::-webkit-scrollbar{ display:none; }
+  .toc-link{
+    flex-shrink:0;
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:.82rem;
+    letter-spacing:.03em;
+    color:var(--text-muted);
+    background:transparent;
+    border:1px solid var(--hairline);
+    border-radius:20px;
+    padding:6px 13px;
+    cursor:pointer;
+    transition:all .25s ease;
+    white-space:nowrap;
+  }
+  .toc-link:hover{ color:var(--gold-bright); border-color:var(--gold); }
+  .toc-link.active{
+    color:#1a1408;
+    background:linear-gradient(135deg, var(--gold-bright), var(--gold));
+    border-color:var(--gold);
+  }
+  html[data-theme="light"] .toc-link.active{ color:#fbf3dc; }
+
+  .ctrl-btn{
+    flex-shrink:0;
+    width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--hairline);
+    background:var(--bg-panel);
+    color:var(--gold-bright);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .ctrl-btn:hover{ transform:translateY(-2px); border-color:var(--gold); }
+  .ctrl-btn svg{ width:17px; height:17px; }
+
+  /* ---------- Music button ---------- */
+  .music-btn{
+    position:fixed; bottom:24px; right:24px; z-index:50;
+    width:58px; height:58px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--bg-raised), var(--bg-panel));
+    border:1.5px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    box-shadow:0 8px 26px var(--shadow);
+    color:var(--gold-bright);
+  }
+  .music-btn::before{
+    content:"";
+    position:absolute; inset:-8px; border-radius:50%;
+    border:1px solid var(--gold);
+    opacity:0;
+  }
+  .music-btn.playing::before{
+    animation:pulse-ring 2.4s ease-out infinite;
+  }
+  @keyframes pulse-ring{
+    0%{ opacity:.55; transform:scale(.85); }
+    100%{ opacity:0; transform:scale(1.5); }
+  }
+  .music-btn svg{ width:21px; height:21px; }
+  .music-btn .icon-pause{ display:none; }
+  .music-btn.playing .icon-play{ display:none; }
+  .music-btn.playing .icon-pause{ display:block; }
+
+  /* ---------- Seal / signature mark ---------- */
+  .seal{
+    width:64px; height:64px; margin:0 auto 28px;
+    display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--seal);
+    border-radius:6px;
+    color:var(--seal-bright);
+    transform:rotate(-2deg);
+    box-shadow: inset 0 0 0 3px transparent;
+  }
+  .seal svg{ width:38px; height:38px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative; z-index:1;
+    max-width:760px; margin:0 auto;
+    padding:76px 28px 70px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'Noto Serif', serif;
+    font-weight:500;
+    letter-spacing:.32em;
+    font-size:12px;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:26px;
+  }
+  h1.title{
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    font-size:clamp(2.4rem, 6vw, 4.1rem);
+    line-height:1.08;
+    margin:0 0 18px;
+    letter-spacing:-0.01em;
+    background:linear-gradient(180deg, var(--gold-bright), var(--gold) 60%, var(--text-muted));
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .subtitle{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.25rem;
+    color:var(--text-muted);
+    margin-bottom:46px;
+  }
+
+  .epigraph{
+    position:relative;
+    max-width:640px; margin:0 auto;
+    padding:30px 34px 26px;
+    background:var(--bg-panel);
+    border:1px solid var(--hairline);
+    border-radius:2px;
+    text-align:left;
+  }
+  .epigraph::before, .epigraph::after{
+    content:"";
+    position:absolute; width:16px; height:16px;
+    border:1.5px solid var(--gold);
+  }
+  .epigraph::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .epigraph::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+  .epigraph .han{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:600;
+    color:var(--gold-bright);
+    font-size:1.06rem;
+    margin:0 0 10px;
+    line-height:1.6;
+  }
+  .epigraph .viet{
+    font-size:.98rem;
+    color:var(--text-muted);
+    margin:0 0 18px;
+  }
+  .epigraph .commentary{
+    font-size:.95rem;
+    color:var(--text);
+    border-top:1px solid var(--hairline);
+    padding-top:16px;
+    margin:0;
+  }
+  .epigraph .commentary .name{
+    color:var(--gold);
+    font-style:normal;
+  }
+
+  /* ---------- Main column ---------- */
+  main{
+    position:relative; z-index:1;
+    max-width:700px; margin:0 auto;
+    padding:0 28px 140px;
+  }
+
+  .phan{
+    padding:64px 0;
+    border-top:1px solid var(--hairline);
+    scroll-margin-top:64px;
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .phan.in-view{ opacity:1; transform:translateY(0); }
+  .phan:first-of-type{ border-top:none; }
+
+  .phan-head{
+    display:flex; align-items:baseline; gap:18px;
+    margin-bottom:30px;
+  }
+  .phan-num{
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    font-size:2.3rem;
+    color:var(--gold);
+    flex-shrink:0;
+    line-height:1;
+    transition:color .5s ease, text-shadow .5s ease;
+  }
+  .phan.in-view .phan-num{
+    color:var(--gold-bright);
+    text-shadow:0 0 22px color-mix(in srgb, var(--gold) 55%, transparent);
+  }
+  h2.phan-title{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.45rem;
+    line-height:1.35;
+    margin:0;
+    color:var(--text);
+  }
+  h2.phan-title .sub{
+    display:block;
+    font-family:'Noto Serif', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:.98rem;
+    color:var(--text-muted);
+    margin-top:6px;
+  }
+
+  .phan p{ margin:0 0 20px; color:var(--text); }
+  .phan p:last-child{ margin-bottom:0; }
+
+  strong{
+    color:var(--gold-bright);
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+
+  h3.muc{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:1.08rem;
+    color:var(--gold-bright);
+    margin:32px 0 14px;
+  }
+
+  ul.decree, ol.decree{
+    list-style:none; margin:0 0 22px; padding:0;
+  }
+  ul.decree li, ol.decree li{
+    position:relative;
+    padding:2px 0 16px 28px;
+    color:var(--text);
+  }
+  ul.decree li::before{
+    content:"";
+    position:absolute; left:2px; top:11px;
+    width:7px; height:7px;
+    background:var(--seal);
+    transform:rotate(45deg);
+  }
+  ol.decree{ counter-reset:cach; }
+  ol.decree li{ padding-left:38px; }
+  ol.decree li::before{
+    counter-increment:cach;
+    content: counter(cach);
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:.78rem;
+    left:0; top:2px;
+    width:22px; height:22px;
+    background:none;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    transform:none;
+  }
+
+  .callout{
+    position:relative;
+    margin:26px 0;
+    padding:22px 26px;
+    background:
+      radial-gradient(circle at 12% 22%, color-mix(in srgb, var(--gold) 7%, transparent), transparent 45%),
+      radial-gradient(circle at 88% 78%, color-mix(in srgb, var(--seal) 9%, transparent), transparent 50%),
+      var(--bg-panel);
+    border-left:2px solid var(--seal);
+    font-style:italic;
+    color:var(--text-muted);
+    font-size:.98rem;
+    overflow:hidden;
+  }
+  .callout::after{
+    content:"";
+    position:absolute; top:-20px; right:-20px;
+    width:70px; height:70px;
+    border:1px solid color-mix(in srgb, var(--seal) 40%, transparent);
+    border-radius:50%;
+    opacity:.35;
+  }
+
+  .divider{
+    display:flex; align-items:center; justify-content:center; gap:14px;
+    margin:64px 0 0;
+    color:var(--gold);
+  }
+  .divider svg{ width:22px; height:22px; opacity:.8; }
+  .divider .line{ flex:1; max-width:120px; height:1px; background:var(--hairline); }
+
+  footer{
+    position:relative; z-index:1;
+    max-width:700px; margin:0 auto; padding:0 28px 100px;
+    text-align:center;
+  }
+  footer .final-line{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.35rem;
+    color:var(--gold-bright);
+    line-height:1.6;
+    margin-bottom:36px;
+  }
+  footer .colophon{
+    font-size:.82rem;
+    color:var(--text-muted);
+    line-height:1.9;
+  }
+  footer .colophon .brand{
+    font-family:'Playfair Display', serif;
+    letter-spacing:.22em;
+    color:var(--gold);
+    font-size:.72rem;
+    text-transform:uppercase;
+    margin-bottom:10px;
+    display:block;
+  }
+
+  audio{ display:none; }
+
+  @media (max-width:600px){
+    body{ font-size:16.5px; }
+    .hero{ padding:90px 20px 50px; }
+    .phan{ padding:46px 0; }
+    .phan-head{ gap:12px; }
+    .phan-num{ font-size:1.7rem; }
+    h2.phan-title{ font-size:1.2rem; }
+    .music-btn{ width:52px; height:52px; bottom:18px; right:18px; }
+    .ctrl-btn{ width:34px; height:34px; }
+    .toc-link{ padding:5px 10px; font-size:.76rem; }
+    .hero{ padding:64px 20px 50px; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .music-btn.playing::before{ animation:none; }
+  }
+</style>
+</head>
+<body>
+<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
+  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a>
+</div>
+
+
+<div class="texture"></div>
+
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<nav class="toc-bar" id="tocBar" aria-label="Mục lục">
+  <div class="toc-inner">
+    <span class="toc-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke-width="1.3"/></svg>
+    </span>
+    <div class="toc-links" id="tocLinks">
+      <button class="toc-link" data-target="phan-1" title="Thái Dương Không Giữ Ánh Sáng Cho Riêng Mình">I</button>
+      <button class="toc-link" data-target="phan-2" title="Thái Dương Tại 12 Cung">II</button>
+      <button class="toc-link" data-target="phan-3" title="Thái Dương &amp; Tứ Hóa Phi Tinh">III</button>
+      <button class="toc-link" data-target="phan-4" title="Đại Cách Cục Thái Dương">IV</button>
+      <button class="toc-link" data-target="phan-5" title="Giờ Sinh Ngày Đêm">V</button>
+      <button class="toc-link" data-target="phan-6" title="Luận Về Nữ Mệnh Thái Dương">VI</button>
+      <button class="toc-link" data-target="phan-7" title="Bí Quyết Cuối Cùng">VII</button>
+    </div>
+    <button class="ctrl-btn" id="themeToggle" aria-label="Đổi giao diện sáng / tối">
+      <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="display:none"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+    </button>
+  </div>
+</nav>
+
+<button class="music-btn" id="musicBtn" aria-label="Bật / tắt nhạc nền">
+  <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+  <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4.5" height="14"/><rect x="13.5" y="5" width="4.5" height="14"/></svg>
+</button>
+<audio id="bgMusic" src="music2.mp3" loop preload="none"></audio>
+
+<div class="hero">
+  <div class="seal">
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8">
+      <circle cx="24" cy="24" r="10" stroke-width="1.6"/>
+      <path d="M24 4v7M24 37v7M4 24h7M37 24h7M9.5 9.5l5 5M33.5 33.5l5 5M38.5 9.5l-5 5M14.5 33.5l-5 5" stroke-width="1.3"/>
+    </svg>
+  </div>
+  <div class="eyebrow">Quý Tinh Học · Tầng Cao Cấp</div>
+  <h1 class="title">Thái Dương</h1>
+  <p class="subtitle">Quý Tinh Học &amp; Phi Hóa — dành cho người sinh ra để chiếu sáng cho người khác</p>
+
+  <div class="epigraph">
+    <p class="han">"Thái Dương cư Ngọ, vị chi Nhật lệ trung thiên, hữu chuyên quyền chi quý, địch quốc chi phú."</p>
+    <p class="viet">Thái Dương ở cung Ngọ, gọi là Mặt Trời giữa trời, có cái quý của bậc chuyên quyền, có cái giàu địch quốc.</p>
+    <p class="commentary">Cổ nhân gọi Thái Dương là <em>"Trung Thiên chi Chủ"</em> — chủ tinh giữa trời — và xem nó có nhu cầu quần thần y hệt Tử Vi: cần Lục Cát Tinh, cần Tam Thai Bát Tọa hội chiếu mới trọn vẹn ánh sáng. Nhưng khác Tử Vi ở một điểm căn cốt: Tử Vi giữ ánh sáng cho mình, còn Thái Dương sinh ra chỉ để chiếu ra ngoài, không giữ lại gì cho bản thân. Đó là lý do Thái Dương chủ Quý trước, Phú sau — và vì sao người mang Thái Dương thường cho đi nhiều hơn phần mình được nhận.</p>
+  </div>
+</div>
+
+<main>
+
+  <section class="phan" id="phan-1">
+    <div class="phan-head">
+      <span class="phan-num">I</span>
+      <h2 class="phan-title">Thái Dương Không Giữ Ánh Sáng Cho Riêng Mình<span class="sub">Học thuyết Chiếu Diệu</span></h2>
+    </div>
+    <p>Người mới học hay lầm: cứ thấy Thái Dương miếu vượng là khen sang. Nhưng Thái Dương không phải Đế Tinh — nó là Quý Tinh, chủ Quan Lộc, hóa khí là Quý. Nghĩa là nó ban chức tước, danh vọng, sự nể trọng trước — tiền bạc chỉ là thứ đến sau, có khi còn không đến. Cổ nhân gọi thẳng: <strong>trước Quý mà sau Phú</strong>. Ai mang Thái Dương mà đi tìm giàu trước, thường sẽ thất vọng.</p>
+
+    <h3 class="muc">1. Thái Dương cần gì để tỏa sáng trọn vẹn?</h3>
+    <p>Giống Tử Vi cần Bách Quan Triều Củng, Thái Dương cũng không thích đứng một mình:</p>
+    <ul class="decree">
+      <li><strong>Lục Cát Tinh:</strong> Tả Hữu, Xương Khúc, Khôi Việt hội chiếu. Thiếu bộ này, ánh sáng có nhưng không có người tôn vinh.</li>
+      <li><strong>Tam Thai, Bát Tọa:</strong> Tăng thêm độ sáng, độ uy nghi. Có bộ này, Thái Dương miếu vượng sẽ sáng rực chứ không chỉ sáng vừa.</li>
+      <li><strong>Ân Quang, Thiên Quý:</strong> Chủ về nhận ân huệ đặc biệt, được cấp trên hoặc quý nhân ban vinh dự lớn — không phải tự mình tranh mà có.</li>
+      <li><strong>Sinh vào ban ngày:</strong> Đây là điều kiện riêng chỉ Thái Dương mới có, Tử Vi không cần. Ban ngày là đúng giờ, đúng vị, đúng bản chất của Mặt Trời.</li>
+    </ul>
+    <p>Một lá số Thái Dương miếu vượng, đủ Lục Cát, sinh ban ngày: sáng rực, quang minh chính đại, làm gì cũng được tin tưởng ngay từ đầu.<br>
+    Một lá số Thái Dương hãm địa, sinh ban đêm, gặp Không Kiếp: ánh sáng có nhưng không ai thấy, cả đời làm nhiều mà công lao thuộc về người khác.</p>
+
+    <h3 class="muc">2. Thái Dương tối kỵ gì nhất?</h3>
+    <p>Không sợ Lục Sát như người ta tưởng. Thái Dương sợ đúng 2 thứ:</p>
+    <ol class="decree">
+      <li><strong>Sợ nhất — Hóa Kỵ.</strong> Trừ khi đóng tại Mão, còn lại cứ gặp Hóa Kỵ là bất lợi, đặc biệt ở cung vị hãm địa thì hại đến mắt — cận thị, đau mắt, thậm chí các vấn đề thị lực nghiêm trọng. Về mặt tượng, Hóa Kỵ khiến "cái công khai bị người ta nghi ngờ, ghen ghét" — ánh sáng đáng lẽ minh bạch lại bị đem ra soi mói, dèm pha.</li>
+      <li><strong>Sợ nhì — hãm địa mà sinh vào ban đêm.</strong> Sinh ban ngày dù Thái Dương hãm cũng chỉ nửa hung nửa cát, còn sinh ban đêm mà hãm thì hung hẳn — nóng tính, bộc trực, phản kháng cao, dễ dùng vũ lực giải quyết vấn đề.</li>
+    </ol>
+    <p class="callout">Điểm khác Tử Vi rất đáng nhớ: khi Thái Dương miếu vượng mà vẫn gặp sát tinh xâm phạm, phần bị ảnh hưởng chủ yếu là người thân nam giới xung quanh — cha, chồng, anh em, con trai — còn bản thân người mang Thái Dương chỉ vất vả thêm chứ phúc không giảm. Tử Vi hãm thì Vua tự chịu. Thái Dương hãm thì người xung quanh mình chịu trước. Đây là vì Thái Dương vốn sinh ra để chiếu sáng ra ngoài, nên họa phúc của nó cũng lan ra ngoài trước khi quay lại chính mình.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-2">
+    <div class="phan-head">
+      <span class="phan-num">II</span>
+      <h2 class="phan-title">Thái Dương Tại 12 Cung<span class="sub">Hành trình một ngày của Mặt Trời</span></h2>
+    </div>
+    <p>Miếu Tỵ Ngọ, Vượng Dần Mão Thìn, Đắc Sửu Mùi, Hãm Thân Dậu Tuất Hợi Tý. Nhưng nhớ đúng cách của Thái Dương không phải nhớ bảng này, mà là hiểu hành trình: Mặt Trời mọc ở Dần, lên đỉnh ở Ngọ, lặn ở Thân, tối nhất ở Tý.</p>
+
+    <h3 class="muc">Dần – Mão – Thìn: Mặt Trời mới mọc</h3>
+    <p>Thái Dương tại Dần đang ở thế Vượng địa, buổi sáng sớm tràn đầy sinh khí — nếu đứng cùng Cự Môn thì thành cách riêng gọi là "Cự Nhật Dần Thân, Quang Phong Tam Đại" (xem chi tiết ở Phần IV). Đứng một mình tại Dần, Thái Dương chủ về khởi đầu thuận lợi, phúc dày, danh tiếng đến sớm hơn người cùng trang lứa. Tại Mão, mặt trời đã lên hẳn khỏi chân trời — giờ Mão tương ứng khoảng 5 đến 7 giờ sáng, cổ nhân gọi là "Húc Nhật Đông Thăng" (mặt trời rực rỡ nhô lên phương Đông). Khi đi cùng Thiên Lương tại Mão, đây chính là cách "Nhật Xuất Phù Tang" nổi tiếng — nói kỹ ở Phần IV. Tại Thìn là Thăng Điện — vừa lên ngôi, nên tuổi trẻ đã tài giỏi, thành danh sớm hơn người cùng trang lứa.</p>
+
+    <h3 class="muc">Tỵ – Ngọ: Đỉnh cao chính Ngọ</h3>
+    <p>Tại Ngọ là Nhật Lệ Trung Thiên, còn gọi Kim Xán Quang Huy — Mặt Trời giữa trời, hiển quý có quyền lực, phú quý nhất vùng nếu đủ Lộc Tồn, Hóa Khoa Quyền Lộc, Tả Hữu Xương Khúc hội chiếu. Nhưng cần nhớ: trục Tý – Ngọ là nơi trời đất giao thoa, "qua khỏi đỉnh cao là vực thẳm" — cách này rực rỡ nhưng không bền bằng cách ở Mão, nên người có cách này càng ở đỉnh cao càng phải cẩn trọng giữ mình, đừng nghĩ đỉnh sẽ mãi là đỉnh.</p>
+    <p class="callout">Một nghịch lý đáng nhớ: Thái Dương tại Tỵ Ngọ tuy miếu sáng nhất nhưng lại không chủ về giàu có — ánh sáng tỏa quá mạnh, tự thiêu chứ không tích được. Ngược lại Thái Dương tại Tuất, Hợi tuy hãm, nếu gặp cát tinh lại dễ biến thành giàu có, vì ánh sáng thu liễm lại thành của cải thay vì phát tán ra ngoài. Đây là nguyên tắc "thu liễm" — cùng một sao, sáng quá không giữ được, tối vừa phải lại giữ được.</p>
+
+    <h3 class="muc">Mùi – Thân – Dậu: Xế bóng và lặn</h3>
+    <p>Mùi vẫn còn ở thế Đắc địa — mặt trời chiều muộn nhưng chưa tắt hẳn, người này thường chuyên cần, hăng hái tuổi trẻ, có nền tảng khá vững. Nhưng bước sang Thân là chính thức bước vào dải hãm địa — mặt trời bắt đầu lặn thật sự, nên từ Thân trở đi mọi thứ dễ trễ nải, đuối sức hơn giai đoạn trước. Dậu là lặn hẳn về Tây: hữu danh vô thực, đẹp mã nhưng rỗng — nhìn ngoài tưởng sáng giá, vào trong mới biết thiếu thực lực.</p>
+
+    <h3 class="muc">Tuất – Hợi – Tý: Mất sáng nặng nhất</h3>
+    <p>Đây là dải hãm địa nặng nhất trong toàn bộ 12 cung. Nếu gặp thêm Cự Môn, Phá Quân thì một đời vất vả, bần hàn, tính khó gần, dễ vướng thị phi — đặc biệt tại Tuất, cần có Tuần Triệt, Tam Hóa hoặc Thiên Không đồng cung để chế giảm cái xấu, dễ chịu hơn. Người sinh ban ngày rơi vào dải này vẫn còn nửa hung nửa cát; sinh ban đêm thì đúng là hãm tuyệt đối — đây là dải cung mà giờ sinh quyết định gần như toàn bộ mức độ họa phúc.</p>
+    <p class="callout">Sang đến Sửu, dù về mặt lý thuyết mặt trời vẫn chưa mọc, cổ nhân lại xếp Sửu vào Đắc địa chứ không phải Hãm — vì đây là lúc trời sắp rạng, bóng tối đã bắt đầu nhạt dần, khác hẳn với cái tối đặc của Tuất Hợi Tý. Đứng ở góc độ luận đoán, Thái Dương tại Sửu vẫn còn hy vọng, còn Tuất Hợi Tý mới là ba cung tối thật sự cần dè chừng nhất.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-3">
+    <div class="phan-head">
+      <span class="phan-num">III</span>
+      <h2 class="phan-title">Thái Dương &amp; Tứ Hóa Phi Tinh<span class="sub">Ánh sáng có ba trạng thái, không có trạng thái thứ tư</span></h2>
+    </div>
+    <p>Theo đúng bảng Thập Can Tứ Hóa gốc (Trung Châu — Vương Đình Chi), Thái Dương tự hóa tới 3 lần — nhiều hơn cả Tử Vi — nhưng có một điều đặc biệt: <strong>Thái Dương không bao giờ tự Hóa Khoa</strong>, ở bất kỳ can năm sinh nào.</p>
+    <ul class="decree">
+      <li><strong>Can Canh:</strong> Thái Dương Hóa Lộc. Mặt Trời sinh tài — đây là cách hiếm hoi Thái Dương chủ về tiền bạc thực sự, thường đến từ danh tiếng, từ vị trí công khai, từ việc được nhiều người biết đến. Tiền đến vì danh trước, không phải danh đến vì tiền.</li>
+      <li><strong>Can Tân:</strong> Thái Dương Hóa Quyền. Mặt Trời nắm quyền — quyết đoán trong vai trò công khai, hợp làm lãnh đạo, quản lý, người phát ngôn, người đứng đầu một tổ chức. Nhược điểm: dễ kiêu căng, vì miếu vượng thủ Mệnh vốn đã có sẵn tính này, gặp Quyền càng dễ lấn lướt người khác.</li>
+      <li><strong>Can Giáp:</strong> Thái Dương Hóa Kỵ. Mặt Trời bị nghi kỵ — đây là cách nặng nhất trong 3 cách tự Hóa. Cái công khai, cái phơi ra ánh sáng bị người đời nghi ngờ, ghen ghét, dèm pha. Với nam mệnh dễ lận đận đường công danh, với nữ mệnh dễ ảnh hưởng đến cha hoặc chồng.</li>
+    </ul>
+    <p>Vì sao không có Hóa Khoa? Đây không phải sơ suất của cổ nhân mà là logic nhất quán: Khoa là danh tiếng, là sự công nhận từ bên ngoài dành cho một thứ vốn đang ẩn giấu, cần được "khoe ra". Nhưng Mặt Trời không cần ai công nhận nó đang sáng — nó vốn đã hiển lộ, đã ở giữa trời cho tất cả cùng thấy. Cái đã sáng sẵn thì không cần thêm một tầng danh tiếng nữa. Thái Dương chỉ có thể được (Lộc, Quyền) hoặc mất (Kỵ), không có trạng thái "được công nhận thêm" — vì nó chưa từng cần giấu để mà công nhận.</p>
+    <p class="callout">Ứng dụng: Thái Dương phi Hóa Kỵ ra cung nào, cung đó chính là nơi người thân nam giới của bạn (cha, chồng, anh em) sẽ gặp trục trặc trong đại vận đó. Ví dụ Thái Dương tại Mệnh phi Kỵ về cung Phụ Mẫu: giai đoạn đó nên đặc biệt chú ý sức khỏe hoặc quan hệ với cha.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-4">
+    <div class="phan-head">
+      <span class="phan-num">IV</span>
+      <h2 class="phan-title">Đại Cách Cục Thái Dương<span class="sub">Từ cổ thư</span></h2>
+    </div>
+    <ol class="decree">
+      <li><strong>Nhật Lệ Trung Thiên</strong> (Kim Xán Quang Huy). Thái Dương thủ Mệnh hoặc Quan Lộc tại Ngọ, đủ Lộc Tồn, Hóa Khoa Quyền Lộc, Tả Hữu Xương Khúc hoặc Khôi Việt hội chiếu. Hiển quý có quyền lực, phú quý bậc nhất — nhưng như đã nói ở Phần II, đây là cách rực rỡ mà cần giữ mình, không bền bằng cách ở Mão.</li>
+      <li><strong>Nhật Xuất Phù Tang</strong> (Nhật Chiếu Lôi Môn, hay Húc Nhật Đông Thăng). Thái Dương cùng Thiên Lương tại Mão, tam hợp Thái Âm tại Hợi hội chiếu, được thêm Lộc Tồn, Xương Khúc, Tả Hữu, sinh đúng ban ngày. Mão Dậu là cung của Thần Phật, Thái Dương ở đây phát huy tính nhân hậu, vị tha nhất trong tất cả các vị trí — không chỉ giỏi mà còn được lòng người. Cách này hợp nhất với người sinh năm Ất, Tân, Nhâm — vì đây là 3 can khiến Thiên Lương hoặc Thái Dương trong bộ này được tự Hóa (Ất: Thiên Lương Hóa Quyền; Tân: Thái Dương Hóa Quyền; Nhâm: Thiên Lương Hóa Lộc), sinh năm khác vẫn cát nhưng không trọn vẹn bằng. Nếu tam phương tứ chính có sát tinh xung phá thì phá cách, dễ bị tiểu nhân ám hại — nên đây là cách đẹp nhưng không miễn nhiễm hoàn toàn với sát tinh như Nhật Lệ Trung Thiên.</li>
+      <li><strong>Dương Lương Xương Lộc.</strong> Thái Dương, Thiên Lương, Văn Xương, Lộc Tồn tụ hội tam phương tứ chính, thường lấy Mão làm gốc. Thiên Lương bổ sung sự ấm áp, phúc đức, làm dịu bớt tính nóng nảy vốn có của Thái Dương — cách này hợp làm học giả, cố vấn, người truyền đạt tri thức hơn là người tranh đoạt quyền lực trực tiếp.</li>
+      <li><strong>Cự Nhật Dần Thân — Quang Phong Tam Đại.</strong> Thái Dương và Cự Môn tại Dần hoặc Thân. Dần tốt hơn Thân vì Thái Dương đang ở thế Vượng địa tại Dần. Tên gọi "Quang Phong Tam Đại" nghĩa là vinh hiển rạng danh dòng họ đến ba đời — nếu hội thêm vòng Thái Tuế, Long Trì Phượng Các thì có thể làm quan đầu triều. Đặc biệt, Cự Nhật tại Dần không sợ Tuần Triệt như phần lớn các cách khác — ngược lại còn cần Tuần Triệt để "phá vỡ đá" cho Cự Môn được ánh sáng Thái Dương chiếu vào mà tỏa sáng, giống hệt tinh thần cách Thạch Trung Ẩn Ngọc bên trên. Cái sợ thật sự của cách này là Hóa Kỵ hoặc Thiên Tài hội chiếu — khi đó ám tinh Cự Môn lấn át, thành công giảm đi nhiều. Chủ về trước khổ sau sướng, rất cần Xương Khúc Tả Hữu để làm dịu tính kiêu căng vốn có của Thái Dương miếu vượng thủ Mệnh.</li>
+      <li><strong>Nhật Nguyệt Đồng Lâm.</strong> Thái Dương và Thái Âm thực sự đồng cung tại Sửu hoặc Mùi. Sửu tốt hơn Mùi vì lúc đó cả hai sao đều đang lên (Thái Dương sắp mọc, Thái Âm sắp tròn), còn tại Mùi cả hai đều đang xuống. Đây là cách "cha mẹ hòa thuận, tài quan song toàn" — âm dương ở chung một nhà, cân bằng nhưng cũng dễ tranh giành ánh sáng của nhau (còn gọi Nhật Nguyệt Tranh Huy).</li>
+      <li><strong>Nhật Nguyệt Tịnh Minh.</strong> Khác Đồng Lâm — đây là khi Thái Dương và Thái Âm không đồng cung mà chiếu về nhau từ hai cung khác nhau vào Mệnh tại Sửu hoặc Mùi: hoặc Nhật tại Tỵ - Nguyệt tại Dậu cùng chiếu vào Sửu, hoặc Nhật tại Mão - Nguyệt tại Hợi cùng chiếu vào Mùi. Cách này được đánh giá cao hơn Đồng Lâm vì cả hai sao đều đứng ở vị trí miếu vượng riêng của mình thay vì phải san sẻ một cung, "mỗi người sáng một góc trời nhưng cùng chiếu về một Mệnh" — phú quý song toàn, ít tranh chấp nội bộ hơn Đồng Lâm.</li>
+      <li><strong>Nhật Nguyệt Phản Bối</strong> — cách hay bị hiểu lầm. Xảy ra khi Thái Dương tại Tuất chiếu với Thái Âm tại Thìn, hoặc Thái Dương tại Hợi chiếu với Thái Âm tại Mão — cả hai sao đều lạc hãm cùng lúc. Đẩu Số Cốt Tủy Phú viết thẳng: "Nhật Nguyệt tối kỵ Phản Bối, thị thất huy" — Nhật Nguyệt sợ nhất Phản Bối, vì mất hết ánh sáng. Chủ về vất vả, ít duyên với cha mẹ, phải tự thân lập nghiệp. Nhưng cổ nhân cũng chú giải thêm: nếu tam phương có cát tinh và Hóa hội chiếu, Phản Bối vẫn có thể phú quý — không phải cứ Phản Bối là nghèo khổ cả đời. Cách hiểu hiện đại phù hợp hơn: đây là cách của người phải rời xa quê hương mới phát được — ly hương lập nghiệp, xuất ngoại, định cư nơi đất khách, chứ không đơn thuần là "vô phúc".</li>
+      <li><strong>Thạch Trung Ẩn Ngọc.</strong> Thái Dương sáng tại Mệnh, tam hợp có Cự Môn đắc cách, lại gặp Tuần Triệt, Kình Đà hoặc Hỏa Linh tại Tý Ngọ. Nghe qua tưởng xấu vì có sát tinh, nhưng đây chính là "ngọc ẩn trong đá" — Thái Dương sáng mà có sát tinh mài giũa, chủ về tài ăn nói, hùng biện xuất chúng, hợp làm luật sư, MC, diễn giả, người bán hàng, ca sĩ. Nếu thiếu sát tinh mài giũa này, Thái Dương chỉ hay nói mà nói không hay, dễ thành cằn nhằn. Đây là bằng chứng khác cho nguyên tắc "không có áp lực thì không mài được ngọc" — giống hệt tinh thần cách Tử Vi Vô Sát ở bài trước.</li>
+      <li><strong>Nhật hãm ngộ Cự Phá</strong> — cách cần cứu. Thái Dương hãm địa (đặc biệt tại Tuất) gặp Cự Môn hoặc Phá Quân. Một đời vất vả, bần hàn, dễ thị phi kiện tụng. Cần Tuần Triệt, Tam Hóa hoặc Thiên Không đồng cung để chế giảm — không có các sao giải này thì cách xấu phát huy trọn vẹn.</li>
+      <li><strong>Thái Dương Vô Sát — Bách Quan Triều Củng.</strong> Mệnh Thái Dương miếu vượng, không sát tinh, đủ cát tinh hội chiếu, sinh đúng ban ngày. Phúc dày, danh vọng bền, được kính trọng cả đời — nhưng cũng như Tử Vi Vô Sát, thiếu áp lực đôi khi khiến người này an phận, không bứt phá thành tựu lớn nếu không tự đặt mục tiêu cho mình.</li>
+    </ol>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-5">
+    <div class="phan-head">
+      <span class="phan-num">V</span>
+      <h2 class="phan-title">Giờ Sinh Ngày Đêm<span class="sub">Điều Tử Vi không cần nhưng Thái Dương bắt buộc</span></h2>
+    </div>
+    <p>Đây là kỹ thuật cao cấp riêng của Thái Dương, không tồn tại khi luận Tử Vi. Tử Vi không quan tâm bạn sinh giờ nào trong ngày — miếu hãm của nó chỉ phụ thuộc cung vị. Nhưng Thái Dương thì khác: cùng một cung vị hãm địa, người sinh ban ngày và người sinh ban đêm mang hai vận mệnh gần như trái ngược.</p>
+    <p>Nguyên lý rất đơn giản mà rất ít người khai thác đúng mức: Thái Dương là Mặt Trời thật, nên nó phải tuân theo quy luật của Mặt Trời thật — ban ngày có mặt, ban đêm vắng mặt. Người sinh ban ngày, dù Thái Dương của họ rơi vào cung hãm địa, vẫn được xem là <strong>sinh đúng lúc Mặt Trời đang hoạt động</strong> — nên cách xấu chỉ còn nửa hung nửa cát, tính chất được trung hòa đáng kể. Người sinh ban đêm mà Thái Dương lại hãm địa thì là <strong>sinh lúc Mặt Trời đã lặn hẳn</strong> — cách xấu phát huy trọn vẹn, không được giảm nhẹ chút nào.</p>
+    <p class="callout">Ngược lại, người sinh ban ngày mà Thái Dương lại đóng ở cung miếu vượng thì đây là "đúng người đúng lúc" — phúc dày, thuận lợi kéo dài. Nhưng người sinh ban đêm mà Thái Dương lại miếu vượng thì phúc vẫn còn, chỉ là không trọn vẹn bằng, giống ánh trăng dùng ánh sáng của mặt trời phản chiếu chứ không phải nguồn sáng gốc.</p>
+    <p>Vì vậy, khi luận một lá số có Thái Dương, việc đầu tiên không phải là tra miếu hãm theo cung, mà là hỏi: <em>người này sinh ban ngày hay ban đêm?</em> Câu trả lời đó quyết định gần một nửa cách luận đoán tiếp theo.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-6">
+    <div class="phan-head">
+      <span class="phan-num">VI</span>
+      <h2 class="phan-title">Luận Về Nữ Mệnh Thái Dương<span class="sub">Thời đại mới</span></h2>
+    </div>
+    <p>Thái Dương là biểu tượng của người nam trong gia đình — cha, chồng, con trai, anh em. Nên cổ thư luận nữ mệnh Thái Dương chủ yếu qua lăng kính những người đàn ông xung quanh, chứ không hẳn qua bản thân người phụ nữ đó. Đây là điểm khác căn bản so với Tử Vi, vốn luận thẳng vào chính đương số.</p>
+    <p>Thời nay, cần tách hai lớp ý nghĩa này ra để nữ mệnh Thái Dương không bị hiểu oan:</p>
+    <ul class="decree">
+      <li><strong>Nữ Thái Dương miếu vượng + Lục Cát + sinh ban ngày:</strong> Đây là mẫu phụ nữ có khí chất lãnh đạo tự nhiên, thẳng thắn, quang minh, thường thành công trong công việc mang tính công khai — quản lý, giáo dục, truyền thông, chính trị. Vượng phu ích tử — không phải nghĩa lệ thuộc, mà là mang lại may mắn, sự nghiệp thuận lợi cho người bạn đời và con cái nhờ chính năng lượng tích cực của mình.</li>
+      <li><strong>Nữ Thái Dương hãm địa, đặc biệt sinh ban đêm:</strong> Cổ thư nói dễ khắc cha hoặc trắc trở đường chồng con. Nên hiểu đây là một tín hiệu để chủ động, không phải một bản án: người phụ nữ mang cách này thường hợp hơn với việc xây dựng sự nghiệp độc lập trước, tìm bạn đời đủ chín chắn và vững vàng để đồng hành, thay vì đặt hạnh phúc hoàn toàn vào một hình mẫu "người đàn ông tỏa sáng" theo kỳ vọng cũ.</li>
+      <li><strong>Nữ Thái Dương Hóa Kỵ (can Giáp):</strong> Không phải dấu hiệu xấu tính cách, mà là dấu hiệu nên thận trọng hơn trong giao tiếp với cấp trên hoặc người thân nam giới trong các giai đoạn đại vận liên quan — tránh để những hiểu lầm không đáng có ảnh hưởng đến quan hệ quan trọng.</li>
+    </ul>
+    <p class="callout">Lời khuyên cho nữ Thái Dương: Bạn không sinh ra để làm ánh trăng phản chiếu ánh sáng của ai cả. Ánh sáng của bạn là nguồn, không phải bản sao. Hãy chiếu sáng sự nghiệp của chính mình trước, rồi ánh sáng ấy sẽ tự nhiên soi ấm được cả những người bạn thương.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-7">
+    <div class="phan-head">
+      <span class="phan-num">VII</span>
+      <h2 class="phan-title">Bí Quyết Cuối Cùng<span class="sub">Dụng Thái Dương</span></h2>
+    </div>
+    <p>Bậc thầy không dùng Thái Dương để đoán, mà dùng để dụng.</p>
+    <ul class="decree">
+      <li>Thái Dương của bạn hãm địa? Đừng cố tranh ánh đèn sân khấu. Hãy tìm một vai trò nơi ánh sáng của bạn chiếu vào đúng người cần — cố vấn thầm lặng, người thầy sau hậu trường, người biên tập chứ không phải người đứng tên.</li>
+      <li>Thái Dương của bạn sinh ban đêm mà hãm? Cách xấu nhất trong hệ sao. Đừng gồng ép mình phải tỏa sáng công khai trong giai đoạn đó — hãy tích lũy âm thầm, chờ đại vận sáng hơn tới rồi mới ra mặt.</li>
+      <li>Đại vận bạn đến Hóa Kỵ của Thái Dương? Đừng minh oan bằng cách tranh cãi. Ánh sáng bị nghi ngờ càng vùng vẫy càng bị soi kỹ hơn. Im lặng làm việc, để thời gian tự chứng minh — đó mới là cách một Mặt Trời thật sự xử lý một đám mây tạm thời.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <p class="final-line">Thái Dương không giữ ánh sáng cho riêng mình.<br>Thái Dương cho bạn tư cách của người khác chiếu sáng qua bạn.<br>Và tư cách đó, cũng phải tu.</p>
+  <div class="colophon">
+    <span class="brand">Mèo Đen</span>
+    Soạn lần 1 — Tầng Quý Tinh Học — 2026<br>
+    Tổng hợp từ Đẩu Số Cốt Tủy Phú, phái Trung Châu và các nguồn khảo cứu hiện đại<br>
+    Người viết vẫn là học trò
+  </div>
+</footer>
+
+<script>
+  // Theme toggle
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  const iconMoon = document.getElementById('iconMoon');
+  const iconSun = document.getElementById('iconSun');
+
+  function applyTheme(theme){
+    root.setAttribute('data-theme', theme);
+    if(theme === 'light'){
+      iconMoon.style.display = 'none';
+      iconSun.style.display = 'block';
+    } else {
+      iconMoon.style.display = 'block';
+      iconSun.style.display = 'none';
+    }
+    try{ localStorage.setItem('thaiduong-theme', theme); }catch(e){}
+  }
+
+  let savedTheme = 'dark';
+  try{ savedTheme = localStorage.getItem('thaiduong-theme') || 'dark'; }catch(e){}
+  applyTheme(savedTheme);
+
+  themeBtn.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    applyTheme(current === 'light' ? 'dark' : 'light');
+  });
+
+  // Reading progress bar
+  const progressFill = document.getElementById('progressFill');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    const pct = max > 0 ? (scrolled / max) * 100 : 0;
+    progressFill.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive:true });
+  updateProgress();
+
+  // TOC: click to jump
+  const tocLinks = document.querySelectorAll('.toc-link');
+  tocLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if(target){ target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    });
+  });
+
+  // Active section tracking + reveal animation
+  const sections = document.querySelectorAll('.phan');
+  const tocLinksMap = {};
+  tocLinks.forEach(l => tocLinksMap[l.dataset.target] = l);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+      }
+    });
+  }, { threshold:0.12, rootMargin:'0px 0px -10% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  const activeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = tocLinksMap[entry.target.id];
+      if(!link) return;
+      if(entry.isIntersecting){
+        tocLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        link.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+      }
+    });
+  }, { rootMargin:'-45% 0px -50% 0px', threshold:0 });
+  sections.forEach(s => activeObserver.observe(s));
+
+  // Music toggle
+  const musicBtn = document.getElementById('musicBtn');
+  const bgMusic = document.getElementById('bgMusic');
+  let isPlaying = false;
+
+  musicBtn.addEventListener('click', () => {
+    if(isPlaying){
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      isPlaying = false;
+    } else {
+      bgMusic.play().catch(()=>{});
+      musicBtn.classList.add('playing');
+      isPlaying = true;
+    }
+  });
+</script>
+
+</body>
+</html>
