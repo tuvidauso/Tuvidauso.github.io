@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cung Điền Trạch — Tài liệu học Tử Vi Đẩu Số</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,500;0,700;0,900;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#e6dbbe;
+  --paper-deep:#dccfa6;
+  --paper-card:#ede3c8;
+  --ink:#241f16;
+  --ink-soft:#5c5340;
+  --ink-faint:#655c48;
+  --seal:#a1332a;
+  --seal-deep:#7a2620;
+  --jade:#43593f;
+  --jade-deep:#2e3f2b;
+  --jade-soft:#dbe4d2;
+  --brass:#6e5619;
+  --brass-soft:#e9dcb4;
+  --line:#b6a679;
+  --line-soft:#cabd8f;
+  --shadow: 0 10px 30px -14px rgba(36,31,22,.45);
+  --radius: 2px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;} }
+
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 700px at 12% -10%, rgba(255,255,255,.10), transparent 60%),
+    radial-gradient(900px 600px at 110% 10%, rgba(0,0,0,.05), transparent 55%),
+    var(--paper);
+  color:var(--ink);
+  font-family:'Lora', 'Noto Serif', serif;
+  font-size:17px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+/* fine paper grain */
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.14  0 0 0 0 0.12  0 0 0 0 0.08  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode:multiply;
+}
+
+a{color:var(--seal-deep);}
+::selection{background:var(--brass-soft); color:var(--ink);}
+:focus-visible{outline:3px solid var(--seal); outline-offset:2px;}
+
+.frame{
+  position:relative; z-index:1;
+  max-width:1180px; margin:0 auto;
+  padding:0 clamp(16px, 4vw, 56px) 90px;
+}
+
+h1,h2,h3,h4{font-family:'Noto Serif', serif; font-weight:900; color:var(--ink); letter-spacing:.01em; margin:0;}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative; z-index:1;
+  display:grid; grid-template-columns: 84px 1fr; gap:clamp(14px,3vw,40px);
+  padding:56px 0 34px;
+  border-bottom:3px double var(--line);
+}
+.spine{
+  writing-mode: vertical-rl;
+  font-family:'Noto Serif', serif;
+  font-weight:900;
+  font-size:clamp(30px,4.4vw,54px);
+  color:var(--seal);
+  letter-spacing:.28em;
+  text-align:center;
+  padding-top:6px;
+  border-right:2px solid var(--line);
+}
+.hero-body .kicker{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12.5px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--ink-soft);
+  display:flex; align-items:center; gap:10px; margin-bottom:14px;
+}
+.kicker::before{content:""; width:26px; height:1px; background:var(--seal);}
+.hero h1{font-size:clamp(34px,6vw,64px); line-height:1.05;}
+.hero .han{color:var(--seal); font-size:.62em; margin-left:.35em; font-weight:700;}
+.hero p.sub{
+  font-family:'Lora', serif; font-style:italic; color:var(--ink-soft);
+  font-size:clamp(16px,2vw,20px); max-width:56ch; margin-top:16px;
+}
+.hero .meta-row{
+  margin-top:26px; display:flex; flex-wrap:wrap; gap:10px 18px;
+  font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-faint);
+}
+.hero .meta-row span{border-left:2px solid var(--line); padding-left:10px;}
+@media (max-width:480px){
+  .hero{grid-template-columns:38px 1fr; gap:12px;}
+  .spine{font-size:18px; letter-spacing:.16em; padding-top:2px;}
+}
+
+/* ============ SEAL BADGE ============ */
+.seal-num{
+  flex:none; width:52px; height:52px; border-radius:50%;
+  background:var(--seal); color:var(--paper-card);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Noto Serif', serif; font-weight:900; font-size:20px;
+  box-shadow: var(--shadow);
+  transform:rotate(-2deg);
+  position:relative;
+}
+.seal-num::after{
+  content:""; position:absolute; inset:-5px; border:1px solid var(--seal);
+  border-radius:50%; opacity:.5;
+}
+
+/* ============ TOC ============ */
+.toc{
+  margin-top:40px; padding:26px clamp(16px,3vw,34px);
+  background:var(--paper-card); border:1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.toc h2{font-size:15px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-soft); font-family:'IBM Plex Mono', monospace; font-weight:600; margin-bottom:16px;}
+.toc ol{
+  list-style:none; margin:0; padding:0; columns:2; column-gap:34px;
+}
+.toc li{break-inside:avoid; margin-bottom:9px; display:flex; gap:10px; align-items:baseline;}
+.toc a{
+  text-decoration:none; color:var(--ink); font-family:'Lora', serif; font-size:15.5px;
+  border-bottom:1px dotted transparent;
+}
+.toc a:hover{border-bottom-color:var(--seal); color:var(--seal-deep);}
+.toc .n{font-family:'IBM Plex Mono', monospace; color:var(--seal); font-size:13px; min-width:1.6em;}
+@media (max-width:640px){ .toc ol{columns:1;} }
+
+/* ============ SECTIONS ============ */
+main{margin-top:52px;}
+section.chap{margin-bottom:70px; scroll-margin-top:24px;}
+.chap-head{display:flex; align-items:flex-start; gap:20px; margin-bottom:26px;}
+.chap-head h2{font-size:clamp(22px,3.4vw,30px); line-height:1.25; padding-top:4px;}
+.chap-head .eyebrow{
+  display:block; font-family:'IBM Plex Mono', monospace; font-size:11.5px;
+  letter-spacing:.16em; color:var(--seal); text-transform:uppercase; margin-bottom:4px;
+}
+.chap-body{padding-left:0;}
+@media (min-width:640px){ .chap-body{padding-left:72px;} }
+
+.lede{font-size:18px; color:var(--ink-soft); max-width:72ch;}
+.pull{
+  border-left:4px solid var(--brass); background:var(--brass-soft);
+  padding:16px 20px; margin:22px 0; font-family:'Lora', serif; font-style:italic;
+  color:var(--ink); max-width:72ch;
+}
+.pull b{font-style:normal;}
+.note{
+  border:1px dashed var(--line); padding:14px 18px; margin:22px 0;
+  font-size:14.5px; color:var(--ink-soft); background:rgba(255,255,255,.25);
+}
+
+/* ============ TABLES ============ */
+.ledger{width:100%; border-collapse:collapse; margin:20px 0 26px; font-size:15px;}
+.ledger caption{text-align:left; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-faint); margin-bottom:8px; letter-spacing:.06em;}
+.ledger th, .ledger td{border:1px solid var(--line-soft); padding:10px 13px; text-align:left; vertical-align:top;}
+.ledger thead th{background:var(--jade); color:var(--paper-card); font-family:'Noto Serif',serif; font-weight:700; font-size:14px;}
+.ledger tbody tr:nth-child(odd){background:rgba(255,255,255,.35);}
+.ledger td.tag-cell{font-family:'IBM Plex Mono', monospace; font-size:13px; white-space:nowrap;}
+
+/* ============ TAGS / PILLS ============ */
+.tag{display:inline-block; font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:.04em; padding:3px 9px; border-radius:20px; font-weight:600;}
+.tag-jade{background:var(--jade-soft); color:var(--jade-deep); border:1px solid var(--jade);}
+.tag-red{background:#f2ddd8; color:var(--seal-deep); border:1px solid var(--seal);}
+.tag-brass{background:var(--brass-soft); color:var(--brass); border:1px solid var(--brass);}
+.tag-gray{background:#e7e0cd; color:var(--ink-soft); border:1px solid var(--line);}
+
+/* ============ TWO COL LISTS ============ */
+.twocol{display:grid; grid-template-columns:1fr; gap:22px; margin:22px 0;}
+@media (min-width:760px){ .twocol{grid-template-columns:1fr 1fr;} }
+.col-card{background:var(--paper-card); border:1px solid var(--line); padding:20px 22px;}
+.col-card h4{font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:var(--seal); margin-bottom:12px; font-family:'IBM Plex Mono',monospace;}
+.col-card ol, .col-card ul{margin:0; padding-left:20px;}
+.col-card li{margin-bottom:9px;}
+
+/* ============ STAR CARDS (mục 5) ============ */
+.star-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(270px,1fr)); gap:16px; margin:24px 0;}
+.star-card{
+  background:var(--paper-card); border:1px solid var(--line); padding:18px 20px;
+  position:relative; transition:transform .15s ease, box-shadow .15s ease;
+}
+.star-card:hover{transform:translateY(-3px); box-shadow:var(--shadow);}
+.star-card h4{font-size:18px; margin-bottom:6px; display:flex; align-items:center; justify-content:space-between; gap:8px;}
+.star-card p{font-size:14.5px; color:var(--ink-soft); margin:0;}
+.star-card .dot{width:9px; height:9px; border-radius:50%; flex:none; margin-right:6px; display:inline-block;}
+
+.sub-panel{margin:30px 0; padding:22px 24px; background:rgba(255,255,255,.35); border-left:4px solid var(--jade);}
+.sub-panel h4{font-family:'Noto Serif',serif; font-weight:700; font-size:17px; margin-bottom:10px; color:var(--jade-deep);}
+.sub-panel ul{padding-left:20px; margin:10px 0;}
+.sub-panel li{margin-bottom:8px;}
+
+.phu-list{list-style:none; margin:20px 0; padding:0; counter-reset:phu; display:grid; gap:0;}
+.phu-item{counter-increment:phu; padding:18px 0; border-top:1px solid var(--line-soft); display:grid; grid-template-columns:34px 1fr; gap:14px;}
+.phu-item:first-child{border-top:none;}
+.phu-item::before{
+  content:counter(phu); font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--seal);
+  border:1px solid var(--seal); border-radius:50%; width:26px; height:26px; display:flex; align-items:center; justify-content:center;
+}
+.phu-verse{font-family:'Noto Serif', serif; font-style:italic; font-weight:600; font-size:16.5px; color:var(--ink); line-height:1.6; border-left:3px solid var(--brass); padding-left:14px;}
+.phu-gloss{font-size:14.5px; color:var(--ink-soft); margin-top:8px; padding-left:14px;}
+.phu-gloss b{color:var(--ink);}
+
+/* ============ CÁCH CỤC LIST (mục 8) ============ */
+.cach-list{list-style:none; margin:22px 0; padding:0; display:grid; gap:12px;}
+.cach-list li{
+  display:flex; gap:14px; align-items:flex-start; background:var(--paper-card);
+  border:1px solid var(--line); padding:14px 18px;
+}
+.cach-list .idx{
+  flex:none; width:30px; height:30px; border:1.5px solid var(--seal); color:var(--seal-deep);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+}
+
+/* ============ LIÊN CUNG LIST (mục 9) ============ */
+.link-list{list-style:none; margin:22px 0; padding:0; display:grid; gap:10px;}
+.link-list li{
+  padding:14px 18px; background:rgba(255,255,255,.35); border:1px solid var(--line-soft);
+  display:flex; flex-direction:column; gap:6px;
+}
+.link-list .head{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.link-list .head b{font-family:'Noto Serif',serif;}
+
+/* ============ DẠI VẬN CALLOUTS (mục 10) ============ */
+.duo{display:grid; grid-template-columns:1fr; gap:18px; margin:24px 0;}
+@media (min-width:760px){ .duo{grid-template-columns:1fr 1fr;} }
+.duo .box{padding:20px 22px; border:1px solid var(--line);}
+.duo .go{background:var(--jade-soft); border-color:var(--jade);}
+.duo .stop{background:#f2ddd8; border-color:var(--seal);}
+.duo h4{font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px;}
+.duo .go h4{color:var(--jade-deep);}
+.duo .stop h4{color:var(--seal-deep);}
+.duo ul{margin:0; padding-left:20px;}
+.duo li{margin-bottom:8px;}
+
+/* ============ MANIFESTO (mục 12) ============ */
+.manifesto{list-style:none; margin:22px 0; padding:0; counter-reset:m;}
+.manifesto li{
+  counter-increment:m; position:relative; padding:16px 0 16px 54px; border-top:1px solid var(--line-soft);
+}
+.manifesto li:first-child{border-top:none;}
+.manifesto li::before{
+  content:counter(m,decimal-leading-zero); position:absolute; left:0; top:16px;
+  font-family:'IBM Plex Mono',monospace; font-size:20px; color:var(--seal); font-weight:600;
+}
+
+/* ============ CASE STUDY (mục 13) ============ */
+.case{
+  border:1.5px solid var(--ink); position:relative; margin:24px 0; background:var(--paper-card);
+  box-shadow:var(--shadow);
+}
+.case::before{
+  content:""; position:absolute; inset:6px; border:1px solid var(--line);
+  pointer-events:none;
+}
+.case-head{
+  background:var(--ink); color:var(--paper);
+  padding:16px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+}
+.case-head .cs-title{font-family:'Noto Serif',serif; font-weight:700; font-size:16px;}
+.case-head .stamp{
+  font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.1em;
+  border:1.5px solid var(--seal); color:#eac9c4; padding:4px 10px; transform:rotate(-3deg);
+  border-radius:3px;
+}
+.case-fields{
+  font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink-soft);
+  padding:14px 24px; border-bottom:1px dashed var(--line); display:grid; gap:6px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+}
+.case-body{padding:26px 24px 30px;}
+.case-body h4{font-family:'Noto Serif',serif; font-weight:700; font-size:17px; color:var(--seal-deep); margin:26px 0 10px;}
+.case-body h4:first-child{margin-top:0;}
+.case-body ul{padding-left:20px;}
+.case-body li{margin-bottom:8px;}
+.case-foot{
+  border-top:1px dashed var(--line); padding:16px 24px; font-size:13px; font-style:italic; color:var(--ink-faint);
+}
+
+/* ============ TREE / SUMMARY BOX (mục 14) ============ */
+.treebox{
+  font-family:'IBM Plex Mono', monospace; font-size:13.5px; line-height:1.85;
+  background:var(--ink); color:#e7dcc0; padding:26px 28px; overflow-x:auto;
+  border:6px double var(--brass); margin:24px 0; white-space:pre;
+}
+.treebox .k{color:#e3a99f;}
+.steps{list-style:none; padding:0; margin:26px 0; display:grid; gap:0;}
+.steps li{
+  display:grid; grid-template-columns:44px 1fr; gap:16px; padding:14px 0; border-top:1px solid var(--line-soft);
+}
+.steps li:first-child{border-top:none;}
+.steps .num{
+  font-family:'Noto Serif',serif; font-weight:900; font-size:22px; color:var(--jade); text-align:right;
+}
+
+/* ============ PALACE DIAGRAM (signature) ============ */
+.diagram-wrap{
+  margin:30px 0 10px; background:var(--paper-card); border:1px solid var(--line);
+  padding:clamp(16px,3vw,34px); display:grid; grid-template-columns:1fr; gap:24px; box-shadow:var(--shadow);
+}
+@media(min-width:820px){ .diagram-wrap{grid-template-columns: 420px 1fr; align-items:center;} }
+.diagram-wrap svg{width:100%; height:auto; display:block;}
+.diagram-legend h4{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:14px;}
+.diagram-legend ul{list-style:none; margin:0 0 16px; padding:0; display:grid; gap:10px;}
+.diagram-legend li{display:flex; gap:10px; align-items:flex-start; font-size:14.5px;}
+.diagram-legend .sw{width:22px; height:4px; margin-top:8px; flex:none;}
+.diagram-caption{font-size:13.5px; color:var(--ink-faint); font-style:italic; margin-top:8px;}
+
+/* ============ FOOTER ============ */
+footer{
+  margin-top:70px; padding-top:30px; border-top:3px double var(--line);
+  font-size:14px; color:var(--ink-soft);
+}
+footer .colophon{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap;
+  margin-top:18px;
+}
+.big-seal{
+  flex:none; width:74px; height:74px; border-radius:50%; border:2px solid var(--seal); color:var(--seal);
+  display:flex; align-items:center; justify-content:center; text-align:center; font-family:'Noto Serif',serif;
+  font-weight:900; font-size:13px; transform:rotate(4deg); line-height:1.2;
+}
+
+.back-top{
+  position:fixed; right:18px; bottom:18px; z-index:5;
+  background:var(--seal); color:var(--paper-card); border:none; width:46px; height:46px; border-radius:50%;
+  font-size:18px; cursor:pointer; box-shadow:var(--shadow); opacity:0; pointer-events:none; transition:opacity .2s ease;
+}
+.back-top.show{opacity:1; pointer-events:auto;}
+
+.music-btn{
+  position:fixed; right:18px; bottom:72px; z-index:5;
+  background:var(--paper-card); color:var(--seal); border:2px solid var(--seal);
+  width:46px; height:46px; border-radius:50%;
+  font-size:17px; cursor:pointer; box-shadow:var(--shadow);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .2s ease, background .2s ease, color .2s ease;
+}
+.music-btn:hover{transform:translateY(-2px);}
+.music-btn[aria-pressed="true"]{background:var(--seal); color:var(--paper-card);}
+.music-btn[aria-pressed="true"] .note{animation:sway 1.6s ease-in-out infinite;}
+@keyframes sway{ 0%,100%{transform:rotate(-6deg);} 50%{transform:rotate(6deg);} }
+@media (prefers-reduced-motion: reduce){ .music-btn[aria-pressed="true"] .note{animation:none;} }
+
+.music-toast{
+  position:fixed; right:18px; bottom:126px; z-index:5;
+  max-width:260px; font-family:'IBM Plex Mono', monospace; font-size:12px; line-height:1.55;
+  background:var(--ink); color:var(--paper); padding:10px 14px; border:1px solid var(--seal);
+  box-shadow:var(--shadow); opacity:0; pointer-events:none; transform:translateY(6px);
+  transition:opacity .2s ease, transform .2s ease;
+}
+.music-toast.show{opacity:1; transform:translateY(0);}
+@media (max-width:480px){ .music-btn{right:12px; bottom:66px;} .music-toast{right:12px; bottom:118px; max-width:210px;} .back-top{right:12px;} }
+</style>
+</head>
+<body>
+<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
+  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a>
+</div>
+
+<div class="frame">
+
+  <header class="hero">
+    <div class="spine" aria-hidden="true">田　宅　之　學</div>
+    <div class="hero-body">
+      <span class="kicker">Tài liệu học · Tử Vi Đẩu Số</span>
+      <h1>Cung Điền Trạch<span class="han">田宅</span></h1>
+      <p class="sub">Từ vỡ lòng đến tầm bậc thầy — tính chất, đại diện, cách cục, tứ hóa, và cách luận xưa – nay của cung "kho tài sản" trong lá số.</p>
+      <div class="meta-row">
+        <span>14 chương</span>
+        <span>Kèm ca luận thực tế</span>
+        <span>Sơ đồ 12 cung minh họa tam hợp</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Mục lục">
+    <h2>Mục lục</h2>
+    <ol>
+      <li><span class="n">01</span><a href="#s1">Tổng quan về Cung Điền Trạch</a></li>
+      <li><span class="n">02</span><a href="#s2">Vị trí, tam hợp và các cung liên đới</a></li>
+      <li><span class="n">03</span><a href="#s3">Tính chất và phạm vi đại diện</a></li>
+      <li><span class="n">04</span><a href="#s4">Điền Trạch xưa và nay</a></li>
+      <li><span class="n">05</span><a href="#s5">Chính tinh tọa thủ</a></li>
+      <li><span class="n">06</span><a href="#s6">Phụ tinh, sát tinh và tổ hợp sao</a></li>
+      <li><span class="n">07</span><a href="#s7">Tứ Hóa tại Điền Trạch</a></li>
+      <li><span class="n">08</span><a href="#s8">Cách cục đặc biệt</a></li>
+      <li><span class="n">09</span><a href="#s9">Mối liên hệ liên cung</a></li>
+      <li><span class="n">10</span><a href="#s10">Đại Vận – Lưu Niên – Lưu Tháng</a></li>
+      <li><span class="n">11</span><a href="#s11">Ứng dụng thực tế</a></li>
+      <li><span class="n">12</span><a href="#s12">Bí quyết luận đoán bậc thầy</a></li>
+      <li><span class="n">13</span><a href="#s13">Ví dụ luận giải mẫu (ca thực tế)</a></li>
+      <li><span class="n">14</span><a href="#s14">Tổng kết & khung ghi nhớ</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+  <!-- ================= 1 ================= -->
+  <section class="chap" id="s1">
+    <div class="chap-head">
+      <div class="seal-num">01</div>
+      <h2>Tổng quan về Cung Điền Trạch</h2>
+    </div>
+    <div class="chap-body">
+      <p class="lede"><b>Điền Trạch</b> (田宅) là một trong 12 cung của lá số Tử Vi, thuộc nhóm <b>"Lục Nội"</b> cùng với Phúc Đức, Phụ Mẫu, Mệnh, Huynh Đệ, Tử Tức — nhóm cung nói về nội tại, gốc rễ, nền tảng vật chất và tinh thần của đời người.</p>
+      <ul>
+        <li><b>Điền</b> (田): ruộng đất — tượng trưng cho <i>nguồn của cải hữu hình, tài sản cố định, đất đai</i>.</li>
+        <li><b>Trạch</b> (宅): nhà ở — tượng trưng cho <i>nơi cư trú, mái ấm, không gian sinh tồn</i>.</li>
+      </ul>
+      <p>Ghép lại, Điền Trạch là cung quản về <b>tài sản bất động sản, nhà cửa, đất đai, môi trường sống và "kho chứa phúc phận vật chất"</b> của một đời người. Trong tử vi cổ, đây được xem là cung phản ánh <b>"âm chất tích lũy của tổ tiên"</b> — phúc phần do dòng họ, cha ông để lại, khác với cung Tài Bạch (dòng tiền, thu nhập, khả năng kiếm tiền).</p>
+      <div class="pull"><b>Phân biệt cốt lõi:</b> Tài Bạch = dòng chảy (tiền vào – tiền ra, khả năng kiếm tiền). Điền Trạch = bể chứa (tài sản tích lũy, cố định, nhà đất, kho báu ẩn giấu).</div>
+
+      <h3 style="font-size:19px; margin:34px 0 6px;">Vị trí cố định trên lá số</h3>
+      <p>Thứ tự 12 cung cố định theo địa chi: Mệnh – Phụ Mẫu – Phúc Đức – <b>Điền Trạch</b> – Quan Lộc – Nô Bộc – Thiên Di – Tật Ách – Tài Bạch – Tử Tức – Phu Thê – Huynh Đệ. Tam hợp được tính theo quy tắc <b>cách đều 4 cung</b>, do đó tam hợp chính thức của Điền Trạch là <b>Điền Trạch – Tật Ách – Huynh Đệ</b>. Điền Trạch được <b>giáp bởi Phúc Đức và Quan Lộc</b>; đối cung (xung chiếu) là <b>Tử Tức</b>.</p>
+
+      <div class="diagram-wrap">
+        <div>
+          <svg id="palace-ring" viewBox="0 0 460 460" role="img" aria-label="Sơ đồ 12 cung, làm nổi bật tam hợp Điền Trạch – Tật Ách – Huynh Đệ, xung chiếu Tử Tức, giáp cung Phúc Đức và Quan Lộc"></svg>
+          <noscript>
+            <p style="font-size:13px;">Sơ đồ minh họa (cần JavaScript): Điền Trạch tam hợp với Tật Ách và Huynh Đệ (tạo tam giác đều); xung chiếu Tử Tức (đường chéo đối diện); giáp bởi Phúc Đức và Quan Lộc (hai cung liền kề).</p>
+          </noscript>
+        </div>
+        <div class="diagram-legend">
+          <h4>Chú giải sơ đồ 12 cung</h4>
+          <ul>
+            <li><span class="sw" style="background:var(--seal);"></span> <span><b>Điền Trạch</b> — cung trung tâm đang xét.</span></li>
+            <li><span class="sw" style="background:var(--jade);"></span> <span><b>Tam hợp chính thức:</b> Tật Ách &amp; Huynh Đệ — ba cung cách đều nhau 4 vị trí, tạo tam giác đều.</span></li>
+            <li><span class="sw" style="background:var(--seal); opacity:.55; border-top:2px dashed var(--seal);"></span> <span><b>Xung chiếu:</b> Tử Tức — đối cung, cách đúng 6 vị trí (đường chéo qua tâm).</span></li>
+            <li><span class="sw" style="background:var(--brass);"></span> <span><b>Giáp cung:</b> Phúc Đức &amp; Quan Lộc — hai cung liền kề trước–sau, ảnh hưởng âm thầm chứ không phải tam hợp.</span></li>
+          </ul>
+          <p class="diagram-caption">Đây là điểm hay bị nhầm nhất khi luận Điền Trạch: nhiều tài liệu phổ thông gán nhầm "tam hợp Mệnh – Quan – Điền", trong khi theo đúng vị trí địa chi cố định, tam hợp thật của Điền Trạch là <b>Điền – Tật – Huynh</b>.</p>
+        </div>
+      </div>
+
+      <p>Trục xung chiếu Tử Tức là điểm đáng chú ý trong lý luận cổ: nhà cửa (nơi ở) và con cái (người nối dõi, người sẽ thừa hưởng nhà cửa) là hai mặt của một trục — "có nhà là để lại cho con cháu ở", đồng thời con cái cũng ảnh hưởng đến biến động nhà cửa (sinh con phải đổi nhà, mở rộng nhà, hoặc con cái làm hao tán nhà cửa).</p>
+    </div>
+  </section>
+
+  <!-- ================= 2 ================= -->
+  <section class="chap" id="s2">
+    <div class="chap-head">
+      <div class="seal-num">02</div>
+      <h2>Vị trí, tam hợp và các cung liên đới</h2>
+    </div>
+    <div class="chap-body">
+      <table class="ledger">
+        <caption>Bảng quan hệ vị trí của cung Điền Trạch</caption>
+        <thead><tr><th>Quan hệ</th><th>Cung</th><th>Ý nghĩa liên đới</th></tr></thead>
+        <tbody>
+          <tr><td class="tag-cell"><span class="tag tag-jade">Tam hợp chính thức</span></td><td>Tật Ách</td><td>Môi trường sống lâu dài ảnh hưởng sức khỏe; Tật Ách là "nơi thân thể cư trú" song song với Điền Trạch là "nơi gia đình cư trú".</td></tr>
+          <tr><td class="tag-cell"><span class="tag tag-jade">Tam hợp chính thức</span></td><td>Huynh Đệ</td><td>Tài sản chung, đồng sở hữu, tranh chấp/chia của với anh em hoặc đối tác góp vốn.</td></tr>
+          <tr><td class="tag-cell"><span class="tag tag-red">Xung chiếu</span></td><td>Tử Tức</td><td>Con cái – người thừa kế; biến động nhà cửa do sinh nở, con cái.</td></tr>
+          <tr><td class="tag-cell"><span class="tag tag-brass">Giáp cung</span></td><td>Quan Lộc &amp; Phúc Đức</td><td>Ảnh hưởng "giáp" âm thầm, không phải tam hợp.</td></tr>
+          <tr><td class="tag-cell"><span class="tag tag-gray">Liên hệ gián tiếp</span></td><td>Mệnh, Tài Bạch, Quan Lộc</td><td>Vòng tam hợp "Tài" — xem cách đối chiếu chi tiết ở Mục 09.</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size:19px; margin:30px 0 10px;">Nguyên lý tam hợp Điền Trạch – Tật Ách – Huynh Đệ</h3>
+      <p>Đây là tam hợp duy nhất về mặt vị trí địa chi cố định của Điền Trạch (ba cung cách đều nhau 4 vị trí):</p>
+      <ul>
+        <li><b>Điền Trạch:</b> kho chứa tài sản cố định, nhà cửa, đất đai.</li>
+        <li><b>Tật Ách:</b> môi trường sống ảnh hưởng trực tiếp sức khỏe — nhà ẩm thấp, ô nhiễm, phong thủy xấu thường phản chiếu qua Tật Ách; ngược lại nhà cửa khang trang, thoáng đãng hỗ trợ sức khỏe tốt.</li>
+        <li><b>Huynh Đệ:</b> người cùng chia sẻ "kho" — anh chị em ruột thịt hoặc (mở rộng hiện đại) đối tác đồng sở hữu, đồng đứng tên bất động sản. Đây là lý do cổ nhân luôn xét Huynh Đệ khi luận tranh chấp thừa kế nhà đất.</li>
+      </ul>
+      <div class="pull"><b>Lưu ý hay bị nhầm:</b> Mệnh và Quan Lộc <b>không phải tam hợp</b> của Điền Trạch. Chúng vẫn quan trọng khi luận Điền Trạch, nhưng qua con đường liên hệ liên cung (đối chiếu riêng biệt, không cùng vòng tam hợp) — xem Mục 09.</div>
+    </div>
+  </section>
+
+  <!-- ================= 3 ================= -->
+  <section class="chap" id="s3">
+    <div class="chap-head">
+      <div class="seal-num">03</div>
+      <h2>Tính chất và phạm vi đại diện</h2>
+    </div>
+    <div class="chap-body">
+      <div class="twocol">
+        <div class="col-card">
+          <h4>Nghĩa cổ điển</h4>
+          <ol>
+            <li><b>Ruộng vườn, đất đai, gia sản tổ tiên</b> — của cải quan trọng bậc nhất trong xã hội nông nghiệp.</li>
+            <li><b>Nhà cửa, dinh cơ, mồ mả</b> — một số phái cổ dùng Điền Trạch xét luôn âm trạch (mồ mả), vì "trạch" gồm cả dương trạch lẫn âm trạch.</li>
+            <li><b>Gia nghiệp, cơ nghiệp thừa kế</b> — tài sản đời trước để lại, phúc ấm tổ tông.</li>
+            <li><b>Kho tàng, của chìm</b> — tài sản không lộ ra ngoài, tiền chôn giấu, két sắt.</li>
+            <li><b>Nô bộc, gia nhân, súc vật nuôi trong nhà</b> — theo một số cổ thư mở rộng phạm vi "gia trạch".</li>
+          </ol>
+        </div>
+        <div class="col-card">
+          <h4>Nghĩa hiện đại</h4>
+          <ol>
+            <li><b>Bất động sản cá nhân:</b> nhà ở, căn hộ, đất nền, biệt thự.</li>
+            <li><b>Bất động sản đầu tư:</b> nhà cho thuê, đất đầu tư, dự án BĐS.</li>
+            <li><b>Cơ sở kinh doanh vật lý:</b> cửa hàng, văn phòng, nhà xưởng (giao thoa với Quan Lộc).</li>
+            <li><b>Môi trường sống &amp; phong thủy nơi ở:</b> chất lượng khu vực cư trú, hàng xóm, an ninh.</li>
+            <li><b>Tài sản cố định nói chung:</b> xe giá trị lớn, tài sản không phải tiền mặt.</li>
+            <li><b>Tài khoản tiết kiệm dài hạn</b> — tinh thần "tích lũy tài sản cố định" vẫn giữ nguyên.</li>
+            <li><b>Quan hệ với "gốc gác"</b> — nơi sinh ra, quê quán, nền tảng gia đình cho sự nghiệp.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="pull"><b>Lưu ý bậc thầy:</b> Khi hiện đại hóa ý nghĩa, tuyệt đối không bỏ gốc cổ điển. Bản chất Điền Trạch là <b>"kho chứa phúc phận hữu hình, có tính ổn định – lâu dài – khó thanh khoản"</b>. Tài sản mang tính lưu động (tiền mặt, cổ phiếu ngắn hạn) vẫn thuộc về Tài Bạch.</div>
+    </div>
+  </section>
+
+  <!-- ================= 4 ================= -->
+  <section class="chap" id="s4">
+    <div class="chap-head">
+      <div class="seal-num">04</div>
+      <h2>Điền Trạch xưa và nay — sự chuyển hóa ý nghĩa</h2>
+    </div>
+    <div class="chap-body">
+      <table class="ledger">
+        <caption>So sánh cách luận xưa (nông nghiệp) và nay (đô thị – thị trường)</caption>
+        <thead><tr><th>Khía cạnh</th><th>Luận xưa</th><th>Luận nay</th></tr></thead>
+        <tbody>
+          <tr><td>Đối tượng chính</td><td>Ruộng đất, nhà tổ, mồ mả</td><td>Nhà chung cư, đất nền, BĐS đầu tư</td></tr>
+          <tr><td>Nguồn gốc tài sản</td><td>Chủ yếu do thừa kế</td><td>Kết hợp thừa kế + tự mua bằng thu nhập</td></tr>
+          <tr><td>Vai trò xã hội</td><td>Thước đo địa vị dòng họ</td><td>Thước đo năng lực tài chính cá nhân</td></tr>
+          <tr><td>Biến động</td><td>Ít biến động, gắn một nơi cả đời</td><td>Biến động nhiều lần theo giai đoạn sự nghiệp</td></tr>
+          <tr><td>Tính chất "trạch"</td><td>Gồm cả âm trạch (mộ phần)</td><td>Chủ yếu luận dương trạch; âm trạch tách riêng</td></tr>
+          <tr><td>Quan hệ với Quan Lộc</td><td>Ít giao thoa</td><td>Giao thoa mạnh: văn phòng, mặt bằng kinh doanh</td></tr>
+          <tr><td>Thời điểm biến động</td><td>Theo đại vận là chính</td><td>Cần xét thêm lưu niên, lưu tháng</td></tr>
+        </tbody>
+      </table>
+      <p><b>Kết luận về sự chuyển hóa:</b> bản chất cung không đổi, nhưng đối tượng cụ thể được ánh xạ vào đã đô thị hóa và tài chính hóa. Ví dụ: "ruộng vườn tổ tiên" → "nhà thừa kế/đất ông bà để lại"; "kho tàng của chìm" → "tài khoản tiết kiệm dài hạn, vàng cất trữ".</p>
+    </div>
+  </section>
+
+  <!-- ================= 5 ================= -->
+  <section class="chap" id="s5">
+    <div class="chap-head">
+      <div class="seal-num">05</div>
+      <h2>Chính tinh tọa thủ cung Điền Trạch</h2>
+    </div>
+    <div class="chap-body">
+      <p class="lede">Luận giải tổng quát 14 chính tinh khi thủ Điền Trạch (đắc địa là chủ yếu; cần đối chiếu miếu/hãm cụ thể trên lá số thật).</p>
+
+      <div class="star-grid" id="star-grid"></div>
+
+      <div class="sub-panel" style="border-color:var(--brass);">
+        <h4 style="color:var(--brass);">5.1 · Lưỡng chính tinh đồng cung (ví dụ: Tử Phủ đồng cung)</h4>
+        <p>Khi hai chính tinh cùng thủ Điền Trạch (Tử Vi – Thiên Phủ, Vũ Khúc – Thiên Tướng, Liêm Trinh – Thiên Phủ…), ý nghĩa không đơn thuần cộng gộp mà có tính hòa hợp hoặc chế ước lẫn nhau:</p>
+        <ul>
+          <li><b>Tử Phủ đồng cung:</b> hai sao "quyền quý – kho tàng" kết hợp tạo cách cục tài sản bề thế, thường thừa kế cơ nghiệp lớn. Cần xét miếu vượng cụ thể (chỉ đóng ở Dần, Thân) và tránh bị Không–Kiếp–Kỵ phá — nếu bị phá dễ thành cách "đẹp nhưng rỗng": nhà to nhưng nợ nần.</li>
+          <li><b>Liêm Phủ đồng cung:</b> Thiên Phủ tiết chế bớt tính phức tạp của Liêm Trinh, tài sản ổn định hơn Liêm Trinh đơn thủ, vẫn cần tránh Sát Kỵ.</li>
+          <li><b>Vũ Tướng đồng cung:</b> tài tinh + ấn tinh — tài sản có được nhờ uy tín, hợp đồng rõ ràng, thường gắn với công việc/chức vụ.</li>
+        </ul>
+        <p style="font-size:14.5px; color:var(--ink-soft);">Nguyên tắc chung: sao đồng cung không "cộng điểm" máy móc, cần xét hai sao có tương sinh bản chất hay không.</p>
+      </div>
+
+      <div class="sub-panel">
+        <h4>5.2 · Vô Chính Diệu tại Điền Trạch</h4>
+        <p>Cách cục <b>rất hay gặp</b> (Điền Trạch dễ trống chính tinh), có ý nghĩa riêng biệt không thể bỏ qua:</p>
+        <ul>
+          <li>VCD tại Điền Trạch chủ về <b>tài sản/nhà cửa không ổn định</b>, phải nương nhờ cung xung chiếu (mượn sao từ Tử Tức) để luận đoán tính chất.</li>
+          <li>Được <b>Nhật – Nguyệt</b> chiếu → cách "nhật nguyệt chiếu hư không" — vẫn phát về nhà đất nhưng thường muộn, phải tự thân vận động, không hưởng sẵn cơ nghiệp tổ tiên.</li>
+          <li>Gặp <b>Tuần – Triệt án ngữ</b> → tài sản gần như trống rỗng thời trẻ, khó có nhà đứng tên mình cho đến trung niên.</li>
+          <li>Có <b>cát tinh hội đủ</b> (Tả Hữu, Xương Khúc, Khôi Việt) dù VCD vẫn luận là "cách rỗng mà có quý nhân độn thổ" — tài sản vẫn tạo dựng được nhưng đường vòng.</li>
+          <li><b>Nguyên tắc luận VCD:</b> luôn mượn sao đối cung (Tử Tức) làm chính tinh giả định, xem kỹ tam hợp Tật Ách – Huynh Đệ để bù đắp khoảng trống chính tinh.</li>
+        </ul>
+      </div>
+
+      <div class="sub-panel" style="border-color:var(--seal);">
+        <h4 style="color:var(--seal-deep);">5.3 · Phú cổ văn Điền Trạch (nguyên bản &amp; giải nghĩa)</h4>
+        <p style="font-size:14.5px; color:var(--ink-soft);">Bản phú cổ văn thể lục bát (nằm trong một bộ phú luận trọn 12 cung) dành riêng cho chương Điền Trạch — nguồn tham chiếu gốc cho phần luận chính tinh ở Mục 05 phía trên. Nên đọc đối chiếu hai phần để thấy rõ gốc rễ của các nhận định.</p>
+
+        <ol class="phu-list">
+          <li class="phu-item"><div><div class="phu-verse">"Bốn là bàn đến cung Điền,<br>Phủ, Vi đóng đấy, Tài Điền vượng thay."</div><div class="phu-gloss">Thiên Phủ + Tử Vi đóng tại Điền Trạch: ruộng vườn, tài sản đất đai vượng phát — Thiên Phủ vốn là "kho tàng", Tử Vi là đế tinh trấn giữ, hai sao gần như luôn tốt cho ý nghĩa tích lũy tài sản.</div></div></li>
+
+          <li class="phu-item"><div><div class="phu-verse">"Vũ, Cơ tài sản cũng hay,<br>Song hiềm hoán dịch ngày này nhiều phen."</div><div class="phu-gloss">Vũ Khúc + Thiên Cơ cũng chủ tài sản khá giả, nhưng nhược điểm là hay biến động, đổi chác nhà đất nhiều lần — đúng bản chất "biến động, cơ mưu" của Thiên Cơ ngay cả khi luận bất động sản.</div></div></li>
+
+          <li class="phu-item"><div><div class="phu-verse">"Âm, Dương miếu ấy đa điền,<br>Nhược bằng ngộ hãm vào miền bằng chân."</div><div class="phu-gloss">Thái Âm – Thái Dương miếu địa: nhiều ruộng đất; hãm địa thì chỉ đủ sống bình thường ("bằng chân" — vừa đủ, không dư dả).</div></div></li>
+
+          <li class="phu-item"><div><div class="phu-verse">"Thiên Đồng hậu dị, tiêu nan,<br>Tham Lang tổ nghiệp phá tan lại thành."</div><div class="phu-gloss">Thiên Đồng: về sau mới có (hậu đắc), ban đầu khó khăn hao tán. Tham Lang: mô-típ "tiên phá hậu thành" — phá tan tổ nghiệp trước rồi mới tự gây dựng lại.</div></div></li>
+
+          <li class="phu-item"><div><div class="phu-verse">"Cự Môn tổ nghiệp tan tành,<br>Sinh ra đổi chác sau rành được yên."</div><div class="phu-gloss">Cự Môn cũng phá tán tổ nghiệp, nhưng qua mua bán/đổi chác nhiều lần rồi mới ổn định — cùng mô-típ với Tham Lang nhưng qua con đường giao dịch/kinh doanh.</div></div></li>
+
+          <li class="phu-item"><div><div class="phu-verse">"Sát sinh bỗng chốc mà lên,<br>Nhược phùng hãm địa, bình yên thường thường."</div><div class="phu-gloss">Thất Sát: có thể đột nhiên phát tài đất đai bất ngờ (bạo phát); hãm địa thì chỉ bình yên tầm thường, không nổi bật.</div></div></li>
+
+          <li class="phu-item"><div><div class="phu-verse">"Phá Quân của khéo dở dang,<br>Nhược bằng ngộ hãm là tuồng khó khăn."</div><div class="phu-gloss">Phá Quân: tài sản/của cải hay dở dang, không trọn vẹn; hãm địa thì cảnh ngộ càng khó khăn — đúng bản chất "phá" xuyên suốt của sao này.</div></div></li>
+
+          <li class="phu-item"><div><div class="phu-verse">"Tướng, Lương, Tả, Hữu khoa văn.<br>Việt, Khôi, Quyền, Lộc, Mã gần Trường sinh."</div><div class="phu-gloss">Nhóm cát tinh tốt cho Điền Trạch: Thiên Tướng, Thiên Lương, Tả Phụ, Hữu Bật (thêm sắc thái khoa văn); Thiên Việt, Thiên Khôi, Hóa Quyền, Lộc Tồn, Thiên Mã hội cùng vòng Trường Sinh vượng.</div></div></li>
+
+          <li class="phu-item"><div><div class="phu-verse">"Điền viên đều vượng tậu tành,<br>Hỏa, Linh, Không, Kiếp, Đà, Kình lục tinh."</div><div class="phu-gloss">Với nhóm sao câu trên: ruộng vườn đều vượng phát, mua sắm tậu tành thuận lợi. Chuyển sang liệt kê lục sát tinh: Hỏa Tinh, Linh Tinh, Địa Không, Địa Kiếp, Đà La, Kình Dương.</div></div></li>
+
+          <li class="phu-item"><div><div class="phu-verse">"Nhị Hao, Kiếp Sát, Phục Binh,<br>Không Vong, Tang, Tú, Phù tinh vô điền."</div><div class="phu-gloss">Cùng Đại Hao – Tiểu Hao, Kiếp Sát, Phục Binh, Tuần/Triệt Không Vong, Tang Môn, Quả Tú, Thiên Phù: nhóm sát tinh này hội tụ tại Điền Trạch thì kết quả chung là <b>"vô điền"</b> (không có ruộng đất/bất động sản) — câu kết, tổng hợp toàn bộ nhóm hung tinh.</div></div></li>
+        </ol>
+
+        <div class="pull" style="border-left-color:var(--seal); background:#f2ddd8;">
+          <b>Nhận xét về cấu trúc bản phú:</b> chương Điền Trạch trong bản phú gốc khá ngắn (10 cặp câu), cấu trúc gọn: 7 cặp đầu luận từng chính tinh riêng lẻ theo công thức miếu/hãm và mô-típ "tiên phá hậu thành" (rõ nhất ở Tham Lang, Cự Môn, Thiên Đồng); 3 cặp cuối gộp nhóm cát tinh và hung tinh thành hai khối đối lập — một trong những chương mạch lạc, chuẩn mực nhất trong toàn bộ bản phú 12 cung.
+        </div>
+        <div class="pull">
+          <b>Đối chiếu nhanh với Mục 05:</b> phú cổ và phần luận chính tinh hiện đại khớp nhau ở hầu hết điểm cốt lõi. Phú cổ có thêm bốn sát tinh mà Mục 06 (Phụ tinh, sát tinh) ban đầu chưa liệt kê — <b>Kiếp Sát, Phục Binh, Quả Tú, Thiên Phù</b> — đã được bổ sung vào Mục 6.2 để đồng bộ.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6 ================= -->
+  <section class="chap" id="s6">
+    <div class="chap-head">
+      <div class="seal-num">06</div>
+      <h2>Phụ tinh, sát tinh và các tổ hợp sao</h2>
+    </div>
+    <div class="chap-body">
+      <div class="twocol">
+        <div class="col-card" style="border-color:var(--jade); background:var(--jade-soft);">
+          <h4 style="color:var(--jade-deep);">6.1 · Cát tinh làm đẹp cung</h4>
+          <ul>
+            <li><b>Tả Phụ – Hữu Bật:</b> quý nhân giúp đỡ mua nhà, tạo lập cơ nghiệp; nhà cửa được củng cố, mở rộng.</li>
+            <li><b>Văn Xương – Văn Khúc:</b> nhà cửa thanh nhã, giấy tờ nhà đất suôn sẻ, hợp đồng minh bạch.</li>
+            <li><b>Thiên Khôi – Thiên Việt:</b> gặp quý nhân trong giao dịch BĐS, mua bán thuận lợi.</li>
+            <li><b>Lộc Tồn:</b> tài sản tích lũy bền vững, nhà đất giữ giá trị lâu dài.</li>
+            <li><b>Thiên Mã</b> (hội hợp phù hợp): giao dịch thuận lợi, đầu tư BĐS ở xa vẫn thuận.</li>
+          </ul>
+        </div>
+        <div class="col-card" style="border-color:var(--seal); background:#f2ddd8;">
+          <h4 style="color:var(--seal-deep);">6.2 · Sát – Kỵ – Hình – Hao làm xấu cung</h4>
+          <ul>
+            <li><b>Kình Dương – Đà La:</b> tranh chấp, kiện tụng, nhà đất vướng pháp lý.</li>
+            <li><b>Hỏa Tinh – Linh Tinh:</b> biến động đột ngột, tai nạn liên quan nhà cửa, được nhanh mất nhanh.</li>
+            <li><b>Địa Không – Địa Kiếp:</b> hao tán tài sản cố định, đầu tư BĐS dễ thất bại.</li>
+            <li><b>Thiên Hình:</b> pháp lý, cưỡng chế, kiện tụng đất đai.</li>
+            <li><b>Đại Hao – Tiểu Hao:</b> hao tổn tài sản, sửa chữa tốn kém.</li>
+            <li><b>Thiên Không:</b> hụt cơ hội mua nhà, giao dịch bất thành, ảo tưởng tài sản.</li>
+            <li><b>Kiếp Sát – Phục Binh</b> <span class="tag tag-gray" style="font-size:10.5px;">phú cổ, Mục 5.3</span>: rủi ro ngầm — tranh chấp/lừa gạt không lường trước, hợp đồng có "bẫy" ẩn, đối tác/thợ làm ăn không đáng tin.</li>
+            <li><b>Quả Tú – Thiên Phù</b> <span class="tag tag-gray" style="font-size:10.5px;">phú cổ, Mục 5.3</span>: tính cô lẻ, đơn độc khi quán xuyến nhà cửa, hoặc dễ vướng thị phi/tin đồn thất thiệt liên quan tài sản.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pull"><b>6.3 · Nguyên tắc tổ hợp:</b> Bậc thầy không luận đơn sao mà luận tổ hợp toàn cung (chính tinh + phụ tinh tại cung, cộng thêm xung chiếu Tử Tức và tam hợp chính thức Tật Ách – Huynh Đệ). Ví dụ: Thiên Phủ (tốt) + Địa Không, Địa Kiếp (sát) tại Điền Trạch → dù bản chất là sao kho tàng, vẫn có thể luận "có tài sản nhưng khó giữ, dễ thất thoát do quyết định sai lầm hoặc lừa đảo".</div>
+    </div>
+  </section>
+
+  <!-- ================= 7 ================= -->
+  <section class="chap" id="s7">
+    <div class="chap-head">
+      <div class="seal-num">07</div>
+      <h2>Tứ Hóa tại Điền Trạch</h2>
+    </div>
+    <div class="chap-body">
+      <p class="lede">Tứ Hóa (Lộc, Quyền, Khoa, Kỵ) là yếu tố <b>động</b> quan trọng nhất để luận chi tiết, đặc biệt khi xét theo đại vận/lưu niên.</p>
+      <div class="twocol">
+        <div class="col-card"><h4>Hóa Lộc</h4><p>Tài sản sinh lời, nhà đất tăng giá, có duyên mua nhà đúng thời điểm, dễ được cho/tặng/thừa kế. Dấu hiệu rất tốt để đầu tư BĐS trong giai đoạn vận hạn đó.</p></div>
+        <div class="col-card"><h4>Hóa Quyền</h4><p>Chủ động, có quyền quyết định mua bán, xây dựng, mở rộng nhà cửa/cơ sở kinh doanh — thường gắn với việc tự tay gây dựng cơ nghiệp.</p></div>
+        <div class="col-card"><h4>Hóa Khoa</h4><p>Nhà cửa danh giá, giấy tờ minh bạch, thuận lợi vay vốn ngân hàng. Mang tính "danh" nhiều hơn "lợi" thực tế.</p></div>
+        <div class="col-card" style="border-color:var(--seal);"><h4 style="color:var(--seal-deep);">Hóa Kỵ</h4><p>Cần cảnh giác nhất: tranh chấp nhà đất, thủ tục rắc rối, hư hỏng, kiện tụng, mất giá, gia đạo bất ổn. Có thể là điềm báo <b>hao tán tổ nghiệp</b> nếu là Kỵ của chính tinh miếu hãm xấu.</p></div>
+      </div>
+
+      <div class="pull"><b>Kỹ thuật bậc thầy – Phi Tinh Tứ Hóa:</b> ngoài tứ hóa an theo can năm sinh, phái Phi Tinh Tứ Hóa lấy <b>can của cung Điền Trạch</b> để phi hóa ra các cung khác, xem tài sản/nhà cửa ảnh hưởng đến cung nào. Bảng dưới là ví dụ minh họa cách suy luận, không phải công thức cố định.</div>
+
+      <table class="ledger">
+        <caption>Ví dụ Phi Cung Tứ Hóa từ Điền Trạch</caption>
+        <thead><tr><th>Điền Trạch phi Hóa</th><th>Nhập cung</th><th>Ý nghĩa gợi ý</th></tr></thead>
+        <tbody>
+          <tr><td class="tag-cell">Hóa Lộc</td><td>Tài Bạch</td><td>Nhà đất là nguồn sinh tiền – cho thuê, khai thác kinh doanh sinh lời.</td></tr>
+          <tr><td class="tag-cell">Hóa Lộc</td><td>Tử Tức</td><td>Mua/đổi nhà vì lý do liên quan con cái (không gian cho con, gần trường học...).</td></tr>
+          <tr><td class="tag-cell">Hóa Quyền</td><td>Quan Lộc</td><td>Dùng tài sản (thế chấp, bán bớt) đầu tư mở rộng sự nghiệp.</td></tr>
+          <tr><td class="tag-cell">Hóa Khoa</td><td>Phụ Mẫu</td><td>Nhà cửa/tài sản làm rạng danh cha mẹ, thừa kế minh bạch.</td></tr>
+          <tr><td class="tag-cell">Hóa Kỵ</td><td>Phụ Mẫu</td><td>Tranh chấp thừa kế ảnh hưởng quan hệ/danh tiếng cha mẹ.</td></tr>
+          <tr><td class="tag-cell">Hóa Kỵ</td><td>Huynh Đệ</td><td>Tranh chấp, kiện tụng tài sản với anh em hoặc đối tác góp vốn.</td></tr>
+          <tr><td class="tag-cell">Hóa Kỵ</td><td>Phu Thê</td><td>Nhà cửa là nguyên nhân mâu thuẫn hôn nhân (đứng tên, chia tài sản khi ly hôn).</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:14.5px; color:var(--ink-soft);">Khi thực hành, cần an đúng Thiên Can của cung Điền Trạch (theo Can năm sinh và Ngũ Hổ Độn), rồi tra bảng Tứ Hóa của Can đó để biết chính xác sao nào phi hóa và bay vào cung nào trên lá số thật.</p>
+    </div>
+  </section>
+
+  <!-- ================= 8 ================= -->
+  <section class="chap" id="s8">
+    <div class="chap-head">
+      <div class="seal-num">08</div>
+      <h2>Cách cục đặc biệt liên quan Điền Trạch</h2>
+    </div>
+    <div class="chap-body">
+      <ul class="cach-list">
+        <li><span class="idx">1</span><span><b>Điền Trạch phùng Không Kiếp</b> — cách "Tổ nghiệp phá tán": tài sản tổ tiên khó giữ, phải tự lập nghiệp, nhà cửa lận đận thời trẻ.</span></li>
+        <li><span class="idx">2</span><span><b>Cự Cơ đồng cung/hội chiếu</b> — dễ tranh chấp nhà đất trong dòng họ, kiện tụng thừa kế.</span></li>
+        <li><span class="idx">3</span><span><b>Vũ Khúc – Thiên Phủ giáp/hội</b> — cách tích lũy bất động sản bền vững, "giàu nhờ đất".</span></li>
+        <li><span class="idx">4</span><span><b>Lộc Tồn + Hóa Lộc</b> — song Lộc: tài sản dồi dào, nhà cửa liên tục sinh lời, cách cục đẹp cho nhà đầu tư BĐS.</span></li>
+        <li><span class="idx">5</span><span><b>Thái Dương – Thái Âm giáp Điền Trạch</b> — nhật nguyệt giáp trạch: gia đạo hưng vượng, cha mẹ để lại phúc ấm cân bằng cả nội lẫn ngoại.</span></li>
+        <li><span class="idx">6</span><span><b>Điền Trạch – Tử Tức đồng thời gặp Sát Kỵ</b> — cảnh báo "nhà cửa – con cái" cùng bất ổn, thường luận sâu khi xem thừa kế/chia tài sản cho con không êm đẹp.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 9 ================= -->
+  <section class="chap" id="s9">
+    <div class="chap-head">
+      <div class="seal-num">09</div>
+      <h2>Điền Trạch trong mối liên hệ liên cung</h2>
+    </div>
+    <div class="chap-body">
+      <p class="lede">Kỹ thuật phân biệt "người luận cơ bản" và "bậc thầy" — luận Điền Trạch không bao giờ tách rời, mà phải đối chiếu:</p>
+      <ul class="link-list">
+        <li><div class="head"><b>Điền Trạch ↔ Mệnh</b></div><span>Mệnh vượng, Điền Trạch vượng → năng lực và nền tảng đi đôi. Mệnh vượng nhưng Điền Trạch hãm → giỏi kiếm tiền nhưng khó giữ tài sản cố định, có thể "thuê nhà cả đời" dù thu nhập cao.</span></li>
+        <li><div class="head"><b>Điền Trạch ↔ Tài Bạch</b></div><span>Tài Bạch là dòng tiền, Điền Trạch là kho chứa. Tài Bạch tốt + Điền Trạch xấu = kiếm được nhưng tiêu hết/đầu tư sai. Ngược lại có thể do thừa kế hoặc tằn tiện mà có nhà dù thu nhập không cao.</span></li>
+        <li><div class="head"><b>Điền Trạch ↔ Quan Lộc</b></div><span>Xét nơi làm việc, cơ sở kinh doanh có ổn định không, có sở hữu mặt bằng/văn phòng riêng hay phải thuê mãi.</span></li>
+        <li><div class="head"><b>Điền Trạch ↔ Tử Tức</b> <span class="tag tag-red">xung chiếu</span></div><span>Việc để lại tài sản cho con cháu, hoặc biến động nhà cửa liên quan sinh con, nuôi dạy con.</span></li>
+        <li><div class="head"><b>Điền Trạch ↔ Phúc Đức</b> <span class="tag tag-brass">giáp cung</span></div><span>Phúc Đức là gốc tinh thần/phúc phần, Điền Trạch là biểu hiện vật chất của phúc phần đó. Phúc Đức tốt hỗ trợ Điền Trạch bền vững lâu dài.</span></li>
+        <li><div class="head"><b>Điền Trạch ↔ Phụ Mẫu</b></div><span>Liên quan trực tiếp việc thừa kế nhà cửa từ cha mẹ, quan hệ với cha mẹ về tài sản.</span></li>
+        <li><div class="head"><b>Điền Trạch ↔ Huynh Đệ</b> <span class="tag tag-jade">tam hợp chính thức</span></div><span>Tranh chấp/chia tài sản chung với anh chị em, đối tác kinh doanh. Cặp đối chiếu bắt buộc khi luận thừa kế hoặc đồng sở hữu bất động sản.</span></li>
+        <li><div class="head"><b>Điền Trạch ↔ Tật Ách</b> <span class="tag tag-jade">tam hợp chính thức</span></div><span>Nhà cửa/đất đai ảnh hưởng trực tiếp sức khỏe và tuổi thọ — xét cùng lúc khi Điền Trạch có Sát Kỵ; ngược lại Tật Ách tốt cũng phản chiếu nơi ở lành mạnh.</span></li>
+      </ul>
+      <div class="pull"><b>Vì sao Mệnh, Tài Bạch, Quan Lộc không tính là tam hợp nhưng vẫn phải xét?</b> Ba cung này tạo vòng tam hợp "Tài" (Mệnh–Tài Bạch–Quan Lộc), phản ánh <i>năng lực làm ra tiền</i>. Điền Trạch nằm ngoài vòng này, phản ánh <i>khả năng biến tiền thành tài sản cố định</i>. Bậc thầy đối chiếu <b>hai vòng tam hợp riêng biệt</b> (Tài: Mệnh–Tài–Quan; Điền: Điền–Tật–Huynh) cùng các cặp giáp/xung, thay vì gộp nhầm thành một.</div>
+    </div>
+  </section>
+
+  <!-- ================= 10 ================= -->
+  <section class="chap" id="s10">
+    <div class="chap-head">
+      <div class="seal-num">10</div>
+      <h2>Luận đoán theo Đại Vận – Lưu Niên – Lưu Tháng</h2>
+    </div>
+    <div class="chap-body">
+      <p class="lede">Điền Trạch bản mệnh (cung "tĩnh") cho <b>khuynh hướng cả đời</b>. Muốn biết <b>thời điểm cụ thể</b> mua nhà, đổi nhà, tranh chấp, phải xem:</p>
+      <ol>
+        <li><b>Đại vận Điền Trạch</b> (cung Điền Trạch của 10 năm đại vận đang đi) — kết hợp chính tinh + tứ hóa đại vận.</li>
+        <li><b>Lưu niên Điền Trạch</b> (theo năm hiện tại, an theo chi năm) — điểm rơi xét biến động trong năm.</li>
+        <li><b>Tam hợp lưu niên với đại vận:</b> khi lưu niên Điền Trạch trùng/tam hợp với đại vận Điền Trạch và có Hóa Lộc/Quyền hội chiếu → năm rất thuận lợi mua nhà/đầu tư.</li>
+        <li><b>Lưu Hóa Kỵ xung/nhập Điền Trạch:</b> cảnh báo năm dễ gặp trục trặc pháp lý, không nên ký hợp đồng lớn.</li>
+      </ol>
+      <div class="duo">
+        <div class="box go">
+          <h4>Nên mua nhà / an cư</h4>
+          <ul>
+            <li>Đại vận hoặc lưu niên Điền Trạch có Hóa Lộc, Hóa Quyền, hoặc Lộc Tồn thủ/chiếu.</li>
+            <li>Tam hợp Điền – Tật – Huynh của vận hạn đồng loạt vượng, không phá cách (đặc biệt Tật Ách vận không xấu).</li>
+            <li>Điền Trạch của vận không bị Không – Kiếp – Kỵ xâm phạm; Quan Lộc và Mệnh của vận cũng nên vượng để hỗ trợ tài chính.</li>
+          </ul>
+        </div>
+        <div class="box stop">
+          <h4>Nên tránh giao dịch lớn</h4>
+          <ul>
+            <li>Lưu Hóa Kỵ nhập cung Điền Trạch của đại vận hoặc lưu niên.</li>
+            <li>Điền Trạch vận gặp Kình – Đà – Không – Kiếp hội đủ (tứ sát).</li>
+            <li>Điền Trạch xung với Tử Tức vận có Sát Kỵ hội họp (dễ tranh chấp thừa kế/chia tài sản).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 11 ================= -->
+  <section class="chap" id="s11">
+    <div class="chap-head">
+      <div class="seal-num">11</div>
+      <h2>Ứng dụng thực tế: mua nhà, đầu tư bất động sản, thời điểm</h2>
+    </div>
+    <div class="chap-body">
+      <h3 style="font-size:18px; margin-bottom:8px;">11.1 · Xác định "gu" bất động sản qua chính tinh bản mệnh</h3>
+      <ul>
+        <li><b>Tử Vi, Vũ Khúc, Thiên Phủ:</b> thiên về BĐS giá trị cao, vị trí đẹp, đầu tư dài hạn, "mua để giữ".</li>
+        <li><b>Thiên Cơ, Tham Lang, Phá Quân:</b> thiên về giao dịch nhiều lần, "lướt sóng", không ở cố định.</li>
+        <li><b>Thiên Đồng, Thiên Lương:</b> thiên về an cư ổn định, ưu tiên sự thoải mái hơn giá trị đầu tư.</li>
+      </ul>
+      <h3 style="font-size:18px; margin:24px 0 8px;">11.2 · "Sở hữu" vs "thuê ở cả đời"</h3>
+      <p>Xét tổng hợp: Điền Trạch bản mệnh (miếu/hãm, cát/sát), tam hợp Điền–Tật–Huynh, và đối chiếu riêng với Mệnh–Tài Bạch–Quan Lộc để xem có nền tài chính hỗ trợ hay không. Điền Trạch hãm nhiều sát tinh, không cát tinh giải, thường khó sở hữu BĐS đứng tên mình sớm.</p>
+      <h3 style="font-size:18px; margin:24px 0 8px;">11.3 · Đầu tư bất động sản chuyên nghiệp</h3>
+      <p>Người có Điền Trạch tốt, đồng thời Mệnh – Tài Bạch – Quan Lộc (vòng tam hợp Tài) cũng vượng, thường phù hợp phát triển sự nghiệp liên quan bất động sản (môi giới, đầu tư, xây dựng, quản lý tài sản) — vừa có năng lực tạo tiền, vừa có khả năng biến tiền thành tài sản cố định.</p>
+      <div class="note"><b>11.4 · Lưu ý khi tư vấn hiện đại:</b> tử vi chỉ phản ánh khuynh hướng và thời điểm thuận/nghịch, không thay thế phân tích tài chính, pháp lý, thị trường thực tế. Quyết định mua/bán bất động sản cần dựa trên cả yếu tố tài chính cá nhân, thị trường, và pháp lý.</div>
+    </div>
+  </section>
+
+  <!-- ================= 12 ================= -->
+  <section class="chap" id="s12">
+    <div class="chap-head">
+      <div class="seal-num">12</div>
+      <h2>Bí quyết luận đoán tầm bậc thầy</h2>
+    </div>
+    <div class="chap-body">
+      <ol class="manifesto">
+        <li><b>Không luận Điền Trạch đơn lẻ</b> — luôn đối chiếu tam hợp chính thức Điền–Tật–Huynh, xung chiếu Tử Tức, giáp cung Phúc Đức/Quan Lộc, và liên hệ riêng với vòng Mệnh–Tài Bạch–Quan Lộc trước khi kết luận.</li>
+        <li><b>Phân biệt "có nhà" và "giữ được nhà"</b> — chính tinh miếu vượng cho biết khả năng sở hữu, nhưng cát/sát tinh phụ trợ mới quyết định khả năng giữ được lâu dài.</li>
+        <li><b>Dùng Phi Tinh Tứ Hóa từ Điền Trạch</b> để biết tài sản ảnh hưởng đến khía cạnh nào khác trong đời.</li>
+        <li><b>Đối chiếu với Phúc Đức và Phụ Mẫu</b> khi luận "gia sản thừa kế" — ba cung tạo hệ thống phản ánh trọn vẹn "gốc rễ".</li>
+        <li><b>Xét động (đại vận/lưu niên) song song với tĩnh (bản mệnh)</b> — thiếu một trong hai đều luận không trọn vẹn.</li>
+        <li><b>"Dịch" ý nghĩa cổ sang bối cảnh hiện đại có căn cứ</b>, không suy diễn tùy tiện — giữ đúng bản chất "tài sản cố định – tích lũy – ổn định" làm gốc.</li>
+        <li><b>Tránh tuyệt đối hóa một sao đơn lẻ</b> — Thiên Phủ không chắc giàu BĐS nếu bị Không Kiếp Kỵ vây quanh; Phá Quân không chắc phá sản nếu được cát tinh và Hóa Lộc/Quyền phù trợ.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= 13 ================= -->
+  <section class="chap" id="s13">
+    <div class="chap-head">
+      <div class="seal-num">13</div>
+      <h2>Ví dụ luận giải mẫu (ca thực tế)</h2>
+    </div>
+    <div class="chap-body">
+      <p class="lede">Ca minh họa cho phương pháp luận đã trình bày ở các mục trên — dùng để vận dụng quy trình 7 bước, không phải lá số của người đọc tài liệu.</p>
+
+      <div class="case">
+        <div class="case-head">
+          <span class="cs-title">Hồ sơ lá số — Nam mệnh, Đinh Mão 1987</span>
+          <span class="stamp">CA THỰC TẾ</span>
+        </div>
+        <div class="case-fields">
+          <span>ÂM NAM · LỘ TRUNG HỎA · HỎA LỤC CỤC</span>
+          <span>XEM VẬN: BÍNH NGỌ 2026 · 40 TUỔI</span>
+          <span>ĐIỀN TẠI: M.THÂN (+KIM)</span>
+          <span>CHÍNH TINH: CỰ MÔN (Đ) + THÁI DƯƠNG (H)</span>
+        </div>
+        <div class="case-body">
+
+          <h4>13.1 · Vị trí và bối cảnh cung</h4>
+          <p>Điền Trạch đóng tại cung Thân, hành Kim, trong khi Mệnh chủ hành Hỏa (Lộ Trung Hỏa) → <b>Hỏa khắc Kim</b> tại chính cung Điền Trạch — dấu hiệu đầu tiên cho thấy đương số phải tốn công sức mới giữ được nhà, ở trong nhà dễ bức bối, thích ra ngoài hơn ở yên một chỗ. Gốc Đại Vận 10 năm của Điền Trạch hiện nằm tại cung Thiên Di; vòng Tràng Sinh an tại chữ <b>Bệnh</b> (nhà cửa hay phải sửa chữa); Lưu Niên Điền Trạch năm 2026 nhập vào cung Huynh Đệ.</p>
+
+          <h4>13.2 · Chính tinh — Cự Nhật đồng cung tại Thân</h4>
+          <ul>
+            <li><b>Cự Môn (Đắc):</b> kỹ tính khi mua đất, xem kỹ pháp lý, đo đạc cẩn thận — nhưng vì "cái miệng" mà dễ vướng thị phi, tranh chấp ranh giới.</li>
+            <li><b>Thái Dương (Hãm) tại Thân</b> — cách <i>"Nhật Trầm Thủy Bể"</i> (mặt trời chiều chìm), khác hẳn Cự Nhật tại Dần (mặt trời mọc). Hệ quả: nhà thiếu sáng tự nhiên hoặc bị nắng gắt hướng Tây, gần nơi ồn ào/cống rãnh; người đàn ông trong nhà ít có mặt hoặc vai trò mờ nhạt.</li>
+            <li>Cự + Nhật đồng cung → mẫu người <b>"khôn đất nhưng khổ vì đất"</b>: biết xem đất nhưng vẫn dính lỗi tiểu tiết, phải qua vài lần đổi/sửa nhà mới ổn định.</li>
+          </ul>
+
+          <h4>13.3 · Phụ tinh — tách sao gốc và sao lưu</h4>
+          <p><b>Sao gốc</b> (cả đời): Nguyệt Đức, Lưu Hà, Thiên Tài, Kiếp Sát, Thiên Thọ, Tử Phù, Phục Binh, <b>Hóa Kỵ</b>.</p>
+          <ul>
+            <li>Cổ thư: "Cự Môn phùng Hóa Kỵ tối vi hung" — điểm hung nặng nhất của cung. Kết hợp Lưu Hà + Hóa Kỵ: nhà dễ gần nguồn nước bẩn/cống rãnh, hay thấm dột; lời nói trong nhà kém trọng lượng, dễ hiểu lầm.</li>
+            <li>Phục Binh + Kiếp Sát + Tử Phù: đất dễ tranh chấp ngầm, vướng giấy tờ, rủi ro gặp thợ làm ẩu.</li>
+            <li>Nguyệt Đức + Thiên Tài + Thiên Thọ: bộ sao cứu giải — vẫn có quý nhân giúp đỡ, có lộc nhỏ.</li>
+          </ul>
+          <p><b>Sao lưu năm 2026 Bính Ngọ</b> (chỉ tác dụng trong năm): Lưu Văn Xương, Lưu Thiên Mã, Lưu Tang Môn.</p>
+          <ul>
+            <li>Lưu Thiên Mã nhập Điền → năm nay nảy ý định chuyển nhà, đi xem đất, sửa nhà.</li>
+            <li>Lưu Tang Môn → cảm giác bí bách, lo lắng liên quan nhà cửa.</li>
+            <li>Lưu Văn Xương → năm động đến giấy tờ, ký kết, công chứng.</li>
+          </ul>
+          <p style="font-size:14.5px; color:var(--ink-soft);">→ Kết luận: 2026 là <b>năm phát động</b>, chưa phải năm ổn định lâu dài.</p>
+
+          <h4>13.4 · Tam hợp, xung chiếu, liên hệ liên cung</h4>
+          <ul>
+            <li><b>Tam hợp chính thức Điền (Thân) – Tật Ách (Tý) – Huynh Đệ (Thìn)</b> hợp thành bộ Thủy cục, khắc với Mệnh Hỏa → đúng nguyên lý Mục 09: Tật Ách phản ánh môi trường sống ảnh hưởng sức khỏe (ở nhà lâu dễ bí bách; ra ngoài làm ăn lại thoáng); Huynh Đệ phản ánh chia sẻ tài chính với anh em bạn bè khi có biến động nhà cửa.</li>
+            <li><b>Xung chiếu Tử Tức (cung Dần)</b> có Triệt + Thiên Quan + Quốc Ấn → nhà cửa và con cái gắn chặt nhau; đại vận đi vào Tử Tức (có Triệt) sẽ là giai đoạn đổi nhà lớn nhất đời.</li>
+            <li><b>Liên hệ Phúc Đức</b> (Tham Lang miếu + Vũ Khúc miếu, là Lai Nhân Cung) — điểm cứu giải cho Hóa Kỵ tại Điền: vẫn có nhà, nhưng phần nhiều do được thừa hưởng/cho tặng/người khác giúp.</li>
+          </ul>
+
+          <h4>13.5 · Tổng kết và ứng dụng</h4>
+          <p><b>Một câu chuẩn:</b> có nhà, có đất, nhưng là nhà phải sửa, đất từng dính kiện tụng mới yên; trước 35 tuổi nhiều khả năng ở trọ/ở nhờ/nhà chưa chính chủ; đại vận đi vào Tử Tức là lúc đổi nhà lớn nhất; nhà hợp làm nơi hành nghề liên quan lời nói/tư vấn hơn chỉ để ở không.</p>
+          <ul>
+            <li><b>Đầu tư:</b> không hợp "lướt sóng" (Cự Kỵ + Phục Binh dễ dính kiện khi mua bán nhanh); hợp mua giữ dài hạn hoặc cho thuê lấy dòng tiền.</li>
+            <li><b>Hóa giải Cự Kỵ + Nhật hãm:</b> ưu tiên nhà sáng – khô – thoáng, tránh ngõ sâu/ẩm/gần cống rãnh; dùng đúng bản chất Cự Môn (cái miệng) để hành nghề tại nhà (tư vấn, dạy học, livestream, môi giới, luật, tâm lý…) — chuyển Hóa Kỵ từ "thị phi" thành "nổi tiếng nhờ lời nói".</li>
+            <li><b>Lưu niên 2026:</b> biến động nhà cửa gắn với anh em/bạn bè (hùn mua chung, vay mượn sửa nhà); tránh ký kết lớn vào tháng xấu trong năm; nếu bắt buộc giao dịch thì công chứng rõ ràng, tránh xây mới quy mô lớn.</li>
+          </ul>
+        </div>
+        <div class="case-foot">Điểm rút ra cho người học: ca này minh họa trọn vẹn quy trình 7 bước ở Mục 14 — chính tinh, phụ tinh gốc/lưu (tách theo thời hạn hiệu lực), tam hợp chính thức Điền–Tật–Huynh, xung chiếu Tử Tức, liên hệ Phúc Đức — để đi đến lời khuyên hành động cụ thể. Ca luận được tổng hợp và biên tập lại từ một bản luận giải lá số tham khảo, dùng cho mục đích minh họa phương pháp học thuật.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 14 ================= -->
+  <section class="chap" id="s14">
+    <div class="chap-head">
+      <div class="seal-num">14</div>
+      <h2>Tổng kết &amp; khung ghi nhớ nhanh</h2>
+    </div>
+    <div class="chap-body">
+      <div class="treebox">CUNG ĐIỀN TRẠCH
+│
+├── BẢN CHẤT: Kho chứa tài sản cố định – nhà đất – phúc ấm tổ tiên
+├── TAM HỢP CHÍNH THỨC: Điền Trạch – Tật Ách – Huynh Đệ
+├── XUNG CHIẾU: Tử Tức (nhà cửa ↔ người thừa kế)
+├── GIÁP CUNG: Phúc Đức – Quan Lộc
+├── LIÊN HỆ RIÊNG (không phải tam hợp): Mệnh – Tài Bạch – Quan Lộc
+│
+├── LUẬN TĨNH (bản mệnh): khuynh hướng cả đời về sở hữu/tích lũy BĐS
+├── LUẬN ĐỘNG (đại vận/lưu niên + tứ hóa): thời điểm mua/bán/tranh chấp
+│
+├── SAO TỐT ĐIỂN HÌNH: Thiên Phủ, Vũ Khúc, Tử Vi (đắc), Lộc Tồn, Tả Hữu, Hóa Lộc/Quyền
+├── SAO CẦN CẨN TRỌNG: Không–Kiếp, Kình–Đà, Hỏa–Linh, Hóa Kỵ, Thiên Hình
+│
+└── ỨNG DỤNG NAY: nhà ở, BĐS đầu tư, mặt bằng kinh doanh, tài sản tích lũy dài hạn</div>
+
+      <h3 style="font-size:18px; margin:34px 0 6px;">Quy trình luận đoán chuẩn (7 bước)</h3>
+      <ol class="steps">
+        <li><span class="num">1</span><span>Xác định chính tinh tọa thủ Điền Trạch (miếu/hãm).</span></li>
+        <li><span class="num">2</span><span>Xem phụ tinh, sát tinh đồng cung và hội chiếu.</span></li>
+        <li><span class="num">3</span><span>Đối chiếu tam hợp chính thức Tật Ách – Huynh Đệ, và liên hệ riêng với vòng Mệnh – Tài Bạch – Quan Lộc.</span></li>
+        <li><span class="num">4</span><span>Xét xung chiếu Tử Tức và giáp cung Phúc Đức – Quan Lộc.</span></li>
+        <li><span class="num">5</span><span>Xem Tứ Hóa (bản mệnh) tại Điền Trạch, và Phi Tinh Tứ Hóa từ Điền Trạch đi các cung khác.</span></li>
+        <li><span class="num">6</span><span>Đối chiếu Phúc Đức – Phụ Mẫu để luận gốc rễ/thừa kế.</span></li>
+        <li><span class="num">7</span><span>Xét đại vận – lưu niên Điền Trạch để xác định thời điểm biến động cụ thể.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  </main>
+
+  <footer>
+    <p style="font-style:italic; max-width:72ch;">Tài liệu này tổng hợp lý luận cổ điển và hướng ứng dụng hiện đại của cung Điền Trạch trong Tử Vi Đẩu Số, phục vụ mục đích học thuật và tham khảo văn hóa. Tử vi mang tính chiêm nghiệm truyền thống, không thay thế tư vấn tài chính, pháp lý hay quyết định đầu tư thực tế.</p>
+    <p style="margin-top:14px; font-size:13.5px;"><b>Ghi chú về nguồn và trường phái:</b> Tử Vi Đẩu Số có nhiều trường phái (Trung Châu phái, Phi Tinh Tứ Hóa, Nam phái, Bắc phái...) và nhiều bộ cổ thư khác nhau, đôi khi diễn giải không hoàn toàn thống nhất. Tài liệu này trình bày lý thuyết nền tảng đã được đồng thuận rộng rãi (vị trí cung, tam hợp theo địa chi, ý nghĩa cơ bản của chính tinh) kết hợp diễn giải mở rộng mang tính tổng hợp cho bối cảnh hiện đại — nên đối chiếu thêm với cổ thư gốc hoặc thầy có kinh nghiệm khi dùng để luận đoán thực tế.</p>
+    <div class="colophon">
+      <span>Cung Điền Trạch trong Tử Vi Đẩu Số — tài liệu học tập</span>
+      <div class="big-seal">田宅<br>之學</div>
+    </div>
+  </footer>
+
+</div>
+
+<button class="back-top" id="backTop" aria-label="Lên đầu trang">↑</button>
+
+<button class="music-btn" id="musicBtn" aria-pressed="false" aria-label="Bật/tắt nhạc nền">
+  <span class="note" aria-hidden="true">♪</span>
+</button>
+<div class="music-toast" id="musicToast" role="status"></div>
+<audio id="bgMusic" src="music15.mp3" loop preload="none"></audio>
+
+<script>
+/* ---------- Star data (mục 5) ---------- */
+const stars = [
+  {n:"Tử Vi", tag:"Bề thế nếu đắc cách", c:"jade", d:"Nhà cao cửa rộng, bất động sản giá trị, vị trí đẹp. Đắc cách (Tả Hữu, Xương Khúc hội): gia sản đồ sộ, nhà từ đường. Hãm/cô đơn: hư danh, nhà lớn nhưng gánh nặng tài chính."},
+  {n:"Thiên Cơ", tag:"Hay biến động", c:"brass", d:"Nhà cửa hay thay đổi, dời chuyển nhiều lần. Có thể giỏi \"lướt sóng\" BĐS nếu gặp sao tài. Hãm: nhà cửa bấp bênh, đầu tư đất trục trặc."},
+  {n:"Thái Dương", tag:"Uy tín nếu miếu", c:"jade", d:"Miếu vượng: nhà khang trang, hướng tốt, gia đạo uy tín, thừa hưởng cơ nghiệp cha. Hãm: cơ nghiệp suy tàn, tranh chấp với người thân nam giới."},
+  {n:"Vũ Khúc", tag:"Tài sản lớn", c:"jade", d:"Tài sản BĐS giá trị lớn, tích lũy đất đai bền vững (tài tinh). Hãm/gặp sát: tranh chấp, kiện tụng, hao tài vì nhà cửa."},
+  {n:"Thiên Đồng", tag:"Ấm cúng, vừa đủ", c:"brass", d:"Ôn hòa, hưởng thụ; nhà ấm cúng dù không lớn. Ít chủ động tích lũy lớn. Gặp sát: lận đận lúc trẻ, về già mới ổn định."},
+  {n:"Liêm Trinh", tag:"Nhị nguyên, cần cẩn trọng", c:"brass", d:"Tính chất phức tạp. Đắc cách: phát về BĐS qua kinh doanh táo bạo. Hãm/Sát Kỵ: tranh chấp pháp lý, kiện tụng, có thể mất nhà vì nợ nần."},
+  {n:"Thiên Phủ", tag:"Tốt bậc nhất", c:"jade", d:"Sao khố (kho tàng), rất vượng khi thủ Điền Trạch — tích lũy tài sản vững chắc, nhà cửa bề thế. Một trong những chính tinh tốt nhất cho cung này."},
+  {n:"Thái Âm", tag:"Âm tài, kín đáo", c:"jade", d:"Tài sản kín đáo, tích lũy âm thầm. Miếu vượng: giàu về BĐS, có thể liên quan nhà do mẹ/vợ/nữ giới. Hãm: tài sản hao hụt âm thầm."},
+  {n:"Tham Lang", tag:"Ham muốn, dễ biến động", c:"brass", d:"Ham muốn sở hữu nhiều nhà đất, thích đầu tư, dễ biến động do lòng tham. Gặp Hỏa/Linh: \"phát nhanh\" (đầu cơ trúng lớn). Gặp Đào Hoa: nhà gắn tình cảm/ly hôn."},
+  {n:"Cự Môn", tag:"Dễ thị phi, tranh chấp", c:"red", d:"Dễ tranh chấp, thị phi liên quan nhà đất — ranh giới, kiện tụng thừa kế, hợp đồng rắc rối. Cần miếu vượng + cát tinh hóa giải mới yên."},
+  {n:"Thiên Tướng", tag:"Ổn định, có quý nhân", c:"jade", d:"Ổn định, có quý nhân giúp đỡ chuyện nhà cửa. Nhà ngay ngắn, có thể do người khác đứng ra lo liệu (thừa kế, được tặng, vay thuận lợi)."},
+  {n:"Thiên Lương", tag:"Thừa kế, che chở", c:"jade", d:"Tài sản thừa kế từ bậc trên, tính che chở, \"nhà từ đường\". Đắc cách: hưởng phúc ấm tổ tiên rõ rệt. Có thể là người hòa giải pháp lý êm đẹp."},
+  {n:"Thất Sát", tag:"Biến động mạnh", c:"brass", d:"Biến động mạnh, quyết liệt — mua bán lớn, đổi nhà đột ngột, hoặc từ không nhà bất ngờ tạo dựng cơ nghiệp lớn. \"Trước khó sau dễ\" hoặc ngược lại."},
+  {n:"Phá Quân", tag:"Hao tán hoặc phá cũ lập mới", c:"red", d:"Biến động, hao tán nếu không cát tinh hỗ trợ. Đắc cách: \"phá cũ lập mới\" — dỡ nhà cũ xây mới. Hợp mô hình \"mua cũ – cải tạo – bán lại\" nếu có Hóa Lộc/Quyền."},
+];
+const grid = document.getElementById('star-grid');
+stars.forEach(s=>{
+  const el = document.createElement('div');
+  el.className='star-card';
+  const dotColor = s.c==='jade' ? 'var(--jade)' : (s.c==='red' ? 'var(--seal)' : 'var(--brass)');
+  el.innerHTML = `<h4><span><span class="dot" style="background:${dotColor}"></span>${s.n}</span></h4>
+    <span class="tag tag-${s.c}" style="margin-bottom:8px; display:inline-block;">${s.tag}</span>
+    <p>${s.d}</p>`;
+  grid.appendChild(el);
+});
+
+/* ---------- Palace ring diagram (signature element) ---------- */
+(function(){
+  const palaces = ["Mệnh","Phụ Mẫu","Phúc Đức","Điền Trạch","Quan Lộc","Nô Bộc","Thiên Di","Tật Ách","Tài Bạch","Tử Tức","Phu Thê","Huynh Đệ"];
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById('palace-ring');
+  const cx=230, cy=230, rLabel=185, rNode=150;
+  const ink = "#241f16", jade="#43593f", seal="#a1332a", brass="#8a6b28", paper="#e6dbbe";
+
+  function pt(i, r){
+    const angle = (Math.PI/180) * (i*30 - 90); // start at top, clockwise
+    return [cx + r*Math.cos(angle), cy + r*Math.sin(angle)];
+  }
+  function el(tag, attrs){
+    const e = document.createElementNS(svgNS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  const idxDien = 3, idxTat = 7, idxHuynh = 11, idxTuTuc = 9, idxPhuc = 2, idxQuan = 4;
+
+  // base circle
+  svg.appendChild(el('circle',{cx,cy,r:rNode+34, fill:'none', stroke:'#c7b98a', 'stroke-width':1}));
+
+  // giáp arcs (short highlight arcs between Điền and its neighbors)
+  [idxPhuc, idxQuan].forEach(i=>{
+    const [x1,y1]=pt(idxDien, rNode);
+    const [x2,y2]=pt(i, rNode);
+    svg.appendChild(el('line',{x1,y1,x2,y2, stroke:brass, 'stroke-width':3, 'stroke-linecap':'round', opacity:.85}));
+  });
+
+  // tam hợp triangle
+  const [dx,dy]=pt(idxDien,rNode), [tx,ty]=pt(idxTat,rNode), [hx,hy]=pt(idxHuynh,rNode);
+  svg.appendChild(el('polygon',{points:`${dx},${dy} ${tx},${ty} ${hx},${hy}`, fill:jade, 'fill-opacity':.10, stroke:jade, 'stroke-width':2.5}));
+
+  // xung chiếu dashed line
+  const [ux,uy]=pt(idxTuTuc,rNode);
+  svg.appendChild(el('line',{x1:dx,y1:dy,x2:ux,y2:uy, stroke:seal, 'stroke-width':2, 'stroke-dasharray':'6 6'}));
+
+  // nodes + labels
+  palaces.forEach((name,i)=>{
+    const [nx,ny]=pt(i,rNode);
+    const isDien = i===idxDien, isTamHop = (i===idxTat||i===idxHuynh), isXung=(i===idxTuTuc), isGiap=(i===idxPhuc||i===idxQuan);
+    let fill = paper, stroke = '#8a7f65', r = 15;
+    if(isDien){ fill = seal; stroke = seal; r=20; }
+    else if(isTamHop){ fill = '#dbe4d2'; stroke = jade; }
+    else if(isXung){ fill = '#f2ddd8'; stroke = seal; }
+    else if(isGiap){ fill = '#e9dcb4'; stroke = brass; }
+    svg.appendChild(el('circle',{cx:nx, cy:ny, r, fill, stroke, 'stroke-width':2}));
+
+    const [lx,ly]=pt(i, rLabel+12);
+    const t = el('text',{x:lx, y:ly, 'text-anchor':'middle', 'dominant-baseline':'middle',
+      'font-family':"'Noto Serif', serif", 'font-size': isDien? 15:12.5,
+      'font-weight': isDien? 900:600, fill: isDien? seal : ink});
+    t.textContent = name;
+    svg.appendChild(t);
+  });
+})();
+
+/* ---------- Back to top ---------- */
+const btn = document.getElementById('backTop');
+window.addEventListener('scroll', ()=>{ btn.classList.toggle('show', window.scrollY>500); }, {passive:true});
+btn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+/* ---------- Nhạc nền ---------- */
+(function(){
+  const musicBtn = document.getElementById('musicBtn');
+  const audio = document.getElementById('bgMusic');
+  const toast = document.getElementById('musicToast');
+  let toastTimer = null;
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> toast.classList.remove('show'), 4200);
+  }
+
+  musicBtn.addEventListener('click', ()=>{
+    if (audio.paused){
+      audio.play().then(()=>{
+        musicBtn.setAttribute('aria-pressed','true');
+      }).catch(()=>{
+        showToast('Chưa tìm thấy "music15.mp3". Đặt file nhạc vào cùng thư mục với file HTML này (hoặc gửi cho mình để mình gắn lại đường dẫn), rồi tải lại trang.');
+      });
+    } else {
+      audio.pause();
+      musicBtn.setAttribute('aria-pressed','false');
+    }
+  });
+
+  audio.addEventListener('pause', ()=> musicBtn.setAttribute('aria-pressed','false'));
+  audio.addEventListener('play', ()=> musicBtn.setAttribute('aria-pressed','true'));
+  audio.addEventListener('error', ()=>{
+    showToast('Không đọc được "music15.mp3". Kiểm tra lại tên file/định dạng, hoặc gửi file cho mình để gắn lại.');
+  });
+})();
+</script>
+</body>
+</html>

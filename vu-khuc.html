@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vũ Khúc — Tài Tinh Học &amp; Phi Hóa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Noto+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0a09;
+    --bg-panel:#161211;
+    --bg-raised:#1c1715;
+    --gold:#b8703a;
+    --gold-bright:#e08f4f;
+    --seal:#8a2e18;
+    --seal-bright:#c74423;
+    --text:#e8ded2;
+    --text-muted:#93887a;
+    --hairline:rgba(184,112,58,0.22);
+    --shadow:rgba(0,0,0,0.5);
+    --steel:#9aa3ab;
+    --paper-noise: none;
+  }
+  html[data-theme="light"]{
+    --bg:#ece4d6;
+    --bg-panel:#e2d7c2;
+    --bg-raised:#e8dcc6;
+    --gold:#8a5222;
+    --gold-bright:#a35f26;
+    --seal:#7a2712;
+    --seal-bright:#8a2e18;
+    --text:#241d15;
+    --text-muted:#6b5c47;
+    --hairline:rgba(122,39,18,0.18);
+    --shadow:rgba(90,60,30,0.18);
+    --steel:#5c6570;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 120% 60% at 50% -10%, rgba(201,162,39,0.08), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Noto Serif', serif;
+    line-height:1.85;
+    font-size:18px;
+    transition:background .4s ease, color .4s ease;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--gold); color:#1a1408; }
+
+  /* ---------- Texture overlay ---------- */
+  .texture{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    opacity:0.5;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px);
+  }
+  html[data-theme="light"] .texture{ opacity:0.35; }
+
+  /* ---------- Reading progress ---------- */
+  .progress-track{
+    position:fixed; top:0; left:0; right:0; height:3px;
+    background:var(--hairline);
+    z-index:60;
+  }
+  .progress-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--seal), var(--gold), var(--gold-bright));
+    transition:width .08s linear;
+  }
+
+  /* ---------- Sticky TOC bar ---------- */
+  .toc-bar{
+    position:sticky; top:3px; z-index:55;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .toc-inner{
+    max-width:900px; margin:0 auto;
+    display:flex; align-items:center; gap:14px;
+    padding:9px 14px;
+  }
+  .toc-mark{
+    flex-shrink:0; width:22px; height:22px;
+    color:var(--gold);
+    opacity:.9;
+  }
+  .toc-mark svg{ width:100%; height:100%; }
+  .toc-links{
+    display:flex; gap:6px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    flex:1;
+  }
+  .toc-links::-webkit-scrollbar{ display:none; }
+  .toc-link{
+    flex-shrink:0;
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:.82rem;
+    letter-spacing:.03em;
+    color:var(--text-muted);
+    background:transparent;
+    border:1px solid var(--hairline);
+    border-radius:20px;
+    padding:6px 13px;
+    cursor:pointer;
+    transition:all .25s ease;
+    white-space:nowrap;
+  }
+  .toc-link:hover{ color:var(--gold-bright); border-color:var(--gold); }
+  .toc-link.active{
+    color:#1a1408;
+    background:linear-gradient(135deg, var(--gold-bright), var(--gold));
+    border-color:var(--gold);
+  }
+  html[data-theme="light"] .toc-link.active{ color:#fbf3dc; }
+
+  .ctrl-btn{
+    flex-shrink:0;
+    width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--hairline);
+    background:var(--bg-panel);
+    color:var(--gold-bright);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .ctrl-btn:hover{ transform:translateY(-2px); border-color:var(--gold); }
+  .ctrl-btn svg{ width:17px; height:17px; }
+
+  /* ---------- Music button ---------- */
+  .music-btn{
+    position:fixed; bottom:24px; right:24px; z-index:50;
+    width:58px; height:58px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--bg-raised), var(--bg-panel));
+    border:1.5px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    box-shadow:0 8px 26px var(--shadow);
+    color:var(--gold-bright);
+  }
+  .music-btn::before{
+    content:"";
+    position:absolute; inset:-8px; border-radius:50%;
+    border:1px solid var(--gold);
+    opacity:0;
+  }
+  .music-btn.playing::before{
+    animation:pulse-ring 2.4s ease-out infinite;
+  }
+  @keyframes pulse-ring{
+    0%{ opacity:.55; transform:scale(.85); }
+    100%{ opacity:0; transform:scale(1.5); }
+  }
+  .music-btn svg{ width:21px; height:21px; }
+  .music-btn .icon-pause{ display:none; }
+  .music-btn.playing .icon-play{ display:none; }
+  .music-btn.playing .icon-pause{ display:block; }
+
+  /* ---------- Seal / signature mark ---------- */
+  .seal{
+    width:64px; height:64px; margin:0 auto 28px;
+    display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--seal);
+    border-radius:6px;
+    color:var(--seal-bright);
+    transform:rotate(-2deg);
+    box-shadow: inset 0 0 0 3px transparent;
+  }
+  .seal svg{ width:38px; height:38px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative; z-index:1;
+    max-width:760px; margin:0 auto;
+    padding:76px 28px 70px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'Noto Serif', serif;
+    font-weight:500;
+    letter-spacing:.32em;
+    font-size:12px;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:26px;
+  }
+  h1.title{
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    font-size:clamp(2.4rem, 6vw, 4.1rem);
+    line-height:1.08;
+    margin:0 0 18px;
+    letter-spacing:-0.01em;
+    background:linear-gradient(180deg, var(--gold-bright), var(--gold) 60%, var(--text-muted));
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .subtitle{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.25rem;
+    color:var(--text-muted);
+    margin-bottom:46px;
+  }
+
+  .epigraph{
+    position:relative;
+    max-width:640px; margin:0 auto;
+    padding:30px 34px 26px;
+    background:var(--bg-panel);
+    border:1px solid var(--hairline);
+    border-radius:2px;
+    text-align:left;
+  }
+  .epigraph::before, .epigraph::after{
+    content:"";
+    position:absolute; width:16px; height:16px;
+    border:1.5px solid var(--gold);
+  }
+  .epigraph::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .epigraph::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+  .epigraph .han{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:600;
+    color:var(--gold-bright);
+    font-size:1.06rem;
+    margin:0 0 10px;
+    line-height:1.6;
+  }
+  .epigraph .viet{
+    font-size:.98rem;
+    color:var(--text-muted);
+    margin:0 0 18px;
+  }
+  .epigraph .commentary{
+    font-size:.95rem;
+    color:var(--text);
+    border-top:1px solid var(--hairline);
+    padding-top:16px;
+    margin:0;
+  }
+  .epigraph .commentary .name{
+    color:var(--gold);
+    font-style:normal;
+  }
+
+  /* ---------- Main column ---------- */
+  main{
+    position:relative; z-index:1;
+    max-width:700px; margin:0 auto;
+    padding:0 28px 140px;
+  }
+
+  .phan{
+    padding:64px 0;
+    border-top:1px solid var(--hairline);
+    scroll-margin-top:64px;
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .phan.in-view{ opacity:1; transform:translateY(0); }
+  .phan:first-of-type{ border-top:none; }
+
+  .phan-head{
+    display:flex; align-items:baseline; gap:18px;
+    margin-bottom:30px;
+  }
+  .phan-num{
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    font-size:2.3rem;
+    color:var(--gold);
+    flex-shrink:0;
+    line-height:1;
+    transition:color .5s ease, text-shadow .5s ease;
+  }
+  .phan.in-view .phan-num{
+    color:var(--gold-bright);
+    text-shadow:0 0 22px color-mix(in srgb, var(--gold) 55%, transparent);
+  }
+  h2.phan-title{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.45rem;
+    line-height:1.35;
+    margin:0;
+    color:var(--text);
+  }
+  h2.phan-title .sub{
+    display:block;
+    font-family:'Noto Serif', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:.98rem;
+    color:var(--text-muted);
+    margin-top:6px;
+  }
+
+  .phan p{ margin:0 0 20px; color:var(--text); }
+  .phan p:last-child{ margin-bottom:0; }
+
+  strong{
+    color:var(--gold-bright);
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+
+  h3.muc{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:1.08rem;
+    color:var(--gold-bright);
+    margin:32px 0 14px;
+  }
+
+  ul.decree, ol.decree{
+    list-style:none; margin:0 0 22px; padding:0;
+  }
+  ul.decree li, ol.decree li{
+    position:relative;
+    padding:2px 0 16px 28px;
+    color:var(--text);
+  }
+  ul.decree li::before{
+    content:"";
+    position:absolute; left:2px; top:11px;
+    width:7px; height:7px;
+    background:var(--seal);
+    transform:rotate(45deg);
+  }
+  ol.decree{ counter-reset:cach; }
+  ol.decree li{ padding-left:38px; }
+  ol.decree li::before{
+    counter-increment:cach;
+    content: counter(cach);
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:.78rem;
+    left:0; top:2px;
+    width:22px; height:22px;
+    background:none;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    transform:none;
+  }
+
+  .callout{
+    position:relative;
+    margin:26px 0;
+    padding:22px 26px;
+    background:
+      radial-gradient(circle at 12% 22%, color-mix(in srgb, var(--gold) 7%, transparent), transparent 45%),
+      radial-gradient(circle at 88% 78%, color-mix(in srgb, var(--seal) 9%, transparent), transparent 50%),
+      var(--bg-panel);
+    border-left:2px solid var(--seal);
+    font-style:italic;
+    color:var(--text-muted);
+    font-size:.98rem;
+    overflow:hidden;
+  }
+  .callout::after{
+    content:"";
+    position:absolute; top:-20px; right:-20px;
+    width:70px; height:70px;
+    border:1px solid color-mix(in srgb, var(--seal) 40%, transparent);
+    border-radius:50%;
+    opacity:.35;
+  }
+
+  .divider{
+    display:flex; align-items:center; justify-content:center; gap:14px;
+    margin:64px 0 0;
+    color:var(--gold);
+  }
+  .divider svg{ width:22px; height:22px; opacity:.8; }
+  .divider .line{ flex:1; max-width:120px; height:1px; background:var(--hairline); }
+
+  footer{
+    position:relative; z-index:1;
+    max-width:700px; margin:0 auto; padding:0 28px 100px;
+    text-align:center;
+  }
+  footer .final-line{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.35rem;
+    color:var(--gold-bright);
+    line-height:1.6;
+    margin-bottom:36px;
+  }
+  footer .colophon{
+    font-size:.82rem;
+    color:var(--text-muted);
+    line-height:1.9;
+  }
+  footer .colophon .brand{
+    font-family:'Playfair Display', serif;
+    letter-spacing:.22em;
+    color:var(--gold);
+    font-size:.72rem;
+    text-transform:uppercase;
+    margin-bottom:10px;
+    display:block;
+  }
+
+  audio{ display:none; }
+
+  @media (max-width:600px){
+    body{ font-size:16.5px; }
+    .hero{ padding:90px 20px 50px; }
+    .phan{ padding:46px 0; }
+    .phan-head{ gap:12px; }
+    .phan-num{ font-size:1.7rem; }
+    h2.phan-title{ font-size:1.2rem; }
+    .music-btn{ width:52px; height:52px; bottom:18px; right:18px; }
+    .ctrl-btn{ width:34px; height:34px; }
+    .toc-link{ padding:5px 10px; font-size:.76rem; }
+    .hero{ padding:64px 20px 50px; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .music-btn.playing::before{ animation:none; }
+  }
+</style>
+</head>
+<body>
+<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
+  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a>
+</div>
+
+
+<div class="texture"></div>
+
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<nav class="toc-bar" id="tocBar" aria-label="Mục lục">
+  <div class="toc-inner">
+    <span class="toc-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h9M6.5 20V16M4.5 16h4M13 13l7-7M20 6l1 1-7 7-1-1zM11 11l2 2M3 13c1.5-3 4-5 7-5"/></svg>
+    </span>
+    <div class="toc-links" id="tocLinks">
+      <button class="toc-link" data-target="phan-1" title="Vũ Khúc — Quặng Kim Cần Lửa Luyện">I</button>
+      <button class="toc-link" data-target="phan-2" title="Vũ Khúc Tại 6 Tổ Hợp Cố Định">II</button>
+      <button class="toc-link" data-target="phan-3" title="Vũ Khúc &amp; Tứ Hóa Phi Tinh">III</button>
+      <button class="toc-link" data-target="phan-4" title="Đại Cách Cục Vũ Khúc">IV</button>
+      <button class="toc-link" data-target="phan-5" title="Nguyên Tắc Đối Xứng &amp; Chìa Khóa Liêm Trinh">V</button>
+      <button class="toc-link" data-target="phan-6" title="Luận Về Nữ Mệnh Vũ Khúc">VI</button>
+      <button class="toc-link" data-target="phan-7" title="Bí Quyết Cuối Cùng">VII</button>
+    </div>
+    <button class="ctrl-btn" id="themeToggle" aria-label="Đổi giao diện sáng / tối">
+      <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="display:none"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+    </button>
+  </div>
+</nav>
+
+<button class="music-btn" id="musicBtn" aria-label="Bật / tắt nhạc nền">
+  <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+  <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4.5" height="14"/><rect x="13.5" y="5" width="4.5" height="14"/></svg>
+</button>
+<audio id="bgMusic" src="music15.mp3" loop preload="none"></audio>
+
+<div class="hero">
+  <div class="seal">
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M10 38h28M14 38v-7h20v7M8 31h32M24 24V10M17 17l14 14M31 17L17 31" stroke-width="1.3"/>
+      <circle cx="24" cy="24" r="2.4" fill="currentColor" stroke="none"/>
+    </svg>
+  </div>
+  <div class="eyebrow">Tài Tinh Học · Tầng Cao Cấp</div>
+  <h1 class="title">Vũ Khúc</h1>
+  <p class="subtitle">Tài Tinh Học &amp; Phi Hóa — dành cho người sinh ra đã cầm quặng thô trong tay, chứ không phải vàng ròng</p>
+
+  <div class="epigraph">
+    <p class="han">"Vũ Khúc hội Tham Lang, Thất Sát cập Liêm Trinh, liền khứ kinh thương."</p>
+    <p class="viet">Vũ Khúc hội đủ Tham Lang, Thất Sát, và có Liêm Trinh tham dự, thì dễ đi vào con đường kinh doanh.</p>
+    <p class="commentary">Cổ nhân ví Vũ Khúc như <em>mỏ vàng</em> trong các sao của Tử Vi Đẩu Số — trời sinh ra đã có duyên với tiền, cả đời không dứt khỏi mong muốn và sở thích nỗ lực kiếm tiền. Nhưng có một điều kiện đi kèm mà người mới học hay bỏ sót: quặng vàng phải được khai quật, rèn luyện, hun đúc, thì mới phát huy được tính thông suốt. Vũ Khúc không phải vàng đã đúc thành thỏi sẵn trong túi — nó là mỏ quặng còn nằm dưới đất, và ai sở hữu nó cũng phải tự tay đào lên, tự tay nung chảy.</p>
+  </div>
+</div>
+
+<main>
+
+  <section class="phan" id="phan-1">
+    <div class="phan-head">
+      <span class="phan-num">I</span>
+      <h2 class="phan-title">Vũ Khúc — Quặng Kim Cần Lửa Luyện<span class="sub">Học thuyết nền tảng</span></h2>
+    </div>
+    <p>Người mới học hay lầm: cứ thấy Vũ Khúc miếu vượng là khen giàu ngay. Nhưng Vũ Khúc không phải Đế Tinh ban phát, cũng không phải Thái Dương chiếu sáng vô điều kiện — nó là Tài Tinh, và tài sản không tự nhiên mà có. Ngũ hành của Vũ Khúc là Âm Kim, hóa khí là Tài, cai quản cả cung Tài Bạch lẫn Điền Trạch. Nhưng Kim là kim loại thô, phải qua lửa mới thành khí cụ sắc bén — đây chính là lý do vì sao Vũ Khúc luôn bị kéo vào quỹ đạo của Sát Phá Tham (Thất Sát, Phá Quân, Tham Lang), ba ngôi sao biến động mạnh nhất trong toàn bộ hệ thống.</p>
+
+    <h3 class="muc">1. Vũ Khúc ưa gì để tỏa sáng trọn vẹn?</h3>
+    <ul class="decree">
+      <li><strong>Lục Cát Tinh:</strong> Tả Hữu, Xương Khúc, Khôi Việt hội chiếu giúp tăng cường sức mạnh — nhưng đây là điểm cần phân biệt kỹ với Tử Vi và Thái Dương, xem mục 2 bên dưới.</li>
+      <li><strong>Tam Hóa Lộc Quyền Khoa:</strong> Vũ Khúc gặp các sao này thì độ sáng tăng vọt, tính khí cũng ôn hòa dễ chịu hơn hẳn.</li>
+      <li><strong>Liêm Trinh tham dự:</strong> Đây là chìa khóa hiếm hoi biến Sát Phá Tham từ tổ hợp bất ổn thành con đường kinh doanh thực thụ — chi tiết ở Phần V.</li>
+      <li><strong>Đồng cung Thiên Đồng:</strong> Chủ về sống thọ — một tổ hợp ít người để ý nhưng có giá trị riêng.</li>
+    </ul>
+
+    <h3 class="muc">2. Điều khác biệt lớn nhất — Vũ Khúc không ưa sao Văn</h3>
+    <p>Đây là điểm khiến Vũ Khúc khác hẳn Tử Vi và Thái Dương, hai sao trước trong series đều rất cần Xương Khúc phò trợ. Vũ Khúc thì ngược lại: do bản chất tính cương, quyết đoán, Vũ Khúc gặp Văn Xương, Văn Khúc, hoặc tự Hóa Khoa lại dễ sinh do dự, thiếu quyết đoán — bề ngoài tưởng như rất có chủ kiến, nhưng bên trong xử sự tiến thoái không hợp lý. Giống như một người có văn tài mà bị đẩy đi làm chỉ huy quân sự: không sai nghề vì thiếu năng lực, mà sai vì sai chất. Nên nhớ nguyên tắc này trước khi máy móc áp dụng "sao nào cũng ưa Xương Khúc" từ hai bài trước.</p>
+
+    <h3 class="muc">3. Vũ Khúc tối kỵ gì nhất?</h3>
+    <p>Không phải Kình Đà đơn lẻ. Vũ Khúc sợ nhất tổ hợp Tứ Sát (Hỏa, Linh, Kình, Đà) tụ hội, và cổ nhân để lại hẳn một chuỗi câu phú cảnh báo, tăng dần mức độ nghiêm trọng:</p>
+    <ol class="decree">
+      <li><strong>"Vũ Khúc Hỏa Linh đồng cung, nhân tài bị kiếp"</strong> — người và của đều bị cướp mất.</li>
+      <li><strong>"Vũ Khúc ngộ Kình Dương Đà La, tiện chủ cô khắc"</strong> — dễ rơi vào cảnh cô độc, khắc người thân.</li>
+      <li><strong>"Vũ Khúc Dương Đà kiêm Hỏa tú, nhân tài táng mệnh"</strong> — nặng hơn, người và của đều có nguy cơ mất cả.</li>
+      <li><strong>"Vũ Khúc kiến Tứ Sát xung phá, cô bần phá tướng, thậm hoặc yểu thọ"</strong> — mức nặng nhất, nghèo khổ, cô độc, tướng mạo suy bại, thậm chí ảnh hưởng tuổi thọ.</li>
+    </ol>
+    <p>Bốn câu phú này không phải để dọa, mà để phân biệt rõ: một sát tinh đơn lẻ chỉ là lửa để luyện quặng, nhưng Tứ Sát tụ hội cùng lúc là hỏa hoạn thiêu rụi cả mỏ vàng lẫn người giữ mỏ.</p>
+    <p class="callout">Điểm khác Tử Vi và Thái Dương rất đáng nhớ: hai sao trước hãm địa vẫn còn đường lui — Tử Vi hãm gặp đủ phò trợ vẫn có thể là "Ẩn Đế", Thái Dương hãm sinh ban ngày vẫn còn nửa hung nửa cát. Vũ Khúc thì không có vùng đệm êm ái như vậy: gặp đúng Tứ Sát tụ hội, nó xuống thẳng đáy — vì bản chất Kim khắc chế được nhiều thứ, nhưng chính nó lại rất sợ bị Hỏa nung quá lửa, cháy thành xỉ chứ không thành khí cụ.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20h9M6.5 20V16M4.5 16h4M13 13l7-7M20 6l1 1-7 7-1-1z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-2">
+    <div class="phan-head">
+      <span class="phan-num">II</span>
+      <h2 class="phan-title">Vũ Khúc Tại 6 Tổ Hợp Cố Định<span class="sub">Không bao giờ đứng một mình lang thang</span></h2>
+    </div>
+    <p>Đây là điểm cấu trúc quan trọng nhất của Vũ Khúc, và cũng là điều khiến nó giống Tử Vi hơn Thái Dương: Vũ Khúc không bao giờ đứng một mình lang thang qua 12 cung theo kiểu tự do như Thái Dương. Nó luôn bị khóa cứng vào một trong 6 tổ hợp cố định, tùy theo cung Mệnh rơi vào đâu.</p>
+
+    <h3 class="muc">Vũ Phủ (Tý – Ngọ) — Vượng địa</h3>
+    <p>Vũ Khúc đồng cung Thiên Phủ, đối cung là Thất Sát. Đây là tổ hợp đẹp nhất trong 6 cách: Vũ Khúc là tiền, Thiên Phủ là kho — tài tinh gặp đúng nơi cất giữ. Sự nghiệp thuận lợi, công danh hiển hách, nếu thêm Tả Hữu, Lộc Tồn, Hóa Lộc hội chiếu thì thành cách đại phú thực thụ. Nhược điểm: dễ bảo thủ, quá coi trọng sự ổn định nên đôi khi bỏ lỡ cơ hội táo bạo.</p>
+
+    <h3 class="muc">Vũ Tướng (Dần – Thân) — Vượng địa</h3>
+    <p>Vũ Khúc đồng cung Thiên Tướng, đối cung là Phá Quân. Thiên Tướng hành Thủy làm dịu bớt tính cô độc vốn có của Vũ Khúc, mang thêm tình cảm và sự mềm mỏng vào cách xử sự. Nếu có thêm Thiên Mã đồng cung, đây chính là cách <strong>Tài Ấn Tọa Mã</strong> — danh lợi song toàn, giàu sang trọn vẹn, chi tiết ở Phần IV. Nhược điểm: xử sự ngăn nắp thứ tự nhưng thiếu linh hoạt, dễ bị nhìn như quan liêu, cứng nhắc.</p>
+
+    <h3 class="muc">Vũ Sát (Mão – Dậu) — Đắc địa</h3>
+    <p>Vũ Khúc đồng cung Thất Sát, đối cung là Thiên Phủ. Giàu có nhưng cô đơn — đây là tổ hợp mà của cải và sự cô độc luôn đi kèm nhau. Đặc biệt cần đi xa mới phát: tuổi càng lớn, sự nghiệp càng tốt, thành công đến muộn nhưng bền. Nếu ở cung Phu Thê thì đây là vị trí dễ trắc trở hôn nhân nhất trong 6 tổ hợp — nói kỹ ở Phần VI.</p>
+
+    <h3 class="muc">Vũ Phá (Tỵ – Hợi) — Hãm địa</h3>
+    <p>Vũ Khúc đồng cung Phá Quân, đối cung là Thiên Tướng. Đây là tổ hợp bất ổn nhất: tiền vào rồi tiền ra, trồi sụt thất thường, phải trải qua phá rồi mới lập được. Nếu được Hóa Lộc, Hóa Quyền hoặc cát tinh hội đủ, vẫn có thể tích lũy về sau — nhưng nếu thêm sát tinh, coi như không có hy vọng giữ được của. Tỵ tốt hơn Hợi.</p>
+
+    <h3 class="muc">Vũ Tham (Sửu – Mùi) — Miếu địa</h3>
+    <p>Vũ Khúc đồng cung Tham Lang, đối cung bỏ trống. Đây là tổ hợp phát muộn kinh điển: chỉ thuần Vũ Tham thì phải đến trung niên mới phát đạt, không có chuyện giàu sớm. Nhưng nếu gặp Hỏa Tinh hoặc Linh Tinh hội chiếu (không ưa đồng cung bằng vây chiếu), lại thành cách <strong>Hỏa Tham / Linh Tham</strong> — phát nhanh đột ngột, giàu bất ngờ. Nếu thiếu Hỏa Linh mà gặp sao đào hoa, dễ vì sắc mà phá tài; nếu gặp Kình Đà Không Kiếp, dễ vì cờ bạc đầu cơ mà phá sản.</p>
+
+    <h3 class="muc">Vũ Khúc Độc Tọa (Thìn – Tuất) — Miếu địa</h3>
+    <p>Đối cung là Tham Lang chiếu về chứ không đồng cung. Đây là 2 cung Thổ trung ương, được xem là vị trí miếu địa vững chãi nhất, đặc biệt tại Thìn còn được cộng thêm lợi thế Âm Dương sáng sủa. Anh em hòa hợp nếu có cát tinh, dù ít được nâng đỡ nhưng tình cảm gắn bó; nếu gặp Phá Quân hay Thất Sát đồng độ thì dễ xô xát, cần giữ khoảng cách để không khắc khẩu.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20h9M6.5 20V16M4.5 16h4M13 13l7-7M20 6l1 1-7 7-1-1z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-3">
+    <div class="phan-head">
+      <span class="phan-num">III</span>
+      <h2 class="phan-title">Vũ Khúc &amp; Tứ Hóa Phi Tinh<span class="sub">Tài Tinh duy nhất nếm đủ bốn vị</span></h2>
+    </div>
+    <p>Đây là phần đặc sắc nhất của Vũ Khúc so với hai sao đã viết trước — nhưng cần đính chính một điểm trước khi đi tiếp: Vũ Khúc <strong>không phải</strong> là sao duy nhất tự Hóa đủ cả 4 trạng thái như nhiều người tưởng. Tra đầy đủ bảng Thập Can Tứ Hóa, Thiên Cơ (Ất Lộc, Bính Quyền, Đinh Khoa, Mậu Kỵ) và Thái Âm (Đinh Lộc, Mậu Quyền, Quý Khoa, Ất Kỵ) cũng đạt đủ cả 4 loại. Điều chính xác cần nói là: đây vẫn là một câu lạc bộ rất hiếm — phần lớn chính tinh khác chỉ dừng ở 2-3 trạng thái (Tử Vi 2 lần, Thái Dương 3 lần, Cự Môn 3 lần), riêng Thiên Phủ gần như không bao giờ tự Hóa trong bảng Trung Châu chuẩn. Và trong bộ ba hiếm hoi này, Vũ Khúc là đại diện duy nhất mang bản chất thuần Tài Tinh — Thiên Cơ là Trí Tinh (chủ mưu lược, biến động trí não), Thái Âm tuy cũng là phú tinh nhưng thiên về tài sản âm thầm, bất động sản, cảm xúc hơn là dòng tiền chủ động. Vũ Khúc tự Hóa đủ 4 lần ở đúng 4 can:</p>
+    <ul class="decree">
+      <li><strong>Can Kỷ:</strong> Vũ Khúc Hóa Lộc. Quặng chảy thành vàng ròng — đây là dạng thuần túy nhất của Tài Tinh, chủ về tiền bạc dồi dào, khả năng kiếm tiền vượt trội, đặc biệt mạnh trong kinh doanh, tài chính.</li>
+      <li><strong>Can Canh:</strong> Vũ Khúc Hóa Quyền. Vàng được đúc thành quyền trượng — không chỉ có tiền mà còn có quyền chi phối dòng tiền, hợp làm chủ doanh nghiệp, quản lý tài chính cấp cao, quyết đoán trong đầu tư.</li>
+      <li><strong>Can Giáp:</strong> Vũ Khúc Hóa Khoa. Đây là cách đặc biệt cần lưu ý — Hóa Khoa vốn là sao Văn, mà Vũ Khúc lại tính cương, không ưa sao Văn như đã nói ở Phần I. Hóa Khoa ở đây không mang lại sự mềm mỏng, mà mang lại "tài giải quyết những việc rất lớn bằng thủ đoạn, thủ thuật, giải pháp" — tức là trí tuệ được dùng để xử lý chuyện tiền bạc phức tạp, không phải để làm văn chương.</li>
+      <li><strong>Can Nhâm:</strong> Vũ Khúc Hóa Kỵ. Đây là cách nặng nhất trong 4 cách tự Hóa. Quặng chưa kịp luyện đã gặp trở ngại — tiền bạc bị cản trở, dễ vướng nợ nần, tranh chấp tài sản. Nếu Mệnh có Vũ Khúc Hóa Kỵ mà tính tình vốn đã khó chịu không hòa đồng, gặp thêm Hỏa Tinh thì mức độ khắc kỵ tăng lên gấp bội — cần đặc biệt cẩn trọng ở giai đoạn đại vận, lưu niên trùng phùng.</li>
+    </ul>
+    <p class="callout">Ứng dụng: nếu một người tự thân đã có Vũ Khúc Hóa Lộc hoặc Hóa Quyền tại lá số gốc, nhưng đến một đại vận hay lưu niên nào đó biến thành Hóa Kỵ, thì đây chính là hiện tượng "sao hóa Lộc của nguyên cục biến thành sao hóa Kỵ" — nghĩa là vì tiền mà chuốc họa, hoặc sức kiếm tiền ban đầu giảm sút rõ rệt trong giai đoạn đó. Cần đặc biệt thận trọng chuyện đầu tư, vay mượn trong các năm này.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20h9M6.5 20V16M4.5 16h4M13 13l7-7M20 6l1 1-7 7-1-1z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-4">
+    <div class="phan-head">
+      <span class="phan-num">IV</span>
+      <h2 class="phan-title">Đại Cách Cục Vũ Khúc<span class="sub">Từ cổ phú</span></h2>
+    </div>
+    <ol class="decree">
+      <li><strong>Tài Ấn Tọa Mã.</strong> Vũ Khúc, Thiên Tướng, Thiên Mã cùng hội tại Dần hoặc Thân. Tài là tiền, Ấn là quyền, Mã là tốc độ — ba thứ cộng lại thành danh lợi song toàn, giàu sang trọn vẹn. Đây là một trong những cách đẹp nhất của bộ Vũ Tướng.</li>
+      <li><strong>Phủ Kho Đắc Địa.</strong> Vũ Phủ tại Tý Ngọ đủ Tả Hữu, Lộc Tồn, Hóa Lộc. Tiền tài dồi dào, có khả năng quản lý tài sản lớn, cách cục đại phú thực thụ nếu đủ điều kiện, nhưng thiếu cát tinh phụ trợ thì chỉ dừng ở mức lao tâm lao lực mới kiếm được tiền.</li>
+      <li><strong>Hỏa Tham / Linh Tham.</strong> Vũ Tham tại Sửu Mùi gặp Hỏa Tinh hoặc Linh Tinh hội chiếu (không ưa đồng cung bằng vây chiếu), thêm Lộc Tồn hoặc Hóa Lộc. Phát nhanh đột ngột, giàu bất ngờ — nhưng cũng dễ mất nhanh như khi có, nếu không biết giữ.</li>
+      <li><strong>Súy Biên Đình.</strong> Vũ Khúc, Văn Xương đồng cung tại Tỵ hoặc Hợi, người tuổi Giáp. Câu cổ phú "Vũ Xương Tỵ Hợi đinh Lục Giáp, súy biên đình" — chủ về phát ở nghiệp võ, làm tướng nơi biên ải. Đáng chú ý đây là một trong hiếm hoi trường hợp Vũ Khúc thực sự dùng được sao Văn, nhưng phải đúng tổ hợp Tỵ Hợi và đúng tuổi Giáp mới ứng nghiệm, không phải quy luật chung.</li>
+      <li><strong>Cách cần cứu — Vũ Khúc ngộ Tứ Sát.</strong> Như đã nói ở Phần I, đây là cách nặng nhất của toàn bộ hệ Vũ Khúc — cô bần phá tướng, thậm chí ảnh hưởng tuổi thọ. Cần Hóa Lộc, Hóa Quyền, Hóa Khoa hoặc Tuần Triệt hóa giải mới mong nhẹ bớt.</li>
+      <li><strong>Vũ Khúc Vô Sát — thuần Tài Tinh tọa Mệnh.</strong> Miếu vượng, không sát tinh, đủ cát tinh hội chiếu. Ấm no sung túc cả đời, nhưng như mọi cách Vô Sát khác trong series này, thiếu áp lực để mài giũa thì khó có đột phá lớn — quặng vẫn là quặng, chưa từng bị buộc phải nung chảy thành khí cụ.</li>
+    </ol>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20h9M6.5 20V16M4.5 16h4M13 13l7-7M20 6l1 1-7 7-1-1z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-5">
+    <div class="phan-head">
+      <span class="phan-num">V</span>
+      <h2 class="phan-title">Nguyên Tắc Đối Xứng &amp; Chìa Khóa Liêm Trinh<span class="sub">Kỹ thuật cao cấp riêng của hệ Vũ Khúc</span></h2>
+    </div>
+    <p>Đây là kỹ thuật cao cấp riêng của hệ Vũ Khúc, ít người khai thác đúng mức. Vì Vũ Khúc luôn khóa cứng vào 6 tổ hợp cố định với Sát Phá Tham, nên khi biết Vũ Khúc đóng ở cung nào, ta lập tức suy ra được điều đang xảy ra ở cung đối diện — và ngược lại. Cụ thể: nếu cung Phu Thê thấy Vũ Khúc Thiên Phủ, thì cung Mệnh chắc chắn là Tham Lang; nếu cung Phu Thê thấy Vũ Tướng, thì cung Mệnh chắc chắn là Thất Sát. Đây không phải trùng hợp, mà là hệ quả tất yếu của cách bố trí 14 chính tinh — hiểu được nguyên tắc đối xứng này, ta có thể suy ngược cả một dải cung mà không cần tra bảng.</p>
+    <p>Nguyên tắc thứ hai, quan trọng hơn: dù Vũ Khúc đóng ở tổ hợp nào trong 6 tổ hợp trên, nó <strong>không bao giờ thoát khỏi ảnh hưởng của Sát Phá Tham</strong>. Đây là giới hạn cấu trúc, không phải may rủi. Nhưng cổ nhân đã chỉ ra đúng một cách để chuyển hóa giới hạn này: sự xuất hiện của Liêm Trinh trong tam phương tứ chính. Câu phú "Vũ Khúc hội Tham Lang, Thất Sát cập Liêm Trinh, liền khứ kinh thương" nói thẳng — thiếu Liêm Trinh, Sát Phá Tham chỉ đơn thuần là biến động, xô xát, bất ổn. Có thêm Liêm Trinh, biến động đó được định hướng thành con đường kinh doanh thực thụ, biến "loạn" thành "động lực".</p>
+    <p class="callout">Vì vậy, khi luận một lá số có Vũ Khúc, câu hỏi bậc thầy sẽ không dừng ở "Vũ Khúc đóng cung nào", mà đi xa hơn: "tam phương tứ chính của Vũ Khúc có Liêm Trinh hội chiếu hay không?" Có, thì bản chất bất ổn của Sát Phá Tham có nơi để xả — đi vào thương trường, khởi nghiệp, đầu tư. Không có, thì Vũ Khúc vẫn giữ tiền, vẫn có tài, nhưng con đường đến với tài sản đó gập ghềnh và cô độc hơn nhiều.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20h9M6.5 20V16M4.5 16h4M13 13l7-7M20 6l1 1-7 7-1-1z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-6">
+    <div class="phan-head">
+      <span class="phan-num">VI</span>
+      <h2 class="phan-title">Luận Về Nữ Mệnh Vũ Khúc<span class="sub">Thời đại mới</span></h2>
+    </div>
+    <p>Cổ thư không ưa nữ mệnh có Vũ Khúc thủ Mệnh hoặc Phu Thê, một phần vì lo ngại tính cách quá cương nghị, một phần vì Vũ Khúc luôn kéo theo quỹ đạo Sát Phá Tham — bộ ba mà cổ nhân vốn cũng không ưa với nữ mệnh nói chung. Nguyên văn mô tả: nữ mệnh Vũ Khúc kiên cường, sau khi kết hôn thích ra ngoài làm việc, khá bảo thủ, tác phong bận rộn và cô độc, thích nắm quyền hành trong nhà, đôi khi chỉ trích chồng gắt gao không cần thiết — trái với hình mẫu "vợ hát chồng phụ họa" mà xã hội cũ mong đợi, nên dễ sinh mâu thuẫn vợ chồng.</p>
+    <p>Thời nay, cần đọc lại mô tả này bằng một lăng kính khác:</p>
+    <ul class="decree">
+      <li><strong>Nữ Vũ Khúc miếu vượng + Lục Cát + Hóa Lộc/Quyền:</strong> Đây là mẫu phụ nữ có năng lực quản lý tài chính xuất sắc, độc lập kinh tế sớm, thường là trụ cột thu nhập chính trong gia đình. Cái mà cổ thư gọi là "thích nắm quyền hành trong nhà" thời nay đọc lại đơn giản là năng lực quản lý — không phải khuyết điểm, mà là thế mạnh cần một người bạn đời đủ tự tin để không cảm thấy bị lấn át.</li>
+      <li><strong>Nữ Vũ Sát (Mão Dậu):</strong> Cách dễ trắc trở hôn nhân nhất trong 6 tổ hợp, đặc biệt nếu Phu Thê cung kiến Vũ Sát. Nên hiểu đây là tín hiệu cần chọn bạn đời đủ bản lĩnh và chín chắn để đồng hành với một người có nội lực mạnh, chứ không phải bản án về hôn nhân.</li>
+      <li><strong>Nữ Vũ Phá (Tỵ Hợi) gặp Hóa Kỵ hoặc sát tinh nặng:</strong> Cổ thư mô tả khá u ám ở tổ hợp này. Đọc theo tinh thần hiện đại, nên xem đây là lời nhắc cẩn trọng trong việc chọn người đồng hành đủ ổn định, hơn là một lời tiên đoán tất định về hôn nhân đổ vỡ.</li>
+    </ul>
+    <p class="callout">Lời khuyên cho nữ Vũ Khúc: bạn không sinh ra để là kho tiền cho người khác quản lý. Vũ Khúc là tài tinh của chính bạn, không phải của ai khác. Thứ cổ thư gọi là "khắc phu, đoạt quyền chồng" — thời nay chỉ đơn giản là năng lực không cần ai đứng ra làm chủ hộ. Hãy tìm người đủ vững để đứng cạnh một người mạnh, không phải người cần bạn phải nhỏ lại để họ thấy an toàn.</p>
+  </section>
+
+  <div class="divider">
+    <div class="line"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20h9M6.5 20V16M4.5 16h4M13 13l7-7M20 6l1 1-7 7-1-1z"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="phan" id="phan-7">
+    <div class="phan-head">
+      <span class="phan-num">VII</span>
+      <h2 class="phan-title">Bí Quyết Cuối Cùng<span class="sub">Dụng Vũ Khúc</span></h2>
+    </div>
+    <p>Bậc thầy không dùng Vũ Khúc để đoán giàu nghèo, mà dùng để hiểu con đường phải đi.</p>
+    <ul class="decree">
+      <li>Vũ Khúc của bạn hãm địa hoặc gặp Tứ Sát? Đừng mong tiền tự tìm đến. Bạn cần chủ động đi tìm lửa để luyện — một môi trường cạnh tranh, một ngành nghề đòi hỏi áp lực cao, thay vì tìm nơi an toàn để giữ quặng thô mãi mãi.</li>
+      <li>Vũ Khúc của bạn thuộc tổ hợp Vũ Phá, tiền trồi sụt thất thường? Đừng cố tích lũy bằng cách giữ chặt. Học cách để tiền chảy qua tay có kiểm soát — dòng tiền, không phải kho tiền, mới là chiến lược đúng cho tổ hợp này.</li>
+      <li>Tam phương tứ chính của bạn không có Liêm Trinh? Đừng ép mình vào con đường kinh doanh mạo hiểm bằng mọi giá. Sự bất ổn của Sát Phá Tham trong bạn cần một kênh xả khác — có thể là thể thao, nghệ thuật, hoặc một công việc đòi hỏi vận động thể chất nhiều, không nhất thiết phải là thương trường.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <p class="final-line">Vũ Khúc không cho bạn vàng có sẵn.<br>Vũ Khúc cho bạn quặng, và cơ hội để tự tay luyện nó thành khí cụ.<br>Lửa ấy, cũng phải tự mình nhóm.</p>
+  <div class="colophon">
+    <span class="brand">Mèo Đen</span>
+    Soạn lần 1 — Tầng Tài Tinh Học — 2026<br>
+    Tổng hợp từ cổ phú Đẩu Số, phái Trung Châu và các nguồn khảo cứu hiện đại<br>
+    Người viết vẫn là học trò
+  </div>
+</footer>
+
+<script>
+  // Theme toggle
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  const iconMoon = document.getElementById('iconMoon');
+  const iconSun = document.getElementById('iconSun');
+
+  function applyTheme(theme){
+    root.setAttribute('data-theme', theme);
+    if(theme === 'light'){
+      iconMoon.style.display = 'none';
+      iconSun.style.display = 'block';
+    } else {
+      iconMoon.style.display = 'block';
+      iconSun.style.display = 'none';
+    }
+    try{ localStorage.setItem('vukhuc-theme', theme); }catch(e){}
+  }
+
+  let savedTheme = 'dark';
+  try{ savedTheme = localStorage.getItem('vukhuc-theme') || 'dark'; }catch(e){}
+  applyTheme(savedTheme);
+
+  themeBtn.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    applyTheme(current === 'light' ? 'dark' : 'light');
+  });
+
+  // Reading progress bar
+  const progressFill = document.getElementById('progressFill');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    const pct = max > 0 ? (scrolled / max) * 100 : 0;
+    progressFill.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive:true });
+  updateProgress();
+
+  // TOC: click to jump
+  const tocLinks = document.querySelectorAll('.toc-link');
+  tocLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if(target){ target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    });
+  });
+
+  // Active section tracking + reveal animation
+  const sections = document.querySelectorAll('.phan');
+  const tocLinksMap = {};
+  tocLinks.forEach(l => tocLinksMap[l.dataset.target] = l);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+      }
+    });
+  }, { threshold:0.12, rootMargin:'0px 0px -10% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  const activeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = tocLinksMap[entry.target.id];
+      if(!link) return;
+      if(entry.isIntersecting){
+        tocLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        link.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+      }
+    });
+  }, { rootMargin:'-45% 0px -50% 0px', threshold:0 });
+  sections.forEach(s => activeObserver.observe(s));
+
+  // Music toggle
+  const musicBtn = document.getElementById('musicBtn');
+  const bgMusic = document.getElementById('bgMusic');
+  let isPlaying = false;
+
+  musicBtn.addEventListener('click', () => {
+    if(isPlaying){
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      isPlaying = false;
+    } else {
+      bgMusic.play().catch(()=>{});
+      musicBtn.classList.add('playing');
+      isPlaying = true;
+    }
+  });
+</script>
+
+</body>
+</html>
