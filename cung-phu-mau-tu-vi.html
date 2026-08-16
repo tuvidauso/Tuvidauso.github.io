@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cung Phụ Mẫu — Tử Vi Đẩu Số</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0806;
+    --bg-panel:#15120d;
+    --bg-panel-2:#1c1810;
+    --ink:#e9ddc4;
+    --ink-dim:#b0a180;
+    --ink-faint:#7d735a;
+    --gold:#cda03d;
+    --gold-soft:rgba(205,160,61,.32);
+    --gold-glow:rgba(205,160,61,.10);
+    --cinnabar:#b0452e;
+    --cinnabar-soft:rgba(176,69,46,.28);
+    --indigo:#3b4a63;
+    --line:rgba(205,160,61,.16);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Noto Serif', serif;
+    font-size:17px;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Ambient background ---------- */
+  .bg-fx{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 40% at 12% 8%, var(--gold-glow), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 92% 85%, rgba(59,74,99,.18), transparent 60%),
+      var(--bg);
+  }
+  .bg-fx::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(233,221,196,.35), transparent),
+      radial-gradient(1px 1px at 30% 65%, rgba(233,221,196,.25), transparent),
+      radial-gradient(1px 1px at 50% 15%, rgba(233,221,196,.3), transparent),
+      radial-gradient(1px 1px at 70% 80%, rgba(233,221,196,.2), transparent),
+      radial-gradient(1px 1px at 85% 35%, rgba(233,221,196,.3), transparent),
+      radial-gradient(1px 1px at 95% 60%, rgba(233,221,196,.22), transparent),
+      radial-gradient(1px 1px at 22% 90%, rgba(233,221,196,.2), transparent),
+      radial-gradient(1px 1px at 60% 45%, rgba(233,221,196,.28), transparent);
+    background-size:100% 100%;
+    opacity:.6;
+  }
+
+  /* ---------- Header ---------- */
+  header.site-header{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px;
+    background:rgba(10,8,6,.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    font-family:'Cormorant', serif;
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:.06em;
+    color:var(--gold);
+    text-transform:uppercase;
+  }
+  .brand span{ color:var(--ink-dim); font-size:12px; font-family:'Inter',sans-serif; letter-spacing:.12em; display:block; text-transform:uppercase; margin-top:2px; font-weight:500;}
+  .toc-btn{
+    font-family:'Inter',sans-serif;
+    font-size:13px; letter-spacing:.04em;
+    color:var(--ink);
+    background:transparent;
+    border:1px solid var(--line);
+    padding:8px 14px;
+    border-radius:2px;
+    cursor:pointer;
+    display:flex; align-items:center; gap:8px;
+  }
+  .toc-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .toc-btn .bars{ width:16px; height:11px; position:relative; }
+  .toc-btn .bars span{ position:absolute; left:0; right:0; height:1px; background:currentColor; }
+  .toc-btn .bars span:nth-child(1){top:0;}
+  .toc-btn .bars span:nth-child(2){top:5px;}
+  .toc-btn .bars span:nth-child(3){top:10px;}
+
+  /* ---------- TOC overlay ---------- */
+  .toc-panel{
+    position:fixed; inset:0; z-index:60;
+    background:rgba(8,6,4,.94);
+    backdrop-filter:blur(6px);
+    display:none;
+    padding:80px 24px 40px;
+    overflow-y:auto;
+  }
+  .toc-panel.open{ display:block; }
+  .toc-close{
+    position:absolute; top:18px; right:20px;
+    background:none; border:1px solid var(--line); color:var(--ink);
+    width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:18px;
+  }
+  .toc-list{
+    max-width:520px; margin:0 auto; list-style:none; padding:0;
+  }
+  .toc-list li{ border-bottom:1px solid var(--line); }
+  .toc-list a{
+    display:flex; align-items:baseline; gap:14px;
+    padding:16px 4px; text-decoration:none;
+    color:var(--ink); font-family:'Cormorant', serif; font-size:22px; font-weight:500;
+  }
+  .toc-list a:hover{ color:var(--gold); }
+  .toc-list .num{
+    font-family:'Inter',sans-serif; font-size:12px; color:var(--gold); letter-spacing:.08em;
+    min-width:34px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative; z-index:1;
+    max-width:720px; margin:0 auto;
+    padding:70px 24px 50px;
+    text-align:center;
+  }
+  .emblem{ margin:0 auto 26px; display:block; }
+  .hero h1{
+    font-family:'Cormorant', serif;
+    font-weight:700;
+    font-size:clamp(36px,7vw,58px);
+    letter-spacing:.04em;
+    margin:0 0 10px;
+    color:var(--ink);
+    text-transform:uppercase;
+  }
+  .hero h1 em{ font-style:normal; color:var(--gold); }
+  .hero .sub{
+    font-family:'Inter',sans-serif;
+    font-size:13px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ink-dim); margin-bottom:26px;
+  }
+  .hero .desc{ color:var(--ink-dim); font-size:16px; max-width:520px; margin:0 auto; }
+  .divider{
+    width:120px; height:1px; margin:34px auto;
+    background:linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+  }
+
+  /* ---------- Main content ---------- */
+  main{ position:relative; z-index:1; }
+  .muc{
+    max-width:720px; margin:0 auto; padding:52px 24px;
+    border-top:1px solid var(--line);
+    scroll-margin-top:80px;
+  }
+  .eyebrow{
+    font-family:'Inter',sans-serif; font-size:12px; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--cinnabar); margin:0 0 10px;
+    font-weight:600;
+  }
+  .muc h2{
+    font-family:'Cormorant', serif; font-weight:600; font-size:32px;
+    color:var(--gold); margin:0 0 22px; letter-spacing:.01em;
+  }
+  .muc h3{
+    font-family:'Cormorant', serif; font-weight:600; font-size:22px;
+    color:var(--ink); margin:30px 0 12px;
+  }
+  .muc p{ color:var(--ink); margin:0 0 16px; }
+  .muc p.dim{ color:var(--ink-dim); font-size:15px; }
+  .muc ul, .muc ol{ margin:0 0 18px; padding-left:22px; color:var(--ink); }
+  .muc li{ margin-bottom:10px; }
+  .muc strong{ color:var(--gold); font-weight:600; }
+  .flow{
+    font-family:'Cormorant', serif; font-size:19px; font-weight:500;
+    color:var(--ink); text-align:center; line-height:2;
+    padding:22px 16px; margin:18px 0 24px;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+  }
+  .flow b{ color:var(--gold); }
+
+  /* callouts */
+  .callout{
+    border-left:2px solid var(--gold-soft);
+    background:var(--bg-panel);
+    padding:16px 20px;
+    margin:22px 0;
+    font-size:15.5px;
+  }
+  .callout .tag{
+    font-family:'Inter',sans-serif; font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:8px; font-weight:600;
+  }
+  .callout.fix{ border-left-color:var(--cinnabar); }
+  .callout.fix .tag{ color:var(--cinnabar); }
+  .callout p{ margin:0 0 10px; font-size:15.5px; color:var(--ink-dim); }
+  .callout p:last-child{ margin-bottom:0; }
+
+  /* table */
+  .table-wrap{ overflow-x:auto; margin:22px 0; border:1px solid var(--line); }
+  table{ width:100%; border-collapse:collapse; min-width:520px; }
+  th{
+    font-family:'Inter',sans-serif; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    text-align:left; padding:12px 16px; color:var(--gold);
+    background:var(--bg-panel-2); border-bottom:1px solid var(--line);
+  }
+  td{ padding:13px 16px; border-bottom:1px solid var(--line); font-size:15px; color:var(--ink-dim); vertical-align:top; }
+  tr:last-child td{ border-bottom:none; }
+  td.star{ color:var(--ink); font-family:'Cormorant', serif; font-size:18px; font-weight:600; white-space:nowrap; }
+  tbody tr:hover td{ background:var(--bg-panel); }
+
+  /* poem */
+  .phu{
+    position:relative;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    padding:38px 30px;
+    margin:24px 0;
+    text-align:center;
+  }
+  .phu::before, .phu::after{
+    content:"❦"; color:var(--gold); font-size:16px; display:block; margin-bottom:14px; opacity:.7;
+  }
+  .phu::after{ margin-bottom:0; margin-top:14px; }
+  .phu p{
+    font-family:'Cormorant', serif; font-style:italic; font-size:20px; font-weight:500;
+    color:var(--ink); line-height:2.1; margin:0; color:var(--ink);
+  }
+
+  .annot{ counter-reset:item; list-style:none; padding-left:0; }
+  .annot li{
+    counter-increment:item;
+    position:relative; padding-left:38px; margin-bottom:20px;
+  }
+  .annot li::before{
+    content:counter(item);
+    position:absolute; left:0; top:1px;
+    font-family:'Cormorant', serif; font-weight:700; font-size:17px;
+    color:var(--gold);
+    width:26px; height:26px; border:1px solid var(--gold-soft);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+  }
+
+  footer{
+    max-width:720px; margin:0 auto; padding:50px 24px 100px;
+    text-align:center; color:var(--ink-faint); font-family:'Inter',sans-serif; font-size:13px;
+    letter-spacing:.04em;
+  }
+  footer .divider{ width:60px; }
+
+  /* music button */
+  .music-btn{
+    position:fixed; right:18px; bottom:18px; z-index:50;
+    width:52px; height:52px; border-radius:50%;
+    background:var(--bg-panel-2); border:1px solid var(--gold-soft);
+    color:var(--gold); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 24px rgba(0,0,0,.4);
+  }
+  .music-btn.playing{ box-shadow:0 0 0 6px var(--gold-glow), 0 6px 24px rgba(0,0,0,.4); }
+  .music-btn svg{ width:20px; height:20px; }
+
+  @media (max-width: 560px){
+    .hero{ padding:56px 18px 40px; }
+    .muc{ padding:42px 18px; }
+    body{ font-size:16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
+  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a>
+</div>
+
+
+<div class="bg-fx"></div>
+
+<header class="site-header">
+  <div class="brand">Phụ Mẫu Cung<span>Tử Vi Đẩu Số</span></div>
+  <button class="toc-btn" onclick="document.getElementById('toc').classList.add('open')">
+    <span class="bars"><span></span><span></span><span></span></span>
+    Mục lục
+  </button>
+</header>
+
+<nav class="toc-panel" id="toc">
+  <button class="toc-close" onclick="document.getElementById('toc').classList.remove('open')">✕</button>
+  <ul class="toc-list">
+    <li><a href="#muc-1" onclick="closeToc()"><span class="num">I</span> Khái niệm cơ bản</a></li>
+    <li><a href="#muc-2" onclick="closeToc()"><span class="num">II</span> Tam Phương Tứ Chính</a></li>
+    <li><a href="#muc-3" onclick="closeToc()"><span class="num">III</span> Nguyên tắc luận đoán cơ bản</a></li>
+    <li><a href="#muc-4" onclick="closeToc()"><span class="num">IV</span> 14 chính tinh</a></li>
+    <li><a href="#muc-5" onclick="closeToc()"><span class="num">V</span> Vai trò sao phụ</a></li>
+    <li><a href="#muc-6" onclick="closeToc()"><span class="num">VI</span> Tứ Hóa nhập cung</a></li>
+    <li><a href="#muc-7" onclick="closeToc()"><span class="num">VII</span> Nhật – Nguyệt</a></li>
+    <li><a href="#muc-8" onclick="closeToc()"><span class="num">VIII</span> Đại Vận – Lưu Niên</a></li>
+    <li><a href="#muc-9" onclick="closeToc()"><span class="num">IX</span> Quy trình tổng hợp</a></li>
+    <li><a href="#muc-10" onclick="closeToc()"><span class="num">X</span> Lưu ý khi mới học</a></li>
+    <li><a href="#muc-11" onclick="closeToc()"><span class="num">XI</span> Phụ lục — Phú quyết</a></li>
+    <li><a href="#muc-12" onclick="closeToc()"><span class="num">XII</span> Bình giải văn chương</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <svg class="emblem" viewBox="0 0 200 160" width="130" height="104" aria-hidden="true">
+    <g stroke="#cda03d" stroke-width="1" opacity="0.5">
+      <line x1="70" y1="20" x2="70" y2="32"/>
+      <line x1="70" y1="128" x2="70" y2="140"/>
+      <line x1="10" y1="80" x2="22" y2="80"/>
+      <line x1="30" y1="30" x2="38" y2="38"/>
+      <line x1="30" y1="130" x2="38" y2="122"/>
+      <line x1="110" y1="30" x2="102" y2="38"/>
+      <line x1="110" y1="130" x2="102" y2="122"/>
+    </g>
+    <circle cx="70" cy="80" r="42" fill="none" stroke="#cda03d" stroke-width="1.3"/>
+    <circle cx="70" cy="80" r="36" fill="#cda03d" opacity="0.92"/>
+    <circle cx="128" cy="80" r="34" fill="#b0452e" opacity="0.92"/>
+    <circle cx="140" cy="72" r="30" fill="#0a0806"/>
+  </svg>
+  <h1>Cung <em>Phụ Mẫu</em></h1>
+  <div class="sub">Tử Vi Đẩu Số — Từ Cơ Bản Đến Chuyên Sâu</div>
+  <p class="desc">Nhật vi phụ, Nguyệt vi mẫu — tài liệu tổng hợp lý thuyết nền, kỹ thuật luận đoán chuyên sâu và phú quyết cổ điển về cung thứ hai trong mười hai cung số.</p>
+</div>
+
+<main>
+
+  <section class="muc" id="muc-1">
+    <p class="eyebrow">Mục I</p>
+    <h2>Khái niệm cơ bản</h2>
+    <p>Trong lá số Tử Vi có 12 cung, sắp xếp theo thứ tự cố định. Đa số các phái an cung theo <strong>chiều thuận kim đồng hồ</strong> tính từ cung Mệnh — nhìn trên lá số in sẵn, cung Phụ Mẫu nằm ngay bên phải cung Mệnh:</p>
+    <div class="flow">Mệnh → <b>Phụ Mẫu</b> → Phúc Đức → Điền Trạch → Quan Lộc → Nô Bộc → Thiên Di → Tật Ách → Tài Bạch → Tử Tức → Phu Thê → Huynh Đệ</div>
+    <p class="dim">Chuỗi thứ tự 12 cung này bất biến giữa mọi trường phái — chỗ hay gây tranh cãi chỉ là cách gọi tên "thuận/nghịch kim đồng hồ", vì còn tùy quy ước hướng vẽ lá số. Khi tự tra lá số, cách chắc chắn nhất là dựa vào vị trí in sẵn trên phần mềm/lá số giấy.</p>
+    <p>Cung Phụ Mẫu là cung thứ 2 trong 12 cung, chuyên luận về:</p>
+    <ul>
+      <li>Cha mẹ: tính cách, phúc phận, sức khỏe, tuổi thọ, mối quan hệ với đương số</li>
+      <li>Hoàn cảnh xuất thân, gia thế, nền tảng gia đình lúc nhỏ</li>
+      <li>Mở rộng hiện đại: cấp trên, người bảo trợ, quý nhân, quan hệ với chính quyền/tổ chức</li>
+      <li>Hình ảnh của bản thân dưới góc nhìn của người bề trên</li>
+    </ul>
+    <div class="callout">
+      <div class="tag">Ứng dụng công việc hiện đại</div>
+      <p><strong>Phụ Mẫu xấu</strong> + Hóa Kỵ: dễ bất hòa, khắc khẩu với cấp trên; xu hướng đổi việc nhiều lần vì không hợp người quản lý.</p>
+      <p><strong>Tuần/Triệt</strong> tại Phụ Mẫu: quan hệ với cấp trên hời hợt, thiếu người đỡ đầu thật sự; hồ sơ, hợp đồng, giấy tờ hành chính dễ trục trặc.</p>
+      <p><strong>Cát tinh</strong> (Khôi Việt, Xương Khúc, Tả Hữu): dễ gặp quý nhân nâng đỡ nơi làm việc, được cấp trên tin tưởng giao việc quan trọng.</p>
+      <p>Phi Hóa Kỵ từ Phụ Mẫu nhập Quan Lộc: va chạm với cấp trên có xu hướng ảnh hưởng trực tiếp đến con đường thăng tiến.</p>
+    </div>
+  </section>
+
+  <section class="muc" id="muc-2">
+    <p class="eyebrow">Mục II</p>
+    <h2>Vị trí trong "Tam Phương Tứ Chính"</h2>
+    <p>Mỗi cung đều có bộ tam hợp (cách nhau 4 cung) và 1 cung xung chiếu (đối diện, cách 6 cung). Với Phụ Mẫu:</p>
+    <ul>
+      <li><strong>Tam hợp:</strong> Phụ Mẫu — Nô Bộc (Giao Hữu) — Tử Tức</li>
+      <li><strong>Xung chiếu (đối cung):</strong> Tật Ách</li>
+    </ul>
+    <p>Cung Tật Ách (sức khỏe bản thân) là đối cung của Phụ Mẫu — cho thấy mối liên hệ mật thiết giữa "gốc rễ di truyền/nuôi dưỡng" và "thể chất của chính mình". Khi luận Phụ Mẫu chuyên sâu, luôn phải nhìn cả Tật Ách để đối chiếu.</p>
+    <p>Cung Nô Bộc và Tử Tức bổ trợ thêm góc nhìn: quan hệ với bạn bè/cấp dưới và con cái cũng phần nào phản chiếu cách đương số đối xử với người trên — theo nguyên lý "trên sao dưới vậy".</p>
+    <p class="dim">Nô Bộc theo nghĩa hiện đại còn mở rộng thành quan hệ giao hữu, khách hàng, đối tác kinh doanh — không chỉ giới hạn ở người giúp việc/cấp dưới theo nghĩa cổ.</p>
+  </section>
+
+  <section class="muc" id="muc-3">
+    <p class="eyebrow">Mục III</p>
+    <h2>Nguyên tắc luận đoán cơ bản</h2>
+    <ol>
+      <li><strong>Chính tinh tọa thủ</strong> tại Phụ Mẫu (sao nào, miếu/vượng/đắc/hãm) — nếu Vô Chính Diệu, xem Mục IV.a</li>
+      <li><strong>Sao đồng cung</strong> đi kèm: cát tinh hay sát tinh</li>
+      <li><strong>Tuần/Triệt</strong> có đóng tại Phụ Mẫu không — dấu hiệu mạnh, kiểm tra riêng (Mục V.b)</li>
+      <li><strong>Cung xung chiếu Tật Ách</strong> để đối chiếu</li>
+      <li><strong>Tứ Hóa</strong> bay vào cung này, và <strong>Phi Hóa Kỵ</strong> từ chính cung Phụ Mẫu bay đi đâu (Mục VI.b)</li>
+      <li><strong>Đại Vận/Lưu Niên</strong> đi qua Phụ Mẫu để xem biến động theo thời gian</li>
+    </ol>
+  </section>
+
+  <section class="muc" id="muc-4">
+    <p class="eyebrow">Mục IV</p>
+    <h2>Ý nghĩa 14 chính tinh khi thủ Phụ Mẫu</h2>
+    <p>Ý nghĩa của một chính tinh <strong>thay đổi hẳn</strong> tùy nó đơn thủ hay đồng cung với sao khác — đặc biệt bộ Sát/Phá/Tham. Tử Vi vốn là "chúa tinh phúc hậu", nhưng:</p>
+    <ul>
+      <li>Tử Vi <strong>đơn thủ</strong> → cha mẹ có địa vị, uy nghiêm</li>
+      <li>Tử Vi + <strong>Thất Sát</strong> (Tử Sát) → cha mẹ bất hòa với nhau</li>
+      <li>Tử Vi + <strong>Phá Quân</strong> (Tử Phá) → cha mẹ ly khắc</li>
+      <li>Tử Vi + <strong>Tham Lang</strong> (Tử Tham) → cha mẹ dễ phân ly</li>
+    </ul>
+    <p class="dim">Nguyên tắc này áp dụng tương tự cho các chính tinh khác khi đi cùng Sát Phá Tham — bảng dưới là ý nghĩa cơ bản/đơn thủ, luôn phải đối chiếu sao đồng cung trước khi kết luận.</p>
+
+    <h3>a. Vô Chính Diệu tại Phụ Mẫu</h3>
+    <p>Khi Phụ Mẫu không có chính tinh, nguyên tắc là <strong>mượn sao từ cung xung chiếu</strong> — tức mượn chính tinh của Tật Ách sang luận. Nhìn chung là dấu hiệu quan hệ cha mẹ – con cái lỏng lẻo, mờ nhạt; nếu mượn tinh gặp cát tinh phù trợ thì nhẹ đi nhiều, nếu có thêm Tuần/Triệt thì càng củng cố dấu hiệu xa cách.</p>
+
+    <h3>b. Bảng ý nghĩa chính tinh (dạng đơn thủ)</h3>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Sao</th><th>Ý nghĩa khi tọa Phụ Mẫu</th></tr></thead>
+      <tbody>
+        <tr><td class="star">Tử Vi</td><td>Cha mẹ có địa vị, uy nghiêm, được kính trọng nhưng tình cảm hơi xa cách, mang tính "gia trưởng"</td></tr>
+        <tr><td class="star">Thiên Cơ</td><td>Cha mẹ thông minh, khéo léo nhưng tình cảm dễ biến động; hãm địa dễ có chuyện ly hôn/tái hôn</td></tr>
+        <tr><td class="star">Thái Dương</td><td>Miếu vượng: cha có địa vị, phúc dày. Hãm địa: cha vất vả, dễ khắc cha hoặc mất sớm</td></tr>
+        <tr><td class="star">Vũ Khúc</td><td>Cha mẹ cứng rắn, ít biểu lộ tình cảm, thiên về vật chất/kinh doanh; quan hệ lạnh nhạt</td></tr>
+        <tr><td class="star">Thiên Đồng</td><td>Cha mẹ hiền hòa, tình cảm ấm áp, gia đình êm ấm</td></tr>
+        <tr><td class="star">Liêm Trinh</td><td>Dễ có xung khắc, tình cảm phức tạp, cần thêm cát tinh mới hóa giải</td></tr>
+        <tr><td class="star">Thiên Phủ</td><td>Cha mẹ phúc hậu, gia đạo ổn định, được nương tựa</td></tr>
+        <tr><td class="star">Thái Âm</td><td>Miếu vượng: lợi mẹ, mẹ hiền hậu. Hãm địa: dễ khắc mẹ hoặc mẹ vất vả</td></tr>
+        <tr><td class="star">Tham Lang</td><td>Cha mẹ đa tài, quảng giao nhưng ít gần gũi con cái, quan hệ nhạt</td></tr>
+        <tr><td class="star">Cự Môn</td><td>Dễ bất hòa, khẩu thiệt, hiểu lầm với cha mẹ</td></tr>
+        <tr><td class="star">Thiên Tướng</td><td>Được cha mẹ nâng đỡ, quan hệ hài hòa, có quý nhân phù trợ</td></tr>
+        <tr><td class="star">Thiên Lương</td><td>Cha mẹ nhân từ, sống thọ, hay che chở giúp đỡ đương số</td></tr>
+        <tr><td class="star">Thất Sát</td><td>Quan hệ căng thẳng, dễ xa cách hoặc xung khắc, tính cách cha mẹ mạnh mẽ</td></tr>
+        <tr><td class="star">Phá Quân</td><td>Biến động lớn, dễ ly tán, xung khắc, gia đình có xáo trộn</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="dim">Cùng một sao nhưng ở vị trí miếu/vượng/đắc/hãm khác nhau sẽ cho mức độ tốt/xấu khác nhau đáng kể — bước bắt buộc phải tra khi luận chuyên sâu.</p>
+  </section>
+
+  <section class="muc" id="muc-5">
+    <p class="eyebrow">Mục V</p>
+    <h2>Vai trò của sao phụ</h2>
+    <h3>a. Cát tinh, sát tinh và các sao khác</h3>
+    <p><strong>Cát tinh</strong> (Tả Phụ, Hữu Bật, Văn Xương, Văn Khúc, Thiên Khôi, Thiên Việt, Lộc Tồn...) đóng cùng hoặc chiếu vào Phụ Mẫu → tăng phúc, được cha mẹ yêu thương, giúp đỡ tài chính/quan hệ, có quý nhân trợ lực từ bề trên.</p>
+    <p><strong>Sát tinh</strong> (Kình Dương, Đà La, Hỏa Tinh, Linh Tinh, Địa Không, Địa Kiếp) đóng cùng hoặc chiếu vào → dễ khắc cha mẹ, quan hệ xa cách, cha mẹ vất vả hoặc gặp trắc trở, đương số dễ tự lập sớm.</p>
+    <p class="dim"><strong>Đào Hoa, Hồng Loan, Thiên Hỷ:</strong> ít ảnh hưởng trực tiếp, nhưng có thể gợi ý cha mẹ có duyên tình phức tạp nếu phối hợp với sao khác.</p>
+
+    <h3>b. Tuần/Triệt — dấu hiệu độc lập</h3>
+    <p>Tuần Không hoặc Triệt Không đóng tại Phụ Mẫu là tín hiệu <strong>rất mạnh và đặc thù</strong>, khác hẳn ý nghĩa "hao tán" thông thường ở các cung khác — tại Phụ Mẫu, nó thường chủ:</p>
+    <ul>
+      <li>Duyên cha mẹ – con cái mỏng, xa cách dù không hẳn xung khắc gay gắt</li>
+      <li>Đương số dễ sống xa cha mẹ từ nhỏ: gửi ông bà nuôi, đi học xa, hoặc nặng hơn là làm con nuôi</li>
+      <li>Nếu đi cùng chính tinh miếu vượng + cát tinh, mức độ "xa cách" có thể chỉ dừng ở nghĩa bóng — vẫn cần đối chiếu tổng thể</li>
+    </ul>
+  </section>
+
+  <section class="muc" id="muc-6">
+    <p class="eyebrow">Mục VI</p>
+    <h2>Tứ Hóa nhập cung Phụ Mẫu</h2>
+    <h3>a. Tứ Hóa tĩnh (bay vào từ lá số gốc)</h3>
+    <ul>
+      <li><strong>Hóa Lộc:</strong> được cha mẹ chu cấp, hỗ trợ tài chính, quan hệ hòa thuận, có duyên với cấp trên</li>
+      <li><strong>Hóa Quyền:</strong> cha mẹ có uy quyền, quản lý con cái chặt chẽ, đôi khi tạo áp lực</li>
+      <li><strong>Hóa Khoa:</strong> cha mẹ có danh tiếng, học thức, hình ảnh đẹp trong mắt xã hội</li>
+      <li><strong>Hóa Kỵ:</strong> bất hòa, tranh chấp, khắc cha mẹ, hoặc cha mẹ trục trặc sức khỏe/công việc</li>
+    </ul>
+    <h3>b. Phi Hóa Kỵ từ cung Phụ Mẫu (kỹ thuật thực chiến)</h3>
+    <p>Ngoài Tứ Hóa <em>bay vào</em> Phụ Mẫu, phái Phi Tinh còn xem chính tinh tại Phụ Mẫu <strong>tự hóa Kỵ rồi bay sang cung nào</strong> — cho biết ảnh hưởng của cha mẹ lan tới lĩnh vực nào trong đời đương số:</p>
+    <ul>
+      <li><strong>Nhập Mệnh/Thân:</strong> cha mẹ ảnh hưởng sâu đậm đến tính cách, vận trình bản thân</li>
+      <li><strong>Nhập Quan Lộc:</strong> tác động đến sự nghiệp, con đường công danh</li>
+      <li><strong>Nhập Tài Bạch:</strong> ảnh hưởng tài chính — hỗ trợ tiền bạc kèm ràng buộc, hoặc gánh nặng</li>
+      <li><strong>Xung cung nào:</strong> cung bị xung là nơi phát sinh mâu thuẫn hoặc tổn hại gián tiếp</li>
+    </ul>
+  </section>
+
+  <section class="muc" id="muc-7">
+    <p class="eyebrow">Mục VII</p>
+    <h2>Phép luận lục thân qua Nhật – Nguyệt</h2>
+    <p>Ngoài cung Phụ Mẫu, phái Tử Vi cổ điển còn dùng:</p>
+    <ul>
+      <li><strong>Thái Dương</strong> đại diện cho <strong>Cha</strong> (và nam giới bề trên nói chung)</li>
+      <li><strong>Thái Âm</strong> đại diện cho <strong>Mẹ</strong> (và nữ giới bề trên nói chung)</li>
+    </ul>
+    <p>Xem vị trí, miếu hãm và Tứ Hóa của Thái Dương/Thái Âm trong toàn bộ lá số (không chỉ tại Phụ Mẫu) để bổ sung, đối chiếu cho việc luận đoán về cha/mẹ.</p>
+  </section>
+
+  <section class="muc" id="muc-8">
+    <p class="eyebrow">Mục VIII</p>
+    <h2>Kết hợp Đại Vận – Lưu Niên</h2>
+    <p>Cung Phụ Mẫu tĩnh chỉ cho biết bản chất mối quan hệ. Muốn biết <strong>thời điểm</strong> xảy ra biến cố, cần xem:</p>
+    <ul>
+      <li>Đại Vận (10 năm) đi qua cung an tại vị trí Phụ Mẫu của lá số gốc</li>
+      <li>Lưu Niên (từng năm) có sao Hóa Kỵ/sát tinh xung chiếu vào Phụ Mẫu bản mệnh</li>
+    </ul>
+    <p class="dim">Đó là những giai đoạn dễ có biến động về cha mẹ (sức khỏe, ly tán, mâu thuẫn) hoặc về cấp trên/quý nhân.</p>
+  </section>
+
+  <section class="muc" id="muc-9">
+    <p class="eyebrow">Mục IX</p>
+    <h2>Quy trình luận đoán tổng hợp</h2>
+    <ol>
+      <li>Xác định chính tinh tọa Phụ Mẫu → tra miếu/vượng/đắc/hãm; nếu Vô Chính Diệu → mượn tinh từ Tật Ách</li>
+      <li>Xem sao đồng cung — kiểm tra có dính Sát/Phá/Tham không, vì đổi hẳn ý nghĩa gốc</li>
+      <li>Ghi nhận cát/hung tinh đồng cung và chiếu cung</li>
+      <li>Kiểm tra riêng Tuần/Triệt có đóng tại Phụ Mẫu không</li>
+      <li>Xem Tứ Hóa có bay vào cung này không, sao nào hóa gì</li>
+      <li>Xem Phi Hóa Kỵ từ Phụ Mẫu bay đi cung nào/xung cung nào</li>
+      <li>Đối chiếu với Tật Ách (xung chiếu) và Nô Bộc, Tử Tức (tam hợp)</li>
+      <li>Xem thêm Thái Dương/Thái Âm toàn cục để bổ trợ luận về cha/mẹ riêng biệt</li>
+      <li>Áp Đại Vận/Lưu Niên để xác định thời điểm biến cố</li>
+    </ol>
+  </section>
+
+  <section class="muc" id="muc-10">
+    <p class="eyebrow">Mục X</p>
+    <h2>Lưu ý khi mới học</h2>
+    <ul>
+      <li>Không nên luận đơn lẻ 1 cung — cung Phụ Mẫu cần đặt cạnh Mệnh, Phúc Đức, Điền Trạch để hiểu trọn vẹn về "gốc gác – phúc phần – nhà cửa"</li>
+      <li>Mức độ miếu/hãm quan trọng hơn bản chất tốt/xấu của sao — một sao "xấu" ở miếu địa vẫn có thể tốt, và ngược lại</li>
+      <li>Cần thực hành lập nhiều lá số thật để đối chiếu lý thuyết với thực tế — cách học Tử Vi hiệu quả nhất</li>
+    </ul>
+  </section>
+
+  <section class="muc" id="muc-11">
+    <p class="eyebrow">Mục XI — Phụ lục</p>
+    <h2>Phú "Cung Phụ Mẫu"</h2>
+    <p class="dim">Trích Phú Tử Vi Thông Thơ — chương "Số hai, Phụ Mẫu"</p>
+    <div class="phu">
+      <p>
+        Số hai Phụ Mẫu kể tường<br>
+        Âm, Dương ngộ hãm là đường khắc xung<br>
+        Hãm Dương khắc phụ đã xong<br>
+        Hãm Âm khắc mẫu vào vòng chẳng sai<br>
+        Hổ, Tang, Thái Tuế cùng bầy<br>
+        Lưu Dương lại gặp đoán rày khắc cha<br>
+        Gặp sao Hóa Kỵ khiếm hòa<br>
+        Thiên Hình, Tuần, Triệt mẹ cha mất rồi<br>
+        Cáo, Phong có chức, có ngôi<br>
+        Khúc, Xương, Thái Tuế thì người cũng sang<br>
+        Khôi, Khoa phát đạt khoa tràng<br>
+        Khôi, Quyền chính trưởng đường đường tốt thông<br>
+        Thanh bần ấy phải Hóa, Không<br>
+        Nhược bằng Lộc, Mã phú ông ai tày<br>
+        Phụ Mẫu cung đã đoán bầy<br>
+        Đoán từng phần một, cốt hay tại người
+      </p>
+    </div>
+    <p class="dim">Chương ngắn nhất trong 12 chương của bài phú — chỉ 8 cặp câu, phản ánh vị trí phụ trợ của Phụ Mẫu so với Mệnh, Tài, Quan trong hệ thống 12 cung.</p>
+
+    <h3>Chú giải và bổ sung kỹ thuật</h3>
+    <ol class="annot">
+      <li><strong>Nguyên tắc gốc "Nhật vi phụ, Nguyệt vi mẫu"</strong> (câu 1–2): Thái Dương hãm địa → khắc cha; Thái Âm hãm địa → khắc mẹ. Áp dụng thống nhất cho cả nam mệnh lẫn nữ mệnh. Mức độ "khắc" cần phân theo bậc: hãm địa có cát tinh đồng cung/hội chiếu thì chỉ dừng ở xa cách, duyên mỏng — chưa hẳn tử biệt.</li>
+      <li><strong>Hổ, Tang, Thái Tuế, Lưu Dương</strong> (câu 3): Tổ hợp "tang chế" kinh điển, lặp lại y hệt khi luận Huynh Đệ, Phu Thê, Tử Tức — chỉ đổi đối tượng theo cung. Dùng sao lưu niên để định thời điểm xảy ra việc, không chỉ đoán có/không.</li>
+      <li><strong>Hóa Kỵ + Thiên Hình + Tuần/Triệt</strong> (câu 4): Tuần Không mang tính "trống rỗng, trì hoãn"; Triệt Không mang tính "cắt đứt dứt khoát" hơn — khi đi cùng Hóa Kỵ, Triệt thường cho tín hiệu nặng hơn Tuần.</li>
+      <li><strong>Cáo, Phong</strong> (câu 5): Đảo vị trí do vần điệu của một cặp sao đi chung — Thai Phụ – Phong Cáo, không phải hai sao rời rạc. Chủ cha mẹ có chức vị, học thức, bằng cấp cao. Lực khuếch đại mạnh khi phối thêm Quốc Ấn, Quang Quý, Lộc Tồn.</li>
+      <li><strong>Khôi/Khoa, Khôi/Quyền</strong> (câu 6): Thiên Khôi + Hóa Khoa → cha mẹ thành đạt nhờ khoa bảng; Thiên Khôi + Hóa Quyền → cha mẹ có vai vế chính thống, uy nghi.</li>
+      <li><strong>Hóa Kỵ + Địa Không / Lộc Tồn + Thiên Mã</strong> (câu 7): Cặp đối lập miếu/hãm quen thuộc của toàn bài phú — một bên thanh bần, một bên phú quý không ai sánh.</li>
+      <li><strong>Câu kết</strong> (câu 8): Mang tính phương pháp luận — các dấu hiệu trên là từng mảnh riêng lẻ, người luận phải biết tổng hợp, không máy móc áp một câu cho cả cung.</li>
+    </ol>
+
+    <div class="callout">
+      <div class="tag">Mở rộng liên quan</div>
+      <p>Tử Vi thủ Phụ Mẫu đi cùng Sát Phá Tham: Tử Sát chủ bất hòa giữa cha mẹ, Tử Phá chủ ly khắc, Tử Tham chủ phân ly. Có một nguyên lý đối ứng đáng chú ý: khi Phụ Mẫu xấu (Sát Phá Tham) thì Tật Ách (đối cung) thường được Phủ Tướng án ngữ nên bệnh nhẹ; ngược lại khi Phụ Mẫu là Phủ Tướng thì con dễ hứng chịu tai ách hay bạo bệnh hơn — minh chứng cho nguyên tắc tam phương tứ chính ở Mục II.</p>
+    </div>
+  </section>
+
+  <section class="muc" id="muc-12">
+    <p class="eyebrow">Mục XII</p>
+    <h2>Bình giải văn chương của bài phú</h2>
+    <p>Ngoài giá trị kỹ thuật, đoạn phú này còn đáng đọc như một văn bản lý số cổ điển — nơi thể thơ và cách hành văn tự nó cũng là một phương pháp ghi nhớ, truyền dạy.</p>
+
+    <h3>1. Thể lục bát làm khung "thuật nhớ"</h3>
+    <p>Toàn chương viết theo lục bát — thể thơ dân tộc dễ đọc thuộc lòng theo nhịp 2/2/2 hoặc 4/4. Các phú Tử Vi cổ truyền hầu hết dùng lục bát chính vì môn lý số truyền đời qua <strong>khẩu truyền</strong> trước khi có sách in phổ biến — vần điệu giúp học trò thuộc lòng hàng trăm câu quyết. Câu "Cáo, Phong có chức, có ngôi" đảo ngược trật tự tên sao chuẩn chính là cái giá phải trả để giữ đúng vần.</p>
+
+    <h3>2. Cấu trúc "đề – thực – luận – kết" thu nhỏ</h3>
+    <p>Dù ngắn, chương vẫn giữ đủ bố cục một bài luận cổ điển: <em>Đề</em> (câu 1) nêu chủ đề qua Nhật/Nguyệt; <em>Thực</em> (câu 2–4) triển khai trường hợp xấu từ nhẹ đến nặng: xa cách → khắc → tử biệt; <em>Luận</em> (câu 5–7) chuyển sang trường hợp tốt: có chức → phát đạt → phú quý tột bậc; <em>Kết</em> (câu 8) thu lại thành nguyên tắc phương pháp.</p>
+    <p class="dim">Cấu trúc "xấu trước – tốt sau" lặp lại ở hầu hết các chương khác của bài phú — nêu cảnh báo trước để người luận đề phòng, rồi mới đến các dấu hiệu mừng.</p>
+
+    <h3>3. Phép đối và nhịp điệu nhị phân</h3>
+    <p>Mỗi cặp câu lục bát gần như là một cặp mệnh đề đối lập hoặc song hành: "Hãm Dương khắc phụ" đối "Hãm Âm khắc mẫu"; "Thanh bần ấy phải Hóa, Không" đối "Nhược bằng Lộc, Mã phú ông ai tày" — dùng "nhược bằng" làm bản lề chuyển ý, kỹ thuật đối chuyển đặc trưng của phú lý số Việt Nam. Nhịp nhị phân (tốt/xấu, miếu/hãm) khắc sâu vào người học đúng tư duy nhị nguyên của Tử Vi.</p>
+
+    <h3>4. Điểm hạn chế cố hữu của thể phú</h3>
+    <p>Bị gò trong vần điệu, bài phú buộc phải nén thông tin tối đa — mỗi câu chỉ đủ nêu "điều kiện + kết quả" mà không giải thích <em>tại sao</em>, cũng không nêu được điều kiện phụ. Đây là lý do các phú quyết luôn cần chú giải đi kèm hoặc đối chiếu lá số thật — câu kết "đoán từng phần một, cốt hay tại người" đã tự thừa nhận giới hạn này.</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="divider"></div>
+  Tài liệu tổng hợp phục vụ học tập Tử Vi Đẩu Số
+</footer>
+
+<audio id="bgm" src="music2.mp3" loop preload="none"></audio>
+<button class="music-btn" id="musicBtn" aria-label="Bật/tắt nhạc nền">
+  <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+  <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+</button>
+
+<script>
+  function closeToc(){ document.getElementById('toc').classList.remove('open'); }
+
+  const bgm = document.getElementById('bgm');
+  const btn = document.getElementById('musicBtn');
+  const iconPlay = document.getElementById('iconPlay');
+  const iconPause = document.getElementById('iconPause');
+
+  btn.addEventListener('click', () => {
+    if (bgm.paused) {
+      bgm.play().catch(()=>{});
+      btn.classList.add('playing');
+      iconPlay.style.display = 'none';
+      iconPause.style.display = 'block';
+    } else {
+      bgm.pause();
+      btn.classList.remove('playing');
+      iconPlay.style.display = 'block';
+      iconPause.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>

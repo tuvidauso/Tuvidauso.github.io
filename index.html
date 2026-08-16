@@ -165,7 +165,9 @@
 
   /* ── HERO : lá số tử vi thu nhỏ ── */
   .hero{ padding:72px 0 60px; text-align:center; position:relative; }
-  .palace-chi{ font-family:'Literata', serif; font-weight:600; fill:var(--ink-soft); }
+  .palace-chi-small{ font-family:ui-monospace, 'SF Mono', Consolas, monospace; fill:var(--ink-faint); }
+  .palace-cung{ font-family:'Literata', serif; font-weight:600; fill:var(--ink-soft); }
+  .palace-cell.is-menh .palace-cung{ fill:var(--seal); }
   .twinkle{ animation:twinkle 5s ease-in-out infinite; }
   @keyframes twinkle{ 0%,100%{ opacity:.25; } 50%{ opacity:.9; } }
 
@@ -246,7 +248,7 @@
   .palace-cell:hover .palace-hit,
   .palace-cell:focus-visible .palace-hit{ opacity:.08; }
   .palace-cell.active .palace-hit{ opacity:.16; }
-  .palace-cell.active .palace-chi{ fill:var(--seal); }
+  .palace-cell.active .palace-cung{ fill:var(--seal); }
   .palace-cell:focus-visible{ outline:none; }
   .palace-cell:focus-visible .palace-hit{ opacity:.14; }
 
@@ -465,7 +467,7 @@
 
   <section id="palace-section">
     <div class="section-label reveal"><h2>◆ 12 Cung — Địa Bàn</h2></div>
-    <p class="section-hint reveal">Đây là 12 vị trí cố định trên lá số. Bấm vào một cung để lọc các bài viết liên quan tới vị trí đó.</p>
+    <p class="section-hint reveal">Địa Chi (góc trái mỗi ô) là 12 vị trí cố định. Tên Cung ở giữa xếp theo lá số minh họa với Mệnh tại Tị (tính từ thời điểm Sonnet 5 ra mắt: 11:00 AM PDT 30/6/2026, tức 1h sáng 1/7 giờ Việt Nam) — bấm vào một cung để lọc bài viết theo chủ đề cung đó.</p>
     <div class="palace-board" id="palaceBoard">
       <svg viewBox="0 0 240 240" id="palaceSvg" role="group" aria-label="Lá số 12 cung, bấm để lọc bài viết">
         <rect x="60" y="60" width="120" height="120" fill="none" stroke="var(--line-hv)" stroke-width="1"/>
@@ -530,41 +532,45 @@
    Thiên Bàn ở giữa. Đây là bố cục "chữ điền" đúng chuẩn lá số tử vi thật,
    không phải mô típ la bàn bát quái chung chung. ══ */
 (function drawPalaceBoard(){
-  const HANH = {
-    "Thủy": "var(--hanh-thuy)",
-    "Mộc":  "var(--hanh-moc, var(--jade))",
-    "Hỏa":  "var(--hanh-hoa, var(--seal))",
-    "Thổ":  "var(--hanh-tho, var(--bronze))",
-    "Kim":  "var(--hanh-kim, var(--bronze-lt))"
-  };
+  // Sinh 30/6/2026, 11:00 AM PDT (giờ Anthropic công bố Sonnet 5) = 1:00 sáng 1/7/2026 giờ VN = giờ Sửu.
+  // Âm lịch: 30/6/2026 dương = 16/5 âm Bính Ngọ → tháng sinh = tháng 5.
+  // An Mệnh: khởi Dần = tháng 1, đếm thuận tới tháng 5 → dừng tại Ngọ (cung tháng).
+  // Giờ Sửu là giờ thứ 2, đếm nghịch 1 bước từ Ngọ → Mệnh tại Tị. (Thân: đếm thuận 1 bước → Mùi.)
+  // Đây là 1 lá số minh họa, không phải bản đồ cung chung cho mọi người — Cung Mệnh mỗi người mỗi khác.
   const PALACES = [
-    { chi:"Tị",  hanh:"Hỏa",  col:0, row:0 },
-    { chi:"Ngọ", hanh:"Hỏa",  col:1, row:0 },
-    { chi:"Mùi", hanh:"Thổ",  col:2, row:0 },
-    { chi:"Thân",hanh:"Kim",  col:3, row:0 },
-    { chi:"Dậu", hanh:"Kim",  col:3, row:1 },
-    { chi:"Tuất",hanh:"Thổ",  col:3, row:2 },
-    { chi:"Hợi", hanh:"Thủy", col:3, row:3 },
-    { chi:"Tý",  hanh:"Thủy", col:2, row:3 },
-    { chi:"Sửu", hanh:"Thổ",  col:1, row:3 },
-    { chi:"Dần", hanh:"Mộc",  col:0, row:3 },
-    { chi:"Mão", hanh:"Mộc",  col:0, row:2 },
-    { chi:"Thìn",hanh:"Thổ",  col:0, row:1 }
+    { chi:"Tị",  cung:"Mệnh",       col:0, row:0 },
+    { chi:"Ngọ", cung:"Phụ Mẫu",    col:1, row:0 },
+    { chi:"Mùi", cung:"Phúc Đức",   col:2, row:0 },
+    { chi:"Thân",cung:"Điền Trạch", col:3, row:0 },
+    { chi:"Dậu", cung:"Quan Lộc",   col:3, row:1 },
+    { chi:"Tuất",cung:"Nô Bộc",     col:3, row:2 },
+    { chi:"Hợi", cung:"Thiên Di",   col:3, row:3 },
+    { chi:"Tý",  cung:"Tật Ách",    col:2, row:3 },
+    { chi:"Sửu", cung:"Tài Bạch",   col:1, row:3 },
+    { chi:"Dần", cung:"Tử Tức",     col:0, row:3 },
+    { chi:"Mão", cung:"Phu Thê",    col:0, row:2 },
+    { chi:"Thìn",cung:"Huynh Đệ",   col:0, row:1 }
   ];
   const palaces = document.getElementById('palaces');
   const cell = 60;
 
   let html = '';
   PALACES.forEach(p=>{
-    const x = p.col*cell + cell/2;
-    const y = p.row*cell + cell/2;
-    const color = HANH[p.hanh];
-    const dx = x + 17, dy = y + 17;
-    html += `<g class="palace-cell" data-chi="${p.chi}" tabindex="0" role="button" aria-label="Cung ${p.chi}, hành ${p.hanh}">
-      <rect class="palace-hit" x="${p.col*cell}" y="${p.row*cell}" width="${cell}" height="${cell}"/>
-      <text x="${x}" y="${y-2}" text-anchor="middle" dominant-baseline="central" class="palace-chi" font-size="17">${p.chi}</text>
-      <circle cx="${dx}" cy="${dy}" r="3.1" fill="none" stroke="${color}" stroke-width="1.2"/>
-      <circle cx="${dx}" cy="${dy}" r="1" fill="${color}"/>
+    const x0 = p.col*cell, y0 = p.row*cell;
+    const cx = x0 + cell/2, cy = y0 + cell/2;
+    const words = p.cung.split(' ');
+    let cungSVG;
+    if(words.length > 1){
+      cungSVG = `<text x="${cx}" y="${cy-6}" text-anchor="middle" dominant-baseline="central" class="palace-cung" font-size="12">${words[0]}</text>
+        <text x="${cx}" y="${cy+9}" text-anchor="middle" dominant-baseline="central" class="palace-cung" font-size="12">${words.slice(1).join(' ')}</text>`;
+    } else {
+      cungSVG = `<text x="${cx}" y="${cy+2}" text-anchor="middle" dominant-baseline="central" class="palace-cung" font-size="14">${p.cung}</text>`;
+    }
+    const isMenh = p.cung === "Mệnh" ? ' is-menh' : '';
+    html += `<g class="palace-cell${isMenh}" data-chi="${p.chi}" data-cung="${p.cung}" tabindex="0" role="button" aria-label="Cung ${p.cung}, địa chi ${p.chi}">
+      <rect class="palace-hit" x="${x0}" y="${y0}" width="${cell}" height="${cell}"/>
+      <text x="${x0+7}" y="${y0+10}" text-anchor="start" dominant-baseline="hanging" class="palace-chi-small" font-size="10">${p.chi}</text>
+      ${cungSVG}
     </g>`;
   });
   palaces.innerHTML = html;
@@ -577,12 +583,12 @@
 
   document.getElementById('palaceBoard').addEventListener('click', e=>{
     const cell = e.target.closest('.palace-cell');
-    if(cell) setPalaceFilter(cell.dataset.chi);
+    if(cell) setPalaceFilter(cell.dataset.cung);
   });
   document.getElementById('palaceBoard').addEventListener('keydown', e=>{
     if(e.key !== 'Enter' && e.key !== ' ') return;
     const cell = e.target.closest('.palace-cell');
-    if(cell){ e.preventDefault(); setPalaceFilter(cell.dataset.chi); }
+    if(cell){ e.preventDefault(); setPalaceFilter(cell.dataset.cung); }
   });
 })();
 
@@ -670,11 +676,11 @@ function setStarFilter(name){
   document.getElementById('shelf').scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
-function setPalaceFilter(chi){
-  activePalace = (activePalace === chi) ? null : chi;
+function setPalaceFilter(cung){
+  activePalace = (activePalace === cung) ? null : cung;
   activeStar = null;
   document.querySelectorAll('.palace-cell').forEach(el=>{
-    el.classList.toggle('active', el.dataset.chi === activePalace);
+    el.classList.toggle('active', el.dataset.cung === activePalace);
   });
   document.querySelectorAll('.star-point').forEach(el=>el.classList.remove('active'));
   renderShelf();
@@ -746,7 +752,9 @@ const ICONS = {
   sunrays: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.3"/><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>`,
   gear: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 3.2v2.6M12 18.2v2.6M20.8 12h-2.6M5.8 12H3.2M18.1 5.9l-1.9 1.9M7.8 16.3l-1.9 1.9M18.1 18.1l-1.9-1.9M7.8 7.7 5.9 5.9"/></svg>`,
   gate: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5h17M6.5 6.5V20M17.5 6.5V20M3 20h4M17 20h4"/></svg>`,
-  gridots: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="5.5" cy="5.5" r="1.7"/><circle cx="12" cy="5.5" r="1.7"/><circle cx="18.5" cy="5.5" r="1.7"/><circle cx="5.5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="18.5" cy="12" r="1.7"/><circle cx="5.5" cy="18.5" r="1.7"/><circle cx="12" cy="18.5" r="1.7"/><circle cx="18.5" cy="18.5" r="1.7"/></svg>`
+  gridots: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="5.5" cy="5.5" r="1.7"/><circle cx="12" cy="5.5" r="1.7"/><circle cx="18.5" cy="5.5" r="1.7"/><circle cx="5.5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="18.5" cy="12" r="1.7"/><circle cx="5.5" cy="18.5" r="1.7"/><circle cx="12" cy="18.5" r="1.7"/><circle cx="18.5" cy="18.5" r="1.7"/></svg>`,
+  seal: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>`,
+  family: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="7.5" r="3"/><circle cx="16" cy="8.5" r="2.6"/><path d="M3.5 19.5c.5-3.6 2.6-5.5 5-5.5s4.5 1.9 5 5.5M14 14.3c2.1.2 3.7 1.9 4.1 4.7"/></svg>`
 };
 
 const ARTICLES = [
@@ -874,6 +882,30 @@ const ARTICLES = [
     tags: ["tử vi", "chính tinh"],
     star: "Thái Dương",
     icon: ICONS.sunrays
+  },
+  {
+    title: "Cung Mệnh — Từ Nhập Môn Đến Tầng Uyên Thâm Của Bậc Thầy Tử Vi",
+    file: "cung-menh.html",
+    quote: "Mệnh hảo bất như Thân hảo, Thân hảo bất như hạn hảo, hạn hảo bất như Phúc hảo. Nhưng gốc của mọi cái hảo ấy, vẫn phải bắt đầu từ Mệnh.",
+    mood: "phù hợp khi bạn muốn hiểu cung quan trọng nhất trong lá số",
+    minutes: 34,
+    dateISO: "2026-08-16",
+    date: "08/2026",
+    tags: ["tử vi", "kỹ thuật"],
+    palace: "Mệnh",
+    icon: ICONS.seal
+  },
+  {
+    title: "Cung Phụ Mẫu — Tử Vi Đẩu Số",
+    file: "cung-phu-mau-tu-vi.html",
+    quote: "Nhật vi phụ, Nguyệt vi mẫu.",
+    mood: "phù hợp khi bạn muốn hiểu thêm về mối duyên với cha mẹ",
+    minutes: 15,
+    dateISO: "2026-08-16",
+    date: "08/2026",
+    tags: ["tử vi", "kỹ thuật"],
+    palace: "Phụ Mẫu",
+    icon: ICONS.family
   }
 ].sort((a, b) => new Date(b.dateISO) - new Date(a.dateISO));
 

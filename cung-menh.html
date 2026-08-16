@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cung Mệnh — Từ Nhập Môn Đến Tầng Uyên Thâm Của Bậc Thầy Tử Vi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#120C22;
+    --bg-deep:#0B0718;
+    --panel:#1C1533;
+    --panel-2:#241C40;
+    --line:#332a55;
+    --gold:#CBA135;
+    --gold-bright:#E4C468;
+    --gold-dim:#7C6423;
+    --ink:#EDE6D9;
+    --ink-dim:#A79FC4;
+    --ink-faint:#786F9C;
+    --cinnabar:#C1583C;
+    --violet:#6C4FA3;
+    --max-w:700px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Newsreader', serif;
+    font-size:18px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- progress bar ---------- */
+  .progress-track{
+    position:fixed; top:0; left:0; right:0; height:3px;
+    background:rgba(203,161,53,0.12);
+    z-index:200;
+  }
+  .progress-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg,var(--violet),var(--gold-bright));
+    transition:width 60ms linear;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% 20%, #241a44 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 80%, #1a1030 0%, transparent 50%),
+      var(--bg-deep);
+    padding:80px 24px 60px;
+  }
+  .hero-wheel{
+    position:absolute;
+    top:50%; left:50%;
+    width:min(92vw, 780px);
+    height:min(92vw, 780px);
+    transform:translate(-50%,-50%);
+    opacity:0.9;
+  }
+  .hero-wheel svg{ width:100%; height:100%; display:block; }
+  .wheel-rotate{
+    transform-origin:300px 300px;
+    animation: spin 280s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .star{ fill:var(--gold); opacity:0.55; }
+  .star.twinkle{ animation: twinkle 5s ease-in-out infinite; }
+  @keyframes twinkle{ 0%,100%{opacity:.25;} 50%{opacity:.85;} }
+
+  .hero-content{
+    position:relative; z-index:2;
+    max-width:640px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:12.5px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 22px;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:"·";
+    margin:0 10px;
+    color:var(--ink-faint);
+  }
+  h1.title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(52px, 10vw, 96px);
+    line-height:1.02;
+    margin:0 0 20px;
+    letter-spacing:-0.01em;
+    background:linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 55%, var(--gold-dim) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .subtitle{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(18px,3vw,24px);
+    color:var(--ink-dim);
+    margin:0 0 40px;
+  }
+  .hero-quote{
+    font-family:'Newsreader', serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--ink-faint);
+    border-top:1px solid var(--line);
+    padding-top:24px;
+    max-width:480px;
+    margin:0 auto;
+  }
+  .scroll-cue{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ink-faint);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    z-index:2;
+  }
+  .scroll-cue span.line{
+    width:1px; height:28px; background:linear-gradient(var(--gold),transparent);
+    animation:drop 2.2s ease-in-out infinite;
+  }
+  @keyframes drop{ 0%{opacity:0;transform:scaleY(0);transform-origin:top;} 40%{opacity:1;transform:scaleY(1);transform-origin:top;} 100%{opacity:0;transform:scaleY(1);transform-origin:bottom;} }
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    display:flex;
+    max-width:1180px;
+    margin:0 auto;
+    align-items:flex-start;
+  }
+
+  /* ---------- desktop TOC ---------- */
+  .toc-desktop{
+    position:sticky;
+    top:40px;
+    flex:0 0 240px;
+    padding:60px 20px 60px 32px;
+    display:none;
+  }
+  .toc-label{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--gold-dim);
+    margin:0 0 16px;
+  }
+  .toc-desktop ol{
+    list-style:none; margin:0; padding:0;
+    border-left:1px solid var(--line);
+  }
+  .toc-desktop li{ margin:0; }
+  .toc-desktop a{
+    display:block;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:13px;
+    color:var(--ink-faint);
+    text-decoration:none;
+    padding:7px 0 7px 16px;
+    border-left:2px solid transparent;
+    margin-left:-1px;
+    transition:color .2s ease, border-color .2s ease;
+    line-height:1.4;
+  }
+  .toc-desktop a:hover{ color:var(--ink-dim); }
+  .toc-desktop a.active{
+    color:var(--gold-bright);
+    border-left-color:var(--gold);
+  }
+  .toc-num{
+    font-family:'Fraunces',serif; font-style:italic;
+    color:var(--gold-dim);
+    margin-right:6px;
+  }
+  .toc-desktop a.active .toc-num{ color:var(--gold); }
+
+  @media (min-width:1020px){
+    .toc-desktop{ display:block; }
+  }
+
+  /* ---------- mobile TOC drawer ---------- */
+  .toc-toggle{
+    position:fixed; right:18px; bottom:18px; z-index:150;
+    width:52px; height:52px; border-radius:50%;
+    background:var(--panel-2);
+    border:1px solid var(--gold-dim);
+    color:var(--gold);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,.4);
+    cursor:pointer;
+  }
+  @media (min-width:1020px){ .toc-toggle{ display:none; } }
+
+  .toc-drawer{
+    position:fixed; inset:0; z-index:180;
+    background:rgba(8,5,17,0.82);
+    backdrop-filter:blur(6px);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .toc-drawer.open{ display:flex; }
+  .toc-drawer-panel{
+    background:var(--panel);
+    border-top:1px solid var(--line);
+    border-radius:18px 18px 0 0;
+    width:100%;
+    max-height:76vh;
+    overflow-y:auto;
+    padding:22px 22px 32px;
+  }
+  .toc-drawer-panel ol{ list-style:none; margin:0; padding:0; }
+  .toc-drawer-panel a{
+    display:block;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:15px;
+    color:var(--ink-dim);
+    text-decoration:none;
+    padding:11px 4px;
+    border-bottom:1px solid var(--line);
+  }
+  .toc-drawer-close{
+    display:block; margin:0 0 14px auto;
+    background:none; border:none;
+    color:var(--ink-faint);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:13px;
+    letter-spacing:.1em;
+    cursor:pointer;
+  }
+
+  /* ---------- content ---------- */
+  .content{
+    flex:1 1 auto;
+    min-width:0;
+    padding:70px 24px 40px;
+  }
+  .content-inner{
+    max-width:var(--max-w);
+    margin:0 auto;
+  }
+
+  .prologue{
+    padding-bottom:56px;
+    margin-bottom:56px;
+    border-bottom:1px solid var(--line);
+  }
+  .prologue .eyebrow{ text-align:left; }
+  .prologue .eyebrow::before{ display:none; }
+  .prologue .eyebrow::after{ display:none; }
+  h2.prologue-title{
+    font-family:'Fraunces',serif;
+    font-weight:600; font-style:italic;
+    font-size:clamp(28px,5vw,38px);
+    color:var(--ink);
+    margin:0 0 26px;
+  }
+
+  section.chapter{
+    padding:64px 0;
+    border-bottom:1px solid var(--line);
+    scroll-margin-top:32px;
+  }
+  section.chapter:last-of-type{ border-bottom:none; }
+
+  .chapter-head{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    margin-bottom:28px;
+  }
+  .chapter-num{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:34px;
+    color:var(--gold);
+    flex:0 0 auto;
+    line-height:1;
+  }
+  h2.chapter-title{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(24px,4vw,32px);
+    line-height:1.18;
+    color:var(--ink);
+    margin:0;
+  }
+
+  h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:21px;
+    color:var(--gold-bright);
+    margin:38px 0 14px;
+  }
+  section.chapter > h3:first-of-type{ margin-top:0; }
+
+  p{ margin:0 0 18px; color:var(--ink); }
+  p.lead{ color:var(--ink-dim); }
+
+  strong{ color:var(--gold-bright); font-weight:600; }
+  em{ color:var(--ink-dim); }
+
+  a.inline-link{ color:var(--gold); }
+
+  ul, ol.plain{ margin:0 0 20px; padding-left:22px; }
+  ul li, ol.plain li{ margin-bottom:10px; color:var(--ink); }
+  ul{ list-style:none; padding-left:0; }
+  ul > li{ position:relative; padding-left:22px; }
+  ul > li::before{
+    content:"◆";
+    position:absolute; left:0; top:2px;
+    font-size:8px;
+    color:var(--gold-dim);
+  }
+
+  ol.steps{ counter-reset:step; list-style:none; padding-left:0; margin:0 0 20px; }
+  ol.steps li{
+    counter-increment:step;
+    position:relative;
+    padding-left:40px;
+    margin-bottom:16px;
+  }
+  ol.steps li::before{
+    content:counter(step);
+    position:absolute; left:0; top:0;
+    width:26px; height:26px;
+    border:1px solid var(--gold-dim);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:12px;
+    color:var(--gold);
+  }
+
+  blockquote.phu{
+    margin:26px 0;
+    padding:4px 0 4px 24px;
+    border-left:2px solid var(--cinnabar);
+    position:relative;
+  }
+  blockquote.phu p{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:19px;
+    color:var(--gold-bright);
+    line-height:1.6;
+    margin:0;
+  }
+  .seal{
+    display:inline-block;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:10px;
+    letter-spacing:.14em;
+    color:var(--cinnabar);
+    border:1px solid var(--cinnabar);
+    border-radius:3px;
+    padding:2px 6px;
+    margin-top:8px;
+  }
+
+  .callout{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:22px 24px;
+    margin:26px 0;
+  }
+  .callout p:last-child{ margin-bottom:0; }
+  .callout .label{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:10px;
+    display:block;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:24px 0 28px;
+    font-size:16px;
+  }
+  th, td{
+    text-align:left;
+    padding:11px 14px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:500;
+    border-bottom:1px solid var(--gold-dim);
+  }
+  td{ color:var(--ink-dim); }
+  td strong{ color:var(--ink); }
+  tr:hover td{ background:rgba(203,161,53,0.05); }
+
+  .table-wrap{ overflow-x:auto; }
+
+  .divider{
+    display:flex; align-items:center; gap:14px;
+    margin:44px 0;
+    color:var(--gold-dim);
+  }
+  .divider::before, .divider::after{
+    content:""; flex:1; height:1px; background:var(--line);
+  }
+  .divider svg{ width:16px; height:16px; }
+
+  /* colophon */
+  .colophon{
+    padding:70px 24px 90px;
+    text-align:center;
+  }
+  .colophon-inner{ max-width:560px; margin:0 auto; }
+  .colophon-mark{ margin:0 auto 24px; width:46px; height:46px; opacity:.8; }
+  .colophon h3{
+    color:var(--gold-bright);
+    font-size:24px;
+    margin-bottom:18px;
+  }
+  .colophon p{ color:var(--ink-dim); }
+  .colophon .final-line{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    color:var(--gold);
+    font-size:19px;
+    margin-top:22px;
+  }
+
+  footer.site-footer{
+    text-align:center;
+    padding:32px 24px 56px;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:12px;
+    letter-spacing:.08em;
+    color:var(--ink-faint);
+  }
+
+  #backToTop{
+    position:fixed;
+    left:18px; bottom:18px;
+    z-index:150;
+    width:42px; height:42px;
+    border-radius:50%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--gold);
+    cursor:pointer;
+    font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  #backToTop.show{ opacity:1; pointer-events:auto; }
+  #backToTop:hover{ transform:translateY(-2px); }
+
+  ::selection{ background:var(--violet); color:#fff; }
+
+  @media print{
+    body{ background:#fff; color:#111; font-size:12pt; }
+    .hero, .toc-desktop, .toc-toggle, .progress-track, #backToTop{ display:none !important; }
+    .content{ padding:0; }
+    section.chapter{ border-bottom:1px solid #ccc; break-inside:avoid-page; }
+    h2.chapter-title, h3, strong{ color:#111 !important; -webkit-text-fill-color:#111 !important; }
+    blockquote.phu p{ color:#7a2f1c !important; }
+    a{ color:#111; text-decoration:underline; }
+  }
+</style>
+</head>
+<body>
+<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
+  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a>
+</div>
+
+
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<header class="hero">
+  <div class="hero-wheel" aria-hidden="true">
+    <svg viewBox="0 0 600 600">
+      <g class="wheel-rotate">
+        <circle cx="300" cy="300" r="270" fill="none" stroke="#7C6423" stroke-width="1" opacity="0.55"/>
+        <circle cx="300" cy="300" r="225" fill="none" stroke="#332a55" stroke-width="1"/>
+        <circle cx="300" cy="300" r="170" fill="none" stroke="#7C6423" stroke-width="1" opacity="0.4"/>
+        <circle cx="300" cy="300" r="60" fill="none" stroke="#CBA135" stroke-width="1" opacity="0.7"/>
+
+        <!-- 12 spokes -->
+        <g stroke="#7C6423" stroke-width="1" opacity="0.5">
+          <line x1="300" y1="100" x2="300" y2="50"/>
+          <line x1="400" y1="126.8" x2="425" y2="83.5"/>
+          <line x1="473.2" y1="200" x2="516.5" y2="175"/>
+          <line x1="500" y1="300" x2="550" y2="300"/>
+          <line x1="473.2" y1="400" x2="516.5" y2="425"/>
+          <line x1="400" y1="473.2" x2="425" y2="516.5"/>
+          <line x1="300" y1="500" x2="300" y2="550"/>
+          <line x1="200" y1="473.2" x2="175" y2="516.5"/>
+          <line x1="126.8" y1="400" x2="83.5" y2="425"/>
+          <line x1="100" y1="300" x2="50" y2="300"/>
+          <line x1="126.8" y1="200" x2="83.5" y2="175"/>
+          <line x1="200" y1="126.8" x2="175" y2="83.5"/>
+        </g>
+
+        <!-- 12 Địa Chi labels -->
+        <g font-family="IBM Plex Sans, sans-serif" font-size="15" fill="#E4C468" text-anchor="middle" opacity="0.85">
+          <text x="300" y="72">Tý</text>
+          <text x="418" y="102">Sửu</text>
+          <text x="500" y="182">Dần</text>
+          <text x="533" y="305">Mão</text>
+          <text x="500" y="428">Thìn</text>
+          <text x="418" y="508">Tỵ</text>
+          <text x="300" y="538">Ngọ</text>
+          <text x="182" y="508">Mùi</text>
+          <text x="100" y="428">Thân</text>
+          <text x="67" y="305">Dậu</text>
+          <text x="100" y="182">Tuất</text>
+          <text x="182" y="102">Hợi</text>
+        </g>
+
+        <!-- ambient stars -->
+        <g>
+          <circle class="star twinkle" cx="70" cy="70" r="2.2"/>
+          <circle class="star twinkle" cx="540" cy="90" r="1.6" style="animation-delay:1.2s"/>
+          <circle class="star twinkle" cx="60" cy="530" r="1.8" style="animation-delay:2.4s"/>
+          <circle class="star twinkle" cx="545" cy="540" r="2.4" style="animation-delay:.6s"/>
+          <circle class="star" cx="300" cy="20" r="1.4"/>
+          <circle class="star" cx="580" cy="300" r="1.4"/>
+          <circle class="star" cx="300" cy="580" r="1.4"/>
+          <circle class="star" cx="20" cy="300" r="1.4"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <p class="eyebrow">Mệnh Viên · Chương Nhất · Tử Vi Đẩu Số</p>
+    <h1 class="title">Cung Mệnh</h1>
+    <p class="subtitle">Từ nhập môn đến tầng uyên thâm của bậc thầy Tử Vi</p>
+    <p class="hero-quote">"Mệnh hảo bất như Thân hảo, Thân hảo bất như hạn hảo, hạn hảo bất như Phúc hảo." Nhưng gốc của mọi cái hảo ấy, vẫn phải bắt đầu từ Mệnh.</p>
+  </div>
+
+  <div class="scroll-cue"><span class="line"></span>Cuộn xuống</div>
+</header>
+
+<button class="toc-toggle" id="tocToggle" aria-label="Mở mục lục">Mục<br>lục</button>
+<div class="toc-drawer" id="tocDrawer">
+  <div class="toc-drawer-panel">
+    <button class="toc-drawer-close" id="tocClose">ĐÓNG ✕</button>
+    <ol id="tocDrawerList"></ol>
+  </div>
+</div>
+
+<div class="shell">
+  <nav class="toc-desktop" aria-label="Mục lục">
+    <p class="toc-label">Mục lục</p>
+    <ol id="tocDesktopList"></ol>
+  </nav>
+
+  <main class="content">
+    <div class="content-inner">
+
+      <section class="prologue" id="loi-mo">
+        <p class="eyebrow">Lời mở</p>
+        <h2 class="prologue-title">Vì sao Cung Mệnh là cửa ngõ đầu tiên</h2>
+        <p>Trong lá số Tử Vi có mười hai cung, nhưng người xưa khi truyền dạy luôn đặt Mệnh Viên lên hàng đầu tiên. Không phải ngẫu nhiên. Một câu phú cổ đã nói thẳng tôn chỉ này:</p>
+
+        <blockquote class="phu">
+          <p>"Một là bàn đến mệnh viên,<br>Có sao thủ mệnh đoán bên tính tình."</p>
+        </blockquote>
+
+        <p>Câu này chứa một nguyên tắc phân công quan trọng mà người mới học rất hay bỏ qua: <strong>cung Mệnh trước hết dùng để đoán TÍNH TÌNH</strong>, chứ không phải giàu nghèo, không phải thọ yểu, không phải công danh. Những thứ đó thuộc về Tài Bạch, Điền Trạch, Quan Lộc, Tật Ách... Người luận số nếu cứ nhìn vào Mệnh mà đoán "giàu hay nghèo" ngay lập tức là đã lệch khỏi cấu trúc chức năng nguyên thủy của khoa Tử Vi. Nói cách khác, Mệnh không quyết định bạn giàu bao nhiêu, mà quyết định <strong>bạn dùng cách gì để kiếm, và bạn cảm nhận thế nào về giàu nghèo đó</strong>.</p>
+
+        <p>Đây là bài học đầu tiên của bậc thầy: <strong>trước khi luận đoán, phải hiểu cung đó sinh ra để trả lời câu hỏi gì.</strong> Mệnh trả lời câu hỏi "người này là ai, bản chất khí chất ra sao" — mọi phú quý bần tiện, thọ yểu vinh nhục về sau đều là hệ quả vận hành từ cái gốc tính tình ấy mà ra.</p>
+
+        <h3>Mệnh — Thân — Phúc: Tam Tài của một kiếp người</h3>
+        <p>Trước khi đi vào từng chính tinh, cần nắm một khung tổng quát mà người học sâu Tử Vi luôn dùng làm la bàn — tam giác Mệnh, Thân, Phúc:</p>
+        <ul>
+          <li><strong>Mệnh (Nhân)</strong> — cái ta cho là mình: tính cách tiên thiên, tư duy, bản ngã, khí chất. Mệnh chủ về Ý.</li>
+          <li><strong>Thân (Hành)</strong> — cái ta làm: hành động hậu thiên, môi trường ta sống, nơi ta dồn sức lực cả đời. Thân an ở đâu, hậu vận nặng ở đó.</li>
+          <li><strong>Phúc Đức (Thiên)</strong> — cái ta được hưởng mà không cần làm gì: phúc ấm tổ tiên, may mắn vô hình, phúc phần tâm linh. Phúc chủ về Quả.</li>
+        </ul>
+        <p>Ba yếu tố này phối hợp tạo ra những cục diện đời người rất khác nhau: Mệnh tốt mà Phúc xấu — người tài hoa nhưng lận đận, không gặp thời; Mệnh xấu mà Phúc tốt — người bình thường nhưng luôn có quý nhân cứu, chết hụt sống sót; Mệnh Thân đều tốt mà Hạn xấu — chỉ tạm thời vất vả, qua hạn lại tốt. Khi luận Mệnh, không nên tách Mệnh ra khỏi hai trụ còn lại của tam tài này.</p>
+      </section>
+
+      <section class="chapter" id="phan-1">
+        <div class="chapter-head">
+          <span class="chapter-num">I</span>
+          <h2 class="chapter-title">Nền tảng: chính tinh thủ Mệnh nói lên điều gì</h2>
+        </div>
+
+        <h3>1. Cặp sao đế vương: Tử Vi — Thiên Phủ</h3>
+        <p>Hai sao trọng yếu bậc nhất trong toàn hệ thống luôn được nhắc đến song song:</p>
+        <blockquote class="phu"><p>"Tử vi trọng hậu dung hình<br>Thiên phủ tiết hạnh, thông minh ôn hòa."</p></blockquote>
+        <p>Tử Vi mang khí chất đế vương — dáng dấp trọng hậu, phong thái người trên. Thiên Phủ là kho tàng — tiết hạnh, thông minh, ôn hòa, tính khí biết giữ gìn. Khi hai sao này hội cùng một cung (như thế Dần – Thân), phú viết:</p>
+        <blockquote class="phu"><p>"Hai sao đều gặp một nhà,<br>Thiên tư ôn thuận thiệt là tốt ghê."</p></blockquote>
+        <p>Đây được xem là một trong những tổ hợp tính cách quân bình nhất: vừa có uy, vừa có hòa. Nhưng người luận số bậc cao không dừng ở đó — phải hỏi tiếp: Tử Vi ở đây có phải "Vô Chính Diệu giả" không (tức đi một mình, không Phủ Tướng phù trợ), có bị Không Kiếp Hình Kỵ xâm phạm không. Một cách cục đẹp trên giấy chỉ là <strong>tiềm năng</strong>, không phải <strong>định mệnh khép kín</strong>.</p>
+
+        <h3>2. Các chính tinh còn lại — bản đồ tính cách 14 ngôi sao</h3>
+        <p>Phú tiếp tục vẽ ra bức chân dung tính cách cho từng chính tinh:</p>
+        <ul>
+          <li><strong>Thiên Cơ</strong>: lòng lành, mưu trí thiện — <em>"Lòng lành tính gặp Thiên Cơ"</em></li>
+          <li><strong>Vũ Khúc nhập miếu</strong>: tài năng xuất chúng — nhưng chú ý, phú ghi rõ điều kiện "nhập miếu". Vũ Khúc hãm địa thì tính đổi khác, trở nên cứng cỏi, cô độc.</li>
+          <li><strong>Thái Âm viên mãn</strong>: tính cách đầy đặn, được lòng người — <em>"Thái âm viên mãn ai bằng"</em></li>
+          <li><strong>Thiên Đồng</strong>: phúc tinh, hiền lành nhưng thiên về an nhàn hưởng thụ — "phì mãn" ở đây không chỉ vóc dáng mà còn ngụ ý tính khí thong dong, đôi khi thiếu chí tiến thủ.</li>
+          <li><strong>Phá Quân, Liêm Trinh</strong>: tính khí thất thường, gốc cương trực nhưng dễ ngả sang tà nếu thiếu cát tinh kiềm chế — đây là hai sao mang bản chất "sát tinh nhị nguyên" điển hình của Tử Vi Đẩu Số: tốt xấu phụ thuộc hoàn toàn vào miếu hãm và tinh hệ đồng cung.</li>
+          <li><strong>Thiên Lương</strong>: nhân từ, hậu đãi.</li>
+          <li><strong>Tham Lang</strong>: phóng khoáng nhưng cũng là đào hoa tinh kinh điển nhất — <em>"Say miền gái đẹp, rượu nồng mùi ngon"</em>.</li>
+          <li><strong>Thái Dương</strong>: khôn ngoan thực tế, thanh cao bậc nhất, nhân từ hơn hẳn — vị trí đế tinh dương, chủ danh dự hơn là chủ tình cảm.</li>
+          <li><strong>Văn Xương, Văn Khúc</strong>: tướng mạo dễ mến, giỏi văn chương — cặp khoa giáp gắn liền học vấn thi cử.</li>
+          <li><strong>Cự Môn</strong>: ám tinh, chủ khẩu thiệt thị phi, tính khí thất thường — mô-típ "miệng lưỡi" của Cự Môn sẽ còn lặp lại xuyên suốt các cung Nô Bộc, Thiên Di về sau, không chỉ ở Mệnh.</li>
+          <li><strong>Thiên Tướng</strong>: ấn tinh, lòng ngay, tướng hiền, hợp cách "quan lộc chi thần" — sao phò tá.</li>
+        </ul>
+        <div class="callout">
+          <span class="label">Bài học phương pháp</span>
+          <p>Mỗi chính tinh không tồn tại như một "tính cách cố định" mà như một <strong>xu hướng bản chất</strong>, sẽ được điều chỉnh mạnh bởi miếu vượng hãm địa và các sao đồng cung — điều này sẽ được khai triển sâu ở Phần VIII.</p>
+        </div>
+
+        <h3>3. Phụ tinh, cát tinh — những nét bổ sung</h3>
+        <ul>
+          <li><strong>Thiên Khôi, Thiên Việt</strong>: thanh liêm dù nghèo vẫn giữ khí tiết — nếu có thêm Thai/Phong Cáo thì càng khoan dung độ lượng.</li>
+          <li><strong>Tả Phụ, Hữu Bật</strong>: tuấn tú, tài năng hơn người, luôn là sao trợ lực đắc dụng.</li>
+          <li><strong>Long Trì, Phượng Các</strong>: cốt cách thanh nhã, ôn hòa.</li>
+        </ul>
+
+        <h3>4. Sát tinh, hung tinh — không đơn thuần là "xấu"</h3>
+        <p>Đây là nơi người mới học Tử Vi hay mắc sai lầm lớn nhất: coi sát tinh là xấu tuyệt đối. Phú đã cảnh báo ngay từ sớm:</p>
+        <blockquote class="phu"><p>"Sát – Hình miếu địa, khôn ngoan anh hùng"</p></blockquote>
+        <p>Thất Sát, Thiên Hình khi đắc miếu địa không hề hung bạo — mà hóa thành khôn ngoan, khí phách anh hùng. Đây chính là nguyên tắc <strong>"sát tinh đắc địa hóa uy quyền"</strong> — một trong những nguyên lý cốt lõi để phân biệt người học Tử Vi ở tầng sơ cấp và tầng cao cấp.</p>
+        <p>Tương tự, phú còn liệt kê một loạt sao phụ hung nhỏ gắn với tướng mạo và tính khí cụ thể — điều thú vị là hệ thống này gần như một "cẩm nang nhận diện tướng số qua sao" hoàn chỉnh:</p>
+        <ul>
+          <li>Địa Không, Địa Kiếp: trán sạm, nóng tính</li>
+          <li>Hỏa Tinh, Linh Tinh: gương mặt mang nét u sầu</li>
+          <li>Hóa Kỵ, Đà La: tướng xấu, có nét bất thường</li>
+          <li>Kình Dương, Thiên Hư: lòng dạ như gió, hay dối trá</li>
+          <li>Đại Hao, Tiểu Hao: vóc người nhỏ nhắn, hay để ý chuyện vặt</li>
+          <li>Phi Liêm: tóc đẹp, da dẻ tươi nhuận</li>
+          <li>Bạch Hổ, Tang Môn: đa nghi, hay lo lắng vô cớ</li>
+          <li>Quan Phù, Điếu Khách: ăn nói khoa trương</li>
+        </ul>
+        <p>Đáng chú ý là ngay cả khi hãm địa, hung tinh vẫn có thể mang lại một dạng "được" khác — không phải phú quý bền vững, mà là:</p>
+        <blockquote class="phu"><p>"Tuế – Phá lạc hãm một âu<br>Tiếng tăm như sấm ra màu vẻ vang"</p></blockquote>
+        <p>Thái Tuế – Phá Quân dù lạc hãm vẫn có thể nổi danh như sấm — chỉ là tiếng tăm ồn ào nhất thời, không phải phú quý lâu dài. Đây là một lớp sắc thái tinh tế: <strong>"tốt" trong Tử Vi có nhiều tầng nghĩa, không phải nhị phân tốt/xấu.</strong></p>
+      </section>
+
+      <section class="chapter" id="phan-2">
+        <div class="chapter-head">
+          <span class="chapter-num">II</span>
+          <h2 class="chapter-title">Giải phẫu một cung Mệnh: năm lớp cần bóc tách</h2>
+        </div>
+        <p>Nếu Phần I cho ta bức chân dung tính cách qua từng chính tinh riêng lẻ, thì phần này đưa ra một khung kỹ thuật để luận <strong>có hệ thống</strong>, không bỏ sót lớp nào. Để luận trọn vẹn một cung Mệnh, người luận số cần bóc tách theo thứ tự năm lớp sau:</p>
+
+        <p><strong>Lớp 1 — Thiên Can, Địa Chi của cung Mệnh.</strong> Can Chi của cung Mệnh tương tác với Can Chi năm sinh, từ đó theo phép Ngũ Hổ Độn mà an ra các chính tinh. Đây là lớp nền, quyết định toàn bộ cấu trúc sao phía sau.</p>
+
+        <p><strong>Lớp 2 — Chính Tinh, tinh đẩu cốt lõi.</strong> Mười bốn chính tinh, chia thành các nhóm chức năng rõ rệt:</p>
+        <ul>
+          <li><em>Nhóm Đế Tinh – lãnh đạo</em>: Tử Vi (đế tinh, cô độc, tự tôn, có tầm nhìn — cần Tả Hữu phò tá mới thành đế nghiệp, không thì dễ thành cô quân); Thiên Phủ (kho khố của trời, bao dung, ổn định, giỏi tích lũy và quản lý tài sản).</li>
+          <li><em>Nhóm Tài Tinh – thực tế</em>: Vũ Khúc (tài tinh, cô độc, quyết liệt — sao của doanh nhân, quân nhân); Thiên Tướng (ấn tinh, phò tá, chính trực — cánh tay phải của Tử Vi); Liêm Trinh (đào hoa kiêm tù tinh, vừa chính vừa tà, rất sợ Hóa Kỵ, rất cần Hóa Lộc).</li>
+          <li><em>Nhóm Động Tinh – khai phá (Sát Phá Tham)</em>: Thất Sát (quyền tinh, dũng mãnh, quyết đoán, cuộc đời lên xuống như gươm đao); Phá Quân (hao tinh, phá cũ lập mới, không phá không lập, rất hợp thời loạn và khởi nghiệp); Tham Lang (đào hoa, dục vọng, đa tài — sao phức tạp nhất, gặp cách Tham Linh/Tham Hỏa có thể hóa thành đại phú).</li>
+          <li><em>Nhóm Trí Tinh – phúc tinh (Cơ Cự Đồng Lương)</em>: Thiên Cơ (thiện tinh, mưu trí, chủ đầu óc tính toán); Cự Môn (ám tinh, khẩu tài, thị phi — rất cần Hóa Lộc, Hóa Quyền để giải ám); Thiên Đồng (phúc tinh, hưởng thụ, trẻ con, sợ sát tinh, cần cát tinh); Thiên Lương (thọ tinh, ấm tinh, hay bao che, làm thầy, làm phúc — sao giải họa mạnh nhất trong toàn hệ thống).</li>
+          <li><em>Nhóm Nhật Nguyệt</em>: Thái Dương (quý tinh, công danh, người cho đi); Thái Âm (phú tinh, tài bạch, dịu dàng, người thu về).</li>
+        </ul>
+
+        <h3>Bốn khối cách cục lớn</h3>
+        <p>Ở tầng cao hơn việc thuộc từng sao lẻ, giới luận số lâu năm thường nhìn 14 chính tinh gộp thành bốn khối cách cục — mỗi khối đại diện một kiểu tư duy và lý tưởng sống khác nhau, đứng đầu mỗi khối là một chủ tinh mang lý tưởng riêng biệt:</p>
+        <ul>
+          <li><strong>Tử Phủ Vũ Tướng Liêm</strong> — khối tổ chức, xây dựng, gánh vác trách nhiệm; đứng đầu là Tử Vi, đại diện tinh thần quản trị và trật tự.</li>
+          <li><strong>Sát Phá Tham</strong> — khối khai phá, biến động, dám phá cũ lập mới; đứng đầu là Phá Quân, đại diện tinh thần quan sát sâu và hành động quyết liệt.</li>
+          <li><strong>Cự Nhật</strong> (Cự Môn – Thái Dương) — khối ngôn luận, danh dự, đối ngoại; đứng đầu là Cự Môn.</li>
+          <li><strong>Cơ Nguyệt Đồng Lương</strong> — khối mưu trí, phúc hậu, thiên về nội tâm và chuyên môn hơn là tranh đấu bên ngoài.</li>
+        </ul>
+        <p>Biết một Mệnh thuộc khối nào giúp người luận số nắm được <strong>lý tưởng sống nền tảng</strong> của đương số trước khi đi vào chi tiết từng sao — Mệnh thuộc khối Tử Phủ Vũ Tướng Liêm thường hợp vai trò quản lý, tổ chức; khối Sát Phá Tham hợp khởi nghiệp, biến động, ngành nghề cạnh tranh cao; khối Cơ Nguyệt Đồng Lương hợp công việc ổn định, chuyên môn, làm công ăn lương hoặc nghiên cứu.</p>
+
+        <p><strong>Lớp 3 — Phụ Tinh, phân định cát hung.</strong> Lục Cát (Tả Phù, Hữu Bật, Văn Xương, Văn Khúc, Thiên Khôi, Thiên Việt) — hội đủ giúp Mệnh tăng cát khoảng ba đến năm phần mười. Lục Sát (Kình Dương, Đà La, Hỏa Tinh, Linh Tinh, Địa Không, Địa Kiếp) — thường làm Mệnh vất vả hơn, nhưng nếu bản Mệnh là cách Sát Phá Tham thì chính Sát tinh lại trở thành dụng thần, không thể thiếu. Tứ Hóa (Hóa Lộc – tiền, Hóa Quyền – quyền, Hóa Khoa – danh, Hóa Kỵ – nợ và thị phi) là linh hồn của mọi biến động trong lá số; Hóa Kỵ đóng tại Mệnh thường là dấu hiệu một người mang nợ tâm lý suốt đời, dù nợ đó là tiền bạc, tình cảm hay danh dự.</p>
+
+        <p><strong>Lớp 4 — Vòng Tràng Sinh.</strong> Mười hai trạng thái (Tràng Sinh, Mộc Dục, Quan Đới, Lâm Quan, Đế Vượng, Suy, Bệnh, Tử, Mộ, Tuyệt, Thai, Dưỡng) cho biết Mệnh đang ở giai đoạn sinh khí nào — phần này được khai triển riêng ở Phần VII bên dưới.</p>
+
+        <p><strong>Lớp 5 — Cục, sự thuận nghịch với trời đất.</strong> Cục tính từ Can Chi năm sinh (Thủy Nhị Cục, Mộc Tam Cục, Kim Tứ Cục, Thổ Ngũ Cục, Hỏa Lục Cục). Mệnh sinh Cục là người phải cống hiến cho môi trường, thường vất vả hơn; Cục sinh Mệnh là được môi trường nuôi dưỡng, thuận lợi hơn; Mệnh Cục tương hòa là người có xu hướng tự lập, không dựa nhiều vào ngoại cảnh.</p>
+      </section>
+
+      <section class="chapter" id="phan-3">
+        <div class="chapter-head">
+          <span class="chapter-num">III</span>
+          <h2 class="chapter-title">Các thế Mệnh đặc biệt: nơi tinh hoa Tử Vi nằm lại</h2>
+        </div>
+
+        <h3>Mệnh Vô Chính Diệu (VCD)</h3>
+        <p>Mệnh không có chính tinh, chỉ có phụ tinh thủ hoặc chiếu — đây không phải Mệnh xấu, mà là một dạng Mệnh đặc biệt, đòi hỏi cách đọc khác hẳn Mệnh có chính tinh.</p>
+        <p>Về mặt tâm lý, người Mệnh VCD thường không có lập trường cố định, dễ thay đổi, dễ đồng cảm, dễ tiếp thu cái mới — như một tờ giấy trắng. Họ hay cảm thấy trống rỗng, chưa biết mình là ai cho đến khi gặp được một môi trường đủ mạnh (chính tinh vượng ở Thiên Di, Tài Bạch, Quan Lộc chiếu về) để định hình bản thân. Thành công của người VCD thường đến muộn, và thường ở xa quê hương, trong môi trường nhiều biến động.</p>
+        <p>Ba cách cục khiến VCD thành công lớn: <strong>VCD có Tuần, Triệt án ngữ</strong> — như nhà không chủ nhưng có khóa cẩn thận, người kín đáo và có chiều sâu; <strong>VCD đắc Tam Không</strong> (Tuần, Triệt, Thiên Không, Địa Không cùng chiếu) — phú quý nhưng phải tu dưỡng mới giữ được bền; <strong>VCD có Nhật Nguyệt chiếu bích</strong> — Thái Dương, Thái Âm sáng sủa chiếu về Mệnh VCD tại Sửu/Mùi, gọi là cách Âm Dương chiếu hư không, được xem là rất tốt.</p>
+
+        <div class="callout">
+          <span class="label">Cơ chế "tá tinh an Mệnh"</span>
+          <p>Vì Mệnh không có chính tinh, giống như nhà không chủ, phép luận cổ điển cho phép mượn chính tinh ở cung đối diện — chính là cung Thiên Di — làm chính tinh tạm thời của Mệnh. Điều cần lưu ý là đây là sự <strong>vay mượn</strong>, không phải sở hữu trọn vẹn: Mệnh VCD chỉ chịu ảnh hưởng khoảng sáu đến bảy phần mười những tốt xấu của chính tinh bên Thiên Di, chứ không hưởng trọn như người có chính tinh thủ Mệnh thật sự — đây là lý do người Mệnh VCD thường có cảm giác "chưa định hình trọn vẹn" về bản thân dù bên ngoài có thể rất thành công. Một số trường phái hiện đại còn mở rộng thêm: cái được mượn không chỉ là một sao đơn lẻ ở đối cung, mà là cả <strong>tinh hệ</strong> — tức toàn bộ tam phương tứ chính của cung Thiên Di — khiến việc luận VCD trở nên phức tạp hơn nhiều so với cách nhìn sơ giản "cứ lấy sao đối cung mà đoán".</p>
+        </div>
+
+        <p>Cũng cần nói thêm một điểm phương pháp luận: quan niệm dân gian cũ nhìn VCD khá khắt khe, gắn nhiều đoán định về xuất thân, sức khỏe, đường con cái. Giới luận số hiện đại phần lớn không còn dùng những suy diễn đó, mà quay về đúng bản chất kỹ thuật: VCD là một dạng kết cấu Mệnh khác biệt — cần Tuần Triệt, Tam Không hoặc Nhật Nguyệt chiếu hỗ trợ để định hình, gặp nhiều sát kỵ không cát hóa thì mới đáng lo, còn nếu gặp nhiều cát tinh và tam hợp tốt thì vẫn là Mệnh cách đẹp, chỉ là kiểu đẹp "phải qua giai đoạn tìm mình" trước khi ổn định.</p>
+
+        <h3>Mệnh Kình Dương, Đà La độc thủ</h3>
+        <p>Một mình Kình Dương hoặc Đà La đóng ở tứ mộ (Thìn, Tuất, Sửu, Mùi) — cách dũng mãnh, cô độc, lập nghiệp gian nan, nhưng nếu có thêm cát tinh phù trợ thì có thể chuyển hóa thành khí phách anh hùng, đúng như nguyên lý "sát tinh đắc địa hóa uy quyền" đã nói ở Phần I.</p>
+
+        <h3>Mệnh có Không Kiếp</h3>
+        <p>Địa Không, Địa Kiếp đóng tại Mệnh: người có tư tưởng khác người, thiên hướng triết học, tâm linh, phát minh sáng tạo. Không Kiếp đắc địa tại Tỵ/Hợi thì phát nhanh như sấm sét, nhưng nếu không có sao giữ lại thì thành công ấy khó bền lâu.</p>
+      </section>
+
+      <section class="chapter" id="phan-4">
+        <div class="chapter-head">
+          <span class="chapter-num">IV</span>
+          <h2 class="chapter-title">Tam phương tứ chính: Mệnh không bao giờ đứng một mình</h2>
+        </div>
+        <p>Luận Mệnh mà chỉ nhìn một cung Mệnh là sai lầm lớn nhất của người mới học. Cung Mệnh luôn nằm trong một hệ thống liên đới:</p>
+        <ul>
+          <li><strong>Tam hợp Mệnh – Tài – Quan</strong>: bộ ba nói về năng lực kiếm tiền và sự nghiệp. Mệnh là tư duy, Tài Bạch là phương thức kiếm tiền, Quan Lộc là môi trường nghề nghiệp — ba cung này soi chiếu lẫn nhau trong cùng một tam hợp cục.</li>
+          <li><strong>Xung chiếu Thiên Di</strong>: Mệnh là ta ở trong nhà, Di là ta ra ngoài xã hội. Đây là mối quan hệ giữa nội tâm và cách người đời nhìn nhận ta. Mệnh mạnh hơn Di thì nội lực lớn, ít cần môi trường bên ngoài; Di mạnh hơn Mệnh thì người đó thường phải ra ngoài, xa nhà, mới thực sự phát huy được.</li>
+          <li><strong>Nhị hợp</strong>: cung nhị hợp với Mệnh là nơi Mệnh âm thầm nhận trợ lực hoặc chịu kìm kẹp. Ví dụ Mệnh tại Tý nhị hợp với Sửu (cung Huynh Đệ) — anh chị em có thể ảnh hưởng ngầm rất lớn đến vận Mệnh, dù không lộ rõ trên bề mặt lá số.</li>
+        </ul>
+        <div class="callout">
+          <span class="label">Nguyên tắc phân bổ trọng số</span>
+          <p><strong>Chính tinh tại Mệnh chỉ chiếm khoảng một nửa tính cách một người; phần còn lại nằm rải rác ở tam hợp, xung chiếu, và ở chính hai cung Phúc Đức, Thân.</strong> Đây là lý do vì sao hai người cùng an một chính tinh tại Mệnh vẫn có thể là hai con người rất khác nhau — khác nhau ở chính phần "ngoài Mệnh" ấy.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="phan-5">
+        <div class="chapter-head">
+          <span class="chapter-num">V</span>
+          <h2 class="chapter-title">Đại Vận đi qua Mệnh: Mệnh là gốc, Vận là ngọn</h2>
+        </div>
+        <p>Mệnh ví như đất, Đại Vận mười năm ví như mùa. Mệnh đẹp mà gặp Vận xấu — như cây tốt trồng trên đất cằn, tạm thời chưa ra hoa. Mệnh xấu mà gặp Vận đẹp — như cây xấu gặp mưa thuận gió hòa, vẫn có thể ra trái một mùa. Nguyên tắc luận hạn là luôn lấy Mệnh làm gốc, rồi xem ngũ hành của Đại Vận đang sinh hay khắc Mệnh — cùng một nguyên lý ngũ hành biến tính đã bàn ở Phần VIII bên dưới, chỉ khác là áp dụng theo thời gian thay vì theo không gian sao – cung.</p>
+        <p>Ví dụ: Mệnh thuộc Thủy mà Đại Vận đi vào cung Hỏa vượng, Thủy bị khắc bởi Hỏa (nói đúng hơn Thủy khắc Hỏa nhưng Hỏa vượng phản khắc lại), mười năm ấy dù cát tinh có nhiều đến đâu, người ấy vẫn cảm thấy mệt mỏi, ngược dòng.</p>
+      </section>
+
+      <section class="chapter" id="phan-6">
+        <div class="chapter-head">
+          <span class="chapter-num">VI</span>
+          <h2 class="chapter-title">Ứng dụng tu dưỡng: xem Mệnh để sửa mình</h2>
+        </div>
+        <p>Cổ nhân xem Tử Vi không phải chỉ để đoán trúng, mà để biết mình mà tu sửa. Đây là lớp ứng dụng thực tiễn nhất, và cũng là lớp mà nhiều người luận số hiện đại bỏ quên:</p>
+        <ul>
+          <li>Mệnh có Cự Môn, Hóa Kỵ → bài học cả đời là tu khẩu: nói ít, nghe nhiều.</li>
+          <li>Mệnh có Thất Sát, Kình Dương → bài học là tu tâm nóng nảy, học cách nhẫn nại.</li>
+          <li>Mệnh có Tham Lang, Đào Hoa → bài học là tu dục vọng, chuyển hóa tham dục thành tham học, tham tu dưỡng.</li>
+          <li>Mệnh Vô Chính Diệu → bài học là tìm một chính tinh để nương theo: một người thầy, một lý tưởng, một đức tin — để cuộc đời có trục mà xoay quanh.</li>
+        </ul>
+        <p>Một nguyên lý an ủi nhưng cũng đầy trách nhiệm: <strong>Mệnh không đổi được, nhưng Thân đổi được, Phúc đổi được.</strong> Tích phúc — làm việc thiện, giúp người — chính là cách cải Mệnh mạnh nhất, bởi Phúc Đức luôn nằm trong thế tam hợp với Mệnh, Tài, Quan của một hệ thống lớn hơn; phúc dày lên ở một cung sẽ lan tỏa ảnh hưởng sang các cung liên đới, kể cả khi Mệnh tiên thiên không đổi.</p>
+      </section>
+
+      <section class="chapter" id="phan-7">
+        <div class="chapter-head">
+          <span class="chapter-num">VII</span>
+          <h2 class="chapter-title">Tầng trung cấp: vòng Trường Sinh và sự biến thiên của khí vận</h2>
+        </div>
+        <p>Sau các chính tinh và phụ tinh, phú chuyển sang một hệ thống sao đặc biệt: mười hai trạng thái của Vòng Trường Sinh, mô phỏng chu kỳ sinh — trưởng — thịnh — suy — tử — mộ của một đời người, gắn vào cung Mệnh để đo "khí thế" nội tại:</p>
+
+        <div class="table-wrap">
+        <table>
+          <thead><tr><th>Trạng thái</th><th>Ý nghĩa tính cách theo phú</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Trường Sinh, Đế Vượng</strong></td><td>thiện lương, khí vận sung mãn</td></tr>
+            <tr><td><strong>Mộc Dục</strong> (cùng Đào Hoa)</td><td>thích trang điểm, chăm chút vẻ ngoài</td></tr>
+            <tr><td><strong>Lâm Quan</strong></td><td>dịu dàng, tinh anh, sắc sảo</td></tr>
+            <tr><td><strong>Mộ</strong></td><td>kém thông minh, đầu óc trì trệ</td></tr>
+            <tr><td><strong>Thai</strong></td><td>dễ bị mê hoặc, thiếu chủ kiến, hay nghe theo người khác</td></tr>
+            <tr><td><strong>Tuyệt</strong></td><td>yếu đuối, nhưng có thể hóa giải (xem Phần VIII)</td></tr>
+            <tr><td><strong>Suy, Bệnh, Tử</strong></td><td>"Gặp vào nước ấy, ai dùng? ai màng?" — không được trọng dụng, nếu không gặp hóa giải</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <p>Đây chính là nơi khoa Tử Vi thể hiện tư duy <strong>chu kỳ</strong> thay vì tư duy <strong>tĩnh</strong>: con người không phải lúc nào cũng ở đỉnh cao khí lực, mà vận động qua các trạng thái thịnh suy — và cung Mệnh cho biết "khí chất gốc" của một người đang ở giai đoạn nào trong chu kỳ ấy.</p>
+      </section>
+
+      <section class="chapter" id="phan-8">
+        <div class="chapter-head">
+          <span class="chapter-num">VIII</span>
+          <h2 class="chapter-title">Tầng uyên thâm: nguyên lý ngũ hành biến tính sao</h2>
+        </div>
+        <p>Đây là phần mà phần lớn người học Tử Vi ở trình độ trung cấp chưa từng chạm tới, nhưng lại chính là <strong>chỗ phân định giữa thầy và thợ</strong>.</p>
+
+        <h3>Nguyên lý cốt lõi: không có sao nào có bản chất cố định tuyệt đối</h3>
+        <p>Phú đưa ra bốn ví dụ minh họa liên tiếp, tất cả đều xoay quanh một nguyên lý duy nhất — <strong>ngũ hành của cung có thể sinh khắc và làm biến đổi bản chất của sao đóng tại đó</strong>:</p>
+
+        <p><strong>Ví dụ 1 — Triệt Lộ Không Vong gặp cung Kim:</strong></p>
+        <blockquote class="phu"><p>"Triệt mà gặp được Kim cung<br>Tinh thần thanh sảng, thung dung đế thần"</p></blockquote>
+        <p>Triệt Không vốn là sao mang ý nghĩa đứt gãy, hư vô, xấu về căn bản. Nhưng nếu đóng ở cung thuộc hành Kim, ý nghĩa xấu ấy được hóa giải hoàn toàn, biến thành tinh thần thanh sảng, ung dung như bậc đế vương.</p>
+
+        <p><strong>Ví dụ 2 — sao Tuyệt gặp cung Hỏa:</strong></p>
+        <blockquote class="phu"><p>"Tuyệt phùng hỏa địa một khi,<br>Hiên ngang chí khí, gặp thì thung dung."</p></blockquote>
+        <p>Cùng nguyên lý: trạng thái Tuyệt (yếu nhược nhất trong Vòng Trường Sinh) khi gặp cung Hỏa cũng được hóa giải, trở nên hiên ngang khí phách.</p>
+
+        <p><strong>Ví dụ 3 — chính Tử Vi, ngôi sao đế vương, cũng không ngoại lệ:</strong></p>
+        <blockquote class="phu"><p>"Ví như thuộc Thổ Tử Vi<br>Tính trì mà gặp hỏa thì lại nhanh"</p></blockquote>
+        <p>Tử Vi vốn thuộc hành Thổ, bản tính trầm trì (chậm rãi, thâm trầm, đế vương tĩnh tại). Nhưng nếu gặp sao hoặc cung thuộc hành Hỏa (Hỏa sinh Thổ), tính khí ấy chuyển hóa, trở nên nhanh nhẹn hoạt bát hơn hẳn bản chất gốc.</p>
+
+        <p><strong>Ví dụ 4 — kể cả sao hiền hòa nhất cũng đổi tính khi gặp hung tinh:</strong></p>
+        <blockquote class="phu"><p>"Thiên Phủ vốn tính hòa lành<br>Song gặp Không, Kiếp thời rành khác thâm."</p></blockquote>
+        <p>Thiên Phủ — biểu tượng của sự ôn hòa, tiết hạnh — khi gặp Địa Không, Địa Kiếp cũng biến đổi, trở nên thâm trầm khác thường, mất đi vẻ hòa nhã nguyên bản.</p>
+
+        <h3>Vì sao đây là tầng của bậc thầy?</h3>
+        <p>Bởi vì phần lớn người mới học chỉ dừng lại ở việc <strong>tra bảng</strong>: "sao này ở cung này thì tốt, sao kia ở cung kia thì xấu" — một dạng tư duy máy móc, cứng nhắc, gán nhãn. Nhưng chính bản thân phú đã tự đúc kết ra nguyên lý phương pháp luận, đặt ngay ở câu bản lề giữa bài:</p>
+        <blockquote class="phu"><p>"Xem trong nhân tính đã xong<br>Lại tính cho thấu các cung ngũ hành"</p></blockquote>
+        <p>và đỉnh điểm là câu tổng kết mang tính tuyên ngôn phương pháp luận:</p>
+        <blockquote class="phu"><p>"Tướng chân tính, nhận chân hình,<br>Chẳng nên chấp nhất, lựa mình mà suy"</p></blockquote>
+        <p>Đây có thể xem là câu quan trọng nhất trong toàn bộ chương Mệnh Viên. Nó không nói về một sao cụ thể nào — nó nói về <strong>cách tư duy</strong> khi luận số. "Chẳng nên chấp nhất" nghĩa là: không được bám cứng vào một sao, một câu phú, một quy tắc đơn lẻ rồi kết luận ngay. Phải:</p>
+        <ol class="steps">
+          <li><strong>Tổng hợp</strong> — nhìn toàn bộ tinh hệ đồng cung, tam hợp, xung chiếu, không tách một sao ra khỏi bối cảnh.</li>
+          <li><strong>Xét ngũ hành sao – cung</strong> — vì cùng một sao, đặt ở cung khác hành có thể mang ý nghĩa đối lập hoàn toàn.</li>
+          <li><strong>Xét miếu vượng đắc hãm</strong> — như Vũ Khúc nhập miếu mới tài năng, hãm địa thì đổi khác; Sát Hình miếu địa mới hóa anh hùng.</li>
+          <li><strong>Linh hoạt theo bối cảnh tổng thể lá số</strong> — "lựa mình mà suy" tức là người luận số phải tự vận dụng, không có công thức đóng khung cứng nhắc áp dụng máy móc cho mọi lá số.</li>
+        </ol>
+        <p>Đây chính là ranh giới giữa việc "biết phú" và việc "biết luận". Người thuộc lòng cả trăm câu phú nhưng áp dụng cứng nhắc, chấp nhất — vẫn chỉ là thợ tra bảng. Người hiểu được vì sao Tử Vi Thổ gặp Hỏa thì đổi tính, vì sao Triệt Không gặp Kim cung thì hóa cát — người đó mới chạm đến tầng tư duy biện chứng, tầng "thầy" thực sự của khoa Tử Vi.</p>
+
+        <h3>Một sự thật ít ai nói thẳng</h3>
+        <p>Đến đây, một người đã nắm vững mọi nguyên lý trên vẫn cần một liều thuốc khiêm tốn cuối cùng. Trong giới nghiên cứu Tử Vi lâu năm, việc phân định một sao là Miếu, Vượng, Đắc, Bình hay Hãm tại từng cung <strong>không hoàn toàn thống nhất giữa các trường phái</strong> — cùng một sao, cùng một cung, có tử vi gia xếp là hãm, có người xếp là bình hòa, tùy vào cách họ lý giải bản chất và nguồn gốc ngũ hành của tinh đẩu đó. Bản thân miếu vượng đắc hãm, xét cho cùng, cũng chỉ là <strong>một yếu tố trong rất nhiều yếu tố</strong> cần cân nhắc khi luận đoán — không phải là lời phán quyết cuối cùng và duy nhất.</p>
+        <p>Điều này không làm suy yếu khoa Tử Vi, mà ngược lại càng củng cố tinh thần "chẳng nên chấp nhất" đã nói ở trên. Người luận số bậc thầy không coi bảng miếu hãm là chân lý bất biến để tra cứu máy móc, mà xem đó là một tham chiếu — cần đối chiếu thêm với tinh hệ đồng cung, tam phương tứ chính, Tứ Hóa và cả kinh nghiệm nghiệm lý qua nhiều lá số thực tế trước khi đưa ra kết luận. Đây cũng là lý do vì sao hai người luận số giỏi, cùng nhìn một lá số, đôi khi đưa ra hai nhận định hơi khác nhau về cùng một chi tiết nhỏ — sự khác biệt đó không nhất thiết có nghĩa một trong hai người sai, mà phản ánh đúng bản chất một môn học vốn đòi hỏi tổng hợp và biện chứng, không phải một hệ quy chiếu đóng khung cứng nhắc.</p>
+      </section>
+
+      <section class="chapter" id="phan-9">
+        <div class="chapter-head">
+          <span class="chapter-num">IX</span>
+          <h2 class="chapter-title">Một số lớp chi tiết đáng chú ý khác</h2>
+        </div>
+        <ul>
+          <li><strong>Phụ Bật đơn thủ Mệnh</strong>: nếu Tả Phụ hoặc Hữu Bật chỉ đi một mình (không đủ đôi) tại Mệnh, phú đoán "ly tông cửa nhà" — xa lìa gốc gác, lập nghiệp nơi đất khách. Nguyên do: bản chất Phụ Bật là cặp sao trợ lực, đi đôi mới trọn ý nghĩa hỗ trợ; tách lẻ ngụ ý mất đi sự nương tựa trọn vẹn, dẫn đến ly tán.</li>
+          <li><strong>Thiên Hình đơn thủ Mệnh</strong>: người ít nói, kín tiếng, nghiêm nghị — đúng bản chất hình tinh chủ kỷ luật, khắc kỷ.</li>
+          <li><strong>Mã Lộc giao trì</strong> (Lộc Tồn + Thiên Mã): cách cục kinh điển về sự năng động, khéo léo làm ăn phát đạt.</li>
+          <li><strong>Tham Hỏa, Tham Linh đồng độ</strong>: Tham Lang gặp Hỏa Tinh hoặc Linh Tinh đồng cung — một trong những cách cục phát tài đột biến nổi tiếng nhất của khối Sát Phá Tham, phát nhanh nhưng cũng cần tam hợp hỗ trợ mới bền, không chỉ đồng cung đơn thuần là đủ.</li>
+          <li><strong>Tướng Quân</strong> (phụ diệu nhóm Sát Phá Tham): thích chinh chiến, ham quyền lực — trong khi <strong>Bệnh Phù</strong> đồng thời báo hiệu thể trạng tiềm ẩn bệnh tật, nhắc người luận số đừng chỉ nhìn tính cách mà bỏ qua tín hiệu sức khỏe ngay trong cung Mệnh.</li>
+          <li><strong>Cô Thần – Quả Tú</strong>: tính cô độc, giữ kín lòng mình.</li>
+        </ul>
+      </section>
+
+      <section class="chapter" id="phan-10">
+        <div class="chapter-head">
+          <span class="chapter-num">X</span>
+          <h2 class="chapter-title">Tổng kết: công thức luận Mệnh của bậc thầy</h2>
+        </div>
+
+        <h3>Bảy câu hỏi khi nhìn vào một cung Mệnh</h3>
+        <p>Trước khi đi đến kết luận cuối, người luận số nên tự trả lời bảy câu hỏi theo trình tự sau — mỗi câu tương ứng với một lớp đã trình bày ở các phần trên:</p>
+        <ol class="steps">
+          <li>Mệnh đóng ở đâu? Thuộc tam hợp Kim, Mộc, Thủy, Hỏa hay Thổ nào?</li>
+          <li>Có chính tinh không? Một hay hai sao đồng cung? Đắc miếu hay lạc hãm?</li>
+          <li>Có Tuần, Triệt, Không, Kiếp xâm phạm không?</li>
+          <li>Tứ Hóa rơi vào đâu? Hóa Lộc, Hóa Kỵ có tác động trực tiếp lên Mệnh không?</li>
+          <li>Tam phương tứ chính — Tài Bạch, Quan Lộc, Thiên Di — có gì hội chiếu về?</li>
+          <li>Thân cư tại cung nào? Phúc Đức ra sao?</li>
+          <li>Mệnh sinh Cục hay Cục sinh Mệnh?</li>
+        </ol>
+        <p>Trả lời trọn vẹn bảy câu hỏi này, người luận số đã nắm được phần lớn cốt lõi con người trong lá số — phần còn lại là độ tinh tế trong cách phối hợp và diễn giải.</p>
+
+        <h3>Năm bước đọc sâu — từ tra bảng đến biện chứng</h3>
+        <p>Nếu nhìn toàn bộ hành trình từ cơ bản đến uyên thâm như một quy trình tư duy, có thể tóm lại thành năm bước:</p>
+        <ol class="steps">
+          <li><strong>Định vị chức năng của cung</strong> — nhớ rằng Mệnh trả lời câu hỏi tính tình, khí chất, bản chất con người — không phải giàu nghèo thọ yểu.</li>
+          <li><strong>Đọc chính tinh thủ mệnh làm gốc</strong>, đặt trong khung Mệnh – Thân – Phúc và năm lớp giải phẫu (Can Chi, Chính Tinh, Phụ Tinh, Tràng Sinh, Cục) — mỗi chính tinh mang một "chất" riêng: Tử Vi trọng hậu, Thiên Cơ mưu trí thiện, Thái Dương thanh cao, Cự Môn khẩu thiệt...</li>
+          <li><strong>Xét miếu vượng đắc hãm — nhưng không tuyệt đối hóa nó</strong> — cùng một sao, đắc địa và hãm địa là hai con người khác nhau (Vũ Khúc, Thất Sát – Thiên Hình là ví dụ kinh điển); đồng thời xét các thế Mệnh đặc biệt như Vô Chính Diệu (nhớ cơ chế tá tinh, chỉ hưởng sáu bảy phần), Không Kiếp, Kình Đà độc thủ — những trường hợp không thể áp công thức thông thường. Đồng thời luôn nhớ: bảng miếu hãm tự nó còn là chủ đề tranh luận giữa các trường phái, nên chỉ dùng như một tham chiếu, không phải phán quyết cuối cùng.</li>
+          <li><strong>Mở rộng ra tam phương tứ chính và Đại Vận</strong> — không luận Mệnh đơn lẻ mà luôn đặt trong thế tam hợp Mệnh–Tài–Quan, xung chiếu Thiên Di, và dòng chảy thời gian của Đại Vận đi qua.</li>
+          <li><strong>Xét ngũ hành sao – cung – tinh hệ đồng cung</strong> — đây là tầng sâu nhất: một sao có thể đảo ngược hoàn toàn cát/hung tùy vào ngũ hành nơi nó đóng và các sao đi cùng. Đây cũng là nơi thể hiện rõ nhất tinh thần "chẳng nên chấp nhất" của người xưa.</li>
+        </ol>
+        <p>Người mới học Tử Vi thường dừng ở bước 2 — thuộc tính cách từng sao rồi gán ngay cho lá số. Người luận số có nghề dừng ở bước 3–4 — biết thêm miếu hãm, các thế Mệnh đặc biệt, tam phương tứ chính và Đại Vận. Bước 5 là nơi khác biệt thật sự nằm ở: nhìn một lá số không phải như một danh sách các sao cố định, mà như một <strong>hệ sinh thái ngũ hành sống động</strong>, nơi mỗi yếu tố liên tục tương tác, sinh khắc, chế hóa lẫn nhau — và tuyệt đối không bao giờ kết luận vội vàng chỉ dựa trên một câu phú đơn lẻ.</p>
+      </section>
+
+      <section class="chapter" id="phan-11">
+        <div class="chapter-head">
+          <span class="chapter-num">XI</span>
+          <h2 class="chapter-title">Ví dụ thực hành: áp dụng bảy câu hỏi vào một Mệnh giả định</h2>
+        </div>
+        <p>Lý thuyết chỉ thật sự "ngấm" khi áp vào một trường hợp cụ thể. Dưới đây là một lá số giả định (không gắn với người thật, chỉ dùng để minh họa quy trình), đi qua đúng bảy câu hỏi đã nêu ở Phần X.</p>
+
+        <div class="callout">
+          <span class="label">Giả định</span>
+          <p>Mệnh an tại cung Dần, có Vũ Khúc – Thiên Tướng đồng cung; Đà La đồng cung Mệnh; Hóa Kỵ nhập Quan Lộc; Thân cư Tài Bạch.</p>
+        </div>
+
+        <ol class="steps">
+          <li><strong>Mệnh đóng ở đâu, tam hợp hành gì?</strong> Dần thuộc Mộc — Vũ Khúc vốn thuộc Kim, đóng tại Mộc là bị khắc chế phần nào. Đây là dữ kiện nền, chưa vội kết luận tốt xấu.</li>
+          <li><strong>Chính tinh, miếu hãm?</strong> Vũ Khúc – Thiên Tướng tại Dần thường được xếp Bình hòa — theo nguyên lý đã bàn ở Phần I, Vũ Khúc không nhập miếu thì tài năng có nhưng không xuất chúng đột phá, thiên về ổn định hơn bứt phá.</li>
+          <li><strong>Tuần Triệt, Không Kiếp?</strong> Giả định không có — bỏ qua bước này, nghĩa là không có yếu tố "đứt gãy" cần hóa giải.</li>
+          <li><strong>Tứ Hóa?</strong> Hóa Kỵ rơi vào Quan Lộc, không phải Mệnh — nghĩa là "nợ" hay trắc trở nằm ở đường công danh, sự nghiệp, chứ không phải ở tính cách hay tâm lý gốc. Nếu chỉ nhìn Mệnh mà bỏ qua Tứ Hóa ở Quan, người luận số sẽ đoán sai chỗ vướng mắc thật sự của đương số.</li>
+          <li><strong>Tam phương tứ chính?</strong> Tài Bạch – Quan Lộc hợp cùng Mệnh thành tam hợp Vũ Tướng — bộ ba thiên về tổ chức, quản lý tài sản, phù hợp vai trò điều hành hơn sáng tạo tự do; Đà La đồng cung Mệnh báo hiệu lập nghiệp có phần gian nan, chậm mà chắc.</li>
+          <li><strong>Thân cư đâu?</strong> Thân cư Tài Bạch — theo nguyên tắc "Thân an ở đâu, hậu vận nặng ở đó", đời người này dồn phần lớn tâm sức vào tiền bạc, tài sản hơn là công danh hay gia đạo — dù Mệnh mang dáng dấp quản lý tổ chức, trọng tâm cuộc đời vẫn nghiêng về tích lũy tài chính.</li>
+          <li><strong>Cục?</strong> Giả sử Kim Tứ Cục — Cục Kim khắc Mệnh Mộc (Dần thuộc Mộc), thuộc dạng Cục khắc Mệnh: người này phải nỗ lực nhiều hơn để thích nghi hoàn cảnh, không được thuận lợi ngay từ đầu.</li>
+        </ol>
+
+        <div class="callout">
+          <span class="label">Tổng hợp</span>
+          <p>Một Mệnh Vũ Tướng bình hòa tại Dần, Đà La đồng cung, Cục khắc Mệnh — vẽ ra chân dung một người có năng lực tổ chức và quản lý thực chất, nhưng con đường sự nghiệp (Hóa Kỵ tại Quan) sẽ có giai đoạn trắc trở, thị phi hoặc phải làm lại; tài sản (Thân cư Tài Bạch) mới là nơi người này thực sự đặt tâm huyết cả đời, và thành quả đến chậm, phải tích lũy dần chứ không bộc phát. Đây chỉ là một cách đọc <strong>có căn cứ</strong>, không phải kết luận đóng — có thêm chi tiết về Phúc Đức, Đại Vận cụ thể theo tuổi, bức tranh sẽ còn được tinh chỉnh thêm.</p>
+        </div>
+
+        <p>Điều đáng chú ý: không có bước nào đứng một mình quyết định toàn bộ. Nếu chỉ dừng ở bước 2 (Vũ Tướng bình hòa) mà bỏ qua bước 4 (Hóa Kỵ tại Quan) và bước 6 (Thân cư Tài Bạch), người luận số rất dễ đưa ra một bức chân dung phiến diện — đúng chất tính cách nhưng sai trọng tâm cuộc đời. Đây là lý do bảy câu hỏi cần được hỏi theo đúng trình tự và đầy đủ, không được bỏ bước.</p>
+      </section>
+
+      <section class="chapter" id="phan-12">
+        <div class="chapter-head">
+          <span class="chapter-num">XII</span>
+          <h2 class="chapter-title">Bảng tra cứu nhanh: thuật ngữ cốt lõi</h2>
+        </div>
+        <p>Dùng bảng này để ôn lại nhanh khi cần, không phải đọc lại toàn bài.</p>
+
+        <div class="table-wrap">
+        <table>
+          <thead><tr><th>Thuật ngữ</th><th>Ý nghĩa cốt lõi</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Chính tinh</strong></td><td>14 sao chủ đạo, mang "chất" tính cách gốc của một cung</td></tr>
+            <tr><td><strong>Phụ tinh</strong></td><td>Các sao bổ trợ (Lục Cát, Lục Sát...), điều chỉnh cường độ và sắc thái của chính tinh</td></tr>
+            <tr><td><strong>Miếu / Vượng / Đắc / Bình / Hãm</strong></td><td>Thang đo "sức mạnh" của một sao tại một cung cụ thể, dựa trên ngũ hành sao – cung; không phải chân lý tuyệt đối, có tranh cãi giữa các trường phái</td></tr>
+            <tr><td><strong>Tứ Hóa</strong></td><td>Hóa Lộc (tiền), Hóa Quyền (quyền), Hóa Khoa (danh), Hóa Kỵ (nợ/thị phi) — linh hồn của biến động trong lá số theo năm sinh</td></tr>
+            <tr><td><strong>Vòng Trường Sinh</strong></td><td>12 trạng thái sinh – trưởng – thịnh – suy – tử – mộ, đo "khí thế" của một cung</td></tr>
+            <tr><td><strong>Cục</strong></td><td>Thủy Nhị, Mộc Tam, Kim Tứ, Thổ Ngũ, Hỏa Lục Cục — nền ngũ hành xuất phát từ năm sinh, quyết định nhịp độ an sao</td></tr>
+            <tr><td><strong>Tam hợp Mệnh – Tài – Quan</strong></td><td>Bộ ba cung luôn soi chiếu nhau, nói về năng lực kiếm tiền và sự nghiệp</td></tr>
+            <tr><td><strong>Xung chiếu Thiên Di</strong></td><td>Mối quan hệ giữa nội tâm (Mệnh) và cách người đời nhìn nhận, cách vận hành ngoài xã hội (Di)</td></tr>
+            <tr><td><strong>Vô Chính Diệu (VCD)</strong></td><td>Mệnh không có chính tinh, phải mượn ("tá tinh") chính tinh từ cung Thiên Di, chỉ hưởng khoảng 6–7 phần ảnh hưởng</td></tr>
+            <tr><td><strong>Tuần, Triệt (Không Vong)</strong></td><td>Sao mang ý nghĩa đứt gãy, hư vô; có thể xấu hoặc được hóa giải tùy ngũ hành cung sở tại</td></tr>
+            <tr><td><strong>Mệnh – Thân – Phúc</strong></td><td>Tam tài của một đời người: Mệnh là bản ngã, Thân là hành động/môi trường, Phúc là phần hưởng không do nỗ lực trực tiếp</td></tr>
+            <tr><td><strong>Đại Vận</strong></td><td>Chu kỳ 10 năm vận hành qua các cung, luận theo nguyên lý ngũ hành sinh khắc với Mệnh</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<section class="colophon" id="ket">
+  <div class="colophon-inner">
+    <svg class="colophon-mark" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#CBA135" stroke-width="1.2" opacity="0.7"/>
+      <circle cx="50" cy="50" r="30" fill="none" stroke="#7C6423" stroke-width="1"/>
+      <circle cx="50" cy="50" r="4" fill="#CBA135"/>
+    </svg>
+    <h3>Điểm dừng cuối cùng: từ đoán số đến tu thân</h3>
+    <p>Một bậc thầy thực thụ không dừng lại ở việc đoán đúng. Tử Vi, xét đến cùng, là công cụ để một người hiểu chính mình mà tu sửa: Mệnh không đổi được, nhưng Thân và Phúc thì có thể vun bồi mỗi ngày.</p>
+    <p class="final-line">Phú là công cụ để soi, không phải khuôn để đúc; lá số là bản đồ, không phải bản án.</p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  Cung Mệnh · Mệnh Viên, Chương Nhất · Biên soạn để nghiên cứu và học tập Tử Vi Đẩu Số
+</footer>
+
+<button id="backToTop" aria-label="Lên đầu trang">↑</button>
+
+<script>
+  // ---- build TOC ----
+  const chapters = [
+    {id:'loi-mo', label:'Lời mở', num:'—'},
+    {id:'phan-1', label:'Nền tảng: chính tinh', num:'I'},
+    {id:'phan-2', label:'Năm lớp giải phẫu Mệnh', num:'II'},
+    {id:'phan-3', label:'Các thế Mệnh đặc biệt', num:'III'},
+    {id:'phan-4', label:'Tam phương tứ chính', num:'IV'},
+    {id:'phan-5', label:'Đại Vận đi qua Mệnh', num:'V'},
+    {id:'phan-6', label:'Ứng dụng tu dưỡng', num:'VI'},
+    {id:'phan-7', label:'Vòng Trường Sinh', num:'VII'},
+    {id:'phan-8', label:'Ngũ hành biến tính sao', num:'VIII'},
+    {id:'phan-9', label:'Chi tiết đáng chú ý khác', num:'IX'},
+    {id:'phan-10', label:'Công thức luận Mệnh', num:'X'},
+    {id:'phan-11', label:'Ví dụ thực hành', num:'XI'},
+    {id:'phan-12', label:'Bảng tra cứu thuật ngữ', num:'XII'},
+    {id:'ket', label:'Kết', num:'✦'},
+  ];
+
+  const desktopList = document.getElementById('tocDesktopList');
+  const drawerList = document.getElementById('tocDrawerList');
+
+  chapters.forEach(ch=>{
+    const liD = document.createElement('li');
+    liD.innerHTML = `<a href="#${ch.id}" data-id="${ch.id}"><span class="toc-num">${ch.num}</span>${ch.label}</a>`;
+    desktopList.appendChild(liD);
+
+    const liM = document.createElement('li');
+    liM.innerHTML = `<a href="#${ch.id}" data-id="${ch.id}"><span class="toc-num">${ch.num}</span> ${ch.label}</a>`;
+    drawerList.appendChild(liM);
+  });
+
+  // ---- mobile drawer toggle ----
+  const drawer = document.getElementById('tocDrawer');
+  document.getElementById('tocToggle').addEventListener('click', ()=> drawer.classList.add('open'));
+  document.getElementById('tocClose').addEventListener('click', ()=> drawer.classList.remove('open'));
+  drawer.addEventListener('click', (e)=>{ if(e.target === drawer) drawer.classList.remove('open'); });
+  drawerList.addEventListener('click', (e)=>{
+    if(e.target.tagName === 'A'){ drawer.classList.remove('open'); }
+  });
+
+  // ---- scroll progress + active TOC + back to top ----
+  const fill = document.getElementById('progressFill');
+  const backBtn = document.getElementById('backToTop');
+  const desktopLinks = Array.from(desktopList.querySelectorAll('a'));
+  const sections = chapters.map(ch => document.getElementById(ch.id)).filter(Boolean);
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    fill.style.width = pct + '%';
+
+    backBtn.classList.toggle('show', scrollTop > 700);
+
+    let currentId = sections[0] ? sections[0].id : null;
+    for(const sec of sections){
+      const rect = sec.getBoundingClientRect();
+      if(rect.top <= 140){ currentId = sec.id; }
+    }
+    desktopLinks.forEach(a=>{
+      a.classList.toggle('active', a.dataset.id === currentId);
+    });
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('load', onScroll);
+
+  backBtn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+
+</body>
+</html>
