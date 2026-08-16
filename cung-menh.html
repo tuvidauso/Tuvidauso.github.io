@@ -492,11 +492,38 @@
   #backToTop.show{ opacity:1; pointer-events:auto; }
   #backToTop:hover{ transform:translateY(-2px); }
 
+  #musicToggle{
+    position:fixed;
+    top:18px; right:18px;
+    z-index:190;
+    width:44px; height:44px;
+    border-radius:50%;
+    background:var(--panel-2);
+    border:1px solid var(--gold-dim);
+    color:var(--gold);
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 20px rgba(0,0,0,.35);
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  #musicToggle:hover{ transform:translateY(-2px); border-color:var(--gold); }
+  #musicToggle svg{ width:18px; height:18px; display:block; }
+  #musicToggle .icon-bars{ display:none; }
+  #musicToggle.playing .icon-note{ display:none; }
+  #musicToggle.playing .icon-bars{ display:block; }
+  #musicToggle.playing{
+    animation: musicPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes musicPulse{
+    0%,100%{ box-shadow:0 6px 20px rgba(0,0,0,.35), 0 0 0 0 rgba(203,161,53,0.35); }
+    50%{ box-shadow:0 6px 20px rgba(0,0,0,.35), 0 0 0 6px rgba(203,161,53,0); }
+  }
+
   ::selection{ background:var(--violet); color:#fff; }
 
   @media print{
     body{ background:#fff; color:#111; font-size:12pt; }
-    .hero, .toc-desktop, .toc-toggle, .progress-track, #backToTop{ display:none !important; }
+    .hero, .toc-desktop, .toc-toggle, .progress-track, #backToTop, #musicToggle{ display:none !important; }
     .content{ padding:0; }
     section.chapter{ border-bottom:1px solid #ccc; break-inside:avoid-page; }
     h2.chapter-title, h3, strong{ color:#111 !important; -webkit-text-fill-color:#111 !important; }
@@ -506,10 +533,6 @@
 </style>
 </head>
 <body>
-<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
-  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a>
-</div>
-
 
 <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 
@@ -899,31 +922,63 @@
       <section class="chapter" id="phan-11">
         <div class="chapter-head">
           <span class="chapter-num">XI</span>
-          <h2 class="chapter-title">Ví dụ thực hành: áp dụng bảy câu hỏi vào một Mệnh giả định</h2>
+          <h2 class="chapter-title">Ví dụ thực hành: một lá số thực</h2>
         </div>
-        <p>Lý thuyết chỉ thật sự "ngấm" khi áp vào một trường hợp cụ thể. Dưới đây là một lá số giả định (không gắn với người thật, chỉ dùng để minh họa quy trình), đi qua đúng bảy câu hỏi đã nêu ở Phần X.</p>
+        <p>Lý thuyết chỉ thật sự "ngấm" khi áp vào một trường hợp cụ thể. Dưới đây là một ví dụ luận Mệnh trọn vẹn trên một lá số thực — Mệnh Thân đồng cung tại Tỵ, chính tinh Thiên Phủ, đi qua đủ các lớp: gốc rễ, phụ tinh phá cách, tam phương tứ chính, và tổng kết đường đời.</p>
 
         <div class="callout">
-          <span class="label">Giả định</span>
-          <p>Mệnh an tại cung Dần, có Vũ Khúc – Thiên Tướng đồng cung; Đà La đồng cung Mệnh; Hóa Kỵ nhập Quan Lộc; Thân cư Tài Bạch.</p>
+          <span class="label">Lá số</span>
+          <p>Âm Nam, Mệnh Thân đồng cung an tại Tỵ. Mệnh Lư Trung Hỏa, Cục Hỏa Lục Cục — Mệnh, Cục, Chi đồng hành Hỏa (bình hòa, thế đứng vững, không bị khắc).</p>
         </div>
 
-        <ol class="steps">
-          <li><strong>Mệnh đóng ở đâu, tam hợp hành gì?</strong> Dần thuộc Mộc — Vũ Khúc vốn thuộc Kim, đóng tại Mộc là bị khắc chế phần nào. Đây là dữ kiện nền, chưa vội kết luận tốt xấu.</li>
-          <li><strong>Chính tinh, miếu hãm?</strong> Vũ Khúc – Thiên Tướng tại Dần thường được xếp Bình hòa — theo nguyên lý đã bàn ở Phần I, Vũ Khúc không nhập miếu thì tài năng có nhưng không xuất chúng đột phá, thiên về ổn định hơn bứt phá.</li>
-          <li><strong>Tuần Triệt, Không Kiếp?</strong> Giả định không có — bỏ qua bước này, nghĩa là không có yếu tố "đứt gãy" cần hóa giải.</li>
-          <li><strong>Tứ Hóa?</strong> Hóa Kỵ rơi vào Quan Lộc, không phải Mệnh — nghĩa là "nợ" hay trắc trở nằm ở đường công danh, sự nghiệp, chứ không phải ở tính cách hay tâm lý gốc. Nếu chỉ nhìn Mệnh mà bỏ qua Tứ Hóa ở Quan, người luận số sẽ đoán sai chỗ vướng mắc thật sự của đương số.</li>
-          <li><strong>Tam phương tứ chính?</strong> Tài Bạch – Quan Lộc hợp cùng Mệnh thành tam hợp Vũ Tướng — bộ ba thiên về tổ chức, quản lý tài sản, phù hợp vai trò điều hành hơn sáng tạo tự do; Đà La đồng cung Mệnh báo hiệu lập nghiệp có phần gian nan, chậm mà chắc.</li>
-          <li><strong>Thân cư đâu?</strong> Thân cư Tài Bạch — theo nguyên tắc "Thân an ở đâu, hậu vận nặng ở đó", đời người này dồn phần lớn tâm sức vào tiền bạc, tài sản hơn là công danh hay gia đạo — dù Mệnh mang dáng dấp quản lý tổ chức, trọng tâm cuộc đời vẫn nghiêng về tích lũy tài chính.</li>
-          <li><strong>Cục?</strong> Giả sử Kim Tứ Cục — Cục Kim khắc Mệnh Mộc (Dần thuộc Mộc), thuộc dạng Cục khắc Mệnh: người này phải nỗ lực nhiều hơn để thích nghi hoàn cảnh, không được thuận lợi ngay từ đầu.</li>
-        </ol>
+        <h3>1. Gốc rễ cung Mệnh</h3>
+        <p><strong>Vị trí</strong>: cung Tỵ, hành Hỏa, thuộc tam hợp Tỵ – Dậu – Sửu. Người Hỏa Lục Cục thường cuộc đời lên xuống nhanh, quyết liệt, đến sớm. Mệnh ở Tỵ là Âm cung, hợp cách với Âm Nam, không bị nghịch.</p>
+        <p><strong>Thân cư Mệnh</strong>: cả đời quan điểm không đổi, tư tưởng – hành động – thân xác là một, ít bị môi trường làm thay đổi bản chất. Đã tin cái gì thì theo đến cùng — ưu điểm là kiên định, nhược điểm là cố chấp.</p>
+        <p><strong>Vòng Tràng Sinh</strong>: Mệnh gặp Tuyệt — người khôn ngoan, lanh lợi, khả năng quan sát tinh, học lỏm nhanh, nhưng trong tâm luôn có cảm giác phải tự làm lại từ đầu, không có bệ đỡ sẵn, hay có tư tưởng buông bỏ để làm mới.</p>
+        <p><strong>Lai Nhân Cung ở Phúc Đức</strong>: mọi động lực hành động của Mệnh đều hướng về Phúc Đức, dòng họ — làm gì cũng nghĩ đến phúc phần, mồ mả, gia tộc. Phúc tốt thì Mệnh tốt lên rất nhiều; Phúc xấu thì Mệnh bị kéo xuống.</p>
 
+        <h3>2. Chính tinh: Thiên Phủ (Đắc) — kho trời</h3>
+        <p>Đây là sao quan trọng nhất của lá số. Thiên Phủ đắc địa tại Tỵ là cách rất đẹp — đứng đầu chòm Thiên Phủ, kho tiền của trời, chủ về giữ, chứa, ổn định, tích lũy.</p>
+        <p><strong>Tính cách</strong>: điềm đạm, từ tốn, cẩn trọng, thích an toàn, không thích mạo hiểm. Bên ngoài ôn hòa, bên trong rất tính toán. Có năng khiếu quản lý tiền bạc, tài sản, kho bãi, tài chính, ngân hàng. Rất kín tiếng, ít bộc lộ. Khi đắc địa: có chữ tín, có tài lãnh đạo ngầm, thích làm chủ, làm quản lý hơn làm lính, ham tích lũy nhà đất, vàng bạc.</p>
+        <p>Nhưng Phủ của lá số này không được sạch.</p>
+
+        <h3>3. Bộ phụ tinh đi cùng — điểm phá cách</h3>
+        <p>Đây mới là cái quyết định chuyên sâu:</p>
+        <ul>
+          <li><strong>Đà La (Hãm) + Cô Thần + Tang Môn + Phá Toái</strong>: bộ sao làm Thiên Phủ bị "lủng kho". Đà La hãm khiến hay lo xa, tính toán quá kỹ thành ra do dự, trong đầu luôn có vòng xoáy suy nghĩ, hay bị thị phi ngầm, bị đâm sau lưng. Cô Thần khiến nội tâm cô độc, khó chia sẻ thật lòng với ai kể cả vợ con, thích ở một mình suy tính, càng đông người càng thấy lạc lõng. Tang Môn chủ lo toan, buồn phiền, mặt lúc nào cũng như có điều suy nghĩ — Tang Môn ở Mệnh là người lo cho người khác trước, lo cho mình sau.</li>
+          <li><strong>Lộc – Quyền ngầm (Lộc Tồn + Bát Tọa + Lực Sĩ + Thiên Mã Đắc + Thiên Trù)</strong>: bộ cứu lại. Thiên Mã đắc tại Tỵ là Mã chiến, rất hợp người Hỏa — năng động, phải đi lại nhiều mới ra tiền, không ngồi yên một chỗ được; Mã gặp Đà La nên hay phải đi trong thế bị níu kéo, đi không thoải mái. Bát Tọa, Lực Sĩ, Lộc Tồn cho uy tín, có danh, có người nể, trong công việc có vị trí; Thiên Trù là lộc ăn uống, sành ăn, có duyên với ẩm thực.</li>
+        </ul>
         <div class="callout">
-          <span class="label">Tổng hợp</span>
-          <p>Một Mệnh Vũ Tướng bình hòa tại Dần, Đà La đồng cung, Cục khắc Mệnh — vẽ ra chân dung một người có năng lực tổ chức và quản lý thực chất, nhưng con đường sự nghiệp (Hóa Kỵ tại Quan) sẽ có giai đoạn trắc trở, thị phi hoặc phải làm lại; tài sản (Thân cư Tài Bạch) mới là nơi người này thực sự đặt tâm huyết cả đời, và thành quả đến chậm, phải tích lũy dần chứ không bộc phát. Đây chỉ là một cách đọc <strong>có căn cứ</strong>, không phải kết luận đóng — có thêm chi tiết về Phúc Đức, Đại Vận cụ thể theo tuổi, bức tranh sẽ còn được tinh chỉnh thêm.</p>
+          <span class="label">Tổng hợp chính tinh — phụ tinh</span>
+          <p>Bên ngoài là ông chủ hiền lành, ổn định; bên trong là người rất cô đơn và lo âu. Kho tiền thì muốn giữ, nhưng lại có lỗ thủng. Số phải bôn ba — càng đi xa nhà, càng vận động thì lộc càng mở.</p>
         </div>
 
-        <p>Điều đáng chú ý: không có bước nào đứng một mình quyết định toàn bộ. Nếu chỉ dừng ở bước 2 (Vũ Tướng bình hòa) mà bỏ qua bước 4 (Hóa Kỵ tại Quan) và bước 6 (Thân cư Tài Bạch), người luận số rất dễ đưa ra một bức chân dung phiến diện — đúng chất tính cách nhưng sai trọng tâm cuộc đời. Đây là lý do bảy câu hỏi cần được hỏi theo đúng trình tự và đầy đủ, không được bỏ bước.</p>
+        <h3>4. Tam phương tứ chính của Mệnh</h3>
+        <p>Mệnh không thể xem một mình.</p>
+        <ul>
+          <li><strong>Quan Lộc (Dậu)</strong> có Thiên Tướng (Hãm) + Tuế Phá + Đại Hao + Thiên Hư: Tướng hãm gặp Hao Phá là cách đi làm hay bị đổi việc, công danh hay bị người khác cướp công, hoặc chính mình chán mà bỏ. Công việc không bền một chỗ, hợp làm nghề tự do, quản lý độc lập, làm chủ nhỏ hơn là leo thang quan chức.</li>
+          <li><strong>Tài Bạch (Sửu)</strong> Vô Chính Diệu, có Quả Tú, Điếu Khách, Tấu Thư: tiền bạc tụ tán thất thường. Điếu Khách là tiêu tiền hào sảng cho bạn bè, cho hưởng thụ; Quả Tú chiếu về Mệnh càng làm tăng tính cô độc trong chuyện tiền bạc — không ai giúp mình về tiền.</li>
+          <li><strong>Thiên Di (Hợi)</strong> có Tử Vi (Bình) + Thất Sát (Vượng) + Địa Không (Đắc) + Địa Kiếp + Bạch Hổ + Kiếp Sát: xung chiếu mạnh nhất. Ra ngoài đời gặp toàn đối thủ mạnh, môi trường cạnh tranh khốc liệt, đầy cạm bẫy. Tử Sát + Không Kiếp là cách "đế gặp nạn" — ra ngoài hay gặp chuyện bất ngờ, bị chơi xấu lớn. Nhưng nếu làm trong môi trường có tính sát phạt như quân đội, công an, thị trường tài chính rủi ro, quản lý nợ, xử lý khủng hoảng thì lại hợp và phát rất nhanh. Không nên ra ngoài với tâm thế hiền lành.</li>
+        </ul>
+        <div class="callout">
+          <span class="label">Kết luận tam hợp</span>
+          <p>Mệnh Phủ vốn muốn an ổn, nhưng Tài thì tán, Quan thì phá, Di thì đầy sát tinh. Cuộc đời không thể an nhàn ngồi giữ kho được — bắt buộc phải bôn ba, phải động, phải quản lý trong biến động.</p>
+        </div>
+
+        <h3>5. Tổng kết tính cách và đường đời</h3>
+        <p>Đây là mẫu <strong>"kho thủng ngoài yên trong động"</strong>.</p>
+        <ul>
+          <li>Là người đáng tin, có khả năng giữ tiền, giữ bí mật cực tốt — ai giao việc quan trọng, giao két sắt là yên tâm.</li>
+          <li>Rất tự trọng, không thích nhờ vả. Thân cư Mệnh nên cái tôi lớn.</li>
+          <li>Trong đời hay có giai đoạn tưởng như mất hết, phải làm lại từ con số 0, do bộ Không Kiếp từ Thiên Di xung về và Tuyệt ở Mệnh.</li>
+          <li>Duyên với đất đai, kho bãi, tài chính, ẩm thực, logistics. Hợp nhất là đứng ra làm chủ một hệ thống nhỏ của riêng mình, tự thu tự chi.</li>
+        </ul>
+        <div class="callout">
+          <span class="label">Điểm cần sửa nhất</span>
+          <p>Bớt Cô Thần – Tang Môn đi. Thiên Phủ đã cô độc rồi lại thêm Cô Thần thì sẽ tự cô lập mình với quý nhân — càng khép kín thì kho càng thủng. Phải chủ động mở lòng, dùng Bát Tọa – Lực Sĩ ra ngoài kết giao.</p>
+        </div>
+
+        <p>Điều đáng chú ý: không có lớp nào đứng một mình quyết định toàn bộ. Nếu chỉ dừng ở chính tinh (Thiên Phủ đắc, cách đẹp) mà bỏ qua bộ phụ tinh phá cách (Đà La, Cô Thần, Tang Môn) và tam phương tứ chính (Tài tán, Quan phá, Di đầy sát tinh), người luận số rất dễ đưa ra một bức chân dung phiến diện — đúng chất chính tinh nhưng sai hẳn thực tế đường đời. Đây chính là tinh thần "chẳng nên chấp nhất" đã bàn ở Phần VIII, áp dụng trọn vẹn vào một lá số thực.</p>
       </section>
 
       <section class="chapter" id="phan-12">
@@ -976,6 +1031,20 @@
 </footer>
 
 <button id="backToTop" aria-label="Lên đầu trang">↑</button>
+
+<audio id="bgMusic" src="music5.mp3" loop preload="none"></audio>
+<button id="musicToggle" aria-label="Bật nhạc nền">
+  <svg class="icon-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18V5l12-2v13"/>
+    <circle cx="6" cy="18" r="3"/>
+    <circle cx="18" cy="16" r="3"/>
+  </svg>
+  <svg class="icon-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <line x1="7" y1="5" x2="7" y2="19"/>
+    <line x1="12" y1="3" x2="12" y2="21"/>
+    <line x1="17" y1="5" x2="17" y2="19"/>
+  </svg>
+</button>
 
 <script>
   // ---- build TOC ----
@@ -1045,6 +1114,22 @@
   window.addEventListener('load', onScroll);
 
   backBtn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+  // ---- background music ----
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicToggle');
+  musicBtn.addEventListener('click', ()=>{
+    if(bgMusic.paused){
+      bgMusic.play().then(()=>{
+        musicBtn.classList.add('playing');
+        musicBtn.setAttribute('aria-label','Tắt nhạc nền');
+      }).catch(()=>{ /* file chưa có hoặc trình duyệt chặn tự phát */ });
+    } else {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      musicBtn.setAttribute('aria-label','Bật nhạc nền');
+    }
+  });
 </script>
 
 </body>

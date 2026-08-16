@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cung Phúc Đức — Từ Nhập Môn Đến Tầng Uyên Thâm Của Bậc Thầy Tử Vi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#120C22;
+    --bg-deep:#0B0718;
+    --panel:#1C1533;
+    --panel-2:#241C40;
+    --line:#332a55;
+    --gold:#CBA135;
+    --gold-bright:#E4C468;
+    --gold-dim:#7C6423;
+    --ink:#EDE6D9;
+    --ink-dim:#A79FC4;
+    --ink-faint:#786F9C;
+    --cinnabar:#C1583C;
+    --violet:#6C4FA3;
+    --max-w:700px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Newsreader', serif;
+    font-size:18px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- progress bar ---------- */
+  .progress-track{
+    position:fixed; top:0; left:0; right:0; height:3px;
+    background:rgba(203,161,53,0.12);
+    z-index:200;
+  }
+  .progress-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg,var(--violet),var(--gold-bright));
+    transition:width 60ms linear;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% 20%, #241a44 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 80%, #1a1030 0%, transparent 50%),
+      var(--bg-deep);
+    padding:80px 24px 60px;
+  }
+  .hero-wheel{
+    position:absolute;
+    top:50%; left:50%;
+    width:min(92vw, 780px);
+    height:min(92vw, 780px);
+    transform:translate(-50%,-50%);
+    opacity:0.9;
+  }
+  .hero-wheel svg{ width:100%; height:100%; display:block; }
+  .wheel-rotate{
+    transform-origin:300px 300px;
+    animation: spin 280s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .star{ fill:var(--gold); opacity:0.55; }
+  .star.twinkle{ animation: twinkle 5s ease-in-out infinite; }
+  @keyframes twinkle{ 0%,100%{opacity:.25;} 50%{opacity:.85;} }
+
+  .hero-content{
+    position:relative; z-index:2;
+    max-width:640px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:12.5px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 22px;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:"·";
+    margin:0 10px;
+    color:var(--ink-faint);
+  }
+  h1.title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(52px, 10vw, 96px);
+    line-height:1.02;
+    margin:0 0 20px;
+    letter-spacing:-0.01em;
+    background:linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 55%, var(--gold-dim) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .subtitle{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(18px,3vw,24px);
+    color:var(--ink-dim);
+    margin:0 0 40px;
+  }
+  .hero-quote{
+    font-family:'Newsreader', serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--ink-faint);
+    border-top:1px solid var(--line);
+    padding-top:24px;
+    max-width:480px;
+    margin:0 auto;
+  }
+  .scroll-cue{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ink-faint);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    z-index:2;
+  }
+  .scroll-cue span.line{
+    width:1px; height:28px; background:linear-gradient(var(--gold),transparent);
+    animation:drop 2.2s ease-in-out infinite;
+  }
+  @keyframes drop{ 0%{opacity:0;transform:scaleY(0);transform-origin:top;} 40%{opacity:1;transform:scaleY(1);transform-origin:top;} 100%{opacity:0;transform:scaleY(1);transform-origin:bottom;} }
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    display:flex;
+    max-width:1180px;
+    margin:0 auto;
+    align-items:flex-start;
+  }
+
+  /* ---------- desktop TOC ---------- */
+  .toc-desktop{
+    position:sticky;
+    top:40px;
+    flex:0 0 240px;
+    padding:60px 20px 60px 32px;
+    display:none;
+  }
+  .toc-label{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--gold-dim);
+    margin:0 0 16px;
+  }
+  .toc-desktop ol{
+    list-style:none; margin:0; padding:0;
+    border-left:1px solid var(--line);
+  }
+  .toc-desktop li{ margin:0; }
+  .toc-desktop a{
+    display:block;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:13px;
+    color:var(--ink-faint);
+    text-decoration:none;
+    padding:7px 0 7px 16px;
+    border-left:2px solid transparent;
+    margin-left:-1px;
+    transition:color .2s ease, border-color .2s ease;
+    line-height:1.4;
+  }
+  .toc-desktop a:hover{ color:var(--ink-dim); }
+  .toc-desktop a.active{
+    color:var(--gold-bright);
+    border-left-color:var(--gold);
+  }
+  .toc-num{
+    font-family:'Fraunces',serif; font-style:italic;
+    color:var(--gold-dim);
+    margin-right:6px;
+  }
+  .toc-desktop a.active .toc-num{ color:var(--gold); }
+
+  @media (min-width:1020px){
+    .toc-desktop{ display:block; }
+  }
+
+  /* ---------- mobile TOC drawer ---------- */
+  .toc-toggle{
+    position:fixed; right:18px; bottom:18px; z-index:150;
+    width:52px; height:52px; border-radius:50%;
+    background:var(--panel-2);
+    border:1px solid var(--gold-dim);
+    color:var(--gold);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,.4);
+    cursor:pointer;
+  }
+  @media (min-width:1020px){ .toc-toggle{ display:none; } }
+
+  .toc-drawer{
+    position:fixed; inset:0; z-index:180;
+    background:rgba(8,5,17,0.82);
+    backdrop-filter:blur(6px);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .toc-drawer.open{ display:flex; }
+  .toc-drawer-panel{
+    background:var(--panel);
+    border-top:1px solid var(--line);
+    border-radius:18px 18px 0 0;
+    width:100%;
+    max-height:76vh;
+    overflow-y:auto;
+    padding:22px 22px 32px;
+  }
+  .toc-drawer-panel ol{ list-style:none; margin:0; padding:0; }
+  .toc-drawer-panel a{
+    display:block;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:15px;
+    color:var(--ink-dim);
+    text-decoration:none;
+    padding:11px 4px;
+    border-bottom:1px solid var(--line);
+  }
+  .toc-drawer-close{
+    display:block; margin:0 0 14px auto;
+    background:none; border:none;
+    color:var(--ink-faint);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:13px;
+    letter-spacing:.1em;
+    cursor:pointer;
+  }
+
+  /* ---------- content ---------- */
+  .content{
+    flex:1 1 auto;
+    min-width:0;
+    padding:70px 24px 40px;
+  }
+  .content-inner{
+    max-width:var(--max-w);
+    margin:0 auto;
+  }
+
+  .prologue{
+    padding-bottom:56px;
+    margin-bottom:56px;
+    border-bottom:1px solid var(--line);
+  }
+  .prologue .eyebrow{ text-align:left; }
+  .prologue .eyebrow::before{ display:none; }
+  .prologue .eyebrow::after{ display:none; }
+  h2.prologue-title{
+    font-family:'Fraunces',serif;
+    font-weight:600; font-style:italic;
+    font-size:clamp(28px,5vw,38px);
+    color:var(--ink);
+    margin:0 0 26px;
+  }
+
+  section.chapter{
+    padding:64px 0;
+    border-bottom:1px solid var(--line);
+    scroll-margin-top:32px;
+  }
+  section.chapter:last-of-type{ border-bottom:none; }
+
+  .chapter-head{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    margin-bottom:28px;
+  }
+  .chapter-num{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:34px;
+    color:var(--gold);
+    flex:0 0 auto;
+    line-height:1;
+  }
+  h2.chapter-title{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(24px,4vw,32px);
+    line-height:1.18;
+    color:var(--ink);
+    margin:0;
+  }
+
+  h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:21px;
+    color:var(--gold-bright);
+    margin:38px 0 14px;
+  }
+  section.chapter > h3:first-of-type{ margin-top:0; }
+
+  p{ margin:0 0 18px; color:var(--ink); }
+  p.lead{ color:var(--ink-dim); }
+
+  strong{ color:var(--gold-bright); font-weight:600; }
+  em{ color:var(--ink-dim); }
+
+  a.inline-link{ color:var(--gold); }
+
+  ul, ol.plain{ margin:0 0 20px; padding-left:22px; }
+  ul li, ol.plain li{ margin-bottom:10px; color:var(--ink); }
+  ul{ list-style:none; padding-left:0; }
+  ul > li{ position:relative; padding-left:22px; }
+  ul > li::before{
+    content:"◆";
+    position:absolute; left:0; top:2px;
+    font-size:8px;
+    color:var(--gold-dim);
+  }
+
+  ol.steps{ counter-reset:step; list-style:none; padding-left:0; margin:0 0 20px; }
+  ol.steps li{
+    counter-increment:step;
+    position:relative;
+    padding-left:40px;
+    margin-bottom:16px;
+  }
+  ol.steps li::before{
+    content:counter(step);
+    position:absolute; left:0; top:0;
+    width:26px; height:26px;
+    border:1px solid var(--gold-dim);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:12px;
+    color:var(--gold);
+  }
+
+  blockquote.phu{
+    margin:26px 0;
+    padding:4px 0 4px 24px;
+    border-left:2px solid var(--cinnabar);
+    position:relative;
+  }
+  blockquote.phu p{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:19px;
+    color:var(--gold-bright);
+    line-height:1.6;
+    margin:0;
+  }
+  .seal{
+    display:inline-block;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:10px;
+    letter-spacing:.14em;
+    color:var(--cinnabar);
+    border:1px solid var(--cinnabar);
+    border-radius:3px;
+    padding:2px 6px;
+    margin-top:8px;
+  }
+
+  .callout{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:22px 24px;
+    margin:26px 0;
+  }
+  .callout p:last-child{ margin-bottom:0; }
+  .callout .label{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:10px;
+    display:block;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:24px 0 28px;
+    font-size:16px;
+  }
+  th, td{
+    text-align:left;
+    padding:11px 14px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:11.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:500;
+    border-bottom:1px solid var(--gold-dim);
+  }
+  td{ color:var(--ink-dim); }
+  td strong{ color:var(--ink); }
+  tr:hover td{ background:rgba(203,161,53,0.05); }
+
+  .table-wrap{ overflow-x:auto; }
+
+  .divider{
+    display:flex; align-items:center; gap:14px;
+    margin:44px 0;
+    color:var(--gold-dim);
+  }
+  .divider::before, .divider::after{
+    content:""; flex:1; height:1px; background:var(--line);
+  }
+  .divider svg{ width:16px; height:16px; }
+
+  /* colophon */
+  .colophon{
+    padding:70px 24px 90px;
+    text-align:center;
+  }
+  .colophon-inner{ max-width:560px; margin:0 auto; }
+  .colophon-mark{ margin:0 auto 24px; width:46px; height:46px; opacity:.8; }
+  .colophon h3{
+    color:var(--gold-bright);
+    font-size:24px;
+    margin-bottom:18px;
+  }
+  .colophon p{ color:var(--ink-dim); }
+  .colophon .final-line{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    color:var(--gold);
+    font-size:19px;
+    margin-top:22px;
+  }
+
+  footer.site-footer{
+    text-align:center;
+    padding:32px 24px 56px;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:12px;
+    letter-spacing:.08em;
+    color:var(--ink-faint);
+  }
+
+  #backToTop{
+    position:fixed;
+    left:18px; bottom:18px;
+    z-index:150;
+    width:42px; height:42px;
+    border-radius:50%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--gold);
+    cursor:pointer;
+    font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  #backToTop.show{ opacity:1; pointer-events:auto; }
+  #backToTop:hover{ transform:translateY(-2px); }
+
+  #musicToggle{
+    position:fixed;
+    top:18px; right:18px;
+    z-index:190;
+    width:44px; height:44px;
+    border-radius:50%;
+    background:var(--panel-2);
+    border:1px solid var(--gold-dim);
+    color:var(--gold);
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 20px rgba(0,0,0,.35);
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  #musicToggle:hover{ transform:translateY(-2px); border-color:var(--gold); }
+  #musicToggle svg{ width:18px; height:18px; display:block; }
+  #musicToggle .icon-bars{ display:none; }
+  #musicToggle.playing .icon-note{ display:none; }
+  #musicToggle.playing .icon-bars{ display:block; }
+  #musicToggle.playing{
+    animation: musicPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes musicPulse{
+    0%,100%{ box-shadow:0 6px 20px rgba(0,0,0,.35), 0 0 0 0 rgba(203,161,53,0.35); }
+    50%{ box-shadow:0 6px 20px rgba(0,0,0,.35), 0 0 0 6px rgba(203,161,53,0); }
+  }
+
+  ::selection{ background:var(--violet); color:#fff; }
+
+  @media print{
+    body{ background:#fff; color:#111; font-size:12pt; }
+    .hero, .toc-desktop, .toc-toggle, .progress-track, #backToTop, #musicToggle{ display:none !important; }
+    .content{ padding:0; }
+    section.chapter{ border-bottom:1px solid #ccc; break-inside:avoid-page; }
+    h2.chapter-title, h3, strong{ color:#111 !important; -webkit-text-fill-color:#111 !important; }
+    blockquote.phu p{ color:#7a2f1c !important; }
+    a{ color:#111; text-decoration:underline; }
+  }
+</style>
+</head>
+<body>
+<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
+  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a>
+</div>
+
+
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<header class="hero">
+  <div class="hero-wheel" aria-hidden="true">
+    <svg viewBox="0 0 600 600">
+      <g class="wheel-rotate">
+        <circle cx="300" cy="300" r="270" fill="none" stroke="#7C6423" stroke-width="1" opacity="0.55"/>
+        <circle cx="300" cy="300" r="225" fill="none" stroke="#332a55" stroke-width="1"/>
+        <circle cx="300" cy="300" r="170" fill="none" stroke="#7C6423" stroke-width="1" opacity="0.4"/>
+        <circle cx="300" cy="300" r="60" fill="none" stroke="#CBA135" stroke-width="1" opacity="0.7"/>
+
+        <!-- 12 spokes -->
+        <g stroke="#7C6423" stroke-width="1" opacity="0.5">
+          <line x1="300" y1="100" x2="300" y2="50"/>
+          <line x1="400" y1="126.8" x2="425" y2="83.5"/>
+          <line x1="473.2" y1="200" x2="516.5" y2="175"/>
+          <line x1="500" y1="300" x2="550" y2="300"/>
+          <line x1="473.2" y1="400" x2="516.5" y2="425"/>
+          <line x1="400" y1="473.2" x2="425" y2="516.5"/>
+          <line x1="300" y1="500" x2="300" y2="550"/>
+          <line x1="200" y1="473.2" x2="175" y2="516.5"/>
+          <line x1="126.8" y1="400" x2="83.5" y2="425"/>
+          <line x1="100" y1="300" x2="50" y2="300"/>
+          <line x1="126.8" y1="200" x2="83.5" y2="175"/>
+          <line x1="200" y1="126.8" x2="175" y2="83.5"/>
+        </g>
+
+        <!-- 12 Địa Chi labels -->
+        <g font-family="IBM Plex Sans, sans-serif" font-size="15" fill="#E4C468" text-anchor="middle" opacity="0.85">
+          <text x="300" y="72">Tý</text>
+          <text x="418" y="102">Sửu</text>
+          <text x="500" y="182">Dần</text>
+          <text x="533" y="305">Mão</text>
+          <text x="500" y="428">Thìn</text>
+          <text x="418" y="508">Tỵ</text>
+          <text x="300" y="538">Ngọ</text>
+          <text x="182" y="508">Mùi</text>
+          <text x="100" y="428">Thân</text>
+          <text x="67" y="305">Dậu</text>
+          <text x="100" y="182">Tuất</text>
+          <text x="182" y="102">Hợi</text>
+        </g>
+
+        <!-- ambient stars -->
+        <g>
+          <circle class="star twinkle" cx="70" cy="70" r="2.2"/>
+          <circle class="star twinkle" cx="540" cy="90" r="1.6" style="animation-delay:1.2s"/>
+          <circle class="star twinkle" cx="60" cy="530" r="1.8" style="animation-delay:2.4s"/>
+          <circle class="star twinkle" cx="545" cy="540" r="2.4" style="animation-delay:.6s"/>
+          <circle class="star" cx="300" cy="20" r="1.4"/>
+          <circle class="star" cx="580" cy="300" r="1.4"/>
+          <circle class="star" cx="300" cy="580" r="1.4"/>
+          <circle class="star" cx="20" cy="300" r="1.4"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <p class="eyebrow">Phúc Đức Viên · Chương Nhị · Tử Vi Đẩu Số</p>
+    <h1 class="title">Cung Phúc Đức</h1>
+    <p class="subtitle">Từ nhập môn đến tầng uyên thâm của bậc thầy Tử Vi</p>
+    <p class="hero-quote">"Mệnh hảo bất như Thân hảo, Thân hảo bất như hạn hảo, hạn hảo bất như Phúc hảo." Gốc của mọi cái hảo bắt đầu từ Mệnh — nhưng cái hảo bền nhất, sau cùng, vẫn quay về Phúc.</p>
+  </div>
+
+  <div class="scroll-cue"><span class="line"></span>Cuộn xuống</div>
+</header>
+
+<button class="toc-toggle" id="tocToggle" aria-label="Mở mục lục">Mục<br>lục</button>
+<div class="toc-drawer" id="tocDrawer">
+  <div class="toc-drawer-panel">
+    <button class="toc-drawer-close" id="tocClose">ĐÓNG ✕</button>
+    <ol id="tocDrawerList"></ol>
+  </div>
+</div>
+
+<div class="shell">
+  <nav class="toc-desktop" aria-label="Mục lục">
+    <p class="toc-label">Mục lục</p>
+    <ol id="tocDesktopList"></ol>
+  </nav>
+
+  <main class="content">
+    <div class="content-inner">
+
+      <section class="prologue" id="loi-mo">
+        <p class="eyebrow">Lời mở</p>
+        <h2 class="prologue-title">Cường cung bậc nhất, chi phối cả mười một cung còn lại</h2>
+        <p>Nếu Mệnh Viên là cửa ngõ để hiểu một con người, thì Phúc Đức là gốc rễ để hiểu vì sao con người ấy được hay mất trong đời. Người xưa xem cung Phúc Đức là <strong>cường cung bậc nhất</strong> trong mười hai cung — không phải vì nó lớn tiếng nhất, mà vì nó âm thầm chi phối chất lượng của tất cả các cung còn lại: một cung Tài Bạch đẹp trên giấy vẫn có thể không mang lại hạnh phúc thật, nếu Phúc Đức đằng sau nó cạn kiệt.</p>
+
+        <p><strong>PHÚC</strong> là từ chỉ sự phồn thịnh, phong phú, sung túc, giàu có. <strong>ĐỨC</strong> chỉ về nhân hậu, lương thiện, lẽ phải, đạo đức, thiện tâm. Ghép lại, Phúc Đức không đơn thuần là "may mắn" — nó là <strong>kết quả</strong> của một quá trình gieo nhân từ nhiều đời: phúc ấm tổ tiên để lại, mồ mả trực hệ, và cả nghiệp lành nghiệp dữ mà chính đương số đang tạo ra cho con cháu đời sau.</p>
+
+        <h3>Cấu trúc: đối cung Tài Bạch, tam hợp Thiên Di – Phu Thê</h3>
+        <p>Về mặt kỹ thuật, cung Phúc Đức đứng ở vị trí thứ ba trên vòng mười hai cung (sau Mệnh, Phụ Mẫu), có <strong>đối cung là Tài Bạch</strong>, và <strong>tam hợp với Thiên Di, Phu Thê</strong>. Đây là điểm khác biệt cấu trúc quan trọng đầu tiên so với Mệnh: Mệnh tam hợp với Tài Bạch – Quan Lộc và xung chiếu Thiên Di; còn Phúc Đức tam hợp với Thiên Di – Phu Thê và xung chiếu chính Tài Bạch. Vì vậy, khi Phúc Đức xấu, hai cung chịu ảnh hưởng nặng nề nhất luôn là <strong>Tài Bạch</strong> (đối cung — tiền bạc mất đi sự thảnh thơi, kiếm được nhưng không an) và <strong>Phu Thê</strong> (tam hợp — hôn nhân thiếu nền tảng tinh thần vững).</p>
+
+        <p>Nếu Mệnh trả lời câu hỏi "tôi là ai", thì Phúc Đức trả lời câu hỏi khác hẳn: <strong>"đời sống tinh thần của tôi phong phú hay nghèo nàn, và tôi đang thừa hưởng — hay đang tạo ra — loại phúc phần nào cho những người đến sau."</strong></p>
+      </section>
+
+      <section class="chapter" id="phan-1">
+        <div class="chapter-head">
+          <span class="chapter-num">I</span>
+          <h2 class="chapter-title">Nền tảng: chính tinh tại Phúc Đức nói lên điều gì</h2>
+        </div>
+        <p>Khác với Mệnh (nơi chính tinh vẽ ra tính cách), chính tinh tại Phúc Đức vẽ ra <strong>chất lượng đời sống nội tâm</strong> — người này thấy an yên hay bất an, thấy đủ hay thấy thiếu, dù hoàn cảnh bên ngoài ra sao.</p>
+
+        <h3>Tử Vi — an nhưng dễ chủ quan</h3>
+        <p>Tử Vi tọa Phúc Đức thường chủ về nhân phẩm đôn hậu, ôn hòa, nhưng tính chủ quan rất mạnh — đúng bản chất đế tinh, tự cho mình luôn đúng. Tử Vi miếu vượng thì hưởng phúc lâu dài; gặp thêm Thiên Phủ hoặc Thiên Tướng đồng độ thì tinh thần vui vẻ cởi mở, chung thân cát tường. Nhưng nếu gặp Phá Quân thì lao tâm phí lực, tinh thần khó yên; gặp Tham Lang thì dễ sa vào hưởng thụ thi tửu, cầm kỳ, cờ bạc, trăng gió. Đặc biệt, nếu có sát tinh như Tiểu Hao, Đại Hao, Triệt, Địa Không, Địa Kiếp xâm phạm, dòng trưởng trong gia tộc dễ bị bại, phải tha hương bôn tẩu, tổ nghiệp không vượng.</p>
+
+        <h3>Thiên Phủ — kho phúc đức sâu dày</h3>
+        <p>Thiên Phủ tại Phúc Đức là một cách cục cát: biểu thị nền phúc đức sâu dày, cho đương số một chỗ dựa vững chắc từ tổ tiên, sống hiền lương, thường gặp điều lành. Đi cùng cát tinh thì càng vượng phúc; gặp sát tinh thì vẫn giữ được sự ổn định tương đối, nhờ đúng bản chất "kho chứa, biết bảo tồn" của sao Phủ. Nhưng nếu Thiên Phủ gặp Tuần, Triệt, Địa Không, Địa Kiếp, dòng trưởng vẫn bị bại, phải lang thang khắp nơi — có may mắn cũng chỉ thoáng chốc, địa khí sớm cạn kiệt.</p>
+
+        <h3>Thiên Tướng — phúc từ phò tá, kỵ đơn độc chống chọi</h3>
+        <p>Thiên Tướng thủ Phúc Đức rất kỵ có Vũ Khúc hay Phá Quân vây chiếu — dễ kích động, hoặc phải bôn ba vất vả để đạt tới lý tưởng. Khi ở Tý, Ngọ cùng Thiên Tướng đắc cách thì phú quý, trong gia đình ít trai nhiều gái. Nếu tại Mão, Dậu cùng Phá Quân thì lao động vất vả, gia tộc suy thoái, bản thân phải rời tổ xa quê mới có thể giàu sang.</p>
+
+        <h3>Vũ Khúc — phúc do cần kiệm mà có, thiên về vật chất</h3>
+        <p>Vũ Khúc tại Phúc Đức chủ về phúc đức đến từ cần kiệm, lao động và kỷ luật, thiên về vật chất hơn tinh thần — ít được thảnh thơi nhưng có sức bền và khả năng tích lũy. Hãm địa thì vất vả; miếu vượng thì yên bình hưởng phúc. Gặp Thiên Tướng thì giàu sang bình an; gặp Phá Quân thì sống bôn ba không an ổn; gặp Thất Sát phải chờ lâu mới an nhàn; gặp Tham Lang thì càng già càng nhiều phúc.</p>
+
+        <h3>Liêm Trinh — cần Hóa Lộc để giữ được quyết đoán</h3>
+        <p>Liêm Trinh Hóa Kỵ đồng độ tại Phúc Đức là cách xấu điển hình: "ứng đoạn bất đoạn, phản thụ kỳ loạn" — đáng lẽ cần quyết đoán thì lại do dự, ngược lại chuốc lấy rối loạn, hành động lưỡng lự, tiến thoái lưỡng nan. Liêm Trinh – Thiên Phủ đồng cung thì sung sướng, hưởng phúc thọ đầy đủ; Liêm Trinh – Thiên Tướng thì hưởng phúc đức nhưng dễ bất hòa nội tâm nếu không tiết chế.</p>
+
+        <h3>Phá Quân — cần tĩnh tâm hơn tất cả</h3>
+        <p>Phá Quân thủ Phúc Đức mà hội tứ Sát (không có Hóa Kỵ đồng độ) thì dễ chiêu phiền não, hành động luôn bất an định. Đây là một trong những cách phối cần "tu tâm" nhất trong toàn hệ thống, vì bản chất Phá Quân là phá — nội tâm khó tĩnh nếu không có sao giữ lại.</p>
+
+        <h3>Tham Lang — hành trình từ xáo động đến tĩnh tại</h3>
+        <p>Tham Lang tại Phúc Đức là một hành trình dài từ sự xáo động của trần thế đi đến sự tĩnh tại của tâm linh. Người có cách này, việc tu tâm quan trọng hơn bất cứ phương pháp phong thủy nào — sự bất an trong tâm hồn chỉ dịu đi nhờ thiền định hoặc đức tin. Ở Sửu, Mùi cùng Vũ Khúc: trẻ vất vả, về già hưởng phúc lộc nhờ nỗ lực thời trẻ, nhưng dễ ích kỷ, càng lớn tuổi càng dễ vướng bệnh vì mê sắc dục. Ở Tý, Ngọ cùng Liêm Trinh: sở thích rộng rãi nhưng hay lo nghĩ.</p>
+
+        <h3>Thất Sát — an nhàn đến muộn</h3>
+        <p>Thất Sát – Tử Vi đồng độ tại Phúc Đức mà hội cát tinh thì thích lộng quyền; hội hung sát thì hay buồn phiền, nóng nảy, bất an, dễ làm việc thiếu suy nghĩ. Riêng "Tử Vi – Thất Sát" gặp đủ Kình Dương, Đà La, Hỏa Linh, Không Kiếp, Thiên Hình, Đại Hao hội hợp: phiền phức rối rắm, vất vả khổ lụy, sau trung niên dễ cảm thấy đời người trống rỗng — đặc biệt ngại gặp Đà La, Linh Tinh đồng độ vì dễ tự chuốc buồn phiền.</p>
+
+        <h3>Thiên Lương — phúc tinh của đời sống tinh thần</h3>
+        <p>Thiên Lương là thanh quý chi tinh, thủ Phúc Đức thì thường coi trọng đời sống tinh thần hơn vật chất, mang tư tưởng thoát tục mà người thường khó lý giải nổi. Nhập miếu: an phận với số mệnh (lạc thiên tri mệnh), lòng khoáng đạt hào hiệp, thích đàm đạo, ít bôn ba. Lạc hãm: hóa thành lười biếng, thích trì hoãn, dây dưa đến nỗi hỏng việc.</p>
+
+        <div class="callout">
+          <span class="label">Bài học phương pháp</span>
+          <p>Giống như ở Mệnh, không nên chấp nhất một chính tinh đơn lẻ — Cung Phúc Đức có thể có <strong>hai chính diệu đồng cung</strong>, và khi cả hai đều không sinh được bản mệnh (theo ngũ hành), phải xét xem bản mệnh sinh được chính diệu nào — chính diệu đó mới là chính diệu thực sự chi phối phúc phần. Kỹ thuật này sẽ được khai triển ở Phần VIII.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="phan-2">
+        <div class="chapter-head">
+          <span class="chapter-num">II</span>
+          <h2 class="chapter-title">Năm lớp giải phẫu cung Phúc Đức</h2>
+        </div>
+        <p>Cũng như Mệnh, luận Phúc Đức trọn vẹn cần bóc tách theo năm lớp, chỉ khác trọng tâm diễn giải:</p>
+
+        <p><strong>Lớp 1 — Can Chi cung Phúc Đức.</strong> Quyết định chính tinh nào an tại đây theo phép Ngũ Hổ Độn, đồng thời quyết định ngũ hành của cung để đối chiếu sinh khắc với bản mệnh — bước quan trọng bậc nhất khi luận Phúc Đức, vì nhiều kỹ thuật cổ điển (như ở Phần VIII) xoay quanh chính mối quan hệ ngũ hành Cung – Mệnh này.</p>
+
+        <p><strong>Lớp 2 — Chính tinh.</strong> Như đã trình bày ở Phần I, mỗi chính tinh mang một "chất lượng hưởng thụ tinh thần" riêng — không phải "chất tính cách" như tại Mệnh.</p>
+
+        <p><strong>Lớp 3 — Phụ tinh, sát tinh.</strong> Lục Cát hội tụ tại Phúc Đức thường cho một đời sống nội tâm phong phú, có nơi nương tựa tinh thần (tôn giáo, nghệ thuật, tri thức). Lục Sát hội tụ dễ khiến nội tâm bất an, khó tĩnh, và về mặt kỹ thuật là dấu hiệu tổ nghiệp suy — đặc biệt Tuần, Triệt, Địa Không, Địa Kiếp thường gắn với hình ảnh "dòng trưởng bị bại, tha hương lập nghiệp" bất kể chính tinh nào đi cùng.</p>
+
+        <p><strong>Lớp 4 — Vòng Tràng Sinh.</strong> Khi luận Phúc Đức, một bước riêng biệt và bắt buộc là xem Vòng Trường Sinh tại đây <strong>có hợp với cung Mệnh không, có hợp với chính tinh của Mệnh không</strong>. Nếu vòng Trường Sinh tại Phúc Đức yếu (Suy, Bệnh, Tử, Tuyệt) mà không hợp Mệnh, đây là tín hiệu rõ ràng nhất cho thấy đương số cần tự tu tâm sửa trí nhiều hơn người khác mới "vớt vát" lại được phần phúc đang hao hụt.</p>
+
+        <p><strong>Lớp 5 — Cục.</strong> Cục sinh Phúc Đức là được hưởng phúc tổ tiên một cách tự nhiên, ít phải gắng sức tinh thần; Phúc Đức sinh Cục là phải chủ động vun bồi đời sống tinh thần cho chính mình, không trông chờ được cho sẵn.</p>
+      </section>
+
+      <section class="chapter" id="phan-3">
+        <div class="chapter-head">
+          <span class="chapter-num">III</span>
+          <h2 class="chapter-title">Phúc Đức Vô Chính Diệu: mượn Tài Bạch, không mượn Thiên Di</h2>
+        </div>
+        <p>Đây là điểm khác biệt kỹ thuật quan trọng nhất giữa Phúc Đức và Mệnh khi luận Vô Chính Diệu (VCD).</p>
+        <p>Ở cung Mệnh, VCD mượn chính tinh từ cung đối diện là <strong>Thiên Di</strong>. Nhưng ở cung Phúc Đức, đối cung là <strong>Tài Bạch</strong> — nên khi Phúc Đức không có chính tinh, người luận số phải mượn chính tinh từ Tài Bạch để soi chiếu. Đây là một logic nhất quán và rất đẹp về mặt cấu trúc: Tài Bạch chủ vật chất, tiền bạc; Phúc Đức chủ tinh thần — nhưng vật chất luôn ảnh hưởng trực tiếp đến tâm lý, góp phần định hình sự hưởng thụ tinh thần của một người. Nếu Tài Bạch nhiều cát tinh, tài lộc dồi dào, người ta dễ vui vẻ thoải mái, tâm hồn thanh thản hơn — đó chính là cơ chế mượn vận hành trong thực tế, không chỉ là quy tắc hình thức.</p>
+        <p>Phúc Đức VCD nói chung chủ về khó khăn trong mối quan hệ họ hàng, dễ xa cách anh em, phải sống tự lập từ sớm, thiếu sự trợ giúp của người thân trong giai đoạn đầu đời. Nhưng cũng như VCD tại Mệnh, đây không phải là một phán quyết xấu tuyệt đối:</p>
+        <ul>
+          <li><strong>VCD đắc Tam Không</strong> (được 2 trong 3 sao Tuần, Triệt, Thiên Không soi chiếu): cách cục rất tốt, phúc lộc dồi dào — đặc biệt hợp với người bản mệnh Kim hoặc Hỏa, các mệnh khác vẫn hưởng lợi nhưng ít hơn.</li>
+          <li><strong>VCD có hung tinh đắc địa độc thủ</strong>: vẫn được hưởng phúc lộc, nhưng chỉ trong một số giai đoạn nhất định, không bền suốt đời.</li>
+          <li><strong>Tử Vi ở Tài Bạch chiếu về, đắc miếu vượng</strong>: đương số thường có phúc khí dồi dào, tinh thần lạc quan mạnh mẽ, được tôn trọng trong gia đình, có người thân quyền lực hoặc địa vị cao, cuộc sống an nhàn ít lo âu.</li>
+          <li><strong>Tử Vi bình hòa ở Tài Bạch, cộng thêm nhiều sát bại tinh trong cung</strong>: phúc phần mỏng hơn hẳn, đời sống tinh thần bất ổn.</li>
+        </ul>
+      </section>
+
+      <section class="chapter" id="phan-4">
+        <div class="chapter-head">
+          <span class="chapter-num">IV</span>
+          <h2 class="chapter-title">Tam phương tứ chính của Phúc Đức</h2>
+        </div>
+        <p>Không cung nào trong Tử Vi đứng một mình, và Phúc Đức càng không ngoại lệ — vì bản chất nó là cung "cường", ảnh hưởng lan tỏa rất xa:</p>
+        <ul>
+          <li><strong>Đối cung Tài Bạch</strong>: mối quan hệ vật chất – tinh thần hai chiều. Phúc Đức tốt giúp Tài Bạch được hưởng tiền bạc một cách thảnh thơi, không tham lam quá độ; Phúc Đức xấu khiến Tài Bạch dù có tiền vẫn không thấy đủ, không thấy an.</li>
+          <li><strong>Tam hợp Thiên Di</strong>: đời sống tinh thần ảnh hưởng trực tiếp đến cách một người ứng xử, xoay xở khi ra ngoài xã hội. Phúc Đức dày thường đi cùng một Thiên Di được quý nhân phù trợ.</li>
+          <li><strong>Tam hợp Phu Thê</strong>: đây là lý do cổ nhân luôn nhắc khi luận hôn nhân phải xem thêm Phúc Đức — một Phu Thê đẹp trên giấy vẫn có thể trục trặc nếu nền tảng Phúc Đức của một trong hai người quá mỏng, thiếu chỗ dựa tinh thần bền vững.</li>
+        </ul>
+        <div class="callout">
+          <span class="label">Nguyên tắc cần nhớ</span>
+          <p>Khi Phúc Đức xấu, hai cung chịu ảnh hưởng rõ rệt nhất luôn là Tài Bạch (đối cung) và Phu Thê (tam hợp) — không phải ngẫu nhiên hai lĩnh vực người ta hay than phiền nhất trong đời ("có tiền mà không vui", "hôn nhân mà không yên") lại thường bắt nguồn từ chính cung Phúc Đức, chứ không nằm ở bản thân hai cung đó.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="phan-5">
+        <div class="chapter-head">
+          <span class="chapter-num">V</span>
+          <h2 class="chapter-title">Đại Vận và hạn Phúc Đức</h2>
+        </div>
+        <p>Khi Đại Vận đi vào cung Phúc Đức nguyên cục, đây là giai đoạn mười năm mà đời sống nội tâm được "chiếu sáng" rõ nhất — dù bên ngoài công danh tài lộc ra sao, đây vẫn là lúc một người đối diện trực tiếp với câu hỏi mình có đang sống thảnh thơi hay không.</p>
+        <p>Một điểm tinh tế: chính tinh nguyên cục tại Phúc Đức là <strong>bản chất gốc</strong>, không đổi; nhưng chính tinh của Đại Vận đi qua Phúc Đức có thể <strong>điều chỉnh tạm thời</strong> biểu hiện đó trong mười năm ấy. Ví dụ, nếu Phúc Đức nguyên cục là Tử Vi (đôn hậu, vững vàng) mà đến vận gặp Thiên Cơ tại chính cung Phúc Đức của đại hạn, tinh thần đôn hậu gốc không mất đi, nhưng đương số trong giai đoạn này sẽ tăng thêm tính linh động, mưu trí, quyền biến — một lớp "gia vị" tạm thời chồng lên bản chất gốc, chứ không thay thế nó. Đây chính là lý do khi luận hạn, tuyệt đối không được xem nhẹ tính chất chủ yếu của Phúc Đức nguyên cục để chỉ chăm chăm nhìn vào sao của vận hạn.</p>
+      </section>
+
+      <section class="chapter" id="phan-6">
+        <div class="chapter-head">
+          <span class="chapter-num">VI</span>
+          <h2 class="chapter-title">Ứng dụng tu dưỡng: tu tâm sửa trí khi Phúc Đức yếu</h2>
+        </div>
+        <p>Đây là phần ứng dụng cốt lõi nhất của cung Phúc Đức, và cũng là điều khiến nó khác hẳn về tinh thần so với các cung khác: <strong>Phúc Đức là cung duy nhất mà chính cổ nhân dạy rằng có thể tự mình cải thiện bằng nỗ lực nội tâm</strong>, không cần chờ vận trình thay đổi.</p>
+        <p>Nguyên tinh thần cổ học: khi xem cung Phúc mà thấy yếu kém (chính tinh hãm, vòng Trường Sinh không hợp Mệnh, nhiều sát tinh xâm phạm), thì chính đương số phải <strong>tu tâm sửa trí</strong> rất nhiều mới có thể vớt vát lại được. Đây không phải một lời khuyên đạo đức chung chung, mà là một nguyên lý kỹ thuật thực sự trong khoa Tử Vi — nối liền trực tiếp với điều đã nói ở chương Mệnh: Mệnh không đổi được, nhưng Phúc Đức là nơi con người có quyền chủ động nhất để "sửa" vận mệnh của chính mình và của cả con cháu đời sau.</p>
+        <p>Vài gợi ý ứng dụng theo từng cách phối:</p>
+        <ul>
+          <li>Phúc Đức có Phá Quân hội sát tinh, không Hóa Kỵ → cần học cách tĩnh tâm, tránh để bản thân cuốn theo những xáo trộn không cần thiết.</li>
+          <li>Phúc Đức có Tham Lang hội sát tinh → tu tâm quan trọng hơn mọi phong thủy; thiền định hoặc đức tin tôn giáo là con đường thực chất nhất để xoa dịu bất an nội tâm.</li>
+          <li>Phúc Đức có Liêm Trinh Hóa Kỵ → học cách quyết đoán đúng lúc, tránh để sự do dự tự nó trở thành nguồn gốc của rối loạn.</li>
+          <li>Phúc Đức có Thiên Lương hãm địa → cảnh giác với xu hướng trì hoãn, dây dưa — biến sự "thoát tục" thành lười biếng thực sự.</li>
+        </ul>
+        <p>Và trên hết, việc chăm sóc mồ mả tổ tiên, giữ gìn nề nếp gia phong — dù chỉ là điều kiện cần chứ chưa đủ — vẫn luôn được xem là hành động cụ thể nhất để vun bồi lại một cung Phúc Đức đang mỏng.</p>
+      </section>
+
+      <section class="chapter" id="phan-7">
+        <div class="chapter-head">
+          <span class="chapter-num">VII</span>
+          <h2 class="chapter-title">Lớp riêng của Phúc Đức: mộ phần tổ tiên theo từng chính tinh</h2>
+        </div>
+        <p>Đây là một lớp ý nghĩa mà chỉ cung Phúc Đức mới có, không xuất hiện ở Mệnh hay bất kỳ cung nào khác — phản ánh đúng bản chất "phúc ấm tổ tiên, mồ mả trực hệ" đã nói ở Lời mở. Theo lối luận cổ điển (Vân Đằng Thái Thứ Lang), mỗi chính tinh tại Phúc Đức còn được dùng để đoán cả đặc điểm mộ phần tổ tiên:</p>
+        <ul>
+          <li><strong>Tham Lang</strong>: mộ tổ xa đời (thường sáu, bảy đời) — đất nổi cao như hình con chó ngồi, sắc đất đen như bùn, cây cỏ mọc rậm rạp.</li>
+          <li><strong>Cự Môn</strong>: mộ bác ruột (bên nội) — đất vuông vắn, thường gần đình sở hay lâu đài, đào sâu thấy lớp đất màu vàng bên dưới.</li>
+          <li><strong>Thiên Tướng</strong>: mộ tổ năm đời — đất nổi cao và vuông vắn như hình cái ấn.</li>
+          <li><strong>Thiên Lương</strong>: mộ tổ bốn đời.</li>
+        </ul>
+        <p>Lớp ý nghĩa này ngày nay ít được dùng theo nghĩa đen (khó kiểm chứng, và không phải ai cũng còn giữ liên hệ với phần mộ tổ tiên xa đời), nhưng giá trị thực sự của nó nằm ở việc nhắc người luận số nhớ rằng: Phúc Đức không phải một cung trừu tượng chỉ nói về "cảm giác hạnh phúc" — nó có gốc rễ cụ thể trong dòng chảy huyết thống, trong những gì các thế hệ trước đã để lại, dù ta có nhìn thấy hay không.</p>
+      </section>
+
+      <section class="chapter" id="phan-8">
+        <div class="chapter-head">
+          <span class="chapter-num">VIII</span>
+          <h2 class="chapter-title">Tầng uyên thâm: khi hai chính diệu đồng cung đều không sinh được bản mệnh</h2>
+        </div>
+        <p>Đây là kỹ thuật riêng biệt và tinh vi nhất khi luận Phúc Đức, hiếm khi được nhắc tới ở các cung khác vì Phúc Đức đặc biệt hay có hai chính diệu đồng cung (do đặc thù an sao của một số tổ hợp).</p>
+        <p>Nguyên tắc cơ bản: khi Phúc Đức có hai chính diệu đồng cung, nếu một trong hai sinh được bản mệnh (theo ngũ hành), đương nhiên chính diệu đó chi phối phúc phần. Nhưng có một trường hợp phức tạp hơn: <strong>cả hai chính diệu đều không sinh được bản mệnh</strong>. Lúc này, nguyên tắc chuyển hướng: xét xem <strong>bản mệnh sinh được chính diệu nào</strong> — chính diệu đó mới là chính diệu thực sự ảnh hưởng đến phúc phần của đương số.</p>
+        <p>Ví dụ minh họa kinh điển: Phúc Đức đóng tại cung Mão, do Cự Môn và Thiên Cơ đồng cai quản. Cự Môn thuộc hành Thủy, Thiên Cơ thuộc hành Mộc. Giả sử bản mệnh thuộc hành Kim. Theo ngũ hành sinh: Thủy không sinh Kim, Mộc cũng không sinh Kim — cả hai chính diệu đều không sinh được bản mệnh. Nhưng xét chiều ngược lại: Kim sinh Thủy (đúng theo vòng tương sinh Kim → Thủy → Mộc → Hỏa → Thổ → Kim). Vậy bản mệnh Kim sinh được Cự Môn (Thủy), nhưng không sinh được Thiên Cơ (Mộc). Kết luận: bản mệnh chịu ảnh hưởng chính bởi Cự Môn — tức là mộ phần và phúc phần liên quan đến dòng chú bác sẽ là yếu tố chi phối rõ nét hơn Thiên Cơ trong lá số này.</p>
+        <p>Trường hợp phức tạp hơn nữa: nếu Phúc Đức có hai chính diệu đồng cung mà <strong>không chính diệu nào sinh bản mệnh, cũng không bản mệnh sinh được chính diệu nào</strong> (quan hệ bình hòa hoặc khắc chế lẫn nhau), người luận số buộc phải xét tiếp xem chính diệu nào <strong>bình hòa hơn</strong> với bản mệnh (ít khắc chế nhất) — chính diệu đó sẽ là chính diệu có ảnh hưởng lớn hơn.</p>
+        <div class="callout">
+          <span class="label">Vì sao đây là tầng của bậc thầy?</span>
+          <p>Vì kỹ thuật này đòi hỏi người luận số phải thuộc lòng ngũ hành của cả 14 chính tinh, thuộc vòng tương sinh, và biết áp dụng đúng thứ tự ưu tiên (sinh bản mệnh → bản mệnh sinh → bình hòa) một cách tự động, không cần tra bảng. Đây chính là phiên bản "ngũ hành biến tính sao" của riêng cung Phúc Đức — cùng tinh thần với nguyên lý đã bàn ở chương Mệnh (Tử Vi Thổ gặp Hỏa thì đổi tính, Triệt Không gặp Kim cung thì hóa cát), chỉ khác là ở đây ngũ hành không biến đổi <em>tính chất</em> của một sao đơn lẻ, mà quyết định <em>sao nào trong hai sao đồng cung mới là sao thực sự lên tiếng</em>.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="phan-9">
+        <div class="chapter-head">
+          <span class="chapter-num">IX</span>
+          <h2 class="chapter-title">Tổng kết: công thức luận Phúc Đức của bậc thầy</h2>
+        </div>
+
+        <h3>Bảy câu hỏi khi nhìn vào cung Phúc Đức</h3>
+        <ol class="steps">
+          <li>Phúc Đức đóng ở đâu, ngũ hành cung là gì, có sinh hay khắc bản mệnh không?</li>
+          <li>Có một hay hai chính diệu đồng cung? Nếu hai, có sao nào sinh được bản mệnh không — nếu không, bản mệnh sinh được sao nào (Phần VIII)?</li>
+          <li>Chính diệu đó miếu hay hãm? Ứng với ý nghĩa hưởng thụ tinh thần nào (Phần I)?</li>
+          <li>Có Tuần, Triệt, Không, Kiếp, Đại Hao, Tiểu Hao xâm phạm không — dấu hiệu dòng trưởng bị bại, tổ nghiệp suy?</li>
+          <li>Vòng Trường Sinh tại Phúc Đức có hợp với cung Mệnh, hợp với chính tinh của Mệnh không?</li>
+          <li>Đối cung Tài Bạch và tam hợp Thiên Di – Phu Thê đang hội gì về?</li>
+          <li>Nếu Vô Chính Diệu: chính tinh mượn từ Tài Bạch đắc hay hãm, có đắc Tam Không không?</li>
+        </ol>
+
+        <h3>Năm bước đọc sâu</h3>
+        <ol class="steps">
+          <li><strong>Định vị chức năng</strong> — Phúc Đức trả lời câu hỏi đời sống tinh thần và phúc ấm tổ tiên, không phải tính cách (đó là việc của Mệnh) hay tiền bạc trực tiếp (đó là việc của Tài Bạch).</li>
+          <li><strong>Đọc chính tinh làm gốc</strong>, đặt trong khung năm lớp giải phẫu — đặc biệt chú ý bước kiểm tra vòng Trường Sinh có hợp Mệnh không, một bước gần như riêng biệt của Phúc Đức.</li>
+          <li><strong>Xét các thế đặc biệt</strong> — Vô Chính Diệu mượn Tài Bạch (khác Mệnh mượn Thiên Di), và kỹ thuật hai chính diệu đồng cung không sinh bản mệnh.</li>
+          <li><strong>Mở rộng ra tam phương tứ chính</strong> — đối cung Tài Bạch, tam hợp Thiên Di – Phu Thê, và nhớ nguyên tắc: Phúc Đức xấu ảnh hưởng nặng nhất lên chính hai cung này.</li>
+          <li><strong>Không quên lớp ứng dụng tu dưỡng</strong> — đây là cung mà bản thân đương số có quyền chủ động cải thiện nhiều nhất, thông qua tu tâm sửa trí và giữ gìn nề nếp gia phong, chứ không chỉ ngồi chờ vận trình đổi thay.</li>
+        </ol>
+      </section>
+
+      <section class="chapter" id="phan-10">
+        <div class="chapter-head">
+          <span class="chapter-num">X</span>
+          <h2 class="chapter-title">Ví dụ thực hành: một lá số thực</h2>
+        </div>
+        <p>Lý thuyết chỉ thật sự "ngấm" khi áp vào một trường hợp cụ thể. Dưới đây là một ví dụ luận Phúc Đức trọn vẹn trên một lá số thực, đi qua đủ các lớp đã trình bày ở trên — từ chính tinh, phụ tinh, đến Lai Nhân Cung và ảnh hưởng tam hợp, lưu niên.</p>
+
+        <div class="callout">
+          <span class="label">Lá số</span>
+          <p>Âm Nam 1987 Đinh Mão, Cục Hỏa Lục Cục, Mệnh Hỏa bình hòa. Lai Nhân Cung đóng chính tại cung Phúc Đức.</p>
+        </div>
+
+        <h3>1. Cơ bản: cung Phúc Đức là gì</h3>
+        <p><strong>Vị trí</strong>: cung Đinh Mùi, can Đinh – chi Mùi – hành Thổ, nằm ở Thân 7. Đại Vận Nô Bộc và Lưu Niên Mệnh (năm 2026) cùng nhập vào Phúc Đức — nghĩa là năm nay tư tưởng, tinh thần, chuyện dòng họ, chuyện bạn bè sẽ ảnh hưởng trực tiếp đến vận mệnh.</p>
+        <p><strong>Chính tinh</strong>: Vũ Khúc (miếu) + Tham Lang (miếu) đồng cung tại Mùi — cách cục nổi tiếng <strong>Tham Vũ Đồng Hành</strong>. Cả hai sao đều sáng, không hãm địa. Vũ Khúc chủ dòng họ có người kinh doanh, quân nhân, tính quyết đoán, ly tổ lập nghiệp; Tham Lang chủ người trong họ thông minh, đào hoa, ham vui, có tài lẻ, có người theo nghiệp tâm linh hoặc nghệ thuật. Cung Mùi thuộc Thổ, Thổ sinh Kim nên Vũ Khúc được lợi — tiền bạc dòng họ không thiếu, nhưng không tụ ở quê, phải đi xa mới phát, gọi là "tiền chôn giấu", càng về già càng có.</p>
+        <p><strong>Phụ tinh</strong>:</p>
+        <ul>
+          <li><strong>Tả Phù + Hữu Bật</strong>: bộ sao phò tá vua, phúc cực dày — dòng họ đông, nhiều người thành danh, đi đâu cũng có người giúp. Bản thân đương số ra đời được quý nhân phù trợ, dù Mệnh là Thiên Phủ (Bình) gặp Địa Không.</li>
+          <li><strong>Long Trì + Phượng Các + Hoa Cái + Giải Thần</strong>: bộ tứ linh hội về — sao hình thức, tâm linh, mồ mả. Mộ phần dòng họ đẹp, có long mạch, phát về đường học hành, danh tiếng; đương số có duyên với tâm linh, thích chùa chiền, đồ cổ, cái đẹp. Giải Thần là sao giải ách — phúc có khả năng hóa giải tai họa rất mạnh.</li>
+          <li><strong>Kình Dương (Đắc) + Quan Phủ + Quan Phù</strong>: điểm trừ duy nhất — sao hình khắc, chủ thị phi, kiện tụng, mổ xẻ. Dòng họ dễ có tranh chấp đất đai, mộ phần, hoặc trong họ có người dính pháp luật; bản thân dễ suy nghĩ lo âu, tự gây áp lực cho mình.</li>
+        </ul>
+        <div class="callout">
+          <span class="label">Kết luận cơ bản</span>
+          <p>Phúc Đức này là <strong>Trung Thượng cách, giàu ngầm</strong>. Không phải phúc hưởng sẵn ăn chơi, mà là phúc phải tự mình bôn ba gây dựng — đi xa thì phúc mới nở.</p>
+        </div>
+
+        <h3>2. Chuyên sâu: ảnh hưởng đến đương số</h3>
+        <p><strong>a. Về dòng họ và mồ mả</strong>: họ nội có gốc nhưng ly tán. Các cụ ngày xưa khá giả, có của chìm của nổi (Vũ Khúc). Mộ phần kết phát nhưng đã từng phải di dời, động chạm (Kình Dương + Giải Thần). Cần chú ý mộ cụ ông, cụ bà bên nội ở thế đất cao, gần nước — chăm lo mồ mả tốt thì hưởng phúc rất rõ.</p>
+        <p><strong>b. Về tư tưởng, tinh thần — đây mới là quan trọng nhất</strong>, vì Phúc Đức chính là cung chỉ "cái đầu" nghĩ gì:</p>
+        <ul>
+          <li><strong>Tham Lang</strong>: trong đầu không bao giờ yên, ham muốn nhiều, thích đủ thứ, thích hưởng thụ, thích kiếm tiền, thích tình cảm. Tư tưởng cởi mở, không cổ hủ, rất thông minh về mặt xã giao, nhìn thấu lòng người.</li>
+          <li><strong>Vũ Khúc</strong>: nhưng bên trong lại rất cô độc, thực tế, tính toán — hay lo xa, tính chuyện tiền bạc, ít khi chia sẻ nỗi buồn thật sự cho ai.</li>
+          <li><strong>Tả Hữu + Long Phượng</strong>: về già sẽ rất thích nghiên cứu Tử Vi, Phật pháp, tâm linh — càng lớn tuổi càng tín tâm.</li>
+          <li><strong>Kình Dương</strong>: dễ bị stress, mất ngủ, suy nghĩ luẩn quẩn, tự làm khổ mình — đây là cái phải tu.</li>
+        </ul>
+
+        <p><strong>c. Về Lai Nhân Cung tại Phúc Đức</strong> — điểm đặc biệt nhất lá số này. Lai Nhân là nơi khởi nguồn nhân quả. Lai Nhân ở Phúc Đức nghĩa là cả đời sống và làm việc vì phúc đức, vì dòng họ, vì tư tưởng — mọi hành động ở Mệnh, Tài, Quan, Di... cuối cùng đều quy về để trả nợ hoặc vun bồi cho cung Phúc.</p>
+        <div class="callout">
+          <span class="label">Người có Lai Nhân ở Phúc Đức</span>
+          <p>Được hưởng phúc tổ rất mạnh, nhưng cũng bị nghiệp tổ chi phối mạnh — làm gì tổ tiên cũng nhìn. Càng làm việc thiện, càng chăm lo cho họ hàng, mồ mả, càng làm việc tâm linh phúc thiện thì Mệnh càng tốt lên; càng sống ích kỷ, hưởng thụ (Tham Lang) thì Kình Dương sẽ đánh. Cuộc đời có duyên phải đi xa quê, xuất tổ.</p>
+        </div>
+
+        <p><strong>d. Ảnh hưởng tam hợp</strong> — Phúc, Tài, Phu Thê tam hợp. Phúc Đức có Tham Vũ thì Tài Bạch có Quả Tú + Điếu Khách: kiếm tiền một mình, tiền đến rồi lại đi, phải dùng "tiền của Phúc" mới giữ được tiền. Phu Thê có Phá Quân (Hãm) + Liêm Trinh (Hãm): hôn nhân dễ có sóng gió, nhưng nếu lấy vợ xa quê, vợ là người tín tâm, biết vun vén phúc đức, thì sẽ hóa giải được rất nhiều.</p>
+
+        <p><strong>e. Năm 2026 — Bính Ngọ, 40 tuổi</strong>: Lưu Niên Mệnh nhập Phúc Đức, Lưu Hóa Lộc ở Quan Lộc, Lưu Hóa Quyền ở Nô Bộc. Năm nay sẽ suy nghĩ rất nhiều về đổi việc, đổi hướng làm ăn, chuyện họ hàng, đất đai nhà cửa. Đây là năm nên sửa sang mồ mả, làm từ thiện, phóng sinh, đi chùa — làm tốt thì Kình Dương sẽ được Giải Thần hóa giải.</p>
+
+        <h3>3. Lời khuyên để vượng phúc</h3>
+        <p>Phúc này là <strong>Phúc động, không phải Phúc tĩnh</strong> — không ngồi yên mà hưởng được.</p>
+        <ul>
+          <li><strong>Phải đi xa</strong>: ly tổ, không ở chung với họ hàng, không làm việc ở quê sinh ra thì mới phát.</li>
+          <li><strong>Giải Kình Dương</strong>: kỵ tranh chấp đất đai với anh em họ hàng. Mổ xẻ, hiến máu nhân đạo là cách giải Kình rất tốt.</li>
+          <li><strong>Dưỡng Tham Lang</strong>: Tham Lang là sao tu — càng ăn chơi hưởng lạc, rượu chè, cờ bạc thì càng phá phúc; càng hướng Tham Lang vào nghệ thuật, kinh doanh chính đáng, tu tập thì càng phát.</li>
+        </ul>
+
+        <div class="callout">
+          <span class="label">Vì sao ví dụ này minh họa trọn vẹn khung lý thuyết</span>
+          <p>Cách cục Tham Vũ Đồng Hành cho thấy đúng nguyên lý "không nên chấp nhất một sao" (Phần I): Vũ Khúc và Tham Lang kéo hai hướng khác nhau — một hướng cô độc tính toán, một hướng cởi mở hưởng thụ — chỉ khi đọc cả hai cùng lúc mới ra đúng chân dung. Phụ tinh (Tả Hữu, Long Phượng, Kình Dương) đúng vai trò "phân định cát hung" ở Lớp 3 (Phần II). Lai Nhân Cung tại Phúc Đức là một lớp kỹ thuật nâng cao, gắn chặt với tinh thần "tu tâm sửa trí" đã bàn ở Phần VI — phúc ở đây không phải để hưởng sẵn, mà là một khoản nợ – ân cần trả bằng hành động thiện lành. Và ảnh hưởng tam hợp Tài Bạch – Phu Thê đúng như nguyên tắc đã nêu ở Phần IV: Phúc Đức tốt nhưng có tì vết (Kình Dương) thì cả tiền bạc lẫn hôn nhân đều mang dấu ấn của tì vết đó, cho đến khi được hóa giải.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="phan-11">
+        <div class="chapter-head">
+          <span class="chapter-num">XI</span>
+          <h2 class="chapter-title">Bảng tra cứu nhanh: thuật ngữ cốt lõi</h2>
+        </div>
+        <div class="table-wrap">
+        <table>
+          <thead><tr><th>Thuật ngữ</th><th>Ý nghĩa cốt lõi tại Phúc Đức</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Phúc Đức</strong></td><td>Phần hưởng tinh thần, phúc ấm tổ tiên, mồ mả trực hệ — không phải tính cách hay tiền bạc trực tiếp</td></tr>
+            <tr><td><strong>Đối cung Tài Bạch</strong></td><td>Vật chất và tinh thần ảnh hưởng hai chiều; Phúc Đức xấu khiến có tiền vẫn không thấy đủ</td></tr>
+            <tr><td><strong>Tam hợp Thiên Di – Phu Thê</strong></td><td>Đời sống tinh thần ảnh hưởng cách ứng xử ngoài xã hội và nền tảng hôn nhân</td></tr>
+            <tr><td><strong>Vô Chính Diệu tại Phúc Đức</strong></td><td>Mượn chính tinh từ Tài Bạch (khác Mệnh mượn Thiên Di)</td></tr>
+            <tr><td><strong>Vòng Trường Sinh hợp Mệnh</strong></td><td>Bước kiểm tra riêng của Phúc Đức — hợp thì phúc bền, không hợp thì cần tu tâm sửa trí nhiều hơn</td></tr>
+            <tr><td><strong>Hai chính diệu đồng cung không sinh bản mệnh</strong></td><td>Kỹ thuật xét bản mệnh sinh được chính diệu nào — chính diệu đó chi phối</td></tr>
+            <tr><td><strong>Mộ phần theo chính tinh</strong></td><td>Lớp ý nghĩa riêng của Phúc Đức, gắn chính tinh với đặc điểm mộ tổ tiên</td></tr>
+            <tr><td><strong>Tu tâm sửa trí</strong></td><td>Nguyên lý ứng dụng cốt lõi — Phúc Đức là cung con người có quyền chủ động cải thiện nhất</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<section class="colophon" id="ket">
+  <div class="colophon-inner">
+    <svg class="colophon-mark" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#CBA135" stroke-width="1.2" opacity="0.7"/>
+      <circle cx="50" cy="50" r="30" fill="none" stroke="#7C6423" stroke-width="1"/>
+      <circle cx="50" cy="50" r="4" fill="#CBA135"/>
+    </svg>
+    <h3>Điểm dừng cuối cùng</h3>
+    <p>Nếu Mệnh là bản đồ của một đời người, thì Phúc Đức là dòng nước ngầm nuôi bản đồ ấy — không phải lúc nào cũng nhìn thấy được, nhưng luôn quyết định mảnh đất ấy có màu mỡ hay khô cằn. Và khác với Mệnh — thứ đã định sẵn từ giờ sinh — Phúc Đức là cung duy nhất mà chính khoa Tử Vi thừa nhận: con người có thể tự tay vun bồi thêm cho chính mình, và cho cả những người đến sau.</p>
+    <p class="final-line">Phúc không tự nhiên mà có; Đức không tự nhiên mà giữ được. Người xem số giỏi nhất, xét đến cùng, là người biết tự mình gieo thêm, chứ không chỉ ngồi đọc lại những gì đã gieo.</p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  Cung Phúc Đức · Phúc Đức Viên, Chương Nhị · Biên soạn để nghiên cứu và học tập Tử Vi Đẩu Số
+</footer>
+
+<button id="backToTop" aria-label="Lên đầu trang">↑</button>
+
+<audio id="bgMusic" src="music5.mp3" loop preload="none"></audio>
+<button id="musicToggle" aria-label="Bật nhạc nền">
+  <svg class="icon-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18V5l12-2v13"/>
+    <circle cx="6" cy="18" r="3"/>
+    <circle cx="18" cy="16" r="3"/>
+  </svg>
+  <svg class="icon-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <line x1="7" y1="5" x2="7" y2="19"/>
+    <line x1="12" y1="3" x2="12" y2="21"/>
+    <line x1="17" y1="5" x2="17" y2="19"/>
+  </svg>
+</button>
+
+<script>
+  // ---- build TOC ----
+  const chapters = [
+    {id:'loi-mo', label:'Lời mở', num:'—'},
+    {id:'phan-1', label:'Nền tảng: chính tinh', num:'I'},
+    {id:'phan-2', label:'Năm lớp giải phẫu Phúc Đức', num:'II'},
+    {id:'phan-3', label:'Vô Chính Diệu', num:'III'},
+    {id:'phan-4', label:'Tam phương tứ chính', num:'IV'},
+    {id:'phan-5', label:'Đại Vận và hạn Phúc Đức', num:'V'},
+    {id:'phan-6', label:'Ứng dụng tu dưỡng', num:'VI'},
+    {id:'phan-7', label:'Mộ phần theo chính tinh', num:'VII'},
+    {id:'phan-8', label:'Hai chính diệu đồng cung', num:'VIII'},
+    {id:'phan-9', label:'Công thức luận Phúc Đức', num:'IX'},
+    {id:'phan-10', label:'Ví dụ thực hành', num:'X'},
+    {id:'phan-11', label:'Bảng tra cứu thuật ngữ', num:'XI'},
+    {id:'ket', label:'Kết', num:'✦'},
+  ];
+
+  const desktopList = document.getElementById('tocDesktopList');
+  const drawerList = document.getElementById('tocDrawerList');
+
+  chapters.forEach(ch=>{
+    const liD = document.createElement('li');
+    liD.innerHTML = `<a href="#${ch.id}" data-id="${ch.id}"><span class="toc-num">${ch.num}</span>${ch.label}</a>`;
+    desktopList.appendChild(liD);
+
+    const liM = document.createElement('li');
+    liM.innerHTML = `<a href="#${ch.id}" data-id="${ch.id}"><span class="toc-num">${ch.num}</span> ${ch.label}</a>`;
+    drawerList.appendChild(liM);
+  });
+
+  // ---- mobile drawer toggle ----
+  const drawer = document.getElementById('tocDrawer');
+  document.getElementById('tocToggle').addEventListener('click', ()=> drawer.classList.add('open'));
+  document.getElementById('tocClose').addEventListener('click', ()=> drawer.classList.remove('open'));
+  drawer.addEventListener('click', (e)=>{ if(e.target === drawer) drawer.classList.remove('open'); });
+  drawerList.addEventListener('click', (e)=>{
+    if(e.target.tagName === 'A'){ drawer.classList.remove('open'); }
+  });
+
+  // ---- scroll progress + active TOC + back to top ----
+  const fill = document.getElementById('progressFill');
+  const backBtn = document.getElementById('backToTop');
+  const desktopLinks = Array.from(desktopList.querySelectorAll('a'));
+  const sections = chapters.map(ch => document.getElementById(ch.id)).filter(Boolean);
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    fill.style.width = pct + '%';
+
+    backBtn.classList.toggle('show', scrollTop > 700);
+
+    let currentId = sections[0] ? sections[0].id : null;
+    for(const sec of sections){
+      const rect = sec.getBoundingClientRect();
+      if(rect.top <= 140){ currentId = sec.id; }
+    }
+    desktopLinks.forEach(a=>{
+      a.classList.toggle('active', a.dataset.id === currentId);
+    });
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('load', onScroll);
+
+  backBtn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+  // ---- background music ----
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicToggle');
+  musicBtn.addEventListener('click', ()=>{
+    if(bgMusic.paused){
+      bgMusic.play().then(()=>{
+        musicBtn.classList.add('playing');
+        musicBtn.setAttribute('aria-label','Tắt nhạc nền');
+      }).catch(()=>{ /* file chưa có hoặc trình duyệt chặn tự phát */ });
+    } else {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      musicBtn.setAttribute('aria-label','Bật nhạc nền');
+    }
+  });
+</script>
+
+</body>
+</html>
