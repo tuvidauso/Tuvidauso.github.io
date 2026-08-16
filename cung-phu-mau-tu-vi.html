@@ -278,13 +278,26 @@
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
   }
+  .chart-info{
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:1px; background:var(--line);
+    border:1px solid var(--line);
+    margin:22px 0; font-family:'Inter',sans-serif; font-size:13.5px;
+  }
+  .chart-info div{ background:var(--bg-panel); padding:12px 16px; }
+  .chart-info .k{ color:var(--ink-faint); font-size:11px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
+  .chart-info .v{ color:var(--ink); font-family:'Cormorant', serif; font-size:16px; }
+  @media (max-width:480px){ .chart-info{ grid-template-columns:1fr; } }
+
+  .step-label{
+    display:inline-block; font-family:'Inter',sans-serif; font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--bg); background:var(--gold);
+    padding:4px 10px; margin:0 0 14px;
+  }
+  .muc h4{ font-family:'Cormorant', serif; font-weight:600; font-style:italic; font-size:18px; color:var(--gold); margin:20px 0 8px; }
 </style>
 </head>
 <body>
-<div style="position:relative;z-index:9999;display:flex;align-items:center;gap:10px;padding:9px 18px;background:#181410;color:#e8dcc0;font:500 12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.02em;flex-wrap:wrap;">
-  <a href="https://tuvidauso.github.io/" style="color:#e8dcc0;text-decoration:none;opacity:.9;">← Học Tử Vi</a>
-</div>
-
 
 <div class="bg-fx"></div>
 
@@ -311,6 +324,7 @@
     <li><a href="#muc-10" onclick="closeToc()"><span class="num">X</span> Lưu ý khi mới học</a></li>
     <li><a href="#muc-11" onclick="closeToc()"><span class="num">XI</span> Phụ lục — Phú quyết</a></li>
     <li><a href="#muc-12" onclick="closeToc()"><span class="num">XII</span> Bình giải văn chương</a></li>
+    <li><a href="#muc-13" onclick="closeToc()"><span class="num">XIII</span> Ví dụ minh họa</a></li>
   </ul>
 </nav>
 
@@ -570,6 +584,56 @@
 
     <h3>4. Điểm hạn chế cố hữu của thể phú</h3>
     <p>Bị gò trong vần điệu, bài phú buộc phải nén thông tin tối đa — mỗi câu chỉ đủ nêu "điều kiện + kết quả" mà không giải thích <em>tại sao</em>, cũng không nêu được điều kiện phụ. Đây là lý do các phú quyết luôn cần chú giải đi kèm hoặc đối chiếu lá số thật — câu kết "đoán từng phần một, cốt hay tại người" đã tự thừa nhận giới hạn này.</p>
+  </section>
+
+  <section class="muc" id="muc-13">
+    <p class="eyebrow">Mục XIII</p>
+    <h2>Ví dụ minh họa — luận một lá số thật</h2>
+    <p class="dim">Áp toàn bộ quy trình ở các mục trên vào một trường hợp cụ thể, đi từ cơ bản đến chuyên sâu, kèm luận vận hạn theo năm.</p>
+
+    <div class="chart-info">
+      <div><div class="k">Đương số</div><div class="v">Âm Nam, sinh 1987 Đinh Mão</div></div>
+      <div><div class="k">Cục</div><div class="v">Hỏa Lục Cục</div></div>
+      <div><div class="k">Mệnh / Thân</div><div class="v">Đồng cung tại Tị — Thiên Phủ (Đắc)</div></div>
+      <div><div class="k">Cung Phụ Mẫu</div><div class="v">An tại Ngọ, Can Bính, hành Hỏa</div></div>
+    </div>
+
+    <span class="step-label">1 — Cơ bản: chính tinh tọa thủ</span>
+    <p>Cung Phụ Mẫu có 2 chính tinh đồng cung: <strong>Thái Âm (Hãm) + Thiên Đồng (Hãm)</strong> tại Ngọ — cách <em>Nhật Nguyệt phản bối</em>: Thái Âm là mặt trăng an tại chính Ngọ (giữa ban ngày) nên hãm địa, ánh sáng rất yếu.</p>
+    <p><strong>Thái Âm (Hãm)</strong> — chủ về mẹ: sống nội tâm, hay lo nghĩ, dễ có vấn đề về mắt/huyết/thần kinh, hiền nhưng hay tủi thân, để bụng. Thái Âm cũng chủ tài sản/đất đai của cha mẹ, nhưng hãm thì khó giữ lâu, dễ phải thay đổi, di dời.</p>
+    <p><strong>Thiên Đồng (Hãm)</strong> — chủ về cha: tính như trẻ con, lạc quan, hiền lành, dễ chiều con, không quyết đoán, hay thay đổi, dễ bị tác động bởi bên ngoài.</p>
+    <p>Đồng – Âm đồng cung tại Ngọ: cha mẹ hiền, nhân hậu, không áp đặt, gia đình nể nhau nhưng thiếu uy nghiêm; có duyên với nhau từ sớm nhưng tình cảm lúc gần lúc xa, khắc khẩu nhẹ. → Mẫu cha mẹ <strong>không khắc nặng nhưng không hợp sâu</strong> với con.</p>
+
+    <span class="step-label">2 — Trung cấp: phụ tinh và mối quan hệ</span>
+    <p>Cung được bộ Lộc rất mạnh cứu lại: <strong>Lộc Tồn (Miếu) + Hóa Lộc + Hóa Quyền + Bác Sỹ + Thiên Hỷ + Thai Phụ</strong>.</p>
+    <ul>
+      <li><strong>Song Lộc triều viên</strong> (Lộc Tồn Miếu + Hóa Lộc đồng cung): cha mẹ có của, có kinh tế, tự làm ra tiền hoặc có đất đai để lại — dù Thái Âm hãm vẫn không nghèo</li>
+      <li><strong>Hóa Quyền</strong>: cha hoặc mẹ có tiếng nói, có chức vị trong họ hàng/cơ quan, là người quyết định trong nhà, hơi gia trưởng nhẹ</li>
+      <li><strong>Thiên Hỷ + Thiếu Âm + Bác Sỹ</strong>: cha mẹ mặt mũi sáng sủa, có duyên, sống có tâm, biết chăm chút con cái</li>
+    </ul>
+    <p>Mệnh có Thiên Phủ (Đắc) — sao vua của tài khố, rất tôn trọng cha mẹ — nhưng gặp Đà La (Hãm), Địa Không nên đương số tự lập sớm, không ở gần cha mẹ lâu được. Phụ Mẫu tại Ngọ xung Tật Ách → dễ bất đồng quan điểm sống, thấy cha mẹ hơi bảo thủ, lo xa quá. Có Kình Dương chiếu về: dễ có lần cãi vã lớn hoặc cha mẹ gặp hạn sức khỏe, mổ xẻ, va chạm.</p>
+    <p class="dim">Lưu Thái Tuế + Lưu Kình Dương năm 2026 nhập thẳng vào Phụ Mẫu: năm dễ có thị phi, tranh luận tiền bạc/đất đai, hoặc phải lo sức khỏe cho cha mẹ.</p>
+
+    <span class="step-label">3 — Chuyên sâu: tam phương tứ chính và bản chất nghiệp</span>
+    <p><strong>Tam hợp: Phúc Đức – Thiên Di – Phụ Mẫu.</strong> Phúc Đức tại Mùi có Tham Lang (Miếu) + Vũ Khúc (Miếu) + Tả Phù Hữu Bật + Long Trì + Phượng Các: phúc nhà lớn, dòng họ có người làm ăn lớn, có danh, mồ mả phát — nhưng Tham Lang cũng chủ trong họ có người đam mê kinh doanh, tửu sắc. Lai nhân cung nằm ở Phúc Đức → cả đời chịu ảnh hưởng phúc đức dòng họ rất nặng, và cha mẹ chính là người gánh, giữ cái phúc đó.</p>
+    <p>Thiên Di tại Hợi có Tử Vi (Bình) + Thất Sát (Vượng) + Thiên Khôi + Địa Không (Đắc) + Kiếp Sát: ra ngoài phải gánh vác, tự bươn chải — Tử Vi Bình gặp Địa Không là cách "Đế ngộ hung đồ", ra ngoài hay phải làm lại từ đầu. Thiên Di xung Phụ Mẫu → càng đi xa càng ít nhờ được cha mẹ, và ngược lại ở gần cha mẹ thì khó phát triển.</p>
+    <h4>Luận sâu về ngũ hành Âm Dương</h4>
+    <p>Mệnh Hỏa Lục Cục; Thái Âm và Thiên Đồng đều hành Thủy, an tại cung Hỏa → Thủy khắc Hỏa, chính tinh khắc bản cung — cha mẹ và con cái khắc khẩu về ngũ hành. Thái Âm hãm ở Ngọ là cách "Nguyệt lạc hãm cung": mẹ dễ xa quê, sức khỏe kém hơn cha, dễ có bệnh phụ nữ/nội tiết. Nhưng Lộc Tồn (Miếu) hành Thổ tại đây rất hay: Hỏa sinh Thổ, Thổ là Tài của Thủy → cha mẹ hao tâm tổn sức vì tiền bạc cho con, nhưng càng cho đi lại càng có lộc.</p>
+    <h4>Phi hóa</h4>
+    <p>Cung Phụ Mẫu Can Bính: Bính làm Thiên Đồng Hóa Lộc — chính tinh trong cung tự hóa Lộc. Ý nghĩa: cha mẹ tự có lộc, tự làm tự có, và cũng tự hóa lộc cho con — con được hưởng của từ cha mẹ nhưng phải sau khi cha mẹ tự lo xong. Thiên Đồng Hóa Lộc cũng tăng tính trẻ con, lạc quan của cha mẹ, khiến cha mẹ dễ được người khác giúp đỡ.</p>
+
+    <span class="step-label">4 — Kết luận và vận hạn 2026</span>
+    <div class="callout">
+      <div class="tag">Tổng kết</div>
+      <p>Cha mẹ hiền, có kinh tế, có danh, không khắc chết nhưng không hợp tính. Mẹ hay lo, hay tủi; cha hiền và hơi nhu nhược.</p>
+      <p>Đương số không ở gần cha mẹ được lâu — đi xa lập nghiệp tốt hơn cho cả hai; ở gần dễ sinh khắc khẩu về tiền bạc.</p>
+      <p>Cha mẹ cho nền tảng kinh tế/đất đai nhưng không cho sự định hướng quyết liệt.</p>
+    </div>
+    <p><strong>Năm 2026 Bính Ngọ — 40 tuổi, Lưu niên Mệnh trùng cung Phụ Mẫu</strong> — năm cực kỳ ứng với cha mẹ: Lưu Thái Tuế, Lưu Hóa Lộc, Lưu Văn Khúc nhập Phụ Mẫu → có tin vui về giấy tờ, nhà đất liên quan cha mẹ (mua bán, sang tên, sửa nhà). Nhưng đồng thời Lưu Kình Dương cũng nhập vào → cẩn thận sức khỏe cha mẹ, đặc biệt mẹ dễ ốm, huyết áp, mắt kém, hoặc cha mẹ có hạn đi lại/xe cộ. Dễ phải chi một khoản tiền lớn cho cha mẹ trong năm.</p>
+    <div class="callout fix">
+      <div class="tag">Lời khuyên</div>
+      <p>Năm nay nên chủ động gần gũi, hỏi han sức khỏe cha mẹ nhiều hơn. Nếu có tranh chấp đất đai trong họ thì nên nhường một chút, vì năm Thái Tuế nhập Phụ Mẫu, tranh chấp sẽ rất dai dẳng. Nên làm lễ cầu an, phóng sinh cho cha mẹ.</p>
+    </div>
   </section>
 
 </main>
