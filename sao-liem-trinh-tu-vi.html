@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liêm Trinh — Sao Tù giữa vòng Đào Hoa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Cormorant+SC:wght@600;700&family=Noto+Serif:ital,wght@0,400;0,500;0,600;1,400&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#150b0c;
+  --bg-soft:#1c1112;
+  --card:#221415;
+  --card-line:rgba(201,162,75,0.22);
+  --crimson:#9c2338;
+  --crimson-bright:#c22f45;
+  --crimson-deep:#5c1420;
+  --gold:#c9a24b;
+  --gold-soft:#e3c583;
+  --rose:#d98a9a;
+  --rose-soft:#e9b6c1;
+  --ink:#f3e9df;
+  --ink-dim:#c9b6ab;
+  --ink-mute:#8f7671;
+  --shadow: 0 20px 50px rgba(0,0,0,0.45);
+  --radius: 2px;
+  --font-display:'Cormorant SC','Cormorant Garamond',serif;
+  --font-serif:'Cormorant Garamond',serif;
+  --font-body:'Noto Serif',serif;
+  --font-sans:'Be Vietnam Pro',sans-serif;
+}
+[data-theme="light"]{
+  --bg:#f4ede2;
+  --bg-soft:#ece0cf;
+  --card:#fbf5e9;
+  --card-line:rgba(92,20,32,0.18);
+  --ink:#2a1414;
+  --ink-dim:#4a2c2c;
+  --ink-mute:#7a5a52;
+  --shadow: 0 14px 34px rgba(92,20,32,0.12);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  transition:background .4s ease, color .4s ease;
+}
+::selection{background:var(--crimson); color:#fff2ee;}
+
+/* ---------- decorative bar-to-flame pattern ---------- */
+.bars-bg{
+  position:absolute; inset:0; overflow:hidden; pointer-events:none;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(201,162,75,0.10) 0 2px, transparent 2px 46px);
+  mask-image:linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+}
+.bars-bg::after{
+  content:"";
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse at 50% 100%, rgba(156,35,56,0.55), transparent 65%);
+}
+
+/* ---------- top nav ---------- */
+.topnav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(21,11,12,0.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--card-line);
+  transition:background .4s ease;
+}
+[data-theme="light"] .topnav{ background:rgba(244,237,226,0.92); }
+.topnav-inner{
+  max-width:1040px; margin:0 auto; padding:12px 20px;
+  display:flex; align-items:center; gap:14px;
+}
+.topnav-mark{
+  font-family:var(--font-display); letter-spacing:.14em; font-size:15px;
+  color:var(--gold-soft); white-space:nowrap; text-decoration:none;
+  display:flex; align-items:center; gap:8px;
+}
+.topnav-mark .glyph{ font-family:var(--font-serif); color:var(--crimson-bright); font-size:19px;}
+.topnav-links{
+  display:flex; gap:2px; overflow-x:auto; scrollbar-width:none;
+  font-family:var(--font-sans); font-size:12.5px;
+}
+.topnav-links::-webkit-scrollbar{display:none;}
+.topnav-links a{
+  color:var(--ink-mute); text-decoration:none; white-space:nowrap;
+  padding:7px 11px; border-radius:20px; letter-spacing:.02em;
+  transition:color .2s ease, background .2s ease;
+}
+.topnav-links a:hover{ color:var(--gold-soft); }
+.topnav-links a.active{ color:var(--bg); background:var(--gold-soft); }
+.theme-btn{
+  margin-left:auto; flex-shrink:0;
+  background:none; border:1px solid var(--card-line); color:var(--ink-dim);
+  border-radius:20px; padding:7px 13px; font-family:var(--font-sans); font-size:12px;
+  cursor:pointer; letter-spacing:.03em;
+}
+.theme-btn:hover{ border-color:var(--gold); color:var(--gold-soft); }
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative; padding:96px 20px 80px; text-align:center; overflow:hidden;
+  border-bottom:1px solid var(--card-line);
+}
+.hero-seal{
+  font-family:var(--font-serif); font-size:15px; letter-spacing:.5em;
+  color:var(--rose-soft); opacity:.8; margin-bottom:22px; text-transform:uppercase;
+}
+.hero-glyph{
+  font-size:38px; color:var(--crimson-bright); margin-bottom:8px;
+  text-shadow:0 0 30px rgba(194,47,69,0.5);
+}
+h1.hero-title{
+  font-family:var(--font-display); font-weight:700; letter-spacing:.09em;
+  font-size:clamp(48px,9vw,96px); margin:0; color:var(--ink);
+  text-shadow:0 2px 40px rgba(156,35,56,0.35);
+}
+.hero-sub{
+  font-family:var(--font-serif); font-style:italic; font-size:clamp(18px,2.6vw,26px);
+  color:var(--rose-soft); margin:14px 0 30px; letter-spacing:.02em;
+}
+.hero-tags{
+  display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+  font-family:var(--font-sans); font-size:12px; letter-spacing:.06em;
+}
+.hero-tags span{
+  border:1px solid var(--card-line); padding:6px 14px; border-radius:20px; color:var(--ink-dim);
+}
+.hero-credit{
+  margin-top:38px; font-family:var(--font-sans); font-size:12px; color:var(--ink-mute); letter-spacing:.08em;
+}
+
+/* ---------- layout ---------- */
+main{ max-width:820px; margin:0 auto; padding:10px 22px 40px; position:relative; }
+.part{ padding:64px 0 10px; scroll-margin-top:70px; }
+.part-eyebrow{
+  font-family:var(--font-sans); font-size:12px; letter-spacing:.22em; color:var(--crimson-bright);
+  text-transform:uppercase; margin-bottom:10px;
+}
+.part h2{
+  font-family:var(--font-display); font-weight:700; font-size:clamp(28px,5vw,40px);
+  color:var(--gold-soft); margin:0 0 30px; letter-spacing:.03em; line-height:1.25;
+}
+.part h3{
+  font-family:var(--font-serif); font-weight:600; font-size:23px; color:var(--rose-soft);
+  margin:38px 0 14px; letter-spacing:.01em;
+}
+.part h4{
+  font-family:var(--font-sans); font-weight:600; font-size:14.5px; color:var(--gold-soft);
+  margin:26px 0 10px; letter-spacing:.03em;
+}
+p{ margin:0 0 16px; color:var(--ink-dim); font-size:16.5px; }
+p b, li b, td b{ color:var(--ink); font-weight:600; }
+ul, ol{ margin:0 0 18px; padding-left:22px; color:var(--ink-dim); }
+li{ margin-bottom:8px; font-size:16.5px; }
+a.inline{ color:var(--gold-soft); }
+hr.divider{ border:none; border-top:1px solid var(--card-line); margin:56px 0; }
+
+/* ---------- flame-bar divider (signature) ---------- */
+.flame-divider{
+  display:flex; align-items:center; justify-content:center; gap:3px; margin:52px 0; height:34px;
+}
+.flame-divider i{
+  display:block; width:2px; background:linear-gradient(to top, var(--crimson-bright), transparent);
+  border-radius:2px; opacity:.75;
+}
+.flame-divider i:nth-child(1){height:10px;} .flame-divider i:nth-child(2){height:18px;}
+.flame-divider i:nth-child(3){height:26px;} .flame-divider i:nth-child(4){height:34px; background:linear-gradient(to top, var(--gold), transparent);}
+.flame-divider i:nth-child(5){height:26px;} .flame-divider i:nth-child(6){height:18px;}
+.flame-divider i:nth-child(7){height:10px;}
+
+/* ---------- callouts ---------- */
+.box{
+  border-radius:var(--radius); padding:20px 22px; margin:22px 0;
+  font-size:15.5px; border-left:3px solid var(--gold);
+  background:var(--card); box-shadow:var(--shadow);
+}
+.box p:last-child{ margin-bottom:0; }
+.box-label{
+  font-family:var(--font-sans); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  margin-bottom:8px; display:flex; align-items:center; gap:7px;
+}
+.box.note{ border-left-color:var(--gold); }
+.box.note .box-label{ color:var(--gold-soft); }
+.box.modern{ border-left-color:var(--rose); }
+.box.modern .box-label{ color:var(--rose-soft); }
+.box.warn{ border-left-color:var(--crimson-bright); background:linear-gradient(180deg, rgba(156,35,56,0.14), var(--card)); }
+.box.warn .box-label{ color:var(--crimson-bright); }
+.box.distinguish{ border-left-color:var(--ink-mute); }
+.box.distinguish .box-label{ color:var(--ink); }
+
+/* ---------- phu co (quote) ---------- */
+blockquote.phu{
+  margin:16px 0; padding:16px 20px 16px 24px; position:relative;
+  border-left:2px solid var(--crimson-bright);
+  font-family:var(--font-serif); font-style:italic; font-size:18px; color:var(--rose-soft);
+  background:var(--bg-soft);
+}
+blockquote.phu::before{ content:"「"; color:var(--gold); font-size:22px; margin-right:2px; }
+
+/* ---------- tables ---------- */
+.table-wrap{ overflow-x:auto; margin:22px 0; border-radius:var(--radius); box-shadow:var(--shadow); }
+table{ width:100%; border-collapse:collapse; background:var(--card); font-size:14.5px; min-width:560px; }
+thead th{
+  font-family:var(--font-sans); font-weight:600; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--bg); background:var(--gold-soft); text-align:left; padding:12px 14px;
+}
+tbody td{ padding:13px 14px; border-bottom:1px solid var(--card-line); color:var(--ink-dim); vertical-align:top; }
+tbody tr:last-child td{ border-bottom:none; }
+tbody td:first-child{ color:var(--rose-soft); font-weight:600; white-space:nowrap; }
+tbody tr:hover{ background:rgba(201,162,75,0.05); }
+
+/* ---------- combo cards (Phần 3 detail) ---------- */
+.combo-card{
+  background:var(--card); border:1px solid var(--card-line); border-radius:var(--radius);
+  padding:24px 26px; margin:22px 0; box-shadow:var(--shadow);
+}
+.combo-card h3{ margin-top:0; }
+
+/* ---------- back to top ---------- */
+.top-btn{
+  position:fixed; bottom:24px; right:24px; z-index:40;
+  width:44px; height:44px; border-radius:50%; border:1px solid var(--card-line);
+  background:var(--card); color:var(--gold-soft); cursor:pointer; font-size:18px;
+  display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow);
+  opacity:0; pointer-events:none; transition:opacity .3s ease, transform .2s ease;
+}
+.top-btn.show{ opacity:1; pointer-events:auto; }
+.top-btn:hover{ transform:translateY(-2px); border-color:var(--gold); }
+
+/* ---------- music button ---------- */
+.music-btn{
+  position:fixed; bottom:24px; left:24px; z-index:40;
+  width:50px; height:50px; border-radius:50%;
+  border:1px solid var(--card-line); background:var(--card);
+  cursor:pointer; box-shadow:var(--shadow);
+  display:flex; align-items:center; justify-content:center;
+  transition:border-color .2s ease, transform .2s ease;
+}
+.music-btn:hover{ border-color:var(--gold); transform:translateY(-2px); }
+.music-btn .disc{
+  width:26px; height:26px; border-radius:50%;
+  background:radial-gradient(circle at 50% 50%, var(--gold-soft) 0 3px, var(--crimson-deep) 4px 60%, var(--crimson-bright) 100%);
+  position:relative;
+  animation:spin 3.5s linear infinite; animation-play-state:paused;
+}
+.music-btn .disc::after{
+  content:""; position:absolute; inset:0; margin:auto; width:5px; height:5px; border-radius:50%;
+  background:var(--bg);
+}
+.music-btn.playing .disc{ animation-play-state:running; }
+.music-bars{
+  position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+  display:flex; gap:2px; align-items:flex-end; height:9px; pointer-events:none;
+}
+.music-bars i{
+  width:2px; background:var(--gold-soft); border-radius:1px; height:3px;
+  animation:bar 0.9s ease-in-out infinite; animation-play-state:paused;
+}
+.music-btn.playing .music-bars i{ animation-play-state:running; }
+.music-bars i:nth-child(1){ animation-delay:0s; }
+.music-bars i:nth-child(2){ animation-delay:.15s; }
+.music-bars i:nth-child(3){ animation-delay:.3s; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+@keyframes bar{ 0%,100%{ height:3px; } 50%{ height:9px; } }
+@media (prefers-reduced-motion: reduce){
+  .music-btn .disc, .music-bars i{ animation:none !important; }
+}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--card-line); padding:56px 22px 60px; margin-top:20px;
+}
+footer .foot-inner{ max-width:820px; margin:0 auto; }
+footer h2{ font-family:var(--font-display); font-size:26px; color:var(--gold-soft); margin:0 0 8px; }
+footer p.disclaim{ font-style:italic; color:var(--ink-mute); font-size:14.5px; }
+.source-list{ columns:2; column-gap:34px; padding-left:18px; margin:20px 0; }
+.source-list li{ font-size:13.5px; color:var(--ink-mute); break-inside:avoid; margin-bottom:10px; }
+.foot-credit{
+  margin-top:40px; text-align:center; font-family:var(--font-sans); font-size:12px;
+  letter-spacing:.12em; color:var(--ink-mute); text-transform:uppercase;
+}
+
+/* ---------- reveal animation ---------- */
+.reveal{ opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1; transform:none; transition:none; }
+  html{ scroll-behavior:auto; }
+}
+
+@media (max-width:640px){
+  .hero{ padding:70px 16px 56px; }
+  .part{ padding:48px 0 6px; }
+  .source-list{ columns:1; }
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="#top" class="topnav-mark"><span class="glyph">廉</span>Liêm Trinh</a>
+    <div class="topnav-links" id="navLinks">
+      <a href="#phan1">1. Nhập môn</a>
+      <a href="#phan2">2. Tại Mệnh</a>
+      <a href="#phan3">3. Sáu tổ hợp</a>
+      <a href="#phan4">4. Mười hai cung</a>
+      <a href="#phan5">5. Tứ Hóa</a>
+      <a href="#phan6">6. Hóa Kỵ</a>
+      <a href="#phan7">7. Phụ tinh</a>
+      <a href="#phan8">8. Câu phú</a>
+      <a href="#phan9">9. Trung Châu phái</a>
+      <a href="#phan10">10. Khung luận giải</a>
+      <a href="#phan11">11. Ví dụ</a>
+      <a href="#nguon">Nguồn</a>
+    </div>
+    <button class="theme-btn" id="themeBtn">Chế độ sáng</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="bars-bg"></div>
+  <div style="position:relative;">
+    <div class="hero-seal">Đệ nhị đào hoa tinh</div>
+    <div class="hero-glyph">廉 貞</div>
+    <h1 class="hero-title">LIÊM TRINH</h1>
+    <p class="hero-sub">Sao Tù giữa vòng Đào Hoa</p>
+    <div class="hero-tags">
+      <span>Âm Hỏa đới Mộc</span>
+      <span>Bắc Đẩu tinh</span>
+      <span>Hóa khí: Tù</span>
+      <span>Huyết tinh</span>
+    </div>
+    <div class="hero-credit">Tài liệu học tập — từ cơ bản đến chuyên sâu · Mèo Đen</div>
+  </div>
+</header>
+
+<main>
+
+  <section class="part reveal" id="phan1">
+    <div class="part-eyebrow">Phần 1</div>
+    <h2>Nhập môn: Liêm Trinh là gì</h2>
+
+    <h3>1.1. Vị trí trong hệ thống 14 chính tinh</h3>
+    <p>Tử Vi Đẩu Số có 14 chính tinh (chính diệu), chia làm hai hệ dựa theo cách an sao:</p>
+    <ul>
+      <li><b>Tử Vi hệ</b> (an theo Cục số và ngày sinh): Tử Vi, Thiên Cơ, Thái Dương, Vũ Khúc, Thiên Đồng, <b>Liêm Trinh</b>.</li>
+      <li><b>Thiên Phủ hệ</b> (an theo vị trí của Tử Vi): Thiên Phủ, Thái Âm, Tham Lang, Cự Môn, Thiên Tướng, Thiên Lương, Thất Sát, Phá Quân.</li>
+    </ul>
+    <p>Liêm Trinh thuộc <b>Tử Vi hệ</b>, là chính tinh thứ 6 và cuối cùng trong dãy an theo cục. Quy tắc an sao chính xác (đi <b>nghịch chiều kim đồng hồ</b> kể từ cung có Tử Vi):</p>
+    <ol>
+      <li>Cung tiếp theo (cách 1 cung) → an <b>Thiên Cơ</b>.</li>
+      <li>Bỏ trống 1 cung → an <b>Thái Dương</b>.</li>
+      <li>Cung liền kề → an <b>Vũ Khúc</b>.</li>
+      <li>Cung liền kề → an <b>Thiên Đồng</b>.</li>
+      <li>Bỏ trống 2 cung → an <b>Liêm Trinh</b>.</li>
+    </ol>
+    <p>Tính tổng lại, Liêm Trinh cách Tử Vi đúng <b>8 cung theo chiều nghịch</b>, tương đương <b>4 cung theo chiều thuận</b> (12 − 8 = 4) — đây là con số nên nhớ để tự kiểm tra khi an sao trên giấy, và cũng là lý do Tử Vi – Liêm Trinh luôn giữ quan hệ tam hợp/nhị hợp cố định xuyên suốt 12 cung, khiến người xưa hay ghép chung cụm "Tử Vũ Liêm" khi luận về tính khí và tham vọng quyền lực.</p>
+
+    <h3>1.2. Ngũ hành và Bắc Đẩu / Nam Đẩu</h3>
+    <ul>
+      <li><b>Ngũ hành:</b> Âm Hỏa (một số phái cổ Trung Hoa xếp kiêm thêm Mộc, do Liêm Trinh vừa có tính "lửa" bộc phát vừa có tính sinh trưởng, biến hóa).</li>
+      <li><b>Nhóm sao:</b> Bắc Đẩu tinh.</li>
+      <li><b>Hóa khí:</b> <b>"Tù"</b> — đây là đặc tính cốt lõi và nổi tiếng nhất của Liêm Trinh, chủ về sự giam hãm, câu thúc, hình ngục, pháp luật, kỷ luật, quy củ.</li>
+      <li><b>Biệt danh:</b> "Đệ nhị đào hoa tinh" (sao đào hoa thứ hai, sau Tham Lang). Vì vậy Liêm Trinh mang tính chất <b>kép mâu thuẫn</b>: vừa nghiêm khắc, chính trực, ưa kỷ luật (tính Tù), vừa phóng túng, đa tình, ưa hưởng lạc (tính Đào Hoa). Chính sự giằng co giữa hai mặt này khiến Liêm Trinh được xem là một trong những sao phức tạp và khó luận nhất trong 14 chính tinh.</li>
+    </ul>
+
+    <h3>1.3. Bảng miếu, vượng, đắc, hãm</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Trạng thái</th><th>Cung an</th></tr></thead>
+        <tbody>
+          <tr><td>Miếu địa</td><td>Thìn, Tuất</td></tr>
+          <tr><td>Vượng địa</td><td>Dần, Thân, Tý, Ngọ</td></tr>
+          <tr><td>Đắc địa</td><td>Sửu, Mùi</td></tr>
+          <tr><td>Hãm địa</td><td>Mão, Dậu, Tỵ, Hợi</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Ghi chú cho người mới học: khác với nhiều chính tinh khác, Liêm Trinh <b>không có cung nào bị coi là hoàn toàn xấu tuyệt đối</b> — ngay cả ở thế hãm, nếu được cát tinh và cát hóa phù trợ, Liêm Trinh vẫn có thể phát huy được phần nào bản chất cương nghị của nó, chỉ là con đường đi đến thành công gập ghềnh, trắc trở hơn.</p>
+
+    <div class="box distinguish">
+      <div class="box-label">Lưu ý dị biệt giữa các phái — cần đọc kỹ</div>
+      <p>Bảng trên (Miếu Thìn Tuất, Vượng Dần Thân Tý Ngọ) là bảng phổ biến nhất trên các trang tra cứu hiện đại, nhưng đây thực sự <b>không phải là bảng thống nhất</b> trong toàn bộ hệ thống Tử Vi, và sự dị biệt ở đây lớn hơn một vài trường hợp lẻ tẻ:</p>
+      <ul>
+        <li>Nhiều tài liệu (kể cả một số bản diễn giải gắn với <i>Tử Vi Đẩu Số Toàn Thư</i>) mô tả Dần, Thân mới là nơi Liêm Trinh <b>"nhập miếu"</b> — tức Miếu chứ không phải Vượng — vì đó là cách Liêm Trinh độc tọa, được xem là vị trí đẹp và "thuần" nhất của sao này (không lẫn với sao khác).</li>
+        <li>Một số dòng luận giải khác lại xếp hẳn theo trật tự thứ ba: Miếu tại Tý Ngọ, Vượng tại Sửu Mùi, Đắc tại Dần Thân, Hãm tại Thìn Tuất Tỵ Hợi Mão Dậu — gần như đảo ngược hoàn toàn so với bảng ở trên.</li>
+      </ul>
+      <p>Bản thân <i>Tử Vi Đẩu Số Toàn Thư</i> không đưa ra một bảng miếu/vượng/đắc/hãm rành mạch theo kiểu liệt kê như các trang web hiện đại hay dùng; phần lớn các bảng "chuẩn" mà người học thấy ngày nay là do các tác giả đời sau hệ thống hóa lại theo cách hiểu riêng, nên khó nói phái nào "đúng theo cổ thư" hơn phái nào. Đây là chuyện bình thường trong Tử Vi — do có nhiều dòng truyền thừa (Bắc phái, Nam phái, Trung Châu phái...) hình thành qua nhiều thế kỷ và nhiều lớp diễn dịch. Khi tự luận giải hoặc học chuyên sâu, việc quan trọng nhất là <b>chọn nhất quán một bảng làm gốc, ghi rõ đang theo phái/nguồn nào</b>, và tuyệt đối tránh trộn lẫn nhiều bảng trong cùng một lần luận — vì cùng một cung an sao có thể bị đọc thành hai kết quả trái ngược nhau (tốt/xấu) tùy bảng đang dùng.</p>
+    </div>
+  </section>
+
+  <div class="flame-divider"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="part reveal" id="phan2">
+    <div class="part-eyebrow">Phần 2</div>
+    <h2>Tính chất cơ bản của Liêm Trinh tại Mệnh</h2>
+
+    <h3>2.1. Khi miếu, vượng, đắc địa</h3>
+    <p>Người có Liêm Trinh sáng sủa tại Mệnh thường:</p>
+    <ul>
+      <li>Thẳng thắn, cương quyết, chính trực, có tinh thần trách nhiệm và kỷ luật cao.</li>
+      <li>Tham vọng thăng tiến mạnh, coi trọng sự nghiệp, có năng lực lãnh đạo, dám đương đầu khó khăn.</li>
+      <li>Thông minh, quyết đoán nhưng đi kèm nóng nảy, đôi khi khắc nghiệt với người dưới.</li>
+      <li>Có duyên với các lĩnh vực cần tính công minh, kỷ luật: giám sát, thanh tra, tư pháp, quân đội, công an, chính trị, quản lý nhà nước.</li>
+      <li>Cũng có đầu óc kinh doanh, ưa cạnh tranh, thích cái mới, đôi khi liều lĩnh, ham cờ bạc hoặc đầu cơ khi nhàn rỗi — biểu hiện của mặt "đào hoa/phóng túng" ẩn bên trong.</li>
+      <li>Nếu gặp thêm Xương Khúc (Văn Xương, Văn Khúc) thì tăng thêm văn tài, có thể văn võ song toàn.</li>
+    </ul>
+
+    <h3>2.2. Khi hãm địa</h3>
+    <p>Người có Liêm Trinh hãm địa tại Mệnh thường:</p>
+    <ul>
+      <li>Tính khí thất thường, cố chấp, bảo thủ, dễ nóng giận.</li>
+      <li>Khéo tay, nhạy bén nhưng thiếu kiên nhẫn, dễ gặp trắc trở trong sự nghiệp và tài chính.</li>
+      <li>Dễ vướng vào thị phi, kiện tụng, tranh chấp pháp lý — đúng với hóa khí "Tù" của sao này.</li>
+      <li>Nếu đi cùng Hóa Kỵ, và gặp thêm các hung tinh như Kình Dương, Đà La (Lục Sát) hoặc Tang Môn, Bạch Hổ (vòng Thái Tuế) thì cần đặc biệt cẩn trọng về tù tội, tai nạn, hao tài.</li>
+    </ul>
+
+    <h3>2.3. Đặc điểm riêng ở nữ mệnh</h3>
+    <p>Nữ mệnh có Liêm Trinh (nhất là khi sáng sủa) thường thông minh, khí chất đoan trang nhưng cá tính mạnh, lòng tự trọng cao, có phần cố chấp và hay để ý, giám sát người bạn đời — phản ánh đúng tính "Tù" (kiểm soát, câu thúc) áp dụng cả vào đời sống tình cảm. Sách cổ có một câu riêng dành cho nữ mệnh, đại ý rằng người nữ có Liêm Trinh vẫn có thể giữ được phẩm hạnh trong sạch của mình dù sao này vốn mang tiếng đào hoa — ý nói bản chất "Tù" (tự kiềm chế, giữ khuôn phép) của Liêm Trinh có thể lấn át phần đào hoa nếu đương số biết tiết chế.</p>
+
+    <div class="box modern">
+      <div class="box-label">Góc nhìn hiện đại</div>
+      <p>Cách diễn giải "hay để ý, giám sát bạn đời" ở đây là ngôn ngữ của sách cổ, ra đời trong bối cảnh xã hội và vai trò giới rất khác ngày nay — nên đọc như một mô tả về <b>xu hướng tính cách</b> (kiểm soát, khó buông lỏng trong quan hệ) áp dụng chung cho cả nam lẫn nữ mệnh có Liêm Trinh, hơn là một nhận định riêng về phụ nữ. Trên thực tế, đặc điểm "chiếm hữu, khó tin tưởng tuyệt đối" của Liêm Trinh hãm biểu hiện tương tự ở cả hai giới, chỉ khác nhau ở cách thể hiện ra bên ngoài.</p>
+    </div>
+
+    <h3>2.4. Tướng mạo theo mô tả cổ điển</h3>
+    <p>Theo các sách tướng lý truyền thống đi kèm Tử Vi, người có Liêm Trinh nhập Mệnh thường có vóc dáng vừa phải, thân hình cường tráng, trí nhớ tốt, ánh mắt có thần, xương gò má cao, lông mày rậm, mắt to, miệng rộng, khuôn mặt có dạng vuông vức (hình chữ "quốc" hoặc chữ "giáp" trong chữ Hán). Đây là mô tả mang tính tham khảo truyền thống, không nên áp dụng máy móc vì còn tùy thuộc rất nhiều vào tổ hợp sao khác trên lá số.</p>
+    <div class="box note">
+      <div class="box-label">Ghi chú</div>
+      <p>Tướng lý cổ trong Tử Vi vốn được biên soạn để mô tả một mẫu người khái quát ("khí chất") chứ không nhằm dự đoán ngoại hình chính xác cho từng cá nhân — thực tế ngoại hình chịu ảnh hưởng chủ yếu bởi di truyền và môi trường sống. Nên xem đây là dữ liệu văn hóa – lịch sử của bộ môn hơn là công cụ nhận diện, và không nên dùng để suy diễn hay đánh giá một người dựa trên ngoại hình của họ.</p>
+    </div>
+
+    <h3>2.5. Điều Liêm Trinh kỵ nhất: Hóa Kỵ và Bạch Hổ</h3>
+    <p>Nếu chỉ chọn ra một điều cần ghi nhớ về Liêm Trinh ở trình độ nhập môn, đó là: <b>Liêm Trinh rất kỵ gặp Hóa Kỵ và kỵ hội với sao Bạch Hổ.</b></p>
+    <div class="box distinguish">
+      <div class="box-label">Ghi chú phân loại</div>
+      <p>Bạch Hổ <b>không</b> thuộc nhóm Lục Sát Tinh (Kình Dương, Đà La, Hỏa Tinh, Linh Tinh, Địa Không, Địa Kiếp), mà là một sao thuộc <b>vòng Thái Tuế</b> (đi cùng Tang Môn, Bạch Hổ, Điếu Khách...), an theo Chi năm sinh (và có thêm Bạch Hổ lưu niên an theo từng năm vận hạn). Bạch Hổ vốn chủ về tang tóc, huyết quang, thương tổn — vì vậy khi hội cùng hóa khí "Tù" của Liêm Trinh, hai đặc tính cộng hưởng tạo thành tổ hợp dễ liên quan đến kiện tụng, tai ương, pháp lý, khác về bản chất so với việc Liêm Trinh gặp các sát tinh thuộc Lục Sát.</p>
+    </div>
+    <ul>
+      <li>Liêm Trinh Hóa Kỵ tại Mệnh: cuộc đời nhiều bất thuận, dễ gặp tai nạn liên quan đến máu huyết (huyết quang), tính khí có thể trở nên hung hăng, dễ vướng vào rượu chè, sắc dục, tranh chấp pháp lý, hoặc gặp họa do tính ngang bướng gây ra.</li>
+      <li>Liêm Trinh hội Bạch Hổ (dù là Bạch Hổ cố định trên lá số hay Bạch Hổ lưu niên đi đến cung Mệnh): cổ nhân có câu phú đại ý rằng Liêm Trinh gặp Bạch Hổ thì khó tránh khỏi hình phạt, dễ vướng vào tù tội hoặc bị xử phạt theo pháp luật. Nếu là Bạch Hổ lưu niên (theo vận từng năm) đi đến Mệnh, cần đề phòng kiện tụng, tai nạn giao thông, hoặc phải nhập viện phẫu thuật trong năm đó.</li>
+      <li>Tại cung Quan Lộc, nếu Liêm Trinh gặp thêm Kình Dương thì dễ bị kiện tụng, thưa gửi hoặc mất chức vụ, quyền hành.</li>
+    </ul>
+    <div class="box warn">
+      <div class="box-label">Câu cân bằng cần nhớ</div>
+      <p>Hai điều trên là <b>mức độ nặng nhất</b> của tổ hợp này, ứng với trường hợp Liêm Trinh Hóa Kỵ/gặp Bạch Hổ mà <b>không có</b> cát tinh, cát hóa nào cứu giải đi kèm. Trên thực tế một lá số hiếm khi "trần trụi" như vậy — cần xét thêm các lớp sao như Thiên Quý, Thiên Khôi, Thiên Việt, Hóa Khoa, Hóa Quyền, Hóa Lộc, Tả Phụ, Hữu Bật, hay Tuần, Triệt đi cùng hoặc hội chiếu (xem cách một tam hợp có Tuần đã "cứu" được một nửa mức xấu ở ví dụ Phần 11). Vì vậy câu phú cổ nên được hiểu là <b>cảnh báo về xu hướng</b>, không phải lời tiên đoán chắc chắn; người mới học không nên hoang mang khi thấy Liêm Trinh Hóa Kỵ hay Bạch Hổ trên lá số của mình mà chưa xét hết các sao đi kèm.</p>
+    </div>
+  </section>
+
+  <div class="flame-divider"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="part reveal" id="phan3">
+    <div class="part-eyebrow">Phần 3 — Nâng cao</div>
+    <h2>Sáu tổ hợp cơ bản của Liêm Trinh trong 12 cung</h2>
+    <p>Vì cách an sao cố định, Liêm Trinh chỉ xuất hiện theo <b>6 dạng tổ hợp</b> lặp lại đối xứng qua 12 cung. Đây là phần quan trọng nhất để luận giải chuyên sâu, vì ý nghĩa của Liêm Trinh thay đổi rất nhiều tùy theo sao đồng cung và sao đối chiếu.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cung an</th><th>Tổ hợp đồng cung</th><th>Đối cung</th><th>Trạng thái</th><th>Tính chất nổi bật</th></tr></thead>
+        <tbody>
+          <tr><td>Dần, Thân</td><td>Liêm Trinh độc tọa</td><td>Tham Lang</td><td>Vượng (nhiều sách xem là Miếu)</td><td>Kinh doanh sắc bén, có quý nhân, được kính trọng; dễ liều lĩnh, hao tán tài sản tổ tiên</td></tr>
+          <tr><td>Mão, Dậu</td><td>Liêm Trinh – Phá Quân</td><td>Thiên Tướng</td><td>Hãm</td><td>Biến động mạnh nhất về hôn nhân/tài sản; đào hoa gặp hao tán, dễ "làm lại"</td></tr>
+          <tr><td>Thìn, Tuất</td><td>Liêm Trinh – Thiên Phủ</td><td>Thất Sát</td><td>Miếu</td><td>Ổn định nhất, giữ được cơ nghiệp; kỵ La Võng gặp sát tinh</td></tr>
+          <tr><td>Tỵ, Hợi</td><td>Liêm Trinh – Tham Lang</td><td>(vô chính diệu)</td><td>Hãm</td><td>Vất vả nhất trong 6 dạng; câu phú "hình ngục nan đào" nếu thiếu cát tinh cứu giải</td></tr>
+          <tr><td>Tý, Ngọ</td><td>Liêm Trinh – Thiên Tướng</td><td>Phá Quân</td><td>Vượng</td><td>Khiêm tốn, đáng tin cậy, có quý nhân; thuộc nhóm Tử Phủ Vũ Tướng Liêm</td></tr>
+          <tr><td>Sửu, Mùi</td><td>Liêm Trinh – Thất Sát</td><td>Thiên Phủ</td><td>Đắc</td><td>Tự lập từ sớm, có thể phú quý ("Hùng Tú Triều Viên") nếu sạch sát kỵ; dễ vất vả, khắc cha mẹ nếu ngược lại</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="combo-card">
+      <h3>3.1. Liêm Trinh độc tọa tại Dần, Thân (đối Tham Lang)</h3>
+      <p>Sao Liêm Trinh đứng một mình, được coi là vị trí vượng địa đẹp. Nếu không gặp sát tinh, được Hóa Lộc hoặc Hóa Khoa hội chiếu, đương số có thể đạt cả danh lẫn lợi, đầu óc kinh doanh sắc bén, thích hợp lĩnh vực tài chính. Nhược điểm: về đường điền trạch, thường không giữ được tài sản do tổ tiên để lại, hay bị phá tán; đường gia đạo cũng dễ trắc trở, có thể lập gia đình nhiều lần nếu không cẩn trọng.</p>
+      <div class="box note"><div class="box-label">Góc nhìn Trung Châu phái (Vương Đình Chi)</div>
+      <p>Tại Dần/Thân, Liêm Trinh (đào hoa thứ) đối diện với Tham Lang (đào hoa chính) — về bản chất nguyên thủy đây là một cách cục thiên về nghệ thuật, thẩm mỹ, đặc biệt nhạy bén với màu sắc, phối hợp hình ảnh, nên trong xã hội hiện đại phù hợp với các ngành thiết kế, sáng tạo. Tuy nhiên nếu tổ hợp này gặp thêm sao Lộc, tính chất sẽ chuyển hóa từ "đào hoa" sang "thanh bạch" — tức là bản chất phóng túng ban đầu được tiết chế thành sự chính trực, không nên máy móc quy toàn bộ tổ hợp Dần Thân về hướng tiêu cực.</p></div>
+    </div>
+
+    <div class="combo-card">
+      <h3>3.2. Liêm Trinh – Tham Lang đồng cung tại Tỵ, Hợi</h3>
+      <p>Đây là tổ hợp được xem là vất vả nhất trong 6 dạng, vì cả hai sao đều hãm địa. Câu phú cổ có nhắc đến khả năng vướng vào tù tội, hình ngục nếu không được cát tinh hóa giải bớt sát khí — đáng chú ý, đây là một trong số ít trường hợp mà Hóa Kỵ đi cùng Liêm Tham lại có thể làm giảm bớt phần nào tính "hình tù" thay vì làm nặng thêm (khác với quy luật chung là Liêm Trinh kỵ Hóa Kỵ), một điểm khá đặc biệt cần lưu ý khi luận sâu. Về hôn nhân: vợ chồng dễ nghèo khó, bất hòa, xa cách hoặc gặp tai nạn. Tổ hợp này cần nhiều cát tinh, cát hóa trợ giúp mới hanh thông; nếu không, cuộc đời dễ nhiều sóng gió, thị phi, đặc biệt là thị phi tình cảm (vì cả hai sao đều là đào hoa tinh) dẫn đến mê đắm sắc dục, cờ bạc, nợ nần.</p>
+      <div class="box distinguish">
+        <div class="box-label">Phân biệt quan trọng</div>
+        <p>"Liêm Tham đồng cung tại Mệnh" khác với "Vô Chính Diệu có Liêm Tham xung" — hai cách cục khác nhau tuy nhiều tài liệu phổ thông hay gộp lẫn:</p>
+        <ul>
+          <li><b>Liêm Tham đồng cung tại Mệnh</b> (như trình bày ở trên): Mệnh đóng ngay tại Tỵ hoặc Hợi, có cả Liêm Trinh và Tham Lang tọa thủ.</li>
+          <li><b>Vô Chính Diệu có Liêm Tham xung</b>: Mệnh đóng tại Tỵ hoặc Hợi nhưng <b>không có chính tinh nào</b> (cung trống), phải mượn Liêm Trinh – Tham Lang từ cung đối diện (Thiên Di) làm chuẩn để luận đoán. Đây là dạng "vay mượn", ảnh hưởng của Liêm Tham chỉ chiếm khoảng 6–7 phần mười so với khi các sao này thực sự tọa thủ. Điểm đáng chú ý: tam hợp Mệnh–Tài–Quan khi đó sẽ có Thiên Phủ, Thiên Tướng hội chiếu (vì cấu trúc sao đối xứng), nên dù Mệnh vô chính diệu, cách cục vẫn được đánh giá là khá tốt, chủ về đời sống sung túc, có nền tảng học vấn — khác hẳn ấn tượng "vất vả" thường gắn với Liêm Tham.</li>
+        </ul>
+        <p>Riêng cung Hợi, vị trí Liêm Tham (khi ở thế xung chiếu từ Tỵ) được gọi là đất "<b>Tuyệt xứ</b>" theo vòng Trường Sinh; nếu gặp thêm sao Trường Sinh thì hình thành cách "<b>Tuyệt xứ phùng Sinh</b>" (cùng đường gặp lại sức sống), được xem là chuyển họa thành phúc. Giữa hai cung Tỵ và Hợi cũng có khác biệt: an tại Tỵ thì bộ Nhật Nguyệt (Thái Dương – Thái Âm) chiếu về ở thế sáng sủa hơn, các cung Huynh Đệ, Nô Bộc cũng sáng hơn; an tại Hợi thì bộ Nhật Nguyệt lạc hãm, phần nào bất lợi hơn. Về Tuần, Triệt: cách vô chính diệu này khá ưa gặp sao Tuần (giúp tính khí ngoan hiền, biết kiềm chế tham vọng xấu, chung thủy hơn); riêng sao Triệt thì chỉ ứng vào cung Tỵ, không ứng vào cung Hợi.</p>
+      </div>
+    </div>
+
+    <div class="combo-card">
+      <h3>3.3. Liêm Trinh – Phá Quân đồng cung tại Mão, Dậu (đối Thiên Tướng)</h3>
+      <p>Liêm Trinh hãm tại đây, kết hợp với Phá Quân vốn có tính phá cách, xung đột. Đương số thường có cuộc sống nhiều biến động, sự nghiệp và gia đạo dễ khó khăn ban đầu, cha mẹ hoặc vợ chồng dễ vất vả, gặp tai nạn hoặc bất hòa. Về điền trạch: hay phá tán tài sản trước, gây dựng lại sau. Đây là tổ hợp cần chú ý các sao Không, Kiếp, Kình, Đà đi kèm để đánh giá mức độ nặng nhẹ.</p>
+    </div>
+
+    <div class="combo-card">
+      <h3>3.4. Liêm Trinh – Thiên Tướng đồng cung tại Tý, Ngọ (đối Phá Quân)</h3>
+      <p>Một trong hai tổ hợp tốt nhất của Liêm Trinh, vì Thiên Tướng thuộc hành Thủy, có thể khắc chế bớt hành Hỏa của Liêm Trinh, giúp thu bớt phần "hung hãn" của sao này. Người có tổ hợp này tại Mệnh thường khiêm tốn, cẩn trọng, có trách nhiệm, giao du rộng, thật thà và tạo được cảm giác đáng tin cậy trong quan hệ xã giao. Gia đình, vợ chồng thường giàu sang, được người khác tương trợ, che chở. Về hôn nhân tuy có phần hình khắc nhẹ (tại Ngọ đỡ hơn tại Tý) nhưng nhìn chung ổn định nếu lập gia đình muộn. Tổ hợp này thuộc nhóm sao "Tử Phủ Vũ Tướng Liêm" — nhóm sao được xem là hoàn cảnh thuận lợi, có quý nhân phù trợ.</p>
+      <p>Lưu ý về phụ tinh: nếu có Kình Dương, Đà La đồng cung thì cả đời thị phi không dứt; nếu bị Hỏa Tinh, Linh Tinh xung phá thì cần đề phòng tàn tật hoặc thương tật. Đặc biệt, người tuổi Bính (có Liêm Trinh Hóa Kỵ ngay tại tổ hợp này) nên xem các đại vận/lưu niên đi qua cung có Thiên Đồng và Vũ Khúc là hai mốc then chốt của cuộc đời — đại vận gặp Thiên Đồng thường là giai đoạn phát triển đột biến (hoạnh phát), còn đại vận gặp Vũ Khúc cần đề phòng biến cố bất ngờ (hoạnh phá). Với các tuổi khác (không phải Bính), các đại vận/lưu niên mang tính then chốt hơn thường là những giai đoạn có Tử Vi – Thiên Phủ, Vũ Khúc, Cự Môn, hoặc Phá Quân trấn giữ.</p>
+    </div>
+
+    <div class="combo-card">
+      <h3>3.5. Liêm Trinh – Thiên Phủ đồng cung tại Thìn, Tuất (đối Thất Sát)</h3>
+      <p>Đây là tổ hợp <b>miếu địa</b>, được đánh giá là dạng tốt nhất của Liêm Trinh. Thiên Phủ vốn là sao "kho tàng", giỏi che chở, tích lũy, giúp Liêm Trinh phát huy được sự chính trực, quyết đoán mà bớt đi phần khắc nghiệt. Gia đình thịnh vượng, giữ được cơ nghiệp tổ tiên, hôn nhân bền vững dù có thể muộn mới thuận. Nhược điểm truyền thống: tổ hợp này khá kỵ gặp cung có cách "La Võng" (Thìn Tuất vốn là cung La Võng) — nếu gặp thêm sát tinh dễ chậm phát, khởi đầu gian nan, nhưng nhờ có Thiên Phủ hội hợp nên về sau vẫn có thể hanh thông.</p>
+    </div>
+
+    <div class="combo-card">
+      <h3>3.6. Liêm Trinh – Thất Sát đồng cung tại Sửu, Mùi (đối Thiên Phủ)</h3>
+      <p>Kết hợp với Thất Sát — sao sát khí mạnh, chủ về quyết đoán, xông pha nhưng cũng dễ liều lĩnh, gặp rủi ro. Người mang tổ hợp này thường có tài năng nhưng vất vả, tự lập từ sớm, dễ khắc với cha mẹ hoặc người thân, hôn nhân cần muộn mới tốt. Thích hợp với các ngành kỹ thuật, công vụ, hoặc kinh doanh cần sự ngăn nắp, có trật tự — vì bản chất Liêm Trinh vốn có thiên hướng "quy củ hóa" ngay cả khi đi cùng sao sát phạt.</p>
+      <p>Đây được xem là tổ hợp có nhiều dị biệt và mâu thuẫn nhất trong cổ thư khi luận đoán — các câu phú cổ về Liêm Sát có khi đối lập nhau: có câu cho rằng Liêm Sát là người tích lũy được của cải, có câu lại cho rằng đây là mệnh lang bạt, phiêu dạt khắp nơi, thậm chí có câu ở mức nặng hơn còn gắn với cái chết nơi đất khách. Sở dĩ có sự mâu thuẫn này là vì kết quả phụ thuộc rất nhiều vào việc tổ hợp đóng ở Sửu hay Mùi, và có gặp sát tinh hay không:</p>
+      <ul>
+        <li>Nếu Liêm Sát đóng tại <b>Mùi</b> mà không gặp sát tinh, lại được thêm Tả Phụ – Hữu Bật, thì được xem là cách phú quý, có danh tiếng.</li>
+        <li>Nếu Liêm Sát (dù ở Sửu hay Mùi) gặp Hóa Kỵ hoặc bộ Hỏa/Linh/Không/Kiếp, dễ biến thành cách gọi là <b>"Mã cách lý thi"</b> (nghĩa đen: da ngựa bọc thây) — đa phần ứng vào con đường võ nghiệp, có thể đạt địa vị cao và rất say mê với nghề, nhưng cũng tiềm ẩn nguy cơ gặp nạn ngay từ chính công việc mình theo đuổi ("sinh nghề tử nghiệp"). Với nữ mệnh, tổ hợp này khi gặp sát tinh thường vất vả, bôn ba nhiều hơn.</li>
+        <li>Sao kỵ nhất đối với bộ Liêm Sát là <b>Bạch Hổ</b> — hai hung tinh này gặp nhau ("hung trợ hung") dễ đẩy tính chất xấu vốn có lên thành cách phạm pháp, dính vòng lao lý.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="flame-divider"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="part reveal" id="phan4">
+    <div class="part-eyebrow">Phần 4</div>
+    <h2>Liêm Trinh tại 12 cung — ứng dụng luận giải</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cung</th><th>Ý nghĩa khái quát khi Liêm Trinh tọa thủ</th></tr></thead>
+        <tbody>
+          <tr><td>Mệnh</td><td>Tính cách, sự nghiệp như đã trình bày ở Phần 2 và 3</td></tr>
+          <tr><td>Phụ Mẫu</td><td>Sáng sủa: cha mẹ nghiêm khắc nhưng thương yêu, quan hệ ổn định. Hãm (Tỵ, Hợi, Mão, Dậu): dễ mâu thuẫn, xa cách với cha mẹ</td></tr>
+          <tr><td>Phúc Đức</td><td>Liên quan đến đời sống tinh thần; sáng sủa thường an nhàn về già, hãm dễ lo nghĩ, bôn ba</td></tr>
+          <tr><td>Điền Trạch</td><td>Thường không thuận lợi: khó giữ nhà đất tổ tiên để lại, ở nhà cảm giác gò bó, bí bách. Đi với cát tinh có thể có tài sản nhờ kinh doanh vật liệu, điện tử, nội thất</td></tr>
+          <tr><td>Quan Lộc</td><td>Đây là cung mà Liêm Trinh phát huy rõ nhất bản chất "quyền uy, kỷ luật" — xem bảng tra nhanh theo từng tổ hợp ở mục 4.3</td></tr>
+          <tr><td>Nô Bộc</td><td>Bạn bè, đồng nghiệp có cá tính mạnh, có thể vừa là trợ lực vừa dễ phát sinh mâu thuẫn</td></tr>
+          <tr><td>Thiên Di</td><td>Sáng sủa: ra ngoài thuận lợi, có uy tín. Đi với Phá Quân/Thất Sát: dễ phiêu bạt xa quê, lập nghiệp nơi đất khách</td></tr>
+          <tr><td>Tật Ách</td><td>Xem chi tiết ở mục 4.1 bên dưới</td></tr>
+          <tr><td>Tài Bạch</td><td>Sáng sủa: kiếm tiền trong môi trường có quy củ, kỷ luật, áp lực cao nhưng ổn định; hãm: tài chính bấp bênh</td></tr>
+          <tr><td>Tử Tức</td><td>Xem chi tiết ở mục 4.2 bên dưới</td></tr>
+          <tr><td>Phu Thê</td><td>Xem bảng tra nhanh theo từng tổ hợp ở mục 4.3</td></tr>
+          <tr><td>Huynh Đệ</td><td>Anh chị em cá tính mạnh, có thể ít gắn bó thân thiết, đường ai nấy đi</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4.1. Chi tiết cung Tật Ách — Liêm Trinh là "Huyết tinh"</h3>
+    <p>Vì thuộc Âm Hỏa, Liêm Trinh tại cung Tật Ách phần nhiều chủ về chứng "hư hỏa thượng thăng" (bốc hỏa từ trong người) hoặc "tâm hỏa cấp táo" (nóng nảy, bứt rứt trong lòng). Trong Đẩu Số, Liêm Trinh còn được gọi là <b>"Huyết tinh"</b> — ngôi sao chủ về máu huyết — nên các bệnh thường gặp khi Liêm Trinh thủ Tật Ách bao gồm: đại tiện/nôn ra máu, xuất huyết, các vấn đề về tâm huyết, mất ngủ (thất miên), thiếu máu (bần huyết), tâm thận bất giao. Ngoài ra sao này còn liên quan đến hệ thần kinh (chóng mặt, đau đầu, lo âu, suy giảm trí nhớ), mắt, và trong một số cách còn chủ về bệnh phổi, cảm mạo, ho — đặc biệt nặng hơn nếu gặp thêm Hỏa Tinh hoặc Đà La.</p>
+    <p>Trạng thái miếu/vượng/đắc thường giúp bệnh nhẹ và dễ chữa hơn; ở thế hãm địa hoặc khi Hóa Kỵ, các vấn đề về huyết áp, tuần hoàn máu, tai nạn bất ngờ do tác nhân bên ngoài cần được lưu tâm nhiều hơn. Nếu được Hóa Khoa hoặc có Tử Vi hội chiếu, khả năng chữa trị và hồi phục thường thuận lợi hơn.</p>
+    <div class="box note"><div class="box-label">Lưu ý</div><p>Đây là thông tin mang tính tham khảo văn hóa / chiêm tinh cổ truyền, không thay thế chẩn đoán y khoa.</p></div>
+
+    <h3>4.2. Chi tiết cung Tử Tức</h3>
+    <ul>
+      <li>Liêm Trinh độc tọa ở cung miếu vượng: thường có một trai một gái; ở cung bình hòa: một con; ở cung hãm: dễ có sự khắc chế giữa cha mẹ và con cái.</li>
+      <li>Liêm Trinh – Thiên Phủ đồng cung: đây là tổ hợp rất được ưa chuộng ở cung này, chủ về đông con (khoảng ba người), con cái thường là quý tử, tính tình cẩn thận, trung hậu, văn nhã.</li>
+      <li>Liêm Trinh hội với Thất Sát, Phá Quân, Tham Lang (bộ Sát Phá Liêm Tham): chủ về con cái dễ gặp "hình thương" (tai nạn, thương tật).</li>
+      <li>Liêm Trinh Hóa Kỵ: con cái dễ gặp nhiều tai nạn, bệnh tật, hoặc hình dáng có khiếm khuyết.</li>
+      <li>Liêm Trinh gặp Tứ Sát (Kình Dương, Đà La, Hỏa Tinh, Linh Tinh) cùng Địa Không, Địa Kiếp, Thiên Hình: có xu hướng phải nhận con nuôi hoặc muộn đường con cái.</li>
+      <li>Nếu có Văn Xương, Văn Khúc: con cái phát về đường khoa bảng, danh tiếng nhưng không hẳn giàu có.</li>
+    </ul>
+
+    <h3>4.3. Bảng tra nhanh: Quan Lộc (hợp ngành gì) và Phu Thê (hôn nhân thế nào)</h3>
+    <p>Đây là hai cung người học tra cứu nhiều nhất, nên tổng hợp riêng theo 6 tổ hợp ở Phần 3 để tiện tra nhanh:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tổ hợp</th><th>Quan Lộc — hợp ngành / xu hướng sự nghiệp</th><th>Phu Thê — hôn nhân</th></tr></thead>
+        <tbody>
+          <tr><td>Độc tọa (Dần, Thân)</td><td>Kinh doanh, tài chính, các ngành cần đầu óc nhạy bén, sắc bén trong đàm phán; nếu có Xương Khúc thì hợp cả ngành hành chính, văn phòng</td><td>Vợ chồng dễ làm ăn khó khăn, có thể phải lập gia đình nhiều lần nếu không cẩn trọng</td></tr>
+          <tr><td>– Tham Lang (Tỵ, Hợi)</td><td>Ngành cần giao tiếp, đàm phán, kinh doanh nhưng dễ nhiều thị phi; cần cát tinh mới ổn định lâu dài</td><td>Vợ chồng dễ nghèo khó, bất hòa, xa cách, xung khắc</td></tr>
+          <tr><td>– Phá Quân (Mão, Dậu)</td><td>Ngành có tính đột phá, khai phá thị trường mới, nhưng nhiều biến động; hợp khởi nghiệp hơn là làm công ăn lương ổn định</td><td>Vợ chồng làm ăn khó khăn, hay bất hòa, xung khắc</td></tr>
+          <tr><td>– Thiên Tướng (Tý, Ngọ)</td><td>Rất hợp làm công chức, quản lý cấp trung, vị trí phó/trợ lý có tính ổn định, hưởng lương; nếu có Hóa Lộc thì phú quý nhưng vẫn nên ở vai trò phụ tá hơn là đứng đầu</td><td>Vợ chồng giàu sang, hòa thuận nhưng có phần hình khắc nhẹ (tại Ngọ đỡ hơn Tý)</td></tr>
+          <tr><td>– Thiên Phủ (Thìn, Tuất)</td><td>Chính trị, quản lý nhà nước, ngành cần uy tín và tích lũy lâu dài; đặc biệt phát huy tốt ở cung Quan Lộc hơn hẳn các tổ hợp khác</td><td>Gia đình thịnh vượng, giàu sang, có thể muộn mới thuận nhưng bách niên giai lão</td></tr>
+          <tr><td>– Thất Sát (Sửu, Mùi)</td><td>Kỹ thuật, công vụ, quân đội/võ nghiệp, hoặc kinh doanh cần tính ngăn nắp, trật tự; nếu gặp Hóa Kỵ/Hỏa Linh Không Kiếp dễ thành cách "Mã cách lý thi"</td><td>Hôn nhân hình khắc, cần muộn mới tốt, một trong hai người có tài nhưng hay gặp rủi ro</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-style:italic; color:var(--ink-mute); font-size:14.5px;">Bảng trên mang tính tổng hợp nhanh; muốn luận chính xác cho một lá số cụ thể vẫn cần đối chiếu thêm miếu/vượng/đắc/hãm, Tứ Hóa và các phụ tinh đi kèm như đã trình bày ở Phần 3, 5, 7.</p>
+  </section>
+
+  <div class="flame-divider"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="part reveal" id="phan5">
+    <div class="part-eyebrow">Phần 5</div>
+    <h2>Liêm Trinh và Tứ Hóa</h2>
+    <p>Tứ Hóa (Hóa Lộc, Hóa Quyền, Hóa Khoa, Hóa Kỵ) được an theo Thiên Can của năm sinh. Liêm Trinh chỉ hóa ở hai Thiên Can:</p>
+    <ul>
+      <li><b>Can Giáp:</b> Liêm Trinh <b>Hóa Lộc</b>. Đây là một trong những cách cục được đánh giá cao — Liêm Trinh vốn cương trực nay được thêm tài lộc, dễ thành công trong sự nghiệp, đặc biệt nếu tọa ở cung miếu vượng (Dần Thân, Thìn Tuất, Tý Ngọ). Lộc giúp trung hòa bớt sát khí và tính "Tù", biến sự cứng rắn thành khả năng gây dựng cơ nghiệp.</li>
+    </ul>
+    <div class="box note"><div class="box-label">Lưu ý khi tự luận</div><p>Cần đối chiếu với Cục số và toàn bộ lá số, vì Tứ Hóa chỉ là một lớp thông tin, không quyết định tuyệt đối.</p></div>
+  </section>
+
+  <section class="part reveal" id="phan6">
+    <div class="part-eyebrow">Phần 6</div>
+    <h2>Liêm Trinh Hóa Kỵ (Can Bính) — mục riêng cần lưu ý kỹ</h2>
+    <p>Liêm Trinh chỉ Hóa Kỵ ở người tuổi <b>Bính</b>, nhưng đây được xem là một trong những tổ hợp Hóa Kỵ đáng chú ý nhất trong toàn bộ hệ thống Tứ Hóa, vì hai lý do gộp lại: Liêm Trinh vốn đã mang hóa khí "Tù", và theo nhiều tài liệu, Liêm Trinh là ngôi sao <b>đặc biệt nhạy cảm với Tứ Hóa và sát tinh</b> hơn hẳn so với các chính tinh khác — hễ Hóa Kỵ là ảnh hưởng thường bộc lộ rõ, không "chìm" như một số sao khác.</p>
+
+    <h3>6.1. Vì sao Liêm Trinh Hóa Kỵ được xem là nặng</h3>
+    <ul>
+      <li>Liêm Trinh còn được gọi là <b>"Huyết tinh"</b> (sao chủ về máu huyết) — vì vậy Hóa Kỵ ở đây thiên về các sự cố liên quan đến máu: phẫu thuật, tai nạn đổ máu, xuất huyết, thay vì chỉ là "xui rủi" chung chung như một số Hóa Kỵ khác.</li>
+      <li>Về pháp lý: Hóa Kỵ làm tăng mạnh tính "Tù" vốn có của Liêm Trinh, nên tổ hợp này thường xuất hiện trong các câu phú cổ về kiện tụng, tranh chấp, hình ngục.</li>
+      <li>Về tình cảm: vì Liêm Trinh vốn là đào hoa thứ, Hóa Kỵ khiến đường tình duyên trắc trở theo kiểu "muốn yên mà không được" — nhiều mối nhưng khó trọn vẹn, hoặc gặp phiền lụy vì người khác (ở nữ mệnh) hay vì phong lưu, thiếu tiết chế (ở nam mệnh).</li>
+    </ul>
+
+    <h3>6.2. Mức độ nặng nhẹ khác nhau rất nhiều theo cung</h3>
+    <p>Đây là điểm quan trọng nhất khi luận Liêm Trinh Hóa Kỵ: <b>không phải cung nào cũng nặng như nhau</b>, khác với ấn tượng "Hóa Kỵ ở đâu cũng xấu" mà người mới học hay mặc định.</p>
+    <ul>
+      <li><b>Sửu, Mùi (đi cùng Thất Sát):</b> được xem là vị trí nặng nhất. Liêm Trinh Hóa Kỵ tại đây phá luôn cách "Hùng Tú Triều Viên" vốn có nếu không Hóa Kỵ; nếu thêm sát tinh (Kình Dương, Đà La, Hỏa Linh) thì dễ ứng vào tai nạn, bệnh máu huyết, hoặc vấn đề pháp lý nặng.</li>
+      <li><b>Tỵ, Hợi (đi cùng Tham Lang):</b> đây là gốc của câu phú nổi tiếng "Liêm Tham Tỵ Hợi hình ngục nan đào" — nhưng cần lưu ý, theo nhiều người thực hành lâu năm, câu phú này thường quá tay: thực tế chỉ khi hội đủ cả bốn yếu tố (Liêm Trinh Hóa Kỵ + Tham Lang + Thiên Hình + Bạch Hổ) mới thực sự ứng nặng về pháp lý; thiếu một trong bốn thì mức độ giảm đi nhiều.</li>
+      <li><b>Thìn, Tuất (đi cùng Thiên Phủ):</b> theo một số dòng luận giải, đây lại là vị trí Hóa Kỵ <b>đỡ nặng hơn hẳn</b>, vì Thìn Tuất là cung "Địa Võng/Thiên La", có tác dụng giống như "nhốt" bớt cái xấu của Hóa Kỵ lại, tương tự vai trò của Tuần/Triệt ở nơi khác.</li>
+      <li><b>Dần, Thân (độc tọa) và Tý, Ngọ (đi cùng Thiên Tướng):</b> mức độ trung bình, chủ yếu ảnh hưởng đến tình cảm và uy tín hơn là tai nạn nặng, nếu không cộng thêm nhiều sát tinh khác.</li>
+    </ul>
+
+    <h3>6.3. Cần cân nhắc cùng các sao khác trước khi kết luận</h3>
+    <p>Giống như nguyên tắc chung ở Phần 10, Liêm Trinh Hóa Kỵ không nên bị đọc như một "án tử" cố định:</p>
+    <ul>
+      <li>Nếu tam hợp có Xương Khúc, Song Lộc, Khôi Việt, Tả Hữu hội đủ, mức độ xấu giảm đi đáng kể (xem ví dụ ở Phần 11, nơi Thiên Quý + Triệt + Tuần đã cứu giải được một nửa mức xấu của Liêm Phá Hãm).</li>
+      <li>Ngược lại, nếu hội thêm Vũ Khúc Hóa Kỵ, hoặc Kình Dương – Đà La giáp cung, mức độ xấu sẽ tăng lên rõ rệt — đây là tổ hợp cần thận trọng thật sự.</li>
+      <li>Vì vậy, khi gặp một lá số có Liêm Trinh Hóa Kỵ, bước đầu tiên nên làm là xác định <b>cung an</b> (theo mục 6.2) rồi mới xét tiếp phụ tinh đi cùng, thay vì áp ngay câu phú nặng nhất vào mọi trường hợp.</li>
+    </ul>
+  </section>
+
+  <div class="flame-divider"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="part reveal" id="phan7">
+    <div class="part-eyebrow">Phần 7</div>
+    <h2>Liêm Trinh với các phụ tinh và cách cục lớn</h2>
+
+    <h3>7.1. Gặp cát tinh và các chính tinh khác</h3>
+    <p>Liêm Trinh là ngôi sao được xem là biến hóa nhiều nhất trong 14 chính tinh — cát hung gần như phụ thuộc hoàn toàn vào sao đi cùng, nhiều hơn hẳn so với các chính tinh khác. Một số tương tác tiêu biểu hay được nhắc trong cổ thư:</p>
+    <ul>
+      <li>Gặp <b>Tử Vi</b>: nắm giữ uy quyền.</li>
+      <li>Gặp <b>Lộc Tồn</b>: chủ về phú quý.</li>
+      <li>Gặp <b>Văn Xương</b> hoặc <b>Văn Khúc</b>: am hiểu lễ nghi, có khiếu nghệ thuật, ca vũ; nếu đi cùng Hóa Kỵ thì ngược lại dễ trở thành người mưu mô, chỉ giỏi nói suông.</li>
+      <li>Gặp <b>Thất Sát</b>: có thể vươn tới chức võ vinh hiển, nhưng cá tính cố chấp và mạnh mẽ quá mức.</li>
+      <li>Đặc biệt <b>ưa</b> đi cùng <b>Thiên Tướng</b>: nếu thêm được Tả Phụ, Hữu Bật hội chiếu thì có thể nắm giữ quyền lớn.</li>
+      <li>Gặp Tả Phù, Hữu Bật, Thiên Khôi, Thiên Việt nói chung: được trợ lực tốt, thêm quý nhân phù trợ, tăng khả năng đạt được cả danh vọng và tài lộc — đặc biệt phù hợp với con đường công danh, chính trị.</li>
+    </ul>
+
+    <h3>7.2. Gặp sát tinh và hung tinh</h3>
+    <p>Kình Dương, Đà La, Hỏa Tinh, Linh Tinh, Không Kiếp đi cùng Liêm Trinh — nhất là ở thế hãm — làm tăng mạnh tính "Tù", dễ dẫn đến tai họa, hình ngục, phá tán tài sản, tai nạn liên quan đến lửa hoặc tranh chấp pháp lý. Cổ nhân đặc biệt nhấn mạnh Liêm Trinh <b>kỵ nhất</b> là gặp nhóm sao "Hình – Kỵ" (Thiên Hình, Hóa Kỵ) và sao <b>Bạch Hổ</b> — xem chi tiết ở mục 2.5.</p>
+
+    <h3>7.3. Gặp đào hoa tinh</h3>
+    <p>Vì bản thân Liêm Trinh đã là "đệ nhị đào hoa", khi gặp thêm Thiên Riêu, Hồng Loan, Đào Hoa, Thiên Hỷ thì tính đa tình, phong lưu càng rõ nét, dễ có đời sống tình cảm phức tạp, nhất là khi các sao này hội tại cung Phu Thê hoặc Mệnh.</p>
+
+    <h3>7.4. Cách cục lớn: "Tử Phủ Vũ Tướng Liêm" và "Sát Phá Liêm Tham"</h3>
+    <p>Đây là điểm trọng yếu để luận giải ở trình độ chuyên gia. Liêm Trinh, do vị trí an sao đặc thù, luôn xuất hiện trong hai nhóm cách cục lớn tùy theo tổ hợp:</p>
+    <ul>
+      <li><b>Tử Phủ Vũ Tướng Liêm</b> (khi Liêm Trinh đi cùng hoặc tam hợp với Thiên Phủ, Thiên Tướng): được xem là <b>hoàn cảnh thuận lợi</b>, có nền tảng, có quý nhân, có tổ chức, kỷ luật đi liền với thành tựu.</li>
+      <li><b>Sát Phá Liêm Tham</b> (khi Liêm Trinh đi cùng hoặc tam hợp với Thất Sát, Phá Quân, Tham Lang): được xem là <b>hoàn cảnh khó khăn, nhiều biến động</b>, đòi hỏi phải tự thân vận động, trải qua sóng gió mới đạt được thành tựu, nhưng nếu thành công thường là thành tựu lớn, mang tính đột phá.</li>
+    </ul>
+    <p>Người luận Tử Vi có kinh nghiệm thường nhìn vào việc Mệnh, Tài, Quan của một lá số rơi vào nhóm nào trong hai nhóm trên để đánh giá "chất" của cuộc đời — thuận lợi êm đềm hay gập ghềnh nhưng có đột phá — trước khi đi vào chi tiết từng cung.</p>
+
+    <h3>7.5. Bảng tổng hợp nhanh: các cách cục lớn gắn với Liêm Trinh</h3>
+    <p>Bảng dưới đây gom lại các cách cục và tên gọi cổ đã nhắc rải rác ở Phần 3, 7, 8 thành một bảng tra cứu nhanh, giúp dễ ghi nhớ hơn khi ôn tập:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cách cục</th><th>Vị trí</th><th>Tên gọi / câu phú gắn liền</th><th>Điều kiện để "đẹp"</th><th>Đánh giá tổng quan</th></tr></thead>
+        <tbody>
+          <tr><td>Độc tọa</td><td>Dần, Thân</td><td>Nơi Liêm Trinh được nhiều sách xem là "nhập miếu"; đối Tham Lang</td><td>Không gặp sát tinh, có Hóa Lộc/Hóa Khoa hội chiếu</td><td>Tốt, thiên về tài chính, kinh doanh</td></tr>
+          <tr><td>– Thiên Tướng</td><td>Tý, Ngọ</td><td>Thuộc nhóm "Tử Phủ Vũ Tướng Liêm"</td><td>Không có Kình/Đà đồng cung, không bị Hỏa/Linh xung phá</td><td>Tốt, đáng tin cậy, có quý nhân</td></tr>
+          <tr><td>– Thiên Phủ</td><td>Thìn, Tuất</td><td>Vị trí được nhiều bảng hiện đại xếp Miếu địa; đối Thất Sát</td><td>Tránh gặp sát tinh (kỵ cách La Võng nặng thêm)</td><td>Tốt nhất trong 6 tổ hợp về giữ cơ nghiệp</td></tr>
+          <tr><td>– Thất Sát</td><td>Sửu, Mùi</td><td><b>Hùng Tú Triều Viên</b> khi đóng tại Mùi, có Tả Hữu, không sát kỵ</td><td>Không gặp Hóa Kỵ/Linh Hỏa Không Kiếp; có Tả Phụ Hữu Bật</td><td>Tốt nếu đủ điều kiện; xấu (Mã cách lý thi) nếu gặp sát kỵ</td></tr>
+          <tr><td>– Tham Lang</td><td>Tỵ, Hợi</td><td>"Liêm Tham Tỵ Hợi hình ngục nan đào" — câu phú nổi tiếng nhất</td><td>Cần cát tinh, cát hóa hóa giải; kỵ nhất Thiên Hình + Bạch Hổ + Hóa Kỵ hội đủ</td><td>Vất vả nhất trong 6 dạng; cần đủ 4 yếu tố mới thành hình án nặng</td></tr>
+          <tr><td>– Phá Quân</td><td>Mão, Dậu</td><td>Không có tên riêng nổi bật, thường gọi tắt "Liêm Phá"</td><td>Cần Tuần/Triệt hoặc cát tinh giảm bớt hao tán</td><td>Nhiều biến động về hôn nhân, tài sản; dễ phải "làm lại"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-style:italic; color:var(--ink-mute); font-size:14.5px;">Lưu ý khi dùng bảng này: đây là bảng tra cứu nhanh ở mức "khung", không thay thế cho việc xét đầy đủ phụ tinh, Tứ Hóa và tam hợp như quy trình 6 bước ở Phần 10. Tên gọi cách cục cũng chỉ có giá trị tham khảo — cùng một cách cục có thể được luận rất khác nhau tùy điều kiện đi kèm.</p>
+  </section>
+
+  <div class="flame-divider"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="part reveal" id="phan8">
+    <div class="part-eyebrow">Phần 8</div>
+    <h2>Một số câu phú cổ thường dùng</h2>
+    <p style="font-style:italic; color:var(--ink-mute);">Diễn ý — không trích nguyên văn dài.</p>
+
+    <blockquote class="phu">Liêm Trinh miếu địa tại Dần, Thân, không gặp sát tinh mà được Hóa Lộc, Hóa Khoa hội chiếu thì đạt cả danh vọng và tiền tài.</blockquote>
+    <blockquote class="phu">Liêm Trinh hãm địa mà gặp Kình Dương, Đà La thì dễ phá gia bại sản, thậm chí dính đến hình ngục.</blockquote>
+    <blockquote class="phu">Liêm Trinh hội cùng Tham Lang, Thất Sát, Phá Quân (bộ "Sát Phá Liêm Tham") nếu thêm Văn Khúc xung chiếu tại cung Thiên Di thì có xu hướng bất phục tùng, dễ hành động bất chấp khuôn phép.</blockquote>
+    <blockquote class="phu">Liêm Trinh khi đi cùng Thiên Tướng, Thiên Phủ thì được xem là hai tổ hợp hiền hòa nhất, ít gây tác hại hơn so với khi đi cùng nhóm Sát Phá Tham.</blockquote>
+    <blockquote class="phu">Liêm Trinh gặp Bạch Hổ thì khó tránh khỏi hình phạt, dễ vướng vào pháp luật, tù tội — một trong những câu phú được trích dẫn nhiều nhất khi luận Liêm Trinh.</blockquote>
+    <blockquote class="phu">Liêm Trinh cùng Phá Quân, Thất Sát chiếu vào cung Thiên Di thì đời phiêu bạt, dễ lập nghiệp và mất nơi đất khách quê người.</blockquote>
+    <blockquote class="phu">Liêm Trinh đóng tại Mùi (bên cạnh Thất Sát) mà không gặp sát tinh thì đạt được phú quý, tiếng tăm vang xa.</blockquote>
+    <blockquote class="phu">Nữ mệnh có Liêm Trinh vẫn có thể giữ được sự trong sạch, đoan chính của bản thân — câu phú này thường được trích để phản bác quan niệm cho rằng cứ có Liêm Trinh là đương nhiên "đào hoa" theo nghĩa tiêu cực.</blockquote>
+  </section>
+
+  <section class="part reveal" id="phan9">
+    <div class="part-eyebrow">Phần 9</div>
+    <h2>Góc nhìn Trung Châu phái: Liêm Trinh là sao "biến hóa vô định"</h2>
+    <p>Một quan điểm quan trọng, thường được các nhà nghiên cứu bài bản (như trường phái Trung Châu, gắn với tên tuổi Vương Đình Chi) nhấn mạnh: trong số 14 chính tinh, <b>Liêm Trinh là ngôi sao có tính biến hóa mạnh nhất</b>, đến mức cổ nhân có câu đại ý rằng gặp Liêm Trinh thì cả họa lẫn phúc đều khó lường trước, mọi thứ tùy thuộc gần như hoàn toàn vào các sao đồng cung, hội chiếu.</p>
+    <p>Bằng chứng cho tính "vô định" này chính là những câu phú cổ mâu thuẫn nhau khi cùng luận về một tổ hợp — ví dụ như bộ Liêm Sát: có sách nói tổ hợp này chủ về giàu có, tích lũy; có sách lại nói đây là mệnh lang bạt, phiêu dạt không nơi nương tựa. Theo lý giải của phái Trung Châu, sự "mâu thuẫn" này thực chất không mâu thuẫn nếu xét đủ điều kiện đi kèm (đóng tại Sửu hay Mùi, có gặp sát tinh, cát tinh, Hóa Kỵ hay không).</p>
+    <div class="box note">
+      <div class="box-label">Bài học phương pháp luận cho người học ở trình độ cao</div>
+      <p>Không nên học thuộc lòng một câu "chân lý" duy nhất về Liêm Trinh (kiểu "Liêm Trinh là sao xấu" hay "Liêm Trinh là sao đào hoa"), mà cần luôn đặt sao này trong toàn bộ bối cảnh tổ hợp — đây cũng chính là tinh thần của khung luận giải tổng hợp ở Phần 10.</p>
+    </div>
+  </section>
+
+  <div class="flame-divider"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="part reveal" id="phan10">
+    <div class="part-eyebrow">Phần 10</div>
+    <h2>Khung luận giải tổng hợp</h2>
+    <p>Khi luận về Liêm Trinh ở trình độ chuyên gia, nên đi theo trình tự sau để tránh phiến diện:</p>
+    <ol>
+      <li><b>Xác định tổ hợp đồng cung</b> (1 trong 6 dạng ở Phần 3) — đây là lớp thông tin nền tảng quan trọng nhất.</li>
+      <li><b>Xác định trạng thái miếu/vượng/đắc/hãm</b> tại cung đang xét.</li>
+      <li><b>Xem Tứ Hóa</b> theo Thiên Can năm sinh: có Hóa Lộc (can Giáp) hay Hóa Kỵ (can Bính) hội chiếu vào cung đang luận không.</li>
+      <li><b>Xét phụ tinh đi kèm</b>: cát tinh (Xương Khúc, Khôi Việt, Tả Hữu) hay sát tinh (Kình Đà, Không Kiếp, Hỏa Linh) chiếm ưu thế.</li>
+      <li><b>Đặt trong bối cảnh cách cục lớn</b>: lá số nghiêng về "Tử Phủ Vũ Tướng Liêm" (thuận) hay "Sát Phá Liêm Tham" (nghịch, nhiều biến động).</li>
+      <li><b>Đối chiếu với đại vận, lưu niên</b>: vì Liêm Trinh chủ về "Tù", cần đặc biệt chú ý các giai đoạn đại vận/lưu niên có Liêm Trinh Hóa Kỵ trùng phùng sát tinh — đây thường là các mốc thời gian cần thận trọng về pháp lý, tai nạn, sức khỏe.</li>
+    </ol>
+    <p>Cách tiếp cận theo lớp (layered) như trên giúp người học tránh sai lầm phổ biến là chỉ nhìn vào tính chất "gốc" của Liêm Trinh (Tù + Đào Hoa) mà bỏ qua việc tổ hợp sao đồng cung và Tứ Hóa có thể thay đổi rất nhiều sắc thái luận đoán trên thực tế.</p>
+  </section>
+
+  <div class="flame-divider"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="part reveal" id="phan11">
+    <div class="part-eyebrow">Phần 11 — Thực hành</div>
+    <h2>Ví dụ minh họa: áp dụng khung luận giải vào một lá số cụ thể</h2>
+
+    <h3>11.1. Gốc của Liêm Trinh</h3>
+    <p>Ngũ hành: Âm Hỏa đới Mộc. Hóa khí: vừa là Đào Hoa thứ, vừa là Tù tinh — chủ về sự ràng buộc, xét nét, kỷ luật.</p>
+    <p>Người có Liêm Trinh thường trọng danh dự, tự ái cao, ngoài mềm trong cứng. Khi đắc địa thì liêm khiết, chính trực, có khả năng tự kiềm chế tốt. Khi ở thế hãm, bài học lớn nhất thường nằm ở việc quản trị cảm xúc trong tình cảm: dễ đa nghi, cố chấp, hay tự giam mình trong một mối quan hệ và suy diễn.</p>
+    <p style="font-style:italic; color:var(--rose-soft);">Với Liêm Trinh hãm, tình cảm là nơi cần học cách buông lỏng sự kiểm soát.</p>
+
+    <h3>11.2. Liêm Trinh ở đâu trong lá số này?</h3>
+    <p>Cung Phu Thê tại Mão: <b>LIÊM TRINH (H) + PHÁ QUÂN (H) + TRIỆT</b></p>
+    <p>Liêm Phá tại Mão Dậu là tổ hợp có nhiều biến động về duyên. Liêm chủ tình cảm mãnh liệt, Phá chủ hao tán, thay đổi — nên duyên đến nhanh, đậm sâu nhưng cũng đòi hỏi phải vun đắp và làm lại nhiều lần mới bền.</p>
+    <p>Mão thuộc Mộc, Mộc sinh Hỏa cho Liêm Trinh, nên mẫu người cá tính, sắc sảo, có sức hút mạnh thường tạo ấn tượng sâu sắc với đương số.</p>
+    <p>Triệt tại Phu Thê: Triệt chủ về sự trắc trở ban đầu, cưới hỏi dễ bất ngờ hoặc phải xa cách. Nhưng với cách Liêm Phá hãm, Triệt lại có tác dụng giảm bớt cái xấu — như chặt bớt phần biến động đi. Đây là cách thường ứng với kết hôn muộn sau 30, kết hôn với người ở xa, hoặc vợ chồng có giai đoạn phải xa nhau vì công việc thì lại bền hơn.</p>
+    <p>Phụ tinh: Thiên Quý + Thiên Khốc (Đ) + Thái Tuế + Tiểu Hao. Thiên Quý là sao hóa giải rất mạnh cho tính Tù của Liêm Trinh, cho thấy người hôn phối có tâm, có học, là quý nhân. Bộ Khốc – Tuế đi cùng cho thấy hai vợ chồng dễ khắc khẩu vì ai cũng muốn bảo vệ cái đúng của mình.</p>
+
+    <h3>11.3. Tam hợp của Liêm Trinh — phần quyết định</h3>
+    <p>Liêm Trinh tại Mão nằm trong tam hợp Hợi – Mão – Mùi (Mộc Cục):</p>
+    <div class="combo-card">
+      <h4 style="margin-top:0;">a. Phúc Đức tại Mùi: Tham Lang (M) + Vũ Khúc (M) + Kình Dương (Đ) + Quan Phù</h4>
+      <p>Phúc là gốc tinh thần. Tổ hợp này mang tính đào hoa, tài chính và hình pháp. Khi tam hợp về Phu Thê, nó làm cho chuyện tình cảm dễ kèm theo thị phi, tranh chấp liên quan đến tiền bạc, giấy tờ. Đây cũng là lý do người có Liêm Trinh hãm tại Phu Thê đôi khi hay chịu tiếng oan về tình cảm.</p>
+    </div>
+    <div class="combo-card">
+      <h4 style="margin-top:0;">b. Thiên Di tại Hợi: Tử Vi (B) + Thất Sát (V) + Địa Không (Đ) + Địa Kiếp + TUẦN</h4>
+      <p>Đây là điểm mấu chốt của lá số. Di có Tử Sát + Không Kiếp thường là mẫu người ra ngoài thích làm lớn, liều lĩnh và có phần ảo tưởng về cơ hội.</p>
+      <p>Nhưng Di có Tuần: theo quan điểm Nam phái, Tuần tại Hợi có tác dụng kìm giữ cả tam hợp Hợi – Mão – Mùi này lại.</p>
+      <ul>
+        <li>Tuần giữ Địa Không, Địa Kiếp tại Hợi, hạn chế tác động phá hoại của hai sao này chiếu về Phu Thê.</li>
+        <li>Tuần làm Tử Vi (B) + Thất Sát (V) bớt hiếu thắng, giúp đương số ra ngoài biết tiến lùi, dễ được người lớn tuổi hơn che chở.</li>
+        <li>Tuần cũng làm cho duyên đến muộn hơn — muộn yêu, muộn cưới, thường đi xa mới gặp, nhưng một khi đã ổn định thì lại có tính bền và kín.</li>
+        <li>Nếu không có Tuần ở Di, Phúc xấu + Di xấu cùng dồn về Phu Thê thì áp lực cho Liêm Trinh sẽ lớn hơn nhiều.</li>
+      </ul>
+    </div>
+    <div class="combo-card">
+      <h4 style="margin-top:0;">c. Xung chiếu — Quan Lộc tại Dậu: Thiên Tướng (H) + Hỏa Tinh (H) + Thiên Hư + Đại Hao</h4>
+      <p>Trục Phu – Quan xung nhau, cho thấy công việc có ảnh hưởng trực tiếp đến hôn nhân. Bộ Tiểu Hao ở Phu + Đại Hao ở Quan là cách dễ hao tài vì lo cho người khác hoặc vì đầu tư.</p>
+    </div>
+
+    <h3>11.4. Tổng kết</h3>
+    <p>Mệnh là Thiên Phủ (Đ) tại Tỵ — vốn là kho tiền, tính cách hiền lành, thích an ổn. Thân cư Mệnh mà Phu Thê có Liêm Phá, nên đời sống tình cảm có sức chi phối khá mạnh đến đương số.</p>
+    <p><b>Về người hôn phối:</b> Không phải mẫu nội trợ thuần túy. Là người có ngoại hình sáng, sắc sảo, có duyên ngầm, cá tính mạnh, giỏi giang, dám nghĩ dám làm, có phần ghen và nhớ lâu. Nhờ có Thiên Quý nên tâm tính tốt, là quý nhân hỗ trợ cho đương số.</p>
+    <p><b>Về hôn nhân:</b> Đúng tính chất Tù của Liêm Trinh — khi yêu thì có xu hướng giữ nhau chặt, khi giận thì nhớ dai. Vì vậy kết hôn sớm trước 28 tuổi thường phải trải qua nhiều thử thách lớn. Hợp cách hơn với kết hôn muộn, kết hôn với người từng lỡ dở, hoặc có yếu tố xa cách địa lý, cưới hỏi có tính thủ tục hai lần.</p>
+    <p><b>Về bản thân:</b> Ảnh hưởng của Liêm Trinh ở Phu Thê chiếu về khiến bên ngoài khá hiền hòa nhưng trong tình cảm lại có tính chiếm hữu và ghen ngầm, cần học cách thể hiện rõ ràng hơn.</p>
+
+    <h3>11.5. Vận năm 2026 và hướng sử dụng</h3>
+    <p>Năm Bính Ngọ, 40 tuổi, lưu Đào Hoa + lưu Hóa Kỵ cùng nhập vào cung Phu Thê vốn có Liêm Trinh (H). Đây là năm dễ có thị phi tình cảm, hiểu lầm, hoặc chuyện tình cảm cũ quay lại gây sóng gió về mặt tiếng tăm.</p>
+    <p>Do tam hợp đã có Tuần ở Di che chắn, hạn này thiên về thị phi, hiểu lầm hơn là xuất hiện người thứ ba thực sự. Đây không phải năm phù hợp để đưa ra quyết định lớn về ly hôn.</p>
+    <div class="box warn">
+      <div class="box-label">Hướng hóa giải phù hợp với Liêm Trinh</div>
+      <ul style="margin-bottom:0;">
+        <li><b>Dùng tính chất của Tuần:</b> Tạo khoảng cách lành mạnh — vợ chồng có không gian riêng, công việc riêng, thỉnh thoảng đi công tác xa thì tình cảm lại tốt hơn là ở cạnh nhau 24/24.</li>
+        <li><b>Tài chính rõ ràng:</b> Trục Tiểu Hao – Đại Hao khuyên không nên chung vốn làm ăn lớn với nhau, tiền ai nấy quản lý rõ ràng thì đỡ xung đột.</li>
+        <li><b>Dùng nghề để giải Tù:</b> Liêm Trinh rất hợp các ngành mang tính quản lý, kỷ luật, kiểm định, pháp luật, công nghệ, điện – lửa, làm đẹp. Nếu vợ chồng làm trong các lĩnh vực này, tính Tù sẽ dồn vào công việc thay vì dồn vào kiểm soát nhau.</li>
+      </ul>
+    </div>
+    <p>Lá số này Liêm Trinh tuy hãm nhưng đã được Thiên Quý + Triệt + Tuần ở tam hợp cứu giải một nửa. Không phải là số hai vợ, mà là mẫu số cần lấy muộn, hiểu nhau sâu thì sẽ bền.</p>
+  </section>
+
+</main>
+
+<footer id="nguon">
+  <div class="foot-inner">
+    <h2>Nguồn tham khảo để đối chiếu thêm</h2>
+    <ul class="source-list">
+      <li>tracuutuvi.com — Sao Liêm Trinh; Liêm Trinh cung Tật Ách</li>
+      <li>horos.vn — Sao Liêm Trinh; Miếu Vượng Đắc Bình Hãm; Cung Tật Ách trong Tử Vi</li>
+      <li>tuvihomnay.com — Sao Liêm Trinh: Ý nghĩa chi tiết 12 cung</li>
+      <li>cohoc.vn — Sao Liêm Trinh (tư liệu dịch từ sách Trung Hoa, góc nhìn Trung Châu phái/Vương Đình Chi); Cung Tật Ách</li>
+      <li>tuvi.cohoc.net — Sao Liêm Trinh; Liêm Trinh ở cung Tật Ách; Sao Liêm Trinh tự học Tử Vi</li>
+      <li>tuvivietnam.net / tuvivietnam.vn — Sao Liêm Trinh (Thầy Cao Anh US); Mệnh Vô Chính Diệu; Trung Châu Tử Vi sơ cấp giảng nghĩa luận cung Tật Ách</li>
+      <li>tuviphamhai.vn — Luận giải về Sao Liêm Trinh</li>
+      <li>moctram.com — Sao Liêm Trinh trong Tử Vi (trích dẫn Cốt Tủy Phú, Thái Vi Phú)</li>
+      <li>tuvilyso.org (diễn đàn) — Bàn về miếu vượng đắc hãm</li>
+      <li>tuviungdung.blogspot.com (Bửu Đình) — Liêm Trinh Dần Thân cách; Liêm Tham Tị Hợi cách; VCD có Liêm Tham xung</li>
+      <li>hocvienlyso.org — Chương 15: Vô Chính Diệu; Chương 6: Liêm Trinh; Mệnh Vô Chính Diệu III</li>
+      <li>thansohoconline.com — Sao Liêm Trinh; Mệnh Vô Chính Diệu là gì</li>
+      <li>thayphucloc.com — Luận giải sao Liêm Trinh</li>
+      <li>luantuvi.vn / tuvibinhgiai.com — Liêm Sát cách thủ mệnh; Liêm Trinh Thất Sát</li>
+    </ul>
+    <p class="disclaim">Tài liệu này tổng hợp và diễn giải lại theo văn phong riêng để phục vụ mục đích học tập; các trường phái Tử Vi khác nhau (Nam phái, Bắc phái, Trung Châu phái...) có thể có dị biệt nhỏ về cách luận đoán chi tiết ở một số điểm, đặc biệt là phần miếu/vượng/đắc/hãm và ý nghĩa tại từng cung phụ. Nên đối chiếu nhiều nguồn khi luận giải lá số thực tế.</p>
+    <div class="foot-credit">Mèo Đen — Tài liệu học tập Tử Vi Đẩu Số</div>
+  </div>
+</footer>
+
+<button class="top-btn" id="topBtn" aria-label="Lên đầu trang">↑</button>
+
+<audio id="bgMusic" src="music13.mp3" loop preload="none"></audio>
+<button class="music-btn" id="musicBtn" aria-label="Phát nhạc nền" aria-pressed="false">
+  <span class="disc"></span>
+  <span class="music-bars"><i></i><i></i><i></i></span>
+</button>
+
+<script>
+// theme toggle
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+  const body = document.body;
+  const isLight = body.getAttribute('data-theme') === 'light';
+  body.setAttribute('data-theme', isLight ? 'dark' : 'light');
+  themeBtn.textContent = isLight ? 'Chế độ sáng' : 'Chế độ tối';
+});
+
+// scrollspy nav
+const links = Array.from(document.querySelectorAll('#navLinks a'));
+const sections = links.map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const id = '#' + entry.target.id;
+    const link = links.find(l => l.getAttribute('href') === id);
+    if (!link) return;
+    if (entry.isIntersecting){
+      links.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      link.scrollIntoView({inline:'center', behavior:'smooth', block:'nearest'});
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+sections.forEach(s => spy.observe(s));
+
+// reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } });
+}, { threshold: 0.08 });
+reveals.forEach(r => ro.observe(r));
+
+// back to top
+const topBtn = document.getElementById('topBtn');
+window.addEventListener('scroll', () => {
+  topBtn.classList.toggle('show', window.scrollY > 600);
+});
+topBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+// music toggle
+const bgMusic = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+musicBtn.addEventListener('click', () => {
+  if (bgMusic.paused){
+    bgMusic.play().catch(() => {});
+    musicBtn.classList.add('playing');
+    musicBtn.setAttribute('aria-pressed', 'true');
+  } else {
+    bgMusic.pause();
+    musicBtn.classList.remove('playing');
+    musicBtn.setAttribute('aria-pressed', 'false');
+  }
+});
+</script>
+</body>
+</html>
