@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thiên Đồng — Từ nhập môn đến bậc thầy luận giải</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2430;
+    --ink-soft:#5B6473;
+    --paper:#EFE7D8;
+    --paper-light:#F7F2E7;
+    --paper-deep:#E4DAC5;
+    --jade:#4C7A73;
+    --jade-deep:#2F4E49;
+    --jade-mist:#E4EEEC;
+    --seal:#A63A2E;
+    --seal-deep:#7E2A20;
+    --gold:#AD8A3E;
+    --gold-soft:#EFE1BE;
+    --line: rgba(27,36,48,0.14);
+    --serif: "Noto Serif", "Noto Serif SC", serif;
+    --sans: "Noto Sans", "Noto Sans SC", sans-serif;
+    /* hero colors are fixed — hero background never changes with theme */
+    --hero-fg:#F7F2E7;
+    --hero-fg-dim: rgba(247,242,231,0.65);
+    --hero-gold:#C9A046;
+    --hero-gold-soft:#EFE1BE;
+    --hero-seal:#A63A2E;
+  }
+
+  html[data-theme="dark"]{
+    --ink:#EFE7D8;
+    --ink-soft: rgba(239,231,216,0.64);
+    --paper:#12181F;
+    --paper-light:#1B232D;
+    --paper-deep:#0C1017;
+    --jade:#6FA69D;
+    --jade-deep:#9CC9C1;
+    --jade-mist: rgba(76,122,115,0.14);
+    --seal:#DD5A4B;
+    --seal-deep:#F0968A;
+    --gold:#D9B563;
+    --gold-soft: rgba(217,181,99,0.16);
+    --line: rgba(239,231,216,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .3s ease, color .3s ease;
+  }
+
+  a{color:inherit;}
+
+  ::selection{background:var(--gold-soft); color:var(--ink);}
+
+  /* ---------- layout shell ---------- */
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(76,122,115,0.35), transparent 55%),
+      radial-gradient(ellipse at 85% 110%, rgba(166,58,46,0.22), transparent 50%),
+      linear-gradient(180deg, #161E29 0%, #1B2430 60%, #202B39 100%);
+    color:var(--hero-fg);
+    padding:64px 24px 56px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(1px 1px at 12% 22%, rgba(239,231,216,0.5) 0, transparent 60%),
+      radial-gradient(1px 1px at 78% 15%, rgba(239,231,216,0.4) 0, transparent 60%),
+      radial-gradient(1.5px 1.5px at 62% 68%, rgba(239,231,216,0.35) 0, transparent 60%),
+      radial-gradient(1px 1px at 30% 82%, rgba(239,231,216,0.3) 0, transparent 60%),
+      radial-gradient(1px 1px at 90% 60%, rgba(239,231,216,0.3) 0, transparent 60%);
+    pointer-events:none;
+  }
+  .hero-inner{max-width:760px; margin:0 auto; position:relative;}
+
+  .eyebrow{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--sans); font-size:12.5px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--hero-gold-soft); opacity:.85;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:""; width:26px; height:1px; background:var(--hero-gold-soft); opacity:.6;
+  }
+
+  .hero h1{
+    font-family:var(--serif); font-weight:900;
+    font-size:clamp(36px, 7vw, 54px);
+    line-height:1.08; margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:normal; color:var(--hero-gold);
+  }
+  .hero .subtitle{
+    font-family:var(--serif); font-style:italic; font-weight:400;
+    font-size:19px; color:var(--hero-fg); opacity:.82; max-width:46ch;
+    margin:0 0 40px;
+  }
+
+  /* signature: la-so 4x4 grid */
+  .chart{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows:repeat(4, minmax(64px,1fr));
+    gap:1px;
+    background:rgba(239,231,216,0.16);
+    border:1px solid rgba(239,231,216,0.22);
+    max-width:520px;
+  }
+  .cung{
+    background:#1B2430;
+    padding:9px 10px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    min-height:64px;
+  }
+  .cung .chi{
+    font-family:var(--serif); font-weight:700; font-size:15px; color:var(--hero-fg);
+  }
+  .cung .partner{
+    font-size:10.5px; color:rgba(247,242,231,0.55); margin-top:2px;
+  }
+  .cung .stat{
+    font-size:9.5px; letter-spacing:.08em; text-transform:uppercase;
+    align-self:flex-start; margin-top:6px;
+    padding:2px 6px; border-radius:2px;
+  }
+  .cung.mieu{ background:linear-gradient(160deg, rgba(173,138,62,0.9), rgba(126,42,32,0.55)); }
+  .cung.mieu .stat{ background:var(--hero-gold); color:#1B2430; font-weight:700;}
+  .cung.vuong{ background:rgba(173,138,62,0.42); }
+  .cung.vuong .stat{ background:rgba(173,138,62,0.85); color:#1B2430; font-weight:700;}
+  .cung.dac{ background:rgba(76,122,115,0.42); }
+  .cung.dac .stat{ background:rgba(76,122,115,0.85); color:#EFE7D8; font-weight:700;}
+  .cung.ham{ background:rgba(255,255,255,0.03); }
+  .cung.ham .chi{ color:rgba(247,242,231,0.5); }
+  .cung.ham .stat{ background:rgba(255,255,255,0.08); color:rgba(247,242,231,0.55);}
+
+  .center{
+    grid-column:2 / 4; grid-row:2 / 4;
+    background:radial-gradient(circle at 50% 40%, rgba(166,58,46,0.16), transparent 70%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:6px; padding:10px;
+  }
+  .seal-mark{
+    width:46px; height:46px;
+    background:var(--hero-seal);
+    color:var(--hero-fg);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-size:24px; font-weight:700;
+    transform:rotate(-3deg);
+    box-shadow:0 2px 10px rgba(0,0,0,0.35);
+  }
+  .center .cap{
+    font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    color:rgba(247,242,231,0.6);
+  }
+
+  .chart-legend{
+    display:flex; flex-wrap:wrap; gap:14px 22px; margin-top:20px;
+    font-size:12.5px; color:rgba(247,242,231,0.65);
+  }
+  .chart-legend span{display:flex; align-items:center; gap:6px;}
+  .chart-legend i{width:10px; height:10px; display:inline-block; border-radius:1px;}
+  .lg-mieu{background:var(--hero-gold);}
+  .lg-dac{background:var(--jade);}
+  .lg-ham{background:rgba(255,255,255,0.18);}
+
+  /* ---------- TOC ---------- */
+  .toc{
+    background:var(--paper-deep);
+    border-bottom:1px solid var(--line);
+    padding:22px 24px;
+  }
+  .toc-inner{max-width:760px; margin:0 auto;}
+  .toc-title{
+    font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-soft); margin-bottom:12px;
+  }
+  .toc-list{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:8px 20px;
+    list-style:none; margin:0; padding:0;
+  }
+  .toc-list a{
+    display:flex; align-items:baseline; gap:9px;
+    text-decoration:none; font-size:14.5px; color:var(--ink);
+    padding:4px 0; border-bottom:1px dotted transparent;
+  }
+  .toc-list a:hover{border-bottom-color:var(--seal); color:var(--seal-deep);}
+  .toc-num{
+    font-family:var(--serif); font-weight:700; font-size:12px; color:var(--seal);
+    min-width:18px;
+  }
+
+  /* ---------- MAIN CONTENT ---------- */
+  main{padding:8px 0 20px;}
+
+  section.phan{
+    padding:52px 0 8px;
+    border-top:1px solid var(--line);
+  }
+  section.phan:first-of-type{border-top:none;}
+
+  .phan-head{
+    display:flex; align-items:center; gap:16px; margin-bottom:8px;
+  }
+  .phan-seal{
+    width:40px; height:40px; flex:none;
+    background:var(--seal); color:var(--paper-light);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-weight:700; font-size:18px;
+    transform:rotate(-2deg);
+  }
+  h2.phan-title{
+    font-family:var(--serif); font-weight:700; font-size:26px;
+    margin:0; letter-spacing:-.01em;
+  }
+  .phan-sub{
+    font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+    font-size:15px; margin:6px 0 30px 56px;
+  }
+
+  h3{
+    font-family:var(--serif); font-weight:700; font-size:19px;
+    margin:34px 0 10px; color:var(--jade-deep);
+  }
+  h3:first-of-type{margin-top:0;}
+
+  p{margin:0 0 16px;}
+  strong{font-weight:700;}
+
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:8px;}
+
+  .note{
+    font-size:14.5px; color:var(--ink-soft); font-style:italic;
+    background:var(--paper-light);
+    border-left:2px solid var(--jade);
+    padding:10px 16px; margin:14px 0 20px; border-radius:0 3px 3px 0;
+  }
+
+  blockquote.phu{
+    font-family:var(--serif); font-style:italic; font-size:18px;
+    color:var(--seal-deep);
+    border-left:3px solid var(--seal);
+    margin:22px 0; padding:4px 0 4px 20px;
+    background:linear-gradient(90deg, rgba(166,58,46,0.06), transparent 60%);
+  }
+  blockquote.phu cite{
+    display:block; font-family:var(--sans); font-style:normal;
+    font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-soft); margin-top:6px;
+  }
+
+  table{
+    width:100%; border-collapse:collapse; margin:18px 0 22px;
+    font-size:14.5px; background:var(--paper-light);
+  }
+  caption{
+    text-align:left; font-size:12px; color:var(--ink-soft);
+    letter-spacing:.05em; margin-bottom:8px;
+  }
+  th, td{
+    text-align:left; padding:10px 14px; border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    font-family:var(--sans); font-weight:600; font-size:12px;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);
+  }
+  tr.hi td{background:var(--gold-soft);}
+
+  /* case study box */
+  .case{
+    background:var(--jade-mist);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:26px 26px 8px;
+    margin:22px 0 28px;
+  }
+  .case-tag{
+    display:inline-block; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--jade-deep); background:rgba(76,122,115,0.14);
+    padding:3px 9px; border-radius:2px; margin-bottom:12px; font-weight:600;
+  }
+  .case h4{
+    font-family:var(--serif); font-size:17px; margin:0 0 12px; color:var(--jade-deep);
+  }
+  .case dl{margin:0;}
+  .case dt{
+    font-family:var(--serif); font-weight:700; font-size:15px; color:var(--ink);
+    margin-top:16px;
+  }
+  .case dd{margin:4px 0 0; padding:0;}
+  .case .lesson{
+    margin-top:20px; padding-top:16px; border-top:1px dashed var(--line);
+  }
+  .case .lesson p{font-family:var(--serif); font-weight:700; margin-bottom:10px; color:var(--jade-deep);}
+  .case-footnote{font-size:13.5px; font-style:italic; color:var(--ink-soft); padding:14px 0 4px;}
+
+  /* summary panel Phần VI */
+  .memo{
+    background:var(--ink); color:var(--paper-light);
+    border-radius:5px; padding:30px 28px; margin:20px 0 10px;
+  }
+  .memo h3{color:var(--gold-soft); margin-top:0;}
+  .memo ul{list-style:none; padding:0; margin:0;}
+  .memo li{
+    position:relative; padding-left:20px; margin-bottom:14px;
+    font-size:15px; line-height:1.65; color:rgba(247,242,231,0.92);
+  }
+  .memo li::before{
+    content:"◆"; position:absolute; left:0; top:2px; color:var(--seal);
+    font-size:10px;
+  }
+  .memo li strong{color:var(--gold-soft); font-weight:600;}
+
+  footer{
+    padding:40px 24px 60px; text-align:center;
+  }
+  footer p{
+    max-width:56ch; margin:0 auto; font-size:13.5px; font-style:italic;
+    color:var(--ink-soft); line-height:1.7;
+  }
+  footer .mark{
+    font-family:var(--serif); font-weight:700; color:var(--seal);
+    letter-spacing:.06em; margin-bottom:10px; font-size:13px;
+    text-transform:uppercase;
+  }
+
+  @media (max-width:640px){
+    body{font-size:16px;}
+    .hero{padding:48px 18px 40px;}
+    .phan-sub{margin-left:0;}
+    .toc-list{grid-template-columns:1fr;}
+    .cung{padding:7px 8px; min-height:54px;}
+    .cung .chi{font-size:13px;}
+    .case{padding:20px 18px 6px;}
+  }
+
+  /* ---------- floating controls ---------- */
+  .controls{
+    position:fixed; right:20px; bottom:22px; z-index:60;
+    display:flex; flex-direction:column; align-items:center; gap:12px;
+  }
+  .ctrl-btn{
+    width:40px; height:40px; border-radius:50%;
+    border:1px solid var(--line); background:var(--paper-light); color:var(--ink);
+    cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 12px rgba(0,0,0,0.18);
+    transition:transform .15s ease, background-color .2s ease;
+    padding:0;
+  }
+  .ctrl-btn:hover{transform:translateY(-2px);}
+  .ctrl-btn:focus-visible{outline:2px solid var(--seal); outline-offset:2px;}
+
+  .vinyl{
+    width:58px; height:58px; border-radius:50%; position:relative;
+    background:
+      radial-gradient(circle at 50% 50%,
+        var(--seal) 0 15%,
+        #0c0f13 15% 18%,
+        #1c222b 18% 29%,
+        #0c0f13 29% 32%,
+        #1c222b 32% 43%,
+        #0c0f13 43% 46%,
+        #12181f 46% 100%);
+    border:1px solid rgba(0,0,0,0.45);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; box-shadow:0 5px 18px rgba(0,0,0,0.4);
+    transition:transform .15s ease;
+  }
+  .vinyl:hover{transform:translateY(-2px);}
+  .vinyl:focus-visible{outline:2px solid var(--seal); outline-offset:3px;}
+  .vinyl.is-playing{animation:spin 3.4s linear infinite;}
+  .vinyl-label{
+    font-family:var(--serif); font-size:12px; color:var(--paper-light);
+    position:relative; z-index:2; pointer-events:none;
+  }
+  .vinyl-icon{
+    position:absolute; right:-3px; bottom:-3px; width:20px; height:20px;
+    border-radius:50%; background:var(--paper-light); color:var(--seal);
+    border:1px solid var(--line); font-size:9px;
+    display:flex; align-items:center; justify-content:center;
+    pointer-events:none;
+  }
+  @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+
+  @media (max-width:640px){
+    .controls{right:14px; bottom:16px; gap:10px;}
+    .vinyl{width:52px; height:52px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .vinyl.is-playing{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button id="themeToggle" class="ctrl-btn" type="button" aria-pressed="false" title="Chuyển sang chế độ tối">☾</button>
+  <button id="musicToggle" class="vinyl" type="button" aria-pressed="false" title="Phát nhạc nền">
+    <span class="vinyl-label">同</span>
+    <span class="vinyl-icon" aria-hidden="true">▶</span>
+  </button>
+  <audio id="bgm" src="music10.mp3" loop preload="none"></audio>
+</div>
+
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Chuyên khảo Tử Vi Đẩu Số</div>
+    <h1>Thiên Đồng<br><em>Phúc tinh cần được đánh thức</em></h1>
+    <p class="subtitle">Từ an sao cơ bản đến khung phân tích "ý chí — tình tự" của người luận bậc thầy, kèm case study từ một lá số thật.</p>
+
+    <div class="chart" role="img" aria-label="Sơ đồ 12 cung an sao Thiên Đồng theo miếu vượng đắc hãm">
+      <div class="cung dac"><span class="chi">Tỵ</span><span class="partner">độc thủ</span><span class="stat">Đắc</span></div>
+      <div class="cung ham"><span class="chi">Ngọ</span><span class="partner">+ Thái Âm</span><span class="stat">Hãm</span></div>
+      <div class="cung ham"><span class="chi">Mùi</span><span class="partner">+ Cự Môn</span><span class="stat">Hãm</span></div>
+      <div class="cung mieu"><span class="chi">Thân</span><span class="partner">+ Thiên Lương</span><span class="stat">Miếu</span></div>
+
+      <div class="cung ham"><span class="chi">Thìn</span><span class="partner">độc thủ</span><span class="stat">Hãm</span></div>
+      <div class="center">
+        <div class="seal-mark">同</div>
+        <div class="cap">Thiên&nbsp;Đồng</div>
+      </div>
+      <div class="cung ham"><span class="chi">Dậu</span><span class="partner">độc thủ</span><span class="stat">Hãm</span></div>
+
+      <div class="cung dac"><span class="chi">Mão</span><span class="partner">độc thủ</span><span class="stat">Đắc</span></div>
+      <div class="cung ham"><span class="chi">Tuất</span><span class="partner">độc thủ</span><span class="stat">Hãm</span></div>
+
+      <div class="cung mieu"><span class="chi">Dần</span><span class="partner">+ Thiên Lương</span><span class="stat">Miếu</span></div>
+      <div class="cung ham"><span class="chi">Sửu</span><span class="partner">+ Cự Môn</span><span class="stat">Hãm</span></div>
+      <div class="cung vuong"><span class="chi">Tý</span><span class="partner">+ Thái Âm</span><span class="stat">Vượng</span></div>
+      <div class="cung dac"><span class="chi">Hợi</span><span class="partner">độc thủ</span><span class="stat">Đắc</span></div>
+    </div>
+    <div class="chart-legend">
+      <span><i class="lg-mieu"></i> Miếu / Vượng — đẹp nhất</span>
+      <span><i class="lg-dac"></i> Đắc địa — tốt</span>
+      <span><i class="lg-ham"></i> Hãm địa — cần cát hóa cứu</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <div class="toc-title">Mục lục</div>
+    <ul class="toc-list">
+      <li><a href="#phan-1"><span class="toc-num">I</span> Nhập môn: bản chất sao Thiên Đồng</a></li>
+      <li><a href="#phan-2"><span class="toc-num">II</span> Miếu vượng hãm theo từng cung</a></li>
+      <li><a href="#phan-3"><span class="toc-num">III</span> Nâng cao: Sát — Hóa — Tứ Hóa</a></li>
+      <li><a href="#phan-4"><span class="toc-num">IV</span> Thiên Đồng ở các cung khác</a></li>
+      <li><a href="#phan-5"><span class="toc-num">V</span> Bậc thầy: luận đoán tinh tế</a></li>
+      <li><a href="#phan-6"><span class="toc-num">VI</span> Tóm tắt ghi nhớ nhanh</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- PHẦN I -->
+  <section class="phan" id="phan-1">
+    <div class="phan-head">
+      <div class="phan-seal">I</div>
+      <h2 class="phan-title">Nhập môn: bản chất sao Thiên Đồng</h2>
+    </div>
+
+    <h3>1. Vị trí trong hệ thống 14 chính tinh</h3>
+    <p>Thiên Đồng là sao thứ 5 trong 6 sao thuộc <strong>chòm Tử Vi</strong> (Tử Vi, Thiên Cơ, Thái Dương, Vũ Khúc, Thiên Đồng, Liêm Trinh), thuộc Nam Đẩu tinh, hành <strong>Thủy</strong> (Dương Thủy). Là phúc tinh đứng đầu, cổ nhân có câu:</p>
+    <blockquote class="phu">"Thiên Đồng — thập nhị cung trung giai viết phúc"
+      <cite>Thiên Đồng cư cung nào cũng giáng phúc cho cung đó</cite>
+    </blockquote>
+
+    <h3>2. Quy luật an sao</h3>
+    <p>Thiên Đồng có 12 vị trí có thể đóng, chia làm hai nhóm:</p>
+    <p><strong>Nhóm phối hợp với chính tinh khác (6 cung):</strong></p>
+    <ul>
+      <li>Dần, Thân: đồng cung với Thiên Lương</li>
+      <li>Tý, Ngọ: đồng cung với Thái Âm</li>
+      <li>Sửu, Mùi: đồng cung với Cự Môn</li>
+    </ul>
+    <p><strong>Nhóm độc thủ — tọa một mình (6 cung còn lại):</strong> Mão, Tỵ, Dậu, Thìn, Tuất, Hợi.</p>
+
+    <h3>3. Tính cách cốt lõi</h3>
+    <p>Người có Thiên Đồng miếu vượng tọa Mệnh thường: tính tình ôn hòa, thông minh, có tính thiện, bẩm tính khoan hòa nhân hậu; tình cảm phong phú; ưa an nhàn, hưởng thụ vật chất tinh thần; ngoại hình đầy đặn, nét mặt sáng sủa.</p>
+    <p>Mặt trái: thiếu ý chí, thiếu quyết tâm, hay nói mà ít làm, không có nỗ lực sáng tạo đổi mới — đây là lý do cổ nhân cho rằng sao này hợp mệnh nữ hơn mệnh nam.</p>
+  </section>
+
+  <!-- PHẦN II -->
+  <section class="phan" id="phan-2">
+    <div class="phan-head">
+      <div class="phan-seal">II</div>
+      <h2 class="phan-title">Miếu vượng hãm và ý nghĩa từng cung</h2>
+    </div>
+
+    <h3>1. Bảng miếu vượng hãm</h3>
+    <div class="note">Bảng dưới tổng hợp theo cách phân loại phổ biến nhất trong tài liệu Tử Vi Việt Nam hiện nay. Một số phái khác (nhánh Trung Châu) có thể xếp Tý là Miếu thay vì Vượng, hoặc phân định Mão/Dậu khác đi đôi chút — nên đối chiếu với khung luận giải cụ thể bạn đang theo.</div>
+
+    <table>
+      <thead>
+        <tr><th>Cung</th><th>Trạng thái</th><th>Sao đi cùng</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hi"><td>Dần, Thân</td><td>Miếu (đẹp nhất)</td><td>Thiên Lương</td></tr>
+        <tr><td>Tý</td><td>Vượng</td><td>Thái Âm</td></tr>
+        <tr><td>Mão, Tỵ, Hợi</td><td>Đắc địa</td><td>Độc thủ</td></tr>
+        <tr><td>Ngọ</td><td>Hãm</td><td>Thái Âm (cũng hãm tại Ngọ)</td></tr>
+        <tr><td>Sửu, Mùi</td><td>Hãm</td><td>Cự Môn</td></tr>
+        <tr><td>Dậu, Thìn, Tuất</td><td>Hãm</td><td>Độc thủ</td></tr>
+      </tbody>
+    </table>
+
+    <p>Vị trí đẹp nhất là Dần, Thân (miếu, đi với Thiên Lương) — đúng tinh thần câu phú "Dần Thân tối hỷ Đồng Lương hội" (Dần Thân thích nhất gặp Đồng Lương). Lưu ý Mão đắc địa (tốt) nhưng Dậu lại hãm địa (kém) — hai cung đối nhau này không cùng mức tốt như nhau.</p>
+    <p>Thiên Đồng tại Ngọ tự thân đã hãm địa — không cần viện dẫn "bị Thái Âm kéo theo". Trùng hợp là tại Ngọ, Thái Âm cũng hãm, nhưng đây là hai sự kiện độc lập, không phải quan hệ nhân-quả.</p>
+
+    <h3>2. Thiên Đồng - Thái Âm tại Tý, Ngọ</h3>
+    <p>Tại Tý: Thiên Đồng vượng + Thái Âm miếu → cách <strong>"Thủy Trừng Quế Ngạc"</strong>. Người có cách này thường thông minh, tình cảm sâu sắc, có duyên văn chương, dễ thành đạt về danh tiếng, đặc biệt hợp nữ mệnh.</p>
+    <p>Tại Ngọ: cả hai sao đều hãm → tình cảm dễ trắc trở, nội tâm nhiều uẩn khúc dù bề ngoài vẫn ôn hòa.</p>
+
+    <h3>3. Thiên Đồng - Cự Môn tại Sửu, Mùi (đều hãm)</h3>
+    <p>Cự Môn là ám tinh (thị phi, khẩu thiệt). Kết hợp Thiên Đồng tạo người nói nhiều, lý luận giỏi nhưng dễ vướng thị phi. Cả hai sao đều hãm nên cần Hóa Lộc, Hóa Quyền hỗ trợ mới phát huy thế mạnh ăn nói, giao tiếp.</p>
+
+    <h3>4. Thiên Đồng - Thiên Lương tại Dần, Thân (miếu)</h3>
+    <p>Đây là gốc của cách cục lớn <strong>"Cơ Nguyệt Đồng Lương"</strong> (khi hội đủ Thiên Cơ, Thái Âm, Thiên Đồng, Thiên Lương ở tam phương tứ chính Mệnh). Kinh văn: "Cơ Nguyệt Đồng Lương được làm quan", "Cơ Nguyệt Đồng Lương có phúc". Người có cách này hợp công chức, nghiên cứu, chuyên môn trong tổ chức lớn — ổn định, tích lũy dần, ít bùng nổ đột phá.</p>
+    <p>Dần tốt hơn Thân (theo đa số tài liệu): tại Thân, cung Tài Bạch tương ứng có Thái Âm hãm nên ảnh hưởng tài vận; tại Dần, Thái Âm ở cung tài lại vượng hơn.</p>
+
+    <h3>5. Thiên Đồng độc thủ tại Mão, Tỵ, Hợi (đắc địa)</h3>
+    <p>Ba cung này người có cuộc sống an nhàn, may mắn, ít vất vả, cha mẹ/gia đạo khá giả (nếu xét ở cung Phụ Mẫu).</p>
+
+    <h3>6. Thiên Đồng độc thủ tại Dậu, Thìn, Tuất (hãm địa)</h3>
+    <p>Cuộc đời lúc vui lúc buồn, dễ vướng thị phi đàm tiếu, ít đất đai/tài sản ổn định. Điểm đáng nhớ: tại Thìn, nếu gặp Lộc Tồn hoặc Hóa Lộc thì đảo thành thượng cách, gọi là dấu hiệu <strong>"Bĩ Cực Thái Lai"</strong> (khốn cùng rồi chuyển sang hanh thông) — biểu hiện cụ thể của nguyên lý "phúc tinh hãm cần cát hóa cứu" ở Phần III.</p>
+  </section>
+
+  <!-- PHẦN III -->
+  <section class="phan" id="phan-3">
+    <div class="phan-head">
+      <div class="phan-seal">III</div>
+      <h2 class="phan-title">Nâng cao: phối hợp Sát — Hóa — Tứ Hóa</h2>
+    </div>
+
+    <h3>1. Nguyên lý "phúc tinh cần được kích hoạt"</h3>
+    <p>Một phúc tinh thuần túy, không có Kình Đà Hỏa Linh Không Kiếp hội chiếu, thường chủ về đời sống an nhàn nhưng bình lặng, thiếu thành tựu nổi bật — hệ quả trực tiếp từ bản chất "thiếu ý chí, ưa hưởng thụ" ở Phần I.</p>
+    <p>Ngược lại, Thiên Đồng gặp sát tinh vừa phải (Kình Dương, Hỏa Tinh) hoặc gặp Hóa Lộc/Quyền tại vị trí hãm (như "Bĩ Cực Thái Lai" ở Thìn) thường tạo người biết phấn đấu, dám thay đổi hiện trạng. Sát tinh hội chiếu vừa phải → kích hoạt tốt; sát tinh tụ tập quá nhiều cùng Không Kiếp → phá cách, biến phúc thành họa, sức khỏe kém (hệ Thủy: thận, tiết niệu, tiêu hóa).</p>
+
+    <blockquote class="phu">"Thiên Đồng, Dương Nhận bi ai — vì hay thương tích, nạn tai trong đời"
+      <cite>Phú cổ</cite>
+    </blockquote>
+    <p>Đừng biến "kích hoạt" thành công thức máy móc. Kình Dương tạo ra <strong>hai lớp hiệu ứng độc lập, không loại trừ nhau</strong>: lớp tâm lý/ý chí thường được lợi, đúng nguyên lý kích hoạt; lớp vật lý/thân thể thường bị hại, dễ thương tích, tai nạn, phẫu thuật. Một lá số Đồng gặp Kình Dương có thể vừa "phấn đấu hơn" vừa "hay bị đau" cùng lúc — người luận bậc thầy tách rõ hai lớp này thay vì gộp chung thành một kết luận tốt/xấu.</p>
+    <p>Ngoài Kình Dương: Thiên Đồng gặp Đà La tại Mệnh dễ khiến đương số "chìm đắm trong hiện tại" — mất phương hướng dài hạn, nặng hơn mức "lười" thông thường. Thiên Đồng gặp Thiên Riêu thì tâm tình thất thường, dễ giận dỗi vô cớ — đúng nghĩa đen của "Đồng" (trẻ con) trong tên sao.</p>
+
+    <h3>2. Thiên Đồng gặp Tứ Hóa</h3>
+    <ul>
+      <li><strong>Hóa Lộc (tuổi Bính):</strong> tăng hưởng thụ vật chất, tài lộc đến nhẹ nhàng.</li>
+      <li><strong>Hóa Quyền (tuổi Đinh):</strong> vẫn ôn hòa nhưng có thêm quyết đoán, kiểu "lãnh đạo mềm". Điểm ít người để ý: bảng Tứ Hóa tuổi Đinh là Thái Âm Hóa Lộc, Thiên Đồng Hóa Quyền, Thiên Cơ Hóa Khoa, Cự Môn Hóa Kỵ — nên người tuổi Đinh có Đồng - Cự đồng cung (Sửu, Mùi) sẽ có <strong>cả hai chính tinh cùng lúc bị/được hóa</strong>: Đồng lên Quyền trong khi Cự xuống Kỵ, ngay tại chính cung đó.</li>
+      <li><strong>Hóa Kỵ (tuổi Canh):</strong> không dữ dội như Cự Môn/Liêm Trinh Hóa Kỵ, nhưng biểu hiện qua bất an nội tâm âm ỉ, hay lo nghĩ vẩn vơ. Ngưỡng cần cảnh báo: Hóa Kỵ đơn thuần chỉ gây bất an nội tâm, nhưng gặp thêm tứ sát (Kình Đà Hỏa Linh) đồng thời thì rơi vào hạ cách thực sự — tuổi thọ giảm, sự nghiệp khó thành.</li>
+    </ul>
+
+    <h3>3. Tinh diệu phối hợp mở rộng</h3>
+    <p>Ngoài trục sát tinh/Tứ Hóa, còn một hướng "kích hoạt" khác hoàn toàn — không qua sát tinh mà qua văn tinh và các sao trợ lực:</p>
+    <ul>
+      <li>Gặp Tả Phụ, Hữu Bật, hoặc hội đủ Cơ - Nguyệt - Lương (tam hợp Cơ Nguyệt Đồng Lương đầy đủ) → càng chủ thọ cao, đúng bản chất thọ tinh.</li>
+      <li>Gặp Văn Xương, Văn Khúc → tăng tài hoa văn học nghệ thuật, khiếu thẩm mỹ — "kích hoạt kiểu thứ hai": không tăng tính chiến đấu mà tăng chất lượng đầu ra ở đúng thế mạnh sẵn có (tình tự, thẩm mỹ).</li>
+      <li>Riêng nữ mệnh: gặp Hữu Bật, Thái Âm, Văn Xương, Vũ Khúc cùng hội → tình cảm thường nhiều phong ba, cần lưu ý khi luận hôn nhân.</li>
+    </ul>
+    <div class="note">Một số cổ thư có nhận định khá nặng nề về nữ mệnh khi Đồng phối Thái Âm hoặc Thiên Riêu — mang đậm dấu ấn luân lý thời đại biên soạn. Người luận hiện đại nên đọc lại tinh thần thay vì áp nguyên văn: các tổ hợp này phản ánh đời sống tình cảm phong phú, nhạy cảm — nên diễn đạt thành lời nhắc về quản lý cảm xúc, áp dụng bình đẳng cho mọi mệnh chủ.</div>
+
+    <h3>4. Case study — Âm Nam 1987 Đinh Mão</h3>
+    <div class="case">
+      <span class="case-tag">Lá số thật · minh họa</span>
+      <h4>Đồng Hãm tại Ngọ (cung Phụ Mẫu) và vai trò Thân Chủ</h4>
+      <p>Mệnh Hỏa Lục Cục, Mệnh Chủ Văn Khúc, Thân Chủ Thiên Đồng, Thân cư Mệnh. Chính tinh tọa Mệnh là Thiên Phủ (Đắc). Thiên Đồng (Hãm) đồng cung Thái Âm (Hãm) tọa tại cung Phụ Mẫu (Ngọ).</p>
+
+      <dl>
+        <dt>a. Vị trí hãm — điểm mấu chốt</dt>
+        <dd>Thiên Đồng tại Ngọ là hãm (Ngọ hành Hỏa, khắc Thủy của Đồng, phúc bị hao). Tại Phụ Mẫu: cha mẹ hiền lành, thương con nhưng không thực sự hợp nhau hoặc duyên mỏng, có phần nhu nhược, hay lo lắng — đương số ít nhờ được cha mẹ về tinh thần, phải tự lập sớm. Vì Phụ Mẫu xung chiếu Tật Ách, còn báo hiệu hệ tiêu hóa, thận, bàng quang yếu, dễ tích nước/béo phì.</dd>
+
+        <dt>b. Bộ Âm - Đồng đồng hãm ("hãm địa vô quang")</dt>
+        <dd>Mẹ ảnh hưởng lớn đến đương số nhưng quan hệ mệt mỏi — thương nhau mà khắc khẩu, xa thì nhớ gần thì chán; tuổi thơ thiếu đủ đầy tình cảm; cha mẹ dễ có vấn đề về mắt, thần kinh, giấc ngủ.</dd>
+
+        <dt>c. Thân Chủ Thiên Đồng đối lập với Mệnh Thiên Phủ</dt>
+        <dd>Cần phân biệt hai hệ thống tách biệt: chính tinh tọa cung Mệnh (Thiên Phủ) và bộ Mệnh Chủ/Thân Chủ (Văn Khúc/Thiên Đồng — xác định theo Chi năm sinh, không tọa cung nào). Một cách luận phổ biến: Thiên Phủ (ổn định, tích lũy, bảo thủ) đại diện lớp vỏ ngoài; Thân Chủ Thiên Đồng (thích vui, thích nhàn) đại diện mạch ngầm nội tâm — nửa đầu đời nghiêm túc kiểu Thiên Phủ, sau khoảng 30–35 tuổi phần "Đồng" trỗi dậy, muốn buông, muốn hưởng thụ nhẹ nhàng hơn.</dd>
+
+        <dt>d. Tứ Hóa cứu Đồng hãm</dt>
+        <dd>Cung Phụ Mẫu có Hóa Lộc, Hóa Quyền và Lộc Tồn hội tụ — đúng nguyên lý "hãm mà gặp Lộc Quyền thì phản vi kỳ cách". Từ "lười" chuyển thành "nhàn mà vẫn có tiền": không cần bôn ba vẫn có lộc từ cha mẹ/cấp trên. Đây là con đường kích hoạt thứ hai (bằng cát hóa) khác với kích hoạt bằng sát tinh.</dd>
+
+        <dt>e. Lục sát đi kèm</dt>
+        <dd>Có Kình Dương, Đà La, Cô Thần, Phá Toái — điểm trừ: thân thể dễ có sẹo/phẫu thuật, quan hệ cha mẹ - con cái khó chia sẻ sâu.</dd>
+
+        <dt>f. Tam hợp/xung chiếu</dt>
+        <dd>Phụ Mẫu (Ngọ) tam hợp Phúc Đức (Tham Lang, Vũ Khúc miếu) và Thiên Di (Tử Vi, Thất Sát vượng) — phúc của Đồng hãm được kéo lên bởi bộ sao mạnh này: cha mẹ tuy không khá giả nhưng phúc đức dòng họ và năng lực lập nghiệp xa quê mạnh — ở gần cha mẹ dễ khắc, đi xa dễ phát.</dd>
+      </dl>
+
+      <div class="lesson">
+        <p>Bài học rút ra</p>
+        <ol>
+          <li>Cùng một chữ "Đồng hãm", kết quả rẽ nhánh hoàn toàn tùy có Lộc/Quyền cứu hay không.</li>
+          <li>Mệnh Chủ/Thân Chủ là một bộ riêng theo Chi năm sinh, tách biệt hoàn toàn khỏi cung Mệnh, cung Thân — không được suy diễn ngược.</li>
+          <li>Đồng hãm có cát hóa cứu thường cho lối ra ở nghề "hưởng thụ có tổ chức": ăn uống, du lịch, làm đẹp, giáo dục trẻ em, tư vấn.</li>
+        </ol>
+      </div>
+      <p class="case-footnote">Case study minh họa nguyên lý, không thay thế cho việc luận đầy đủ 12 cung kết hợp đại vận/lưu niên cụ thể.</p>
+    </div>
+  </section>
+
+  <!-- PHẦN IV -->
+  <section class="phan" id="phan-4">
+    <div class="phan-head">
+      <div class="phan-seal">IV</div>
+      <h2 class="phan-title">Thiên Đồng ở các cung khác ngoài Mệnh</h2>
+    </div>
+
+    <h3>1. Tại cung Thân</h3>
+    <div class="note">Mục này nói về chính tinh Thiên Đồng tọa thủ ngay tại cung Thân — khác hoàn toàn với "Thân Chủ là Thiên Đồng" đã nói ở Phần III, vốn là sao phụ tính theo Chi năm sinh, không tọa cung nào.</div>
+    <p>Cung Thân cho biết trọng tâm cuộc đời rơi vào hậu vận (thường sau 30 tuổi). Thiên Đồng miếu vượng tại Thân → hậu vận an nhàn, hưởng phúc muộn, càng về già càng thảnh thơi. Ngược lại nếu Mệnh là Thiên Đồng nhưng Thân rơi vào sát tinh mạnh: "đầu xuôi nhưng đuôi trắc trở". Thân luôn cần đọc song song, bổ sung cho Mệnh chứ không thay thế.</p>
+
+    <h3>2. Tại cung Phúc Đức</h3>
+    <p>Vị trí "đúng sở trường" nhất của Thiên Đồng, vì bản chất sao vốn chủ quản tinh thần, hưởng thụ, tâm tính — rất gần ý nghĩa cung Phúc Đức. Miếu vượng tại đây: nội tâm bình an, ít lo âu vô cớ, tuổi già thanh thản. Nếu hãm hoặc gặp Hóa Kỵ: dù Mệnh có vẻ ổn, nội tâm vẫn âm thầm bất an.</p>
+    <blockquote class="phu">"Tuy kiêm hữu phúc ấm che chở, nhưng lại thường tự tìm phiền não"
+      <cite>Phú cổ về Đồng Lương</cite>
+    </blockquote>
+
+    <h3>3. Tại cung Phu Thê</h3>
+    <p>Chủ đối phương tính hiền hòa, biết chiều chuộng, đời sống vợ chồng nhẹ nhàng. Khác biệt với khi ở Mệnh: ở Mệnh, tính "thiếu quyết đoán" là nhược điểm của chính đương số; ở Phu Thê, tính này thuộc về người phối ngẫu — đương số có thể phải là người chủ động hơn trong quan hệ.</p>
+
+    <h3>4. Tài Bạch, Quan Lộc, Tật Ách</h3>
+    <ul>
+      <li><strong>Tài Bạch:</strong> tài đến nhẹ nhàng, hợp tích lũy dài hạn hơn đầu tư mạo hiểm.</li>
+      <li><strong>Quan Lộc:</strong> hợp nghề phục vụ, chăm sóc, tư vấn, nghệ thuật, hoặc công việc ổn định trong hệ thống.</li>
+      <li><strong>Tật Ách:</strong> chú ý bệnh mãn tính nhẹ thuộc hệ Thủy (thận, bàng quang, phù thũng) và tiêu hóa.</li>
+    </ul>
+  </section>
+
+  <!-- PHẦN V -->
+  <section class="phan" id="phan-5">
+    <div class="phan-head">
+      <div class="phan-seal">V</div>
+      <h2 class="phan-title">Bậc thầy: những điểm tinh tế trong luận đoán</h2>
+    </div>
+
+    <h3>1. Đọc "phúc" đúng cách — không phải "tốt" mà là "nhu"</h3>
+    <p>Người luận giỏi không nói Thiên Đồng "tốt hay xấu" mà nói nó biểu thị một chất liệu tính cách (nhu, hòa, hưởng) — trung tính, kết quả phụ thuộc: miếu/hãm theo cung, tinh hệ đồng cung, sát tinh/Hóa diệu đi kèm, và đại vận lưu niên kích hoạt lúc nào.</p>
+
+    <h3>2. Vận hạn: đại vận "giả tĩnh"</h3>
+    <p>Khi đại vận đi vào cung Thiên Đồng miếu vượng, bề ngoài có vẻ yên ổn — nhưng cần xem Lưu Xương Lưu Khúc, Lưu Hóa Lộc/Kỵ chiếu vào, và cung tam hợp Tài - Quan có động hay không. Thiên Đồng chủ về cảm nhận chủ quan an ổn, không đồng nghĩa khách quan vô sự — nhiều biến cố lớn xảy ra rất êm đềm, đúng "phong cách Thiên Đồng".</p>
+
+    <h3>3. Điều chỉnh cách nói với thân chủ</h3>
+    <p>Người có Mệnh/Thân/Phúc Đức tại Thiên Đồng đắc địa thường dễ nghe lời trấn an hơn lời cảnh báo, dễ chấp nhận số phận thụ động. Người luận giỏi không chỉ khen "có phúc" mà cần chỉ rõ điểm cần chủ động — đặc biệt nhấn vào giai đoạn đại vận có sát tinh hội chiếu, đó là "cửa sổ" để bứt phá.</p>
+
+    <h3>4. Phân biệt với các phúc tinh dễ nhầm</h3>
+    <table>
+      <thead><tr><th>Sao</th><th>Bản chất "hiền" khác nhau ở đâu</th></tr></thead>
+      <tbody>
+        <tr><td>Thiên Đồng</td><td>Hiền vì bản tính nhu hòa, hưởng thụ, ngại tranh đấu</td></tr>
+        <tr><td>Thiên Lương</td><td>Hiền vì đạo đức, nguyên tắc, thích giúp đỡ, phán xét công minh</td></tr>
+        <tr><td>Thiên Cơ</td><td>"Hiền" bề ngoài nhưng nội tâm nhiều mưu tính</td></tr>
+        <tr><td>Thái Âm miếu</td><td>Hiền vì nội tâm sâu lắng, tình cảm, không phải ngại đấu tranh</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5. Trục lõi bậc thầy: cân bằng "ý chí" và "tình tự"</h3>
+    <p>Khung phân tích sâu hơn hẳn việc chỉ hỏi "miếu hay hãm". Cổ nhân khi luận Thiên Đồng thực chất luôn xoay quanh hai trục: <strong>ý chí</strong> (khả năng hành động, quyết đoán, theo đuổi mục tiêu đến cùng) và <strong>tình tự</strong> (đời sống cảm xúc, mộng tưởng, nhu cầu được yêu thương). Thiên Đồng vốn nghiêng về tình tự hơn ý chí — gốc rễ sâu xa của tính "thiếu quyết đoán" ở Phần I.</p>
+    <ul>
+      <li><strong>Thái Âm đồng cung</strong> (Tý, Ngọ): làm bạc nhược thêm ý chí — hai sao cùng "mềm" dễ cộng hưởng theo chiều thụ động. Cần Lộc/Quyền hoặc sát tinh vừa đủ để kéo ý chí trở lại cân bằng.</li>
+      <li><strong>Thiên Lương đồng cung</strong> (Dần, Thân): làm tình tự thêm viển vông, mộng mơ hóa. Đây là lý do sâu xa vì sao Cơ Nguyệt Đồng Lương đặc biệt hợp môi trường có khuôn khổ — khuôn khổ bên ngoài bù đắp cho phần "mộng mơ" bị đẩy lên bên trong.</li>
+      <li><strong>So với Thiên Cơ</strong> (hai sao hay bị nhầm vì cùng chủ "động"): Thiên Cơ động một cách già dặn, có tính toán; Thiên Đồng động một cách non nớt, bồng bột hơn — Cơ đổi vì mưu tính lợi ích, Đồng đổi vì chán hoặc muốn vui.</li>
+    </ul>
+    <p>Khi ý chí và tình tự lệch nhau quá xa mà không có yếu tố nào kéo lại, đời sống dễ rơi vào trạng thái "yên ổn nhưng không đi đến đâu". Người luận bậc thầy chỉ rõ được đang kích hoạt trục nào (ý chí hay tình tự) và bằng phương tiện gì (sát tinh, văn tinh, hay cát hóa) — ba câu hỏi này tạo ra sự khác biệt giữa một lời luận chung chung và một lời luận thực sự đọc đúng lá số.</p>
+  </section>
+
+  <!-- PHẦN VI -->
+  <section class="phan" id="phan-6">
+    <div class="phan-head">
+      <div class="phan-seal">VI</div>
+      <h2 class="phan-title">Tóm tắt ghi nhớ nhanh</h2>
+    </div>
+
+    <div class="memo">
+      <ul>
+        <li><strong>Bản chất:</strong> Nam Đẩu, Thủy, phúc tinh đứng đầu — chủ hưởng thụ, tình cảm, an nhàn.</li>
+        <li><strong>An sao:</strong> độc thủ tại Mão, Tỵ, Dậu, Thìn, Tuất, Hợi; phối Thái Âm tại Tý-Ngọ; phối Cự Môn tại Sửu-Mùi; phối Thiên Lương tại Dần-Thân.</li>
+        <li><strong>Đẹp nhất:</strong> Dần-Thân (miếu, Đồng Lương), Tý (vượng, Thủy Trừng Quế Ngạc), Mão/Tỵ/Hợi (đắc).</li>
+        <li><strong>Cần lưu ý:</strong> Ngọ, Sửu, Mùi, Dậu, Thìn, Tuất đều hãm — riêng Thìn có Lộc Tồn/Hóa Lộc thì đảo thành thượng cách.</li>
+        <li><strong>Nguyên lý vàng:</strong> phúc tinh thuần cần sát tinh, văn tinh, hoặc cát hóa để "kích hoạt" — nhưng không phải công thức máy móc: Kình Dương vừa lợi ý chí vừa hại thân thể, hai lớp hiệu ứng song song.</li>
+        <li><strong>Khác biệt theo cung:</strong> Mệnh ≠ Thân (hậu vận) ≠ Phúc Đức (đời sống tinh thần) ≠ Phu Thê (tính cách đối phương) ≠ Thân Chủ (sao phụ theo Chi năm sinh, không tọa cung nào).</li>
+        <li><strong>Trục lõi bậc thầy:</strong> mọi phối hợp của Thiên Đồng đều quy về câu hỏi "đang kéo lệch ý chí hay tình tự, bằng phương tiện gì".</li>
+        <li><strong>Nguyên tắc cuối:</strong> luôn đặt Thiên Đồng trong tương quan sát/hóa/văn tinh và thời điểm vận hạn, tránh kết luận một chiều "có phúc là tốt".</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="mark">同 · Thiên Đồng</div>
+  <p>Tài liệu tổng hợp mang tính tham khảo học thuật, dựa trên các nguồn phổ biến trong cộng đồng Tử Vi Việt Nam. Vì tồn tại khác biệt nhỏ giữa các trường phái, nên đối chiếu với khung luận giải cụ thể bạn đang theo trước khi áp dụng cho lá số thực tế.</p>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeToggle');
+  var stored = null;
+  try { stored = localStorage.getItem('td-theme'); } catch(e) {}
+
+  if (stored === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+  } else if (!stored && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    root.setAttribute('data-theme', 'dark');
+  }
+
+  function syncThemeBtn(){
+    var isDark = root.getAttribute('data-theme') === 'dark';
+    themeBtn.textContent = isDark ? '☀' : '☾';
+    themeBtn.title = isDark ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối';
+    themeBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+  }
+  syncThemeBtn();
+
+  themeBtn.addEventListener('click', function(){
+    var isDark = root.getAttribute('data-theme') === 'dark';
+    if (isDark) { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', 'dark'); }
+    try { localStorage.setItem('td-theme', isDark ? 'light' : 'dark'); } catch(e) {}
+    syncThemeBtn();
+  });
+
+  var audio = document.getElementById('bgm');
+  var musicBtn = document.getElementById('musicToggle');
+  var icon = musicBtn.querySelector('.vinyl-icon');
+
+  musicBtn.addEventListener('click', function(){
+    if (audio.paused) {
+      var playPromise = audio.play();
+      if (playPromise && playPromise.then) {
+        playPromise.then(function(){
+          musicBtn.classList.add('is-playing');
+          musicBtn.setAttribute('aria-pressed', 'true');
+          musicBtn.title = 'Tạm dừng nhạc nền';
+          icon.textContent = '❚❚';
+        }).catch(function(){
+          /* phát tự động bị chặn hoặc không tìm thấy music10.mp3 — bỏ qua */
+        });
+      }
+    } else {
+      audio.pause();
+      musicBtn.classList.remove('is-playing');
+      musicBtn.setAttribute('aria-pressed', 'false');
+      musicBtn.title = 'Phát nhạc nền';
+      icon.textContent = '▶';
+    }
+  });
+
+  audio.addEventListener('ended', function(){
+    // loop=true nên hiếm khi vào đây, nhưng phòng khi trình duyệt không hỗ trợ loop
+    musicBtn.classList.remove('is-playing');
+    musicBtn.setAttribute('aria-pressed', 'false');
+    icon.textContent = '▶';
+  });
+})();
+</script>
+
+</body>
+</html>
