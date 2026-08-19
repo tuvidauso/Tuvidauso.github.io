@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cung Nô Bộc trong Tử Vi Đẩu Số — Cổ thư chú giải</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --paper:#EAE1C8;
+  --paper-2:#DED1A9;
+  --paper-3:#F4EDD9;
+  --ink:#231F16;
+  --ink-soft:#544C39;
+  --ink-faint:#8A8065;
+  --seal:#A63A2E;
+  --seal-deep:#7C2A21;
+  --jade:#3E5C50;
+  --gold:#9C7A2E;
+  --rule: rgba(35,31,22,0.16);
+  --shadow: 0 10px 30px rgba(35,31,22,0.12);
+  --radius: 2px;
+  --sidebar-w: 268px;
+  color-scheme: light;
+}
+html[data-theme="dark"]{
+  --paper:#15130E;
+  --paper-2:#1C1912;
+  --paper-3:#100F0A;
+  --ink:#E9DFC2;
+  --ink-soft:#C4B896;
+  --ink-faint:#8C8264;
+  --seal:#D6543F;
+  --seal-deep:#F17A5F;
+  --jade:#7FB39E;
+  --gold:#D8B25C;
+  --rule: rgba(233,223,194,0.14);
+  --shadow: 0 10px 34px rgba(0,0,0,0.5);
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;} }
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Source Serif 4', serif;
+  font-size:17px;
+  line-height:1.75;
+  transition:background .35s ease, color .35s ease;
+}
+
+/* faint paper texture */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.5;
+  background-image:
+    radial-gradient(rgba(35,31,22,0.05) 1px, transparent 1px),
+    radial-gradient(rgba(35,31,22,0.035) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 2px 3px;
+}
+html[data-theme="dark"] body::before{ opacity:.35; background-image:
+    radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);}
+
+a{color:var(--jade);}
+a:hover{color:var(--seal);}
+:focus-visible{ outline:2px solid var(--seal); outline-offset:3px; }
+
+/* ============ LAYOUT ============ */
+.shell{
+  position:relative; z-index:1;
+  display:grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  min-height:100vh;
+}
+
+/* ---- Sidebar ---- */
+.sidebar{
+  position:sticky; top:0; align-self:start;
+  height:100vh;
+  border-right:1px solid var(--rule);
+  padding:28px 22px 22px;
+  display:flex; flex-direction:column;
+  background:var(--paper-3);
+}
+.brand{
+  display:flex; align-items:center; gap:12px;
+  margin-bottom:6px;
+  text-decoration:none; color:var(--ink);
+}
+.brand-glyph{
+  width:40px; height:40px; flex:none;
+  border:1.5px solid var(--seal);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Fraunces', serif; font-weight:600; font-size:19px;
+  color:var(--seal);
+}
+.brand-text{ font-family:'Fraunces', serif; font-weight:600; font-size:15px; line-height:1.25; letter-spacing:.01em;}
+.brand-text small{ display:block; font-family:'IBM Plex Mono', monospace; font-weight:400; font-size:10px; letter-spacing:.12em; color:var(--ink-faint); text-transform:uppercase; margin-top:3px;}
+
+.sidebar-divider{ height:1px; background:var(--rule); margin:18px 0 16px; }
+
+.nav{ display:flex; flex-direction:column; gap:2px; overflow-y:auto; flex:1; margin-right:-8px; padding-right:8px;}
+.nav-link{
+  display:flex; align-items:center; gap:11px;
+  padding:9px 10px;
+  border-radius:var(--radius);
+  text-decoration:none; color:var(--ink-soft);
+  font-size:13.5px;
+  transition: background .18s ease, color .18s ease;
+  border-left:2px solid transparent;
+}
+.nav-link:hover{ background:var(--paper-2); color:var(--ink); }
+.nav-link.active{ color:var(--seal); border-left-color:var(--seal); background:var(--paper-2); }
+.nav-han{
+  font-family:'Fraunces', serif; font-size:14px; color:var(--gold);
+  width:20px; text-align:center; flex:none;
+}
+.nav-link--colophon{ margin-top:10px; padding-top:12px; border-top:1px dashed var(--rule);}
+
+.sidebar-controls{
+  display:flex; gap:10px; margin-top:16px; padding-top:16px; border-top:1px solid var(--rule);
+}
+.ctrl-btn{
+  flex:1;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  padding:9px 8px;
+  background:transparent;
+  border:1px solid var(--rule);
+  border-radius:var(--radius);
+  color:var(--ink-soft);
+  font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.03em;
+  cursor:pointer;
+  transition:border-color .18s ease, color .18s ease, background .18s ease;
+}
+.ctrl-btn:hover{ border-color:var(--seal); color:var(--ink); }
+.ctrl-btn svg{ width:14px; height:14px; flex:none; }
+.ctrl-btn.is-active{ border-color:var(--seal); color:var(--seal); background:var(--paper-2); }
+
+/* mobile topbar */
+.topbar{ display:none; }
+
+/* ---- Main ---- */
+.main{ position:relative; z-index:1; min-width:0; }
+
+.hero{
+  position:relative;
+  padding:88px 64px 70px;
+  max-width:900px;
+  overflow:hidden;
+  border-bottom:1px solid var(--rule);
+}
+.hero-glyph{
+  position:absolute; right:-40px; top:-30px;
+  font-family:'Fraunces', serif; font-size:340px; font-weight:600;
+  color:var(--ink); opacity:.045; line-height:1; user-select:none; pointer-events:none;
+}
+.hero-eyebrow{
+  font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--seal); display:flex; align-items:center; gap:10px; margin-bottom:22px;
+}
+.hero-eyebrow::before{ content:""; width:28px; height:1px; background:var(--seal); }
+.hero h1{
+  font-family:'Fraunces', serif; font-weight:700; font-size:clamp(34px, 5vw, 54px);
+  line-height:1.08; margin:0 0 18px; letter-spacing:-.01em; max-width:11ch;
+}
+.hero .sub{
+  font-family:'Fraunces', serif; font-style:italic; font-weight:500; font-size:19px;
+  color:var(--ink-soft); margin:0 0 30px; max-width:38ch;
+}
+.hero-wheel{ position:absolute; right:56px; bottom:18px; opacity:.9; }
+.hero-meta{
+  display:flex; gap:28px; flex-wrap:wrap;
+  font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-faint); letter-spacing:.02em;
+}
+.hero-meta strong{ color:var(--ink-soft); font-weight:500; }
+
+.content-wrap{ max-width:760px; padding:8px 64px 120px; }
+
+.content-section{ padding-top:64px; scroll-margin-top:24px; }
+.content-section + .content-section{ border-top:1px solid var(--rule); }
+
+.section-head{ display:flex; align-items:flex-start; gap:18px; margin-bottom:26px; }
+.han-badge{
+  flex:none; width:46px; height:46px;
+  border:1.5px solid var(--seal); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Fraunces', serif; font-size:21px; color:var(--seal);
+  background:var(--paper-3);
+}
+.han-badge--seal{ background:var(--seal); color:var(--paper-3); border-color:var(--seal); }
+.eyebrow{
+  display:block; font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--jade); margin-bottom:5px;
+}
+.section-titles h2{ font-family:'Fraunces', serif; font-weight:600; font-size:28px; margin:0; line-height:1.2; }
+
+.section-body h3{
+  font-family:'Fraunces', serif; font-weight:600; font-size:19px; margin:36px 0 14px; color:var(--ink);
+}
+.section-body h3:first-child{ margin-top:0; }
+.section-body p{ margin:0 0 16px; color:var(--ink-soft); }
+.section-body strong{ color:var(--ink); font-weight:600; }
+.section-body em{ color:var(--ink-soft); }
+.section-body ul, .section-body ol{ padding-left:22px; margin:0 0 18px; color:var(--ink-soft); }
+.section-body li{ margin-bottom:9px; padding-left:2px; }
+.section-body li strong{ color:var(--ink); }
+.section-body li::marker{ color:var(--seal); font-family:'IBM Plex Mono', monospace; font-size:14px; }
+
+.section-body table{
+  width:100%; border-collapse:collapse; margin:8px 0 26px; font-size:15px;
+}
+.table-scroll{ overflow-x:auto; margin:8px 0 26px; -webkit-overflow-scrolling:touch; }
+.table-scroll table{ margin:0; min-width:560px; }
+.section-body th{
+  text-align:left; font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--seal); padding:10px 16px 10px 0; border-bottom:1.5px solid var(--ink); font-weight:500;
+}
+.section-body td{
+  padding:14px 16px 14px 0; border-bottom:1px solid var(--rule); vertical-align:top; color:var(--ink-soft);
+}
+.section-body td:first-child{ color:var(--ink); font-weight:600; font-family:'Fraunces', serif; white-space:nowrap; }
+
+.section-body blockquote{
+  margin:22px 0; padding:26px 30px;
+  border:1px solid var(--rule); border-left:3px solid var(--seal);
+  background:var(--paper-3); border-radius:var(--radius);
+  color:var(--ink); font-family:'Fraunces', serif; font-style:italic; font-size:17px; line-height:2;
+}
+.section-body blockquote p{ margin:0; color:var(--ink); }
+
+/* the phu poem gets manuscript / seal framing */
+blockquote.phu-scroll{
+  position:relative;
+  background:var(--paper-2);
+  border:1px solid var(--rule);
+  border-left:1px solid var(--rule);
+  padding:34px 38px 34px 44px;
+  font-size:17.5px;
+  box-shadow: var(--shadow);
+}
+blockquote.phu-scroll::before{
+  content:"詩";
+  position:absolute; top:-16px; left:-16px;
+  width:36px; height:36px; border-radius:50%;
+  background:var(--seal); color:var(--paper-3);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Fraunces', serif; font-size:16px; font-style:normal;
+  box-shadow:0 3px 10px rgba(0,0,0,.25);
+}
+
+.section-body hr{ border:none; border-top:1px solid var(--rule); margin:34px 0; }
+
+/* ---- Footer ---- */
+.site-footer{
+  max-width:760px; padding:40px 64px 90px;
+  color:var(--ink-faint); font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:.02em;
+  display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  border-top:1px solid var(--rule);
+}
+
+/* ---- Floating music seal button ---- */
+.music-fab{
+  position:fixed; right:26px; bottom:26px; z-index:40;
+  width:58px; height:58px; border-radius:50%;
+  background:var(--seal); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 22px rgba(0,0,0,.28);
+  transition:transform .2s ease;
+}
+.music-fab:hover{ transform:translateY(-2px) scale(1.03); }
+.music-fab svg{ width:20px; height:20px; fill:var(--paper-3); }
+.music-fab .ring{
+  position:absolute; inset:0; border-radius:50%;
+  border:1.5px solid var(--seal); opacity:0;
+}
+.music-fab.playing .ring{ animation: pulse-ring 1.8s ease-out infinite; }
+.music-fab.playing .ring:nth-child(2){ animation-delay:.6s; }
+@keyframes pulse-ring{
+  0%{ transform:scale(1); opacity:.55; }
+  100%{ transform:scale(1.9); opacity:0; }
+}
+.music-label{
+  position:fixed; right:94px; bottom:44px; z-index:40;
+  font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-faint);
+  opacity:0; transform:translateX(6px);
+  transition:opacity .2s ease, transform .2s ease;
+  pointer-events:none;
+  background:var(--paper-3); padding:6px 10px; border:1px solid var(--rule); border-radius:2px;
+}
+.music-fab:hover + .music-label{ opacity:1; transform:translateX(0); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:980px){
+  .shell{ grid-template-columns:1fr; }
+  .sidebar{
+    position:fixed; top:0; left:0; height:100vh; width:min(82vw, 300px);
+    transform:translateX(-100%);
+    transition:transform .28s ease;
+    z-index:50; box-shadow:var(--shadow);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    position:sticky; top:0; z-index:30;
+    padding:14px 20px; background:var(--paper-3); border-bottom:1px solid var(--rule);
+  }
+  .topbar .brand{ margin:0; }
+  .topbar .brand-glyph{ width:32px; height:32px; font-size:15px; }
+  .topbar .brand-text{ font-size:13px; }
+  .menu-btn{
+    background:none; border:1px solid var(--rule); border-radius:2px; padding:8px 11px; cursor:pointer;
+    min-width:38px; min-height:38px; display:flex; align-items:center; justify-content:center;
+  }
+  .menu-btn svg{ width:16px; height:16px; }
+  .topbar-right{ display:flex; align-items:center; gap:8px; }
+  .topbar-theme-btn{
+    background:none; border:1px solid var(--rule); border-radius:2px;
+    width:38px; height:38px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--ink-soft);
+  }
+  .topbar-theme-btn svg{ width:16px; height:16px; }
+  .topbar-theme-btn.is-active{ border-color:var(--seal); color:var(--seal); }
+  .scrim{ position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:45; opacity:0; pointer-events:none; transition:opacity .25s ease; }
+  .scrim.show{ opacity:1; pointer-events:auto; }
+  .hero{ padding:44px 24px 40px; }
+  .hero-glyph{ font-size:180px; right:-30px; top:-10px; }
+  .hero-wheel{ display:none; }
+  .content-wrap{ padding:8px 24px 90px; }
+  .site-footer{ padding:30px 24px 90px; }
+  .music-label{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="shell">
+  <!-- Mobile topbar -->
+  <div class="topbar">
+    <a class="brand" href="#top">
+      <span class="brand-glyph">奴</span>
+      <span class="brand-text">Nô Bộc Cung<small>Tử Vi Đẩu Số</small></span>
+    </a>
+    <div class="topbar-right">
+      <button class="topbar-theme-btn theme-btn" type="button" aria-pressed="false" aria-label="Chuyển giao diện sáng/tối">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></svg>
+      </button>
+      <button class="menu-btn" id="menuBtn" aria-label="Mở mục lục" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#top">
+      <span class="brand-glyph">奴</span>
+      <span class="brand-text">Nô Bộc Cung<small>Tử Vi Đẩu Số — Cổ thư chú giải</small></span>
+    </a>
+    <div class="sidebar-divider"></div>
+    <nav class="nav" id="nav">
+      <a href="#phan-1" class="nav-link"><span class="nav-han">一</span><span class="nav-text">Nền tảng cơ bản</span></a>
+<a href="#phan-2" class="nav-link"><span class="nav-han">二</span><span class="nav-text">Luận theo chính tinh</span></a>
+<a href="#phan-3" class="nav-link"><span class="nav-han">三</span><span class="nav-text">Phụ tinh & Tứ Hóa</span></a>
+<a href="#phan-4" class="nav-link"><span class="nav-han">四</span><span class="nav-text">Phối hợp liên cung</span></a>
+<a href="#phan-5" class="nav-link"><span class="nav-han">五</span><span class="nav-text">Tinh túy bậc thầy</span></a>
+<a href="#phan-6" class="nav-link"><span class="nav-han">六</span><span class="nav-text">Phú cổ: Nô Bộc cung</span></a>
+<a href="#phan-7" class="nav-link"><span class="nav-han">七</span><span class="nav-text">Ví dụ minh họa thực tế</span></a>
+<a href="#tom-tat" class="nav-link nav-link--colophon"><span class="nav-han">終</span><span class="nav-text">Tóm tắt cốt lõi</span></a>
+    </nav>
+    <div class="sidebar-controls">
+      <button class="ctrl-btn theme-btn" type="button" aria-pressed="false">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></svg>
+        <span class="theme-label">Dark mode</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main" id="top">
+    <div class="hero">
+      <span class="hero-glyph">奴</span>
+      <p class="hero-eyebrow">Cổ thư chú giải · 12 cung Tử Vi</p>
+      <h1>Cung Nô Bộc<br>trong Tử Vi Đẩu Số</h1>
+      <p class="sub">Từ nền tảng đến tinh túy luận đoán bậc thầy — nguyên lý, chính tinh, phú cổ và một lá số thực chứng.</p>
+      <div class="hero-meta">
+        <span><strong>7</strong> phần &nbsp;·&nbsp; nền tảng → nâng cao → bậc thầy</span>
+        <span>Đối cung <strong>Huynh Đệ</strong> &nbsp;·&nbsp; Tam hợp <strong>Phụ Mẫu — Tử Tức</strong></span>
+      </div>
+      <svg class="hero-wheel" width="210" height="210" viewBox="0 0 210 210" fill="none">
+        <circle cx="105" cy="105" r="100" stroke="var(--rule)" stroke-width="1"/>
+        <circle cx="105" cy="105" r="88" stroke="var(--rule)" stroke-width="1"/>
+        <circle cx="105" cy="105" r="60" stroke="var(--rule)" stroke-width="1"/>
+        <circle cx="105" cy="105" r="6" fill="var(--seal)"/>
+        <g stroke="var(--rule)" stroke-width="1">
+          <line x1="105" y1="17" x2="105" y2="193"/>
+          <line x1="17" y1="105" x2="193" y2="105"/>
+          <line x1="149" y1="28.8" x2="61" y2="181.2"/>
+          <line x1="181.2" y1="61" x2="28.8" y2="149"/>
+          <line x1="181.2" y1="149" x2="28.8" y2="61"/>
+          <line x1="149" y1="181.2" x2="61" y2="28.8"/>
+        </g>
+        <g font-family="Fraunces, serif" font-size="12" fill="var(--ink-faint)">
+          <text x="105" y="17" text-anchor="middle" dominant-baseline="middle">子</text>
+          <text x="149" y="28.8" text-anchor="middle" dominant-baseline="middle">丑</text>
+          <text x="181.2" y="61" text-anchor="middle" dominant-baseline="middle">寅</text>
+          <text x="193" y="105" text-anchor="middle" dominant-baseline="middle">卯</text>
+          <text x="181.2" y="149" text-anchor="middle" dominant-baseline="middle">辰</text>
+          <text x="149" y="181.2" text-anchor="middle" dominant-baseline="middle">巳</text>
+          <text x="105" y="193" text-anchor="middle" dominant-baseline="middle">午</text>
+          <text x="61" y="181.2" text-anchor="middle" dominant-baseline="middle">未</text>
+          <text x="28.8" y="149" text-anchor="middle" dominant-baseline="middle">申</text>
+          <text x="17" y="105" text-anchor="middle" dominant-baseline="middle">酉</text>
+          <text x="28.8" y="61" text-anchor="middle" dominant-baseline="middle">戌</text>
+          <text x="61" y="28.8" text-anchor="middle" dominant-baseline="middle">亥</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="content-wrap">
+      <section id="phan-1" class="content-section"><div class="section-head">
+          <span class="han-badge" aria-hidden="true">一</span>
+          <div class="section-titles"><span class="eyebrow">Phần I</span><h2>Nền tảng cơ bản</h2></div>
+        </div><div class="section-body"><h3>1. Nô Bộc là gì?</h3>
+<p>Nô Bộc là 1 trong 12 cung của lá số Tử Vi, đứng ở vị trí thứ 6 tính từ cung Mệnh theo chiều nghịch kim đồng hồ (thứ tự: Mệnh → Phụ Mẫu → Phúc Đức → Điền Trạch → Quan Lộc → <strong>Nô Bộc</strong> → Thiên Di → Tật Ách → Tài Bạch → Tử Tức → Phu Thê → Huynh Đệ).</p>
+<p>Tên gọi "Nô Bộc" (奴僕) mang nghĩa cổ là tôi tớ, người giúp việc — phản ánh xã hội phong kiến. Trong luận giải hiện đại, cung này được mở rộng để nói về:</p>
+<ul>
+<li><strong>Bạn bè, tri kỷ</strong></li>
+<li><strong>Đồng nghiệp ngang hàng, cấp dưới, nhân viên</strong></li>
+<li><strong>Đối tác làm ăn nhỏ, cộng sự</strong></li>
+<li><strong>Khách hàng, các mối quan hệ giao dịch xã hội</strong></li>
+<li><strong>Mạng lưới quan hệ (network) nói chung</strong> — những người không cùng huyết thống nhưng có ảnh hưởng qua lại trong đời</li>
+</ul>
+<p>Nói ngắn gọn: Nô Bộc là cung nói về <strong>chất lượng và vận may trong các mối quan hệ ngang hàng và dưới quyền</strong> — đối lập với Phụ Mẫu (người trên) và Tử Tức (con cái).</p>
+<h3>2. Vị trí trong cấu trúc 12 cung</h3>
+<ul>
+<li><strong>Đối cung (xung chiếu):</strong> Huynh Đệ. Đây là cặp cung rất đáng chú ý — Huynh Đệ nói về anh chị em ruột thịt, còn Nô Bộc nói về "anh chị em xã hội" (bạn bè, đồng nghiệp). Khi luận đoán, người ta thường so sánh: ai đối xử với mình tốt hơn — người nhà hay bạn bè?</li>
+<li><strong>Tam hợp:</strong> Phụ Mẫu — Nô Bộc — Tử Tức. Đây là bộ ba cung nói về <strong>các mối quan hệ với người ngoài bản thân</strong> (người trên, người ngang/dưới, người kế thừa), tạo thành một trục ý nghĩa xuyên suốt về "phúc phần nhân duyên" của một đời người.</li>
+<li><strong>Giáp cung (cung kề bên):</strong> Quan Lộc (kề trước) và Thiên Di (kề sau) — thế "giáp" quanh Nô Bộc mang ảnh hưởng ngầm: Quan Lộc gắn Nô Bộc với môi trường sự nghiệp (đồng nghiệp/cấp dưới), Thiên Di gắn Nô Bộc với quan hệ phát sinh khi giao tiếp/ra ngoài xã hội.</li>
+<li><em>(Lưu ý học thuật: "nhị hợp/lục hợp" là quan hệ giữa các Địa Chi cụ thể — VD Tý-Sửu, Dần-Hợi — không phải một khoảng cách cố định tính từ Mệnh như tam hợp (cách 4 cung) hay đối cung (cách 6 cung). Vì Địa Chi của mỗi cung thay đổi theo từng lá số, "nhị hợp" không tạo thành một cặp cung tên cố định xuyên suốt mọi lá số. Do đó, quan hệ cố định của Nô Bộc chỉ gồm: đối cung [Huynh Đệ], tam hợp [Phụ Mẫu, Tử Tức], và giáp cung [Quan Lộc, Thiên Di].)</em></li>
+</ul>
+<h3>3. Nguyên tắc xem cơ bản</h3>
+<p>Khi luận Nô Bộc, cần trả lời các câu hỏi:</p>
+<ol>
+<li>Cung có chính tinh miếu vượng hay hãm địa?</li>
+<li>Cát tinh hay sát tinh chiếm ưu thế?</li>
+<li>Có Hóa Lộc/Hóa Quyền/Hóa Khoa (tốt) hay Hóa Kỵ (xấu) đóng/chiếu?</li>
+<li>Tương quan với cung Mệnh — Nô Bộc vượng hơn Mệnh hay yếu hơn Mệnh?</li>
+</ol>
+<hr /></div></section>
+<section id="phan-2" class="content-section"><div class="section-head">
+          <span class="han-badge" aria-hidden="true">二</span>
+          <div class="section-titles"><span class="eyebrow">Phần II</span><h2>Luận theo chính tinh</h2></div>
+        </div><div class="section-body"><div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Chính tinh</th>
+<th>Ý nghĩa khi đóng Nô Bộc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tử Vi</strong></td>
+<td>Bạn bè/cấp dưới có địa vị, quý phái, nhưng dễ có tính cách bề trên, khó thân cận thật lòng nếu không có cát tinh phù trợ. Đắc quý nhân là người có chức quyền.</td>
+</tr>
+<tr>
+<td><strong>Thiên Cơ</strong></td>
+<td>Bạn bè thông minh, mưu lược, nhưng quan hệ dễ biến động, thay đổi bạn bè theo giai đoạn cuộc đời.</td>
+</tr>
+<tr>
+<td><strong>Thái Dương</strong></td>
+<td>Miếu vượng: bạn bè hào phóng, nhiều quý nhân nam giới giúp đỡ, quan hệ rộng. Hãm địa: giúp người nhiều mà không được đền đáp tương xứng.</td>
+</tr>
+<tr>
+<td><strong>Vũ Khúc</strong></td>
+<td>Bạn bè/đối tác thực tế, giỏi tiền bạc, quan hệ hợp tác làm ăn tốt nhưng thiên về lợi ích hơn tình cảm.</td>
+</tr>
+<tr>
+<td><strong>Thiên Đồng</strong></td>
+<td>Bạn bè hiền hòa, dễ chịu, nhưng đôi khi thiếu quyết đoán, ít giúp được việc lớn.</td>
+</tr>
+<tr>
+<td><strong>Liêm Trinh</strong></td>
+<td>Cần xét cát/hung đi kèm rất kỹ — tốt thì bạn bè trung thành mạnh mẽ, xấu (gặp sát tinh) dễ vướng thị phi, tranh chấp vì bạn bè.</td>
+</tr>
+<tr>
+<td><strong>Thiên Phủ</strong></td>
+<td>Bạn bè/cấp dưới đáng tin cậy, biết lo toan, thường được người dưới quyền nể trọng nếu Mệnh làm chủ tốt.</td>
+</tr>
+<tr>
+<td><strong>Thái Âm</strong></td>
+<td>Miếu vượng: nhiều quý nhân nữ giới, bạn bè tinh tế, chu đáo. Hãm địa: quan hệ âm thầm, dễ hiểu lầm.</td>
+</tr>
+<tr>
+<td><strong>Tham Lang</strong></td>
+<td>Bạn bè đông đảo, quan hệ xã giao rộng, khéo léo nhưng dễ pha tạp tốt xấu, cần chọn lọc bạn.</td>
+</tr>
+<tr>
+<td><strong>Cự Môn</strong></td>
+<td>Dễ có khẩu thiệt, thị phi với bạn bè/đồng nghiệp; quan hệ dựa trên lời nói cần cẩn trọng.</td>
+</tr>
+<tr>
+<td><strong>Thiên Tướng</strong></td>
+<td>Được cấp dưới/bạn bè phò trợ tốt, có người trung thành đi theo giúp việc lâu dài.</td>
+</tr>
+<tr>
+<td><strong>Thiên Lương</strong></td>
+<td>Bạn bè lớn tuổi hơn, có vai trò như người cố vấn, quý nhân xuất hiện đúng lúc khó khăn.</td>
+</tr>
+<tr>
+<td><strong>Thất Sát</strong></td>
+<td>Quan hệ với cấp dưới có phần cứng rắn, uy quyền; dễ có bạn bè cá tính mạnh, đôi khi xung khắc.</td>
+</tr>
+<tr>
+<td><strong>Phá Quân</strong></td>
+<td>Quan hệ bạn bè biến động lớn, hợp tan thất thường, cần cẩn trọng hợp tác lâu dài.</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>Lưu ý:</strong> Bảng trên là nguyên lý cơ bản của từng sao — mức độ tốt/xấu thực tế còn phụ thuộc miếu/hãm và các sao đi kèm ở Phần III.</p>
+</blockquote>
+<h3>Ghi chú bắt buộc: Miếu/Vượng/Hãm quyết định "liều lượng" của sao</h3>
+<p>Tên sao chỉ cho biết <em>loại</em> ảnh hưởng; <strong>miếu/vượng/đắc hay hãm địa mới quyết định mức độ mạnh/yếu</strong> của ảnh hưởng đó. Hai ví dụ kinh điển, dễ kiểm chứng nhất:</p>
+<ul>
+<li><strong>Thái Dương</strong> (biểu tượng "ban ngày"): miếu địa tại <strong>Ngọ</strong>, vượng/đắc tại <strong>Tỵ, Thìn, Mão, Dần</strong> — đóng Nô Bộc ở các cung này thì quý nhân/bạn bè là người có địa vị, sáng suốt, giúp đỡ công khai, hào phóng. Hãm địa tại <strong>Tuất, Hợi, Tý, Sửu</strong> — cùng là Thái Dương nhưng ở đây chủ về giúp người nhiều mà ít được ghi nhận, hoặc quý nhân "ẩn danh", đến rồi đi không rõ ràng.</li>
+<li><strong>Thái Âm</strong> (biểu tượng "ban đêm"): miếu địa tại <strong>Tý</strong>, vượng/đắc tại <strong>Hợi, Tuất, Dậu</strong> — đóng Nô Bộc chủ về bạn bè/quý nhân nữ giới tinh tế, âm thầm nhưng hiệu quả. Hãm địa tại <strong>Mão, Thìn, Tỵ, Ngọ</strong> — quan hệ dễ mập mờ, giúp đỡ nửa vời, hoặc hay bị hiểu lầm ý tốt.</li>
+<li><strong>Riêng Tử Vi</strong>: theo nguyên tắc cổ "Tử Vi bất nhập hãm cung" — sao này không bao giờ hãm hoàn toàn, chỉ có mức độ đắc/vượng khác nhau tùy cung.</li>
+</ul>
+<p>Nguyên tắc áp dụng chung: mỗi chính tinh trong 14 sao đều có một bảng miếu/vượng/đắc/hãm riêng theo 12 cung (Tý–Hợi), được ghi cố định trong các sách gốc và phần mềm lập lá số. Khi luận Nô Bộc ở mức nâng cao, <strong>luôn tra đúng trạng thái miếu/hãm của chính tinh tại đúng cung Nô Bộc của lá số cụ thể</strong> trước khi kết luận tốt/xấu — không luận suông theo tên sao.</p>
+<hr /></div></section>
+<section id="phan-3" class="content-section"><div class="section-head">
+          <span class="han-badge" aria-hidden="true">三</span>
+          <div class="section-titles"><span class="eyebrow">Phần III</span><h2>Phụ tinh & Tứ Hóa</h2></div>
+        </div><div class="section-body"><h3>Cát tinh (làm tăng chất lượng quan hệ)</h3>
+<ul>
+<li><strong>Tả Phù, Hữu Bật:</strong> dấu hiệu kinh điển của việc được người khác trợ giúp đắc lực — đóng ở Nô Bộc rất quý, chủ về có quý nhân/cấp dưới tận tâm.</li>
+<li><strong>Văn Xương, Văn Khúc:</strong> bạn bè có học thức, quan hệ mang tính trí thức, hợp tác về học vấn/văn hóa.</li>
+<li><strong>Thiên Khôi, Thiên Việt:</strong> quý nhân xuất hiện đúng lúc, đặc biệt hữu ích khi Mệnh gặp khó khăn.</li>
+<li><strong>Lộc Tồn:</strong> bạn bè/đối tác mang lại lợi ích tài chính thực tế.</li>
+<li><strong>Ân Quang, Thiên Quý:</strong> cặp sao chủ về được ban ơn, được tiến cử, bạn bè/cấp trên giúp đỡ mang tính danh dự, nâng đỡ về thanh danh hơn là vật chất.</li>
+<li><strong>Thiên Quan, Thiên Phúc:</strong> cặp quý nhân tinh khác, chủ về gặp người có chức phận giúp đỡ đúng lúc, mang tính "phúc phần" hơn là chủ động cầu cạnh.</li>
+</ul>
+<h3>Sao chủ về cô độc, ít bạn (nhóm dễ bị bỏ sót)</h3>
+<ul>
+<li><strong>Cô Thần, Quả Tú:</strong> đóng tại Nô Bộc chủ về ít bạn bè thân thiết, quan hệ hời hợt hoặc tự mình có xu hướng sống khép kín với người ngoài — cần phân biệt với "bị phản bội" (do sát tinh) vì đây là xu hướng <em>cô lập tự nhiên</em>, không hẳn do người khác gây ra.</li>
+<li><strong>Đẩu Quân</strong> (sao lưu niên, phái Bắc hay dùng): khi lưu Đẩu Quân đi vào Nô Bộc của lá số gốc, thường là dấu hiệu năm đó biến động hoặc xa cách trong quan hệ bạn bè — cần xem cùng đại vận/lưu niên để xác định mức độ.</li>
+</ul>
+<h3>Sát tinh (làm giảm chất lượng, tăng rủi ro)</h3>
+<ul>
+<li><strong>Kình Dương, Đà La:</strong> dễ bị bạn bè cấp dưới phản bội, tranh chấp, hoặc quan hệ có ma sát ngầm.</li>
+<li><strong>Hỏa Tinh, Linh Tinh:</strong> quan hệ nóng vội, dễ bùng nổ mâu thuẫn bất ngờ.</li>
+<li><strong>Địa Không, Địa Kiếp:</strong> bạn bè hờ hững, hoặc giúp đỡ không thực chất, dễ mất mát vì tin người sai.</li>
+</ul>
+<h3>Tứ Hóa tại Nô Bộc (theo Can năm sinh — Tứ Hóa "tĩnh")</h3>
+<p><em>(Đây là lớp Tứ Hóa cơ bản: bốn sao Hóa được an cố định dựa trên Thiên Can năm sinh của đương số, rồi xem chúng có rơi đúng vào cung Nô Bộc hay không. Lớp Tứ Hóa nâng cao hơn — "phi tinh" từ Thiên Can của từng cung — được trình bày ở Phần V.)</em></p>
+<ul>
+<li><strong>Hóa Lộc:</strong> được bạn bè/cấp dưới mang lại lợi ích tài chính hoặc cơ hội; quan hệ đối tác thuận lợi.</li>
+<li><strong>Hóa Quyền:</strong> có khả năng lãnh đạo, chỉ huy người khác; hoặc được bạn bè có thế lực hỗ trợ.</li>
+<li><strong>Hóa Khoa:</strong> quan hệ mang tính danh tiếng, được giới thiệu, tiến cử qua các mối quan hệ.</li>
+<li><strong>Hóa Kỵ:</strong> đây là dấu hiệu cần đặc biệt lưu tâm — chủ về <strong>thị phi, phản bội, bị bạn bè/cấp dưới liên lụy hoặc lợi dụng</strong>. Hóa Kỵ tại Nô Bộc là một trong những cách cục kinh điển cảnh báo "coi chừng tiểu nhân."</li>
+</ul>
+<hr /></div></section>
+<section id="phan-4" class="content-section"><div class="section-head">
+          <span class="han-badge" aria-hidden="true">四</span>
+          <div class="section-titles"><span class="eyebrow">Phần IV</span><h2>Phối hợp liên cung</h2></div>
+        </div><div class="section-body"><h3>1. Nô Bộc so với Mệnh</h3>
+<p>Nguyên tắc cổ điển: <strong>"Nô cường Chủ nhược thì dễ bị lấn át."</strong> Nếu cung Nô Bộc có chính tinh miếu vượng nhiều cát tinh, trong khi Mệnh lại hãm địa yếu đuối, đương số dễ rơi vào thế phụ thuộc, bị bạn bè/cấp dưới chi phối, thậm chí "làm thuê cho chính nhân viên của mình" theo nghĩa bóng. Ngược lại, Mệnh vượng mà Nô Bộc yếu thì đương số có xu hướng cô độc, ít bạn nhưng làm chủ được các mối quan hệ mình có.</p>
+<h3>2. Nô Bộc phối Quan Lộc</h3>
+<p>Vì Nô Bộc gắn với cấp dưới/đồng nghiệp, còn Quan Lộc gắn với sự nghiệp, hai cung này cần xem cùng nhau khi luận về <strong>môi trường làm việc</strong>: có được nhân viên tận tâm không, có đồng nghiệp hãm hại không, cấp dưới có phản chủ không khi vận hạn xấu.</p>
+<h3>3. Nô Bộc phối Phu Thê</h3>
+<p>Đây là góc nhìn tinh tế bậc cao: ranh giới giữa "bạn thân khác giới" và "người yêu" đôi khi mờ nhạt trên lá số. Khi Nô Bộc có đào hoa tinh (Tham Lang, Thái Âm/Thái Dương miếu vượng...) phối hợp xấu với Phu Thê, có thể là dấu hiệu của tình cảm nảy sinh từ quan hệ bạn bè — tốt hoặc xấu tùy cách cục.</p>
+<h3>4. Nô Bộc phối Tài Bạch</h3>
+<p>Đối với người làm ăn, hùn vốn: Nô Bộc tốt + Tài Bạch tốt = hợp tác sinh lời. Nô Bộc có Hóa Kỵ/sát tinh trong khi Tài Bạch cũng xấu = cảnh báo rõ ràng về rủi ro bị đối tác lừa gạt hoặc thua lỗ vì hùn hạp.</p>
+<h3>5. Đại vận và Lưu niên tại Nô Bộc</h3>
+<p>Khi đại vận hoặc lưu niên đi vào cung Nô Bộc (hoặc Nô Bộc của lá số gốc bị lưu Hóa Kỵ chiếu vào), đây thường là giai đoạn:<br />
+- Xuất hiện nhiều mối quan hệ mới (nếu cát)<br />
+- Hoặc dễ vướng kiện tụng, tranh chấp hợp đồng, bị bạn bè vay mượn không trả (nếu hung)</p>
+<p>Người luận số giỏi luôn đối chiếu Nô Bộc của đại vận với Nô Bộc bản mệnh để biết xu hướng đang mạnh lên hay suy yếu.</p>
+<hr /></div></section>
+<section id="phan-5" class="content-section"><div class="section-head">
+          <span class="han-badge" aria-hidden="true">五</span>
+          <div class="section-titles"><span class="eyebrow">Phần V</span><h2>Tinh túy bậc thầy</h2></div>
+        </div><div class="section-body"><h3>1. Phân biệt "quý nhân thật" và "quý nhân giả"</h3>
+<p>Không phải cứ có Tả Hữu, Khôi Việt là chắc chắn có quý nhân tốt. Bậc thầy luận số sẽ nhìn thêm:<br />
+- Sao đó có <strong>hóa khí</strong> gì đi kèm (vd: Hữu Bật Hóa Khoa thì quý nhân giúp bằng danh tiếng, không phải tiền bạc)<br />
+- Cung <strong>Phúc Đức</strong> (phản ánh phúc phần/nội lực chung của đương số, tuy không phải tam hợp trực tiếp với Nô Bộc — tam hợp thật của Nô Bộc chỉ gồm Phụ Mẫu và Tử Tức, xem Phần I) có ổn định không — vì phúc phần cá nhân vẫn gián tiếp quyết định việc quý nhân xuất hiện có bền hay không<br />
+- Vận hạn hiện tại: quý nhân "cố định trên lá số" chỉ phát huy khi đại vận/lưu niên kích hoạt đúng lúc</p>
+<h3>2. Nhận diện "tiểu nhân" qua tổ hợp sát tinh</h3>
+<p>Cách cục kinh điển bị coi là nguy hiểm: <strong>Nô Bộc có Hóa Kỵ + Kình Dương/Đà La + Cự Môn hoặc Liêm Trinh hãm địa</strong>. Đây là tổ hợp cảnh báo về việc bị người thân cận (bạn bè, nhân viên) hãm hại, vu khống, hoặc phản bội vào đúng lúc yếu thế nhất. Người luận số giỏi sẽ khuyên đương số <strong>thận trọng khi mở rộng quan hệ trong giai đoạn vận hạn này</strong>, thay vì chỉ đọc "xấu" chung chung.</p>
+<h3>3. Nguyên lý "Nô Bộc phản chiếu bản chất của Mệnh"</h3>
+<p>Một góc nhìn cao cấp: cách một người đối xử/thu hút bạn bè phần lớn phản chiếu <strong>tính cách và tâm thế của chính họ</strong> (qua cung Mệnh). Vì vậy khi luận Nô Bộc xấu, thầy giỏi không chỉ dừng ở "coi chừng bạn xấu" mà còn xem lại Mệnh: liệu đương số có đang chọn sai người, đối xử chưa khéo, hay tâm lý quá cả tin/quá đa nghi — vì Nô Bộc và Mệnh luôn tương tác hai chiều.</p>
+<h3>4. Ứng dụng thực tiễn</h3>
+<ul>
+<li><strong>Chọn đối tác kinh doanh:</strong> ưu tiên xem giai đoạn đại vận Nô Bộc có cát hóa không trước khi ký hợp đồng hùn vốn lớn.</li>
+<li><strong>Quản lý nhân sự (với người làm chủ, lãnh đạo):</strong> Nô Bộc vượng + cát tinh là dấu hiệu tốt để xây dựng đội ngũ trung thành; Nô Bộc hãm + sát tinh cần có cơ chế kiểm soát nhân sự chặt chẽ hơn.</li>
+<li><strong>Xây dựng mạng lưới quan hệ cá nhân:</strong> biết được giai đoạn nào trong đời dễ gặp quý nhân thật để chủ động mở rộng kết nối, giai đoạn nào nên thu hẹp và thận trọng.</li>
+</ul>
+<h3>5. Phi Tinh Tứ Hóa — linh hồn của luận đoán hiện đại</h3>
+<p>Tứ Hóa "tĩnh" (Phần III) chỉ cho biết Nô Bộc <em>tự thân</em> mang cát/hung gì theo Can năm sinh. Nhưng Tử Vi hiện đại (đặc biệt phái Tứ Hóa/Phi Tinh) còn khai thác một lớp sâu hơn: <strong>mỗi cung trong lá số đều có Thiên Can riêng</strong>, từ đó có thể an ra 4 sao Hóa mới xuất phát từ chính cung đó, rồi xem chúng "bay" (phi nhập) vào cung nào khác — qua đó lộ ra <strong>mối quan hệ động, nhân-quả</strong> giữa hai cung, thay vì chỉ mô tả tĩnh tại.</p>
+<p>Áp dụng cho Nô Bộc, đây là vài cách phi hóa kinh điển cần nắm:</p>
+<ul>
+<li><strong>Cung Mệnh Hóa Kỵ phi nhập Nô Bộc:</strong> không phải "bị bạn bè hại" một cách bị động, mà là chính đương số — do tính cách, cách cư xử — chủ động gieo mầm thị phi/mâu thuẫn với người xung quanh. Ngược với việc Nô Bộc tự có Hóa Kỵ tại cung của chính nó (Phần III), vốn mang tính "bị động, do người khác."</li>
+<li><strong>Cung Phu Thê Hóa Kỵ phi nhập Nô Bộc:</strong> dấu hiệu vợ/chồng ghen tuông, xung đột vì bạn bè của đương số, hoặc bạn bè can thiệp tiêu cực vào hôn nhân.</li>
+<li><strong>Cung Nô Bộc Hóa Lộc phi nhập Mệnh hoặc Tài Bạch:</strong> bạn bè/cấp dưới chủ động mang lợi ích đến cho đương số — khác về bản chất với việc đương số "có Hóa Lộc sẵn ở Nô Bộc," vì ở đây dòng chảy lợi ích đi từ người khác <em>về phía mình</em>, thể hiện rõ hướng nhân quả.</li>
+<li><strong>Cung Quan Lộc Hóa Quyền phi nhập Nô Bộc:</strong> công việc/sự nghiệp đòi hỏi đương số phải quản lý, chỉ huy cấp dưới — dấu hiệu tốt cho vai trò lãnh đạo qua chính đội ngũ của mình.</li>
+</ul>
+<p>Nguyên tắc cốt lõi khi luận phi hóa: <strong>luôn xác định sao Hóa đó "bay từ cung nào, đến cung nào"</strong> — chiều bay quyết định ai là chủ động, ai là bị động trong mối quan hệ, đây chính là điều mà Tứ Hóa tĩnh (chỉ nhìn một cung độc lập) không thể hiện được.</p>
+<hr /></div></section>
+<section id="phan-6" class="content-section"><div class="section-head">
+          <span class="han-badge" aria-hidden="true">六</span>
+          <div class="section-titles"><span class="eyebrow">Phần VI</span><h2>Phú cổ: Nô Bộc cung</h2></div>
+        </div><div class="section-body"><h3>1. Nguyên văn (thể lục bát, đối chiếu bản "Phú Tử Vi Lê Quý Đôn" / "Phú Tử Vi Thông Thơ")</h3>
+<blockquote class="phu-scroll">
+<p>Sáu là Nô Bộc đoán tường,<br />
+Tử, Phủ, Tả, Bật, Âm, Dương, Lương, Đồng.<br />
+Việt, Khôi, Tam Hóa tương phùng,<br />
+Cáo, Loan, Cơ, Mã lại cùng Tướng tinh.<br />
+Quý, Quang, Xương, Khúc cùng lành,<br />
+Vũ tinh mà đóng rành rành bản cung.<br />
+No thì nó ở hầu ông,<br />
+Đói thì nó bước chẳng mong nói gì.<br />
+Liêm Trinh kìa nó càng ghê,<br />
+Làm ân nên oán trăm bề mỉa mai.<br />
+Tham Lang vì nó hao tài,<br />
+Cự Môn báo oán những loài thị phi.<br />
+Thất Sát sinh sự thị phi,<br />
+Phá Quân hàn khổ như thì cận quanh.<br />
+Còn như Không, Kiếp, Phục Binh,<br />
+Dương, Linh, Đà, Kỵ, Thiên Hình, Khốc, Hư.<br />
+Nhị Hao, Quan Phủ, Quan Phù,<br />
+Gặp phường trộm cắp phải lo tổn tài.</p>
+</blockquote>
+<p><em>(Sau đó văn bản chuyển sang "Bảy là bàn đến Thiên Di" — mở chương kế tiếp.)</em></p>
+<h3>2. Chú giải từng câu</h3>
+<ol>
+<li><strong>"Tử, Phủ, Tả, Bật, Âm, Dương, Lương, Đồng"</strong> — nhóm cát tinh gốc của cung Nô Bộc: Tử Vi, Thiên Phủ, Tả Phù, Hữu Bật (viết tắt "Bật"), Thái Âm, Thái Dương, Thiên Lương, Thiên Đồng. Đều là sao ôn hòa, chủ quan hệ chủ-tớ/đồng nghiệp tốt đẹp, được kính trọng, trung thành.</li>
+<li><strong>"Việt, Khôi, Tam Hóa tương phùng / Cáo, Loan, Cơ, Mã lại cùng Tướng tinh"</strong> — Thiên Việt, Thiên Khôi hội cùng Tam Hóa (Hóa Lộc, Hóa Quyền, Hóa Khoa — không tính Hóa Kỵ vì là hung diệu); thêm Phong Cáo, Hồng Loan, Thiên Cơ, Thiên Mã, Thiên Tướng — càng nhiều càng khẳng định nô bộc/bạn bè đắc lực.</li>
+<li><strong>"Quý, Quang, Xương, Khúc cùng lành / Vũ tinh mà đóng rành rành bản cung"</strong> — Thiên Quý, Ân Quang, Văn Xương, Văn Khúc cũng là sao lành. Câu sau chuyển ý, nói riêng về Vũ Khúc khi thủ chính tại Nô Bộc.</li>
+<li><strong>"No thì nó ở hầu ông / Đói thì nó bước chẳng mong nói gì"</strong> — đặc tả rất đời thường về bản chất Vũ Khúc (sao tài bạch, thực dụng) tại Nô Bộc: người dưới quyền gắn bó vì lợi ích thiết thực — no đủ thì trung thành, thiếu thốn thì bỏ đi không màng tình nghĩa. Một trong những câu giàu chất quan sát xã hội nhất bài phú.</li>
+<li><strong>"Liêm Trinh kìa nó càng ghê / Làm ân nên oán trăm bề mỉa mai"</strong> — Liêm Trinh tại Nô Bộc còn "ghê" hơn Vũ Khúc: làm ơn cho người dưới quyền nhưng bị đáp trả bằng oán hận, mỉa mai — mô-típ "ơn thành oán" gắn với bản chất tà khí tiềm ẩn của Liêm Trinh dù ở cung nào.</li>
+<li><strong>"Tham Lang vì nó hao tài / Cự Môn báo oán những loài thị phi"</strong> — Tham Lang tại Nô Bộc: vì bạn bè/người dưới mà hao tốn tiền của (đào hoa, giao du rộng tốn kém). Cự Môn: người dưới quyền hay đáp trả bằng lời ra tiếng vào — đúng bản chất ám tinh chủ khẩu thiệt xuyên suốt của Cự Môn trong toàn bài phú.</li>
+<li><strong>"Thất Sát sinh sự thị phi / Phá Quân hàn khổ như thì cận quanh"</strong> — Thất Sát: gây thị phi, xáo trộn. Phá Quân: quan hệ với người dưới mang tính hàn khổ, bấp bênh, được/mất thất thường ("cận quanh" — gần rồi lại xa).</li>
+<li><strong>"Còn như Không, Kiếp, Phục Binh / Dương, Linh, Đà, Kỵ, Thiên Hình, Khốc, Hư"</strong> — liệt kê một loạt sát tinh/hung diệu phụ (Địa Không, Địa Kiếp, Phục Binh, Kình Dương, Linh Tinh, Đà La, Hóa Kỵ, Thiên Hình, Thiên Khốc, Thiên Hư) — càng hội tụ càng chủ về thị phi, tổn hại gia tăng.</li>
+<li><strong>"Nhị Hao, Quan Phủ, Quan Phù / Gặp phường trộm cắp phải lo tổn tài"</strong> — thêm Đại Hao/Tiểu Hao, Quan Phủ, Quan Phù — cảnh báo cụ thể: dễ gặp trộm cắp, kiện tụng, hao tổn tài sản vì người dưới quyền/bạn bè xấu.</li>
+</ol>
+<h3>3. Đính chính: bản phú không bị khuyết văn</h3>
+<p>Câu "Thất Sát sinh sự thị phi" <strong>không phải một câu lục đơn độc</strong> — nó có câu bát đi kèm ("Phá Quân hàn khổ như thì cận quanh"), và mạch phú còn kéo dài thêm 2 cặp lục bát nữa (liệt kê một loạt sát tinh phụ) trước khi chuyển sang chương 7 (Thiên Di). Toàn bộ đoạn về Nô Bộc là một khối văn bản liền mạch, không có dấu hiệu đứt đoạn truyền khẩu như phỏng đoán ban đầu.</p>
+<h3>4. Ghi chú văn bản học</h3>
+<p>Các dị bản lưu truyền có sai khác nhỏ về từ ngữ (ví dụ: "nói gì" ở một số bản chép thành "nỗi gì"; "trăm bề" thành "bấc chì"; "loài thị phi" thành "lời thị phi") — đây là đặc điểm thường thấy của các bài phú truyền khẩu/chép tay, không ảnh hưởng đến ý nghĩa cốt lõi của từng câu.</p>
+<h3>5. Nhận xét chương (đã điều chỉnh)</h3>
+<p>Nô Bộc là chương có giọng văn đời thường, giàu chất trào lộng nhất trong 12 chương — phần luận sát tinh (Vũ Khúc, Liêm Trinh, Tham Lang, Cự Môn, Thất Sát, Phá Quân) được diễn đạt bằng ngôn ngữ sinh hoạt, gần gũi ("no thì ở, đói thì đi", "làm ơn nên oán"), cho thấy người biên soạn quan sát tinh tế các mối quan hệ xã hội thực tế thời bấy giờ. Điểm khác biệt so với nhận định ban đầu: đoạn cuối chương (từ Thất Sát đến Quan Phù) không hề rời rạc, mà là một danh sách sát tinh phụ khá đầy đủ, đóng vai trò tổng kết các dấu hiệu xấu trước khi khép chương.</p>
+<hr /></div></section>
+<section id="phan-7" class="content-section"><div class="section-head">
+          <span class="han-badge" aria-hidden="true">七</span>
+          <div class="section-titles"><span class="eyebrow">Phần VII</span><h2>Ví dụ minh họa thực tế</h2></div>
+        </div><div class="section-body"><p>Ví dụ dưới đây minh họa cách áp dụng toàn bộ lý thuyết ở các phần trên vào một lá số cụ thể: <strong>Nô Bộc tại Tuất, có Thiên Cơ (Miếu) + Thiên Lương (Miếu) đồng cung</strong> — cách cục kinh điển gọi là <strong>"Cơ Lương"</strong> (chỉ hội tụ tại Thìn hoặc Tuất, không xuất hiện ở cung nào khác).</p>
+<h3>Cấp 1 — Cơ bản: đọc vị trí và tên cung</h3>
+<ul>
+<li><strong>Tuất thuộc hành Thổ.</strong> Nếu Mệnh thuộc Hỏa (Hỏa sinh Thổ) → đương số có xu hướng hết lòng vì bạn bè, hay chủ động lo lắng, chi tiền trước cho bạn bè.</li>
+<li><strong>Đế Vượng</strong> (vòng Trường Sinh) đóng tại Nô Bộc → số lượng bạn bè/mối quan hệ xã hội đông đảo.</li>
+<li>Nếu đối cung (Thiên Di) có <strong>Tuần</strong> án ngữ → dù quan hệ rộng, đương số vẫn sống khép kín, chọn lọc bạn thân rất kỹ.</li>
+<li><strong>Kết luận cấp 1:</strong> quan hệ rộng nhưng bạn thân thì ít.</li>
+</ul>
+<h3>Cấp 2 — Trung cấp: luận chính tinh</h3>
+<ul>
+<li><strong>Thiên Cơ (Miếu):</strong> đầu óc, mưu trí → bạn bè thông minh, lanh lợi, giỏi tính toán, làm nghề liên quan trí óc (IT, kế toán, tham mưu, chiến lược).</li>
+<li><strong>Thiên Lương (Miếu):</strong> sao cứu giải, tính chất "người lớn tuổi hiền lành" → bạn bè lớn tuổi hơn, chững chạc, hay cho lời khuyên, thường làm nghề giáo, y, luật.</li>
+<li><strong>Cơ Lương hội tại Nô Bộc</strong> → bạn bè đóng vai trò <strong>quân sư/cố vấn</strong> chứ không phải "bạn nhậu" — khi gặp nạn sẽ có người cho lời khuyên giá trị để thoát nạn. Đây là cách Nô Bộc được đánh giá quý, chủ về có quý nhân lớn tuổi.</li>
+</ul>
+<h3>Cấp 3 — Nâng cao: luận phụ tinh &amp; sát tinh</h3>
+<p><strong>Bộ sao làm đẹp cung:</strong> Văn Xương (Đắc) + Hóa Khoa + Địa Giải + Long Đức<br />
+- Văn Xương + Hóa Khoa → bạn bè có học vị cao, danh tiếng trong ngành, chơi cùng được "thơm lây", mở mang tri thức.<br />
+- Hóa Quyền (nếu có) → bạn bè có chức quyền, có thể nâng đỡ địa vị.<br />
+- Long Đức + Địa Giải → dù bạn bè gây họa, vẫn có người đứng ra giải cứu.</p>
+<p><strong>Bộ sao phá hoại:</strong> Linh Tinh (Hãm) + Bệnh Phù + Địa Võng<br />
+- Địa Võng → dễ bị bạn bè giăng bẫy, lợi dụng lòng tốt, đặc biệt chuyện tiền bạc.<br />
+- Bệnh Phù + Linh Tinh (Hãm) → nhân viên/cấp dưới hay ốm vặt, nghỉ việc đột ngột, làm việc nóng nảy.</p>
+<p><strong>Tổng kết cấp 3:</strong> đây là cách "Quý nhân bị nhiễm thị phi" — bạn bè giỏi thật, sang thật, nhưng không nên tin tuyệt đối 100%.</p>
+<h3>Cấp 4 — Chuyên sâu: tam hợp, xung chiếu, đại vận/lưu niên</h3>
+<p><strong>a. Xung chiếu:</strong> Nô Bộc tại Tuất luôn xung với Huynh Đệ tại Thìn — khớp đúng quy tắc cố định (đối cung cách 6 cung, đã lập ở Phần I). Nếu Huynh Đệ có Văn Khúc + Thiên Diêu + Thiên Không → bài học: vì bạn bè mà mất lòng anh em, hoặc hai nhóm này không hợp nhau — không nên để họ chơi chung.</p>
+<p><strong>b. Tam hợp (đã hiệu đính):</strong> Tuất nằm trong bộ tam hợp chi cố định <strong>Dần–Ngọ–Tuất</strong>, nên hai cung tam hợp thật sự với Nô Bộc là cung tọa tại <strong>Dần</strong> và cung tọa tại <strong>Ngọ</strong>. Trong lá số này, Dần là <strong>Tử Tức</strong> — đúng như tam hợp. Còn cung còn lại tại Ngọ, theo trật tự 12 cung cố định, chính là <strong>Phụ Mẫu</strong> — chứ <em>không phải</em> Tài Bạch (Tài Bạch trong lá số này tọa tại Sửu, cách Nô Bộc 3 cung, không phải tam hợp/xung/giáp nào cả). Vậy: tiền bạc thực chất chịu ảnh hưởng từ bạn bè không phải qua kết cấu tam hợp trực tiếp, mà qua các đường phối chiếu khác (Hóa Lộc/Kỵ bay qua, hoặc quan hệ nội dung như "bạn rủ hùn vốn") — cần phân biệt rõ quan hệ <em>kết cấu cố định</em> với quan hệ <em>nội dung/ý nghĩa</em> khi luận.</p>
+<p><strong>c. Ứng dụng lưu niên (năm Bính):</strong> Can Bính hóa: Thiên Đồng Hóa Lộc, Thiên Cơ Hóa Quyền, Văn Xương Hóa Khoa, Liêm Trinh Hóa Kỵ. Vì Thiên Cơ và Văn Xương đều tọa sẵn tại Nô Bộc trong lá số gốc, nên Lưu Hóa Quyền và Lưu Hóa Khoa của năm Bính "bay" đúng vào Nô Bộc:<br />
+- Được bạn bè đưa lên về danh tiếng; có người rủ hợp tác mảng giáo dục/tư vấn/giấy tờ; nếu làm công ăn lương, dễ được cấp trên cất nhắc.<br />
+- Cần lưu ý thêm dòng Hóa Kỵ (Liêm Trinh) của năm rơi vào cung nào trong lá số gốc — nếu đó là cung có quan hệ phối chiếu với Nô Bộc (tam hợp, giáp, hoặc đối cung), sẽ là dấu hiệu dễ nảy sinh tranh cãi/thị phi quanh việc hợp tác, hoặc rắc rối trong giấy tờ ký kết cùng bạn bè năm đó.</p>
+<p><strong>Lời khuyên tổng kết ở cấp chuyên sâu:</strong> với cách Cơ Lương + Hóa Khoa + Hóa Quyền tại Nô Bộc, đương số sinh ra để làm thủ lĩnh của những người giỏi — nên dùng bạn bè làm cố vấn, làm hình ảnh đại diện, nhưng quyền quyết định cuối (tài chính, pháp lý) vẫn nên tự mình nắm giữ.</p>
+<hr /></div></section>
+<section id="tom-tat" class="content-section"><div class="section-head">
+          <span class="han-badge han-badge--seal" aria-hidden="true">終</span>
+          <div class="section-titles"><span class="eyebrow">Kết</span><h2>Tóm tắt nguyên tắc cốt lõi</h2></div>
+        </div><div class="section-body"><ol>
+<li>Nô Bộc = chất lượng các mối quan hệ ngang hàng/dưới quyền, đối lập và bổ sung cho Huynh Đệ.</li>
+<li>Chính tinh miếu/hãm quyết định "chất" của bạn bè/cấp dưới; phụ tinh và Tứ Hóa quyết định "vận" của mối quan hệ đó.</li>
+<li>Không luận Nô Bộc đơn lẻ — luôn đối chiếu với Mệnh, Quan Lộc, Tài Bạch, Phu Thê tùy vào câu hỏi cụ thể (bạn bè, sự nghiệp, làm ăn, hay tình cảm).</li>
+<li>Đại vận/lưu niên kích hoạt cung Nô Bộc mới là lúc các dấu hiệu tốt/xấu thực sự phát tác.</li>
+<li>Trình độ cao nhất của luận Nô Bộc là nhìn thấy <strong>sự tương tác hai chiều với Mệnh</strong> — quan hệ ta nhận được luôn phần nào là tấm gương phản chiếu chính ta.</li>
+</ol></div></section>
+    </div>
+
+    <footer class="site-footer">
+      <span>Cung Nô Bộc — biên soạn &amp; chú giải cho mục đích tham khảo Tử Vi Đẩu Số.</span>
+      <span>詩 · 命 · 友</span>
+    </footer>
+  </main>
+</div>
+
+<button class="music-fab" id="musicFab" aria-pressed="false" aria-label="Bật nhạc nền">
+  <span class="ring" aria-hidden="true"></span>
+  <span class="ring" aria-hidden="true"></span>
+  <svg id="musicIconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  <svg id="musicIconPause" viewBox="0 0 24 24" style="display:none"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+</button>
+<span class="music-label" id="musicLabel">Nhạc nền</span>
+<audio id="bgAudio" src="music2.mp3" preload="none" loop></audio>
+
+<script>
+(function(){
+  // ---- Mobile nav ----
+  var sidebar = document.getElementById('sidebar');
+  var menuBtn = document.getElementById('menuBtn');
+  var scrim = document.getElementById('scrim');
+  function closeNav(){ sidebar.classList.remove('open'); scrim.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+  function openNav(){ sidebar.classList.add('open'); scrim.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+  menuBtn && menuBtn.addEventListener('click', function(){ sidebar.classList.contains('open') ? closeNav() : openNav(); });
+  scrim && scrim.addEventListener('click', closeNav);
+  document.querySelectorAll('.nav-link').forEach(function(a){ a.addEventListener('click', closeNav); });
+
+  // ---- Active section highlight ----
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.content-section'));
+  var byId = {}; links.forEach(function(l){ byId[l.getAttribute('href').slice(1)] = l; });
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var link = byId[e.target.id];
+      if(!link) return;
+      if(e.isIntersecting){ links.forEach(function(l){ l.classList.remove('active'); }); link.classList.add('active'); }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ observer.observe(s); });
+
+  // ---- Dark mode toggle (session only, no storage) ----
+  var root = document.documentElement;
+  var themeBtns = Array.prototype.slice.call(document.querySelectorAll('.theme-btn'));
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function applyTheme(dark){
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    themeBtns.forEach(function(btn){
+      btn.classList.toggle('is-active', dark);
+      btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      var lbl = btn.querySelector('.theme-label');
+      if(lbl) lbl.textContent = dark ? 'Light mode' : 'Dark mode';
+    });
+  }
+  applyTheme(prefersDark);
+  themeBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      applyTheme(root.getAttribute('data-theme') !== 'dark');
+    });
+  });
+
+  // ---- Music toggle ----
+  var audio = document.getElementById('bgAudio');
+  var fab = document.getElementById('musicFab');
+  var iconPlay = document.getElementById('musicIconPlay');
+  var iconPause = document.getElementById('musicIconPause');
+  var label = document.getElementById('musicLabel');
+  var playing = false;
+  fab.addEventListener('click', function(){
+    if(!playing){
+      audio.play().then(function(){
+        playing = true;
+        fab.classList.add('playing');
+        fab.setAttribute('aria-pressed','true');
+        iconPlay.style.display='none'; iconPause.style.display='block';
+        label.textContent = 'Đang phát — music2.mp3';
+      }).catch(function(){
+        label.textContent = 'Không tìm thấy music2.mp3';
+      });
+    } else {
+      audio.pause();
+      playing = false;
+      fab.classList.remove('playing');
+      fab.setAttribute('aria-pressed','false');
+      iconPlay.style.display='block'; iconPause.style.display='none';
+      label.textContent = 'Nhạc nền';
+    }
+  });
+})();
+</script>
+</body>
+</html>

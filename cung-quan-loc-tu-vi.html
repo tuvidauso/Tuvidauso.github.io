@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cung Quan Lộc — Tử Vi Đẩu Số</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Noto+Serif:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #10141f;
+    --bg2: #161c2b;
+    --bg3: #1c2436;
+    --gold: #c9a24a;
+    --gold-dim: #8a7038;
+    --vermilion: #d1654e;
+    --vermilion-dim: #7d3226;
+    --text: #e9e4d6;
+    --text-dim: #99a0b4;
+    --line: rgba(201,162,74,0.2);
+    --shadow: rgba(0,0,0,0.45);
+    color-scheme: dark;
+  }
+  html[data-theme="light"] {
+    --bg: #f2ead4;
+    --bg2: #ece0c2;
+    --bg3: #e2d3a7;
+    --gold: #7d5f1c;
+    --gold-dim: #a98a3d;
+    --vermilion: #963622;
+    --vermilion-dim: #b0402f;
+    --text: #241f14;
+    --text-dim: #6c5f42;
+    --line: rgba(138,106,31,0.28);
+    --shadow: rgba(90,70,30,0.18);
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Serif', serif;
+    line-height: 1.75;
+    font-size: 17px;
+    transition: background 0.4s ease, color 0.4s ease;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ---------- Ambient starfield (dark mode only) ---------- */
+  #stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+  }
+  html[data-theme="light"] #stars { opacity: 0; }
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: twinkle 5s ease-in-out infinite;
+    opacity: 0.5;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.85; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .star { animation: none; opacity: 0.35; }
+    html { scroll-behavior: auto; }
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 28px 120px;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 28px;
+    max-width: 760px;
+    margin: 0 auto;
+    background: linear-gradient(to bottom, var(--bg) 75%, transparent);
+  }
+  .topbar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px 6px 6px;
+    cursor: pointer;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    transition: border-color 0.25s ease, background 0.25s ease;
+  }
+  .theme-toggle:hover { border-color: var(--gold-dim); }
+  .theme-toggle .dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: transform 0.4s ease;
+  }
+
+  /* progress bar */
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--vermilion);
+    z-index: 30;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 64px 0 40px;
+    text-align: center;
+    position: relative;
+  }
+  .seal {
+    width: 74px;
+    height: 74px;
+    margin: 0 auto 28px;
+    border-radius: 10px;
+    border: 2.5px solid var(--vermilion);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-4deg);
+    position: relative;
+    box-shadow: 0 0 0 1px var(--vermilion) inset;
+  }
+  .seal::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid var(--vermilion);
+    border-radius: 6px;
+    opacity: 0.6;
+  }
+  .seal svg { width: 34px; height: 34px; }
+  .seal circle, .seal path { stroke: var(--vermilion); }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    color: var(--vermilion);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  h1.title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: var(--gold);
+    margin: 0 0 28px;
+  }
+  .hero-rule {
+    width: 120px;
+    height: 1px;
+    margin: 0 auto;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .hero-meta {
+    margin-top: 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- Table of contents ---------- */
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 30px 32px;
+    margin: 20px 0 56px;
+    box-shadow: 0 12px 30px -18px var(--shadow);
+  }
+  .toc-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 4px;
+  }
+  .toc li a {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    text-decoration: none;
+    color: var(--text);
+    padding: 7px 4px;
+    border-radius: 6px;
+    transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+    font-size: 15px;
+  }
+  .toc li a:hover { background: var(--bg3); padding-left: 10px; color: var(--gold); }
+  .toc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--vermilion);
+    min-width: 26px;
+  }
+
+  /* ---------- Section structure ---------- */
+  section.part { margin: 0 0 12px; }
+
+  .part-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 72px 0 34px;
+  }
+  .part-badge {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border: 2px solid var(--vermilion);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--vermilion);
+    transform: rotate(-3deg);
+    position: relative;
+  }
+  .part-badge::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--vermilion);
+    border-radius: 5px;
+    opacity: 0.5;
+  }
+  h2.part-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(1.35rem, 3.4vw, 1.75rem);
+    margin: 0;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  h3.sub-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin: 44px 0 14px;
+    padding-left: 16px;
+    border-left: 3px solid var(--gold-dim);
+  }
+
+  p { margin: 0 0 18px; color: var(--text); }
+  .lede { color: var(--text-dim); font-size: 0.98rem; margin-bottom: 30px; }
+
+  strong { color: var(--gold); font-weight: 600; }
+  html[data-theme="light"] strong { color: var(--vermilion-dim); }
+
+  ul, ol.plain { margin: 0 0 20px; padding-left: 22px; }
+  ul li, ol.plain li { margin-bottom: 10px; }
+  ul li::marker { color: var(--vermilion); }
+
+  a.inline-ref { color: var(--gold); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+
+  /* callout / warning */
+  .callout {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--vermilion);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-size: 0.95rem;
+    color: var(--text-dim);
+  }
+  .callout strong { color: var(--vermilion); }
+
+  /* method box */
+  .method {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 26px 0;
+  }
+  .method-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  /* data card for the vi du minh hoa */
+  .data-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin: 8px 0 40px;
+    font-size: 0.95rem;
+  }
+  .data-card .k { color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 6px;}
+  .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px 24px; }
+
+  /* phu co verse block */
+  .verse {
+    margin: 30px 0 14px;
+    padding: 4px 0 4px 22px;
+    border-left: 2px solid var(--vermilion-dim);
+    position: relative;
+  }
+  .verse-num {
+    position: absolute;
+    left: -14px;
+    top: -2px;
+    background: var(--bg);
+    color: var(--vermilion);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 2px 6px;
+    border: 1px solid var(--vermilion-dim);
+    border-radius: 999px;
+  }
+  .verse blockquote {
+    margin: 0 0 10px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.12rem;
+    color: var(--gold);
+    line-height: 1.6;
+  }
+  .verse .gloss { color: var(--text-dim); font-size: 0.96rem; margin: 0; }
+  .verse .gloss::before { content: "→ "; color: var(--vermilion); }
+
+  hr.ornament {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 60px 0;
+    color: var(--gold-dim);
+  }
+  hr.ornament::before {
+    content: "✦";
+    font-size: 13px;
+  }
+
+  .colophon {
+    margin-top: 70px;
+    padding-top: 30px;
+    border-top: 1px solid var(--line);
+    font-size: 0.93rem;
+    color: var(--text-dim);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.03em;
+  }
+  .colophon .glyph { color: var(--vermilion); font-size: 18px; margin-bottom: 12px; display:block; }
+
+  /* ---------- Music button ---------- */
+  .music-btn {
+    position: fixed;
+    right: 26px;
+    bottom: 26px;
+    z-index: 40;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--bg2);
+    border: 1.5px solid var(--vermilion-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 10px 26px -10px var(--shadow);
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .music-btn:hover { transform: scale(1.06); border-color: var(--gold); }
+  .music-btn.playing { border-color: var(--gold); background: var(--bg3); }
+  .music-btn svg { width: 22px; height: 22px; }
+  .eq { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
+  .eq span {
+    display: block;
+    width: 3px;
+    background: var(--gold);
+    border-radius: 2px;
+    animation: eq 0.9s ease-in-out infinite;
+    height: 6px;
+  }
+  .music-btn:not(.playing) .eq span { animation-play-state: paused; height: 4px; opacity: 0.5; }
+  .eq span:nth-child(1) { animation-delay: -0.6s; }
+  .eq span:nth-child(2) { animation-delay: -0.3s; }
+  .eq span:nth-child(3) { animation-delay: -0.9s; }
+  @keyframes eq {
+    0%, 100% { height: 5px; }
+    50% { height: 18px; }
+  }
+
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 18px 100px; }
+    .topbar { padding: 12px 18px; }
+    .topbar-label { display: none; }
+    .toc { padding: 22px 20px; }
+    .part-header { gap: 14px; margin-top: 56px; }
+    .part-badge { width: 46px; height: 46px; font-size: 16px; }
+    .data-grid { grid-template-columns: 1fr; }
+    .music-btn { right: 18px; bottom: 18px; width: 52px; height: 52px; }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--vermilion);
+    outline-offset: 3px;
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div class="progress" id="progress"></div>
+
+<div class="topbar">
+  <span class="topbar-label">Quan Lộc · Tử Vi Đẩu Số</span>
+  <button class="theme-toggle" id="themeToggle" aria-label="Đổi giao diện sáng / tối">
+    <span class="dot" id="themeDot">☾</span>
+    <span id="themeLabel">Đêm</span>
+  </button>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="seal" aria-hidden="true">
+      <svg viewBox="0 0 40 40" fill="none" stroke-width="1.4">
+        <circle cx="20" cy="20" r="15"/>
+        <path d="M20 6 L20 34 M6 20 L34 20"/>
+        <circle cx="20" cy="20" r="4.5"/>
+      </svg>
+    </div>
+    <div class="eyebrow">Chuyên luận Tử Vi Đẩu Số</div>
+    <h1 class="title">Cung Quan Lộc</h1>
+    <p class="subtitle">Từ cơ bản đến bậc thầy tinh túy</p>
+    <div class="hero-rule"></div>
+    <div class="hero-meta">Tám phần · Nền tảng — Nâng cao — Bậc thầy — Ví dụ thực chiến — Phú cổ</div>
+  </header>
+
+  <nav class="toc" aria-label="Mục lục">
+    <div class="toc-title">Mục lục</div>
+    <ol>
+      <li><a href="#p1"><span class="toc-num">I</span> Nền tảng căn bản</a></li>
+      <li><a href="#p2"><span class="toc-num">II</span> Nâng cao: Chính tinh tại Quan Lộc</a></li>
+      <li><a href="#p3"><span class="toc-num">III</span> Tam phương tứ chính: nhìn Quan Lộc trong tổng thể</a></li>
+      <li><a href="#p4"><span class="toc-num">IV</span> Tứ Hóa: linh hồn của luận đoán hiện đại</a></li>
+      <li><a href="#p5"><span class="toc-num">V</span> Cách cục đặc biệt liên quan Quan Lộc</a></li>
+      <li><a href="#p6"><span class="toc-num">VI</span> Bậc thầy tinh túy: nguyên tắc luận đoán thực chiến</a></li>
+      <li><a href="#p7"><span class="toc-num">VII</span> Ví dụ minh họa thực tế</a></li>
+      <li><a href="#p8"><span class="toc-num">VIII</span> Câu phú cổ và giải nghĩa</a></li>
+      <li><a href="#notes"><span class="toc-num">✦</span> Ghi chú về nguồn và dị biệt giữa các phái</a></li>
+    </ol>
+  </nav>
+
+  <!-- ================= PHẦN I ================= -->
+  <section class="part" id="p1">
+    <div class="part-header">
+      <div class="part-badge">I</div>
+      <h2 class="part-title">Nền tảng căn bản</h2>
+    </div>
+
+    <h3 class="sub-title">1.1 — Vị trí và cấu trúc</h3>
+    <p>Cung Quan Lộc là một trong 12 cung của lá số Tử Vi, luôn nằm ở vị trí <strong>tam hợp với cung Mệnh và cung Tài Bạch</strong> — tạo thành bộ ba "Mệnh — Tài — Quan" (còn gọi là <strong>Tam Phương Chủ Yếu</strong>, trục xương sống của toàn bộ lá số về mặt vật chất và sự nghiệp). Cụ thể:</p>
+    <ul>
+      <li>Cung Quan Lộc luôn cách cung Mệnh đúng 4 cung (tính theo vòng tam hợp: Mệnh — Tài Bạch — Quan Lộc — Mệnh).</li>
+      <li>Đối cung của Quan Lộc là <strong>cung Phu Thê</strong>.</li>
+      <li>Nhị hợp (cung liền kề hợp) của Quan Lộc là <strong>Tật Ách</strong> và <strong>Điền Trạch</strong>.</li>
+    </ul>
+    <p>Việc đối cung là Phu Thê không phải ngẫu nhiên — đây là nguyên lý cốt lõi mà người mới học thường bỏ qua: <strong>sự nghiệp và hôn nhân là hai mặt của cùng một trục năng lượng</strong>. Người phối ngẫu, hoặc cách nhìn nhận/thái độ với hôn nhân, sẽ phản chiếu ngược lại cách đương số thể hiện ở nơi làm việc, và ngược lại. Đây là điểm sẽ quay lại ở Phần III.</p>
+
+    <h3 class="sub-title">1.2 — Ý nghĩa cơ bản</h3>
+    <p>Quan Lộc cai quản:</p>
+    <ul>
+      <li><strong>Sự nghiệp, nghề nghiệp, con đường công danh</strong> — làm gì, làm như thế nào, thăng tiến ra sao.</li>
+      <li><strong>Học vấn, thi cử, khoa bảng</strong> (trong xã hội cổ, Quan Lộc gắn chặt với khoa cử — ngày nay mở rộng thành bằng cấp, học thuật, chuyên môn).</li>
+      <li><strong>Địa vị xã hội, danh tiếng nghề nghiệp</strong> (khác với Thiên Di là danh tiếng nói chung ngoài xã hội).</li>
+      <li><strong>Tính chất công việc</strong> — làm chủ hay làm thuê, kỹ thuật hay quản lý, ổn định hay biến động.</li>
+      <li><strong>Quan hệ với cấp trên, tổ chức, thể chế</strong> (quan phương — nhà nước, cơ quan, luật lệ).</li>
+    </ul>
+
+    <h3 class="sub-title">1.3 — Nguyên tắc luận đoán cơ bản</h3>
+    <p>Khi xem cung Quan Lộc, người mới học theo 4 bước sau:</p>
+    <ol class="plain">
+      <li><strong>Chính tinh tọa thủ</strong> — sao chính nào đóng ở Quan Lộc, miếu/vượng/đắc/hãm.</li>
+      <li><strong>Cát tinh — Sát tinh phụ trợ</strong> — Tả Hữu, Xương Khúc, Khôi Việt là cát; Kình Đà, Hỏa Linh, Không Kiếp là sát, ảnh hưởng ra sao.</li>
+      <li><strong>Tam hợp Mệnh — Tài — Quan</strong> — bộ ba này phải nhìn đồng thời, không tách rời cung Quan Lộc riêng lẻ.</li>
+      <li><strong>Đối cung Phu Thê xung chiếu</strong> — luôn phải nhìn cung đối để biết yếu tố "phản chiếu, chế ước" tác động vào Quan Lộc.</li>
+    </ol>
+    <div class="callout"><strong>Lưu ý</strong> — Sai lầm phổ biến nhất của người mới: chỉ đọc sao tọa thủ tại Quan Lộc mà quên tam hợp và xung chiếu, dẫn đến luận đoán phiến diện, chỉ đúng một phần.</div>
+  </section>
+
+  <hr class="ornament">
+
+  <!-- ================= PHẦN II ================= -->
+  <section class="part" id="p2">
+    <div class="part-header">
+      <div class="part-badge">II</div>
+      <h2 class="part-title">Nâng cao: Chính tinh tại Quan Lộc</h2>
+    </div>
+
+    <h3 class="sub-title">2.1 — Nhóm Tử Vi (Đế tinh)</h3>
+    <p><strong>Tử Vi thủ Quan Lộc</strong>: chủ về địa vị, quyền lực, làm lãnh đạo/quản lý; cần Tả Hữu Xương Khúc phù tá mới thành "đế tinh đắc dụng" — Tử Vi cô độc (vô phụ tá) chỉ là hư danh, hình thức. Đây là điểm bậc thầy hay nhấn mạnh: <strong>Tử Vi không tự thân tạo ra thành tựu, nó cần cấu trúc phù tá để chuyển hóa "tiềm năng lãnh đạo" thành "quyền lực thực"</strong>.</p>
+    <p><strong>Vũ Khúc thủ Quan Lộc</strong>: sao Tài tinh vào cung Quan → nghề nghiệp gắn với tiền bạc, tài chính, kỹ thuật, quân sự, kim loại. Vũ Khúc + Sát tinh (Kình/Đà/Hỏa/Linh) tạo cách "Uy vũ" — phù hợp nghề mang tính quyết đoán, cạnh tranh cao (kinh doanh, quân đội, ngoại khoa).</p>
+    <p><strong>Liêm Trinh thủ Quan Lộc</strong>: mang tính "chính-tà lưỡng diện" — miếu vượng thì lợi về chính trị, pháp luật, kỷ luật, kỹ thuật cao cấp; hãm địa dễ liên quan thị phi, tranh chấp pháp lý, thậm chí hình ngục nếu phối hợp sát tinh xấu.</p>
+    <p><strong>Thiên Phủ thủ Quan Lộc</strong>: chủ về ổn định, quản lý tài sản/kho bạc, hành chính, ngân hàng — hợp làm công chức, quản lý cấp trung/cao trong hệ thống lớn hơn là khởi nghiệp mạo hiểm.</p>
+    <p><strong>Thiên Tướng thủ Quan Lộc</strong>: sao phụ tá đắc lực, hợp làm tham mưu, cố vấn, quản lý điều phối — không thích hợp vai trò độc lập tối cao mà toả sáng khi đứng cạnh một trung tâm quyền lực khác (ứng với ý nghĩa "ấn tinh" phò tá).</p>
+
+    <h3 class="sub-title">2.2 — Nhóm sao "văn" và "sát-phá-tham"</h3>
+    <p><strong>Thiên Cơ thủ Quan Lộc</strong>: trí tuệ, mưu lược, biến động — hợp nghề cần tư duy linh hoạt (tham mưu, kỹ thuật, IT, phân tích), nhưng dễ đổi nghề nhiều lần nếu không có sao ổn định kèm.</p>
+    <p><strong>Thái Dương thủ Quan Lộc</strong>: chủ danh tiếng công khai, hợp nghề mang tính công ích, giáo dục, truyền thông, lãnh đạo hướng ngoại. Thái Dương vượng (cung Tỵ-Ngọ-Mùi) thì "quý hiển"; hãm (Tuất-Hợi-Tý) thì vất vả trước, thành sau, hoặc chỉ có hư danh không thực quyền.</p>
+    <p><strong>Thái Âm thủ Quan Lộc</strong>: nghề liên quan tài chính âm thầm, bất động sản, dịch vụ, chăm sóc — vượng địa thì tài lộc dồi dào qua con đường "âm" (không phô trương); hãm địa dễ lận đận, thành quả chậm.</p>
+    <p><strong>Cự Môn thủ Quan Lộc</strong>: sao thị phi/khẩu thiệt biến thành sao "ăn nói, thuyết phục" khi ở đúng vị trí — cực hợp nghề luật sư, giảng dạy, ngoại giao, bán hàng, truyền thông. Cự Môn hãm mà không hóa Lộc/Quyền dễ gặp thị phi nghề nghiệp, kiện tụng.</p>
+    <p><strong>Tham Lang thủ Quan Lộc</strong>: sao đa năng, giỏi giao tiếp, nhiều tài lẻ — hợp kinh doanh, ngoại giao, nghệ thuật, hoặc lĩnh vực cần "quan hệ". Tham Lang gặp Hỏa/Linh tạo cách "Hỏa Tham/Linh Tham" chủ về bộc phát nhanh, thành công đột ngột kiểu bất ngờ.</p>
+    <p><strong>Phá Quân thủ Quan Lộc</strong>: sao biến động, phá cũ lập mới — hợp khởi nghiệp, nghề mang tính khai phá, quân sự, cải cách. Không hợp công việc lặp lại, khuôn khổ cứng nhắc; sự nghiệp thường trải qua ít nhất một lần "phá rồi lập lại" mới ổn định.</p>
+    <p><strong>Thất Sát thủ Quan Lộc</strong>: sao quyền uy, quyết đoán, sát phạt — cách "Thất Sát triều đẩu" (đắc địa các cung Dần/Thân/Tý/Ngọ) là cách cục lớn về sự nghiệp, chủ uy quyền, phù hợp nghề có tính chỉ huy, cạnh tranh khốc liệt.</p>
+    <p><strong>Thiên Lương thủ Quan Lộc</strong>: sao "ấm tinh", chủ về thanh danh, cố vấn, giám sát, y dược, luật pháp, tôn giáo — không hợp thương mại thuần túy vì Thiên Lương kỵ "trực tiếp vì lợi".</p>
+
+    <h3 class="sub-title">2.3 — Miếu · Vượng · Đắc · Hãm: quy tắc và điểm bậc thầy</h3>
+    <div class="method">
+      <span class="method-label">Nguyên tắc cốt lõi</span>
+      Người học nâng cao cần nhớ: <strong>độ sáng (miếu/vượng/đắc/hãm) không quyết định tốt-xấu tuyệt đối, mà quyết định "biên độ dao động" của kết quả</strong>. Một chính tinh miếu vượng tại Quan Lộc chỉ đảm bảo "có nền tảng tốt", còn thành-bại thực tế phụ thuộc vào tứ Hóa và sát-cát tinh phối hợp — đây chính là lằn ranh giữa người học "thuộc bài" và người luận đoán thực chiến.
+    </div>
+    <div class="callout"><strong>Dị biệt giữa các phái</strong> — bảng miếu-vượng-đắc-hãm có một vài dị biệt nhỏ giữa các nguồn (đặc biệt với Thiên Cơ, Cự Môn tại vài cung biên) — nếu bạn có bảng riêng từ phái đang theo, nên đối chiếu cụ thể thay vì dùng bảng chung.</div>
+  </section>
+
+  <hr class="ornament">
+
+  <!-- ================= PHẦN III ================= -->
+  <section class="part" id="p3">
+    <div class="part-header">
+      <div class="part-badge">III</div>
+      <h2 class="part-title">Tam phương tứ chính: nhìn Quan Lộc trong tổng thể</h2>
+    </div>
+
+    <h3 class="sub-title">3.1 — Bộ ba Mệnh — Tài Bạch — Quan Lộc</h3>
+    <p>Đây là nguyên lý cấp bậc thầy quan trọng nhất: <strong>Quan Lộc không tồn tại độc lập</strong>. Ba cung này tạo thành một "hệ sinh thái":</p>
+    <ul>
+      <li><strong>Mệnh</strong> = con người, năng lực bẩm sinh, cách đương số tồn tại.</li>
+      <li><strong>Tài Bạch</strong> = cách kiếm tiền, quan hệ với vật chất.</li>
+      <li><strong>Quan Lộc</strong> = phương tiện/con đường để Mệnh biểu hiện ra và tạo ra Tài.</li>
+    </ul>
+    <p>Nguyên tắc luận đoán bậc thầy: <strong>nếu Quan Lộc tốt mà Mệnh yếu, thành tựu sẽ không bền</strong> — vì "phương tiện" tốt nhưng "chủ thể" không đủ sức làm chủ nó. Ngược lại Mệnh mạnh mà Quan Lộc hãm/sát, đương số có năng lực nhưng con đường sự nghiệp gập ghềnh, phải nỗ lực nhiều hơn để đạt tương xứng.</p>
+    <p>Cách xem tổng hợp: liệt kê tất cả sao ở cả 3 cung (kể cả cung xung chiếu nếu vô chính diệu), đánh giá tổng thể cát-hung, tìm cách cục đặc biệt (ví dụ "Sát Phá Tham" đồng cấu trúc cả ba cung — chủ đời nhiều biến động nhưng có thể đại phú đại quý nếu vận hạn thuận).</p>
+
+    <h3 class="sub-title">3.2 — Đối cung Phu Thê: nguyên lý phản chiếu</h3>
+    <p>Như đã nêu ở 1.1, cung đối của Quan Lộc là Phu Thê. Ý nghĩa sâu: <strong>thái độ và mô hình quan hệ hôn nhân của đương số là "gương soi ngược" của mô hình họ vận hành trong sự nghiệp</strong>. Một số ứng dụng bậc thầy:</p>
+    <ul>
+      <li>Phu Thê có sát tinh xung Quan Lộc → sự nghiệp dễ gặp trở ngại từ yếu tố "quan hệ/hợp tác" (đối tác, cấp trên khó tính, tranh chấp hợp đồng).</li>
+      <li>Phu Thê có cát tinh, Lộc Tồn → thường tương ứng với việc "quý nhân trong sự nghiệp" xuất hiện qua các mối quan hệ gần gũi/tin cậy, hoặc bản thân đương số có phong cách làm việc biết dựa vào hợp tác/liên minh.</li>
+      <li>Đây cũng lý giải hiện tượng thực tế: nhiều người sự nghiệp thăng trầm đúng lúc đời sống hôn nhân biến động, và ngược lại — vì cùng một trục năng lượng bị kích hoạt.</li>
+    </ul>
+
+    <h3 class="sub-title">3.3 — Cung Thân: yếu tố thứ hai cần đối chiếu</h3>
+    <p>Nếu <strong>Thân cư Quan Lộc</strong> (một trong 6 vị trí có thể của cung Thân), đây là cách cục đặc biệt: đương số dồn phần lớn tâm sức, đam mê cuộc đời vào sự nghiệp — công việc gần như là lẽ sống, không chỉ phương tiện mưu sinh. Cần đối chiếu với Mệnh để biết đây là "may mắn" (Mệnh tốt + Thân cư Quan tốt = viên mãn) hay "áp lực" (Mệnh yếu mà Thân cư Quan phải gánh vác quá nhiều).</p>
+  </section>
+
+  <hr class="ornament">
+
+  <!-- ================= PHẦN IV ================= -->
+  <section class="part" id="p4">
+    <div class="part-header">
+      <div class="part-badge">IV</div>
+      <h2 class="part-title">Tứ Hóa: linh hồn của luận đoán Quan Lộc hiện đại</h2>
+    </div>
+    <p class="lede">Đây là phần phân định rõ nhất giữa người học tra bảng sao và người luận đoán bậc thầy. Tứ Hóa (Hóa Lộc, Hóa Quyền, Hóa Khoa, Hóa Kỵ) theo Can của cung Mệnh (Sinh niên Tứ Hóa) hoặc theo Can Đại Hạn/Lưu niên, tác động trực tiếp vào ý nghĩa tĩnh của chính tinh.</p>
+
+    <h3 class="sub-title">4.1 — Tứ Hóa nhập Quan Lộc (từ Can năm sinh)</h3>
+    <ul>
+      <li><strong>Hóa Lộc nhập Quan Lộc</strong>: sự nghiệp có tài lộc đi kèm thuận lợi, công việc "ra tiền" tự nhiên, được quý nhân/khách hàng ưu ái. Dấu hiệu tốt cho người kinh doanh hoặc nghề tự do.</li>
+      <li><strong>Hóa Quyền nhập Quan Lộc</strong>: chủ quyền lực, địa vị, khả năng chỉ huy/quản lý tăng mạnh — rất tốt cho con đường thăng tiến trong tổ chức, nắm quyền quyết định.</li>
+      <li><strong>Hóa Khoa nhập Quan Lộc</strong>: chủ danh tiếng học thuật, thi cử thuận lợi, được công nhận qua bằng cấp/uy tín chuyên môn — hợp nghề nghiên cứu, giáo dục, hoặc con đường thăng tiến "sạch", đường hoàng.</li>
+      <li><strong>Hóa Kỵ nhập Quan Lộc</strong>: điểm cần luận đoán tinh tế nhất — không đơn thuần là "xấu". Có thể biểu thị (a) sự nghiệp trắc trở, hay đổi việc, tranh chấp nơi làm việc; hoặc (b) "chấp niệm nghề nghiệp" — gắn bó, kiên trì bền bỉ với một lĩnh vực đến mức trở thành chuyên gia sâu. Luận đoán đúng phụ thuộc vào chính tinh đi kèm và đại vận.</li>
+    </ul>
+
+    <h3 class="sub-title">4.2 — Phi Tinh Tứ Hóa: Tứ Hóa "bay" từ Quan Lộc đi cung khác</h3>
+    <p>Đây là kỹ thuật cấp bậc thầy: lấy Can của cung Quan Lộc, an Tứ Hóa, xem nó "bay" (phi) đến cung nào — biểu thị Quan Lộc đang "tác động/rút năng lượng" tới lĩnh vực nào trong đời:</p>
+    <ul>
+      <li>Quan Lộc Hóa Lộc phi nhập Tài Bạch → sự nghiệp trực tiếp sinh tài, mối quan hệ Quan-Tài rất khăng khít, thuận về kinh doanh.</li>
+      <li>Quan Lộc Hóa Kỵ phi nhập Mệnh → công việc gây áp lực/ảnh hưởng ngược lại sức khỏe-tinh thần bản thân, cần chú ý cân bằng.</li>
+      <li>Quan Lộc Hóa Kỵ phi nhập Phu Thê → sự nghiệp ảnh hưởng tiêu cực đến hôn nhân (ví dụ quá bận rộn, xung đột giá trị).</li>
+    </ul>
+    <p>Kỹ thuật Phi Tinh Tứ Hóa đòi hỏi nắm vững bảng an Tứ Hóa theo Thiên Can và luyện tập nhiều — đây là công cụ để đi từ "biết cung Quan Lộc tốt/xấu" sang "biết cơ chế vì sao tốt/xấu và nó lan tỏa đi đâu".</p>
+
+    <h3 class="sub-title">4.3 — Đại Hạn và Lưu Niên Tứ Hóa nhập Quan Lộc</h3>
+    <p>Vận trình sự nghiệp thực tế biến động theo Đại Hạn (10 năm) và Lưu Niên (1 năm):</p>
+    <ul>
+      <li>Đại Hạn có cung Quan Lộc của Đại Hạn đó trùng hoặc tam hợp với Quan Lộc bản mệnh + được Hóa Lộc/Hóa Quyền của Đại Hạn chiếu → giai đoạn 10 năm thăng tiến rõ rệt.</li>
+      <li>Lưu niên Thái Tuế/Hóa Kỵ xung Quan Lộc → năm đó cần thận trọng về quyết định nghề nghiệp lớn (đổi việc, khởi nghiệp).</li>
+    </ul>
+    <div class="method"><span class="method-label">Nguyên tắc thực chiến</span>Luôn đối chiếu 3 lớp — Bản Mệnh, Đại Hạn, Lưu Niên — cùng lúc tại cung Quan Lộc để đưa ra lời khuyên về thời điểm (timing), không chỉ luận tính chất chung chung.</div>
+  </section>
+
+  <hr class="ornament">
+
+  <!-- ================= PHẦN V ================= -->
+  <section class="part" id="p5">
+    <div class="part-header">
+      <div class="part-badge">V</div>
+      <h2 class="part-title">Cách cục đặc biệt liên quan Quan Lộc</h2>
+    </div>
+    <ul>
+      <li><strong>"Phủ Tướng triều viên"</strong>: Thiên Phủ, Thiên Tướng hội chiếu Quan Lộc — cách cục quý, chủ chức vị cao, ổn định lâu dài trong hệ thống lớn (nhà nước, tập đoàn).</li>
+      <li><strong>"Sát Phá Tham" cách</strong>: nếu bộ Thất Sát – Phá Quân – Tham Lang cấu trúc mạnh quanh Mệnh-Tài-Quan, chủ đời nhiều biến động dữ dội nhưng tiềm năng đại thành nếu đắc cách (hợp nghề mang tính khai phá, mạo hiểm, không hợp công chức ổn định).</li>
+      <li><strong>"Cơ Nguyệt Đồng Lương" cách</strong>: Thiên Cơ, Thái Âm, Thiên Đồng, Thiên Lương cấu trúc quanh Mệnh-Quan — chủ nghề nghiệp mang tính công chức, chuyên môn ổn định, ấm áp nhưng ít đột phá bạo phát.</li>
+      <li><strong>Quan Lộc gặp Tuần/Triệt</strong>: Tuần Không hoặc Triệt Không đóng tại Quan Lộc làm giảm lực chính tinh — sự nghiệp thường khởi đầu trắc trở, hoặc có giai đoạn "trống rỗng, chưa định hình" trước khi ổn định; cần xem lưu Tuần/Triệt qua đại hạn nào để biết khi nào giải trừ.</li>
+      <li><strong>Không Kiếp thủ Quan Lộc</strong>: Địa Không – Địa Kiếp tọa thủ chủ về tư duy đột phá khác người, hợp lĩnh vực sáng tạo/công nghệ mới, nhưng cũng dễ "được mất bất ngờ", không hợp nghề cần tính ổn định cao.</li>
+    </ul>
+  </section>
+
+  <hr class="ornament">
+
+  <!-- ================= PHẦN VI ================= -->
+  <section class="part" id="p6">
+    <div class="part-header">
+      <div class="part-badge">VI</div>
+      <h2 class="part-title">Bậc thầy tinh túy: nguyên tắc luận đoán thực chiến</h2>
+    </div>
+
+    <h3 class="sub-title">6.1 — Phân biệt "Thực Quan" và "Hư Danh"</h3>
+    <p>Đây là điểm tinh túy nhất mà người luận đoán cao cấp luôn kiểm tra: một cung Quan Lộc có chính tinh miếu vượng + cát tinh nhưng <strong>không có Hóa Lộc/Hóa Quyền hỗ trợ và Tài Bạch yếu</strong> thường chỉ là "hư danh" — có vẻ ngoài tốt (chức danh đẹp, công ty lớn) nhưng thực chất không tương xứng về thực quyền hoặc thực lợi. Ngược lại, một Quan Lộc bình thường về sao nhưng có Hóa Quyền + Tài Bạch vượng thường là "thực quan" — quyền lực/thu nhập thực chất dù danh xưng khiêm tốn.</p>
+
+    <h3 class="sub-title">6.2 — Nguyên tắc "động — tĩnh" khi luận vận trình</h3>
+    <p>Cung Quan Lộc bản mệnh là <strong>tĩnh</strong> (bản chất, tiềm năng cả đời). Đại Hạn và Lưu Niên là <strong>động</strong> (khi nào tiềm năng đó được kích hoạt). Người luận đoán bậc thầy không bao giờ chỉ nói "mệnh này hợp làm lãnh đạo" một cách chung chung, mà luôn gắn với câu hỏi: tiềm năng ấy được kích hoạt rõ nhất vào giai đoạn Đại Hạn nào, dựa trên Tứ Hóa nhập/phi tại Quan Lộc của giai đoạn đó.</p>
+
+    <h3 class="sub-title">6.3 — Tổng hợp đa lớp: kỹ thuật cross-check</h3>
+    <p>Ở trình độ cao nhất, việc luận đoán Quan Lộc là tổng hợp <strong>5 lớp dữ liệu đồng thời</strong>:</p>
+    <ol class="plain">
+      <li>Chính tinh + miếu vượng hãm địa tại Quan Lộc (bản chất).</li>
+      <li>Tam hợp Mệnh-Tài-Quan (bối cảnh tổng thể).</li>
+      <li>Đối cung Phu Thê (yếu tố phản chiếu quan hệ).</li>
+      <li>Sinh niên Tứ Hóa nhập/xung Quan Lộc (định hướng trọn đời).</li>
+      <li>Đại Hạn/Lưu Niên Tứ Hóa (thời điểm/timing cụ thể).</li>
+    </ol>
+    <div class="callout">Chỉ khi tổng hợp đủ 5 lớp này, luận đoán mới vượt khỏi mức "đoán mò theo sao" để trở thành phân tích có cấu trúc, có thể kiểm chứng và nhất quán.</div>
+  </section>
+
+  <hr class="ornament">
+
+  <!-- ================= PHẦN VII ================= -->
+  <section class="part" id="p7">
+    <div class="part-header">
+      <div class="part-badge">VII</div>
+      <h2 class="part-title">Ví dụ minh họa thực tế: Thiên Tướng Hãm tại Quan Lộc</h2>
+    </div>
+    <p class="lede">Áp khung phân tích trên vào một trường hợp cụ thể — Quan Lộc đóng tại một cung Kim, có Thiên Tướng (Hãm) tọa thủ, Mệnh là Thiên Phủ (Đắc) đồng cung Thân. Đây là ví dụ thực chiến cho thấy cách các nguyên tắc ở Phần I–VI vận hành đồng thời.</p>
+
+    <div class="data-card">
+      <div class="data-grid">
+        <div><span class="k">Bản mệnh</span>Nam mệnh Đinh Mão 1987, Cục Hỏa Lục Cục</div>
+        <div><span class="k">Mệnh</span>An tại Tỵ — Thiên Phủ (Đắc), Thân đồng cung</div>
+        <div><span class="k">Quan Lộc</span>An tại Dậu, Can Kỷ, hành Kim — Thiên Tướng (Hãm)</div>
+        <div><span class="k">Vòng Trường Sinh</span>Suy</div>
+        <div><span class="k">Phụ tinh cát</span>Thiên Việt, Văn Tinh, Tam Thai</div>
+        <div><span class="k">Phụ tinh sát-hao</span>Hỏa Tinh (H), Thiên Hư (H), Tuế Phá, Đại Hao</div>
+      </div>
+    </div>
+
+    <h3 class="sub-title">7.1 — Chính tinh trong bối cảnh Tam Hợp ngũ hành và vòng Trường Sinh</h3>
+    <p>Điểm tinh tế hay bị bỏ sót: <strong>hành của cung Quan Lộc phải đặt trong quan hệ sinh-khắc với hành của Mệnh cục</strong>, không chỉ tra miếu-hãm đơn lẻ. Quan Lộc tại Dậu nằm trong tam hợp Tỵ-Dậu-Sửu, tức Kim cục — mà Mệnh an tại Tỵ cũng chính là một góc của tam hợp này. Xét vòng sinh khắc: Hỏa (Mệnh cục) sinh Thổ, Thổ sinh Kim (Quan Lộc) — đây là quan hệ <strong>tương sinh gián tiếp qua trung gian Thổ</strong>, chứ không phải khắc trực tiếp. Điều này lý giải vì sao dù Thiên Tướng hãm, cung Quan Lộc vẫn "nương" rất chặt vào Mệnh và Tài Bạch: cả ba cung cùng nằm trên một trục tam hợp Kim, nên tiền bạc, danh vọng và bản thân đương số gắn bó mật thiết, không tách rời — đây là mẫu người sinh ra để làm nghề, không hợp ngồi không hưởng nhàn.</p>
+    <p>Vòng Trường Sinh tại <strong>Suy</strong> không đồng nghĩa với xấu tuyệt đối, mà là trạng thái "không có khí thế áp đảo" — làm việc thời gian đầu thường thiếu lực đẩy tự thân, cần có người dẫn dắt/nền tảng có sẵn mới lên được, càng về sau càng phải đi bằng tích lũy chuyên môn thay vì bằng sự bộc phát nhất thời. Đây là một lớp thông tin bổ sung quan trọng bên cạnh bảng miếu-vượng-đắc-hãm tĩnh đã nêu ở mục 2.3.</p>
+
+    <h3 class="sub-title">7.2 — Thiên Tướng Hãm: hình ảnh "Tướng mất quân"</h3>
+    <p>Thiên Tướng là Ấn Tinh — vai trò phò tá, tham mưu, quản lý, làm đẹp bộ mặt cho tổ chức; phát huy tốt nhất khi miếu vượng và có Tả Hữu, Xương Khúc, Khoa Quyền Lộc hội chiếu. Khi hãm địa như tại Dậu, hình ảnh súc tích nhất là <strong>"Tướng mất quân, mất ấn"</strong> — tức là vẫn giữ được năng lực và tư cách của một người phò tá giỏi, nhưng thiếu đi "quân" (nguồn lực, quyền hạn) và "ấn" (danh phận chính thức) để thực thi trọn vẹn vai trò đó. Biểu hiện cụ thể: năng lực chuyên môn thật, nhưng khó được giao quyền sinh sát thực sự; thường rơi vào thế "làm nhiều, hưởng ít", làm thay việc cho người khác. Về tính cách trong công việc: trung thành, cẩn trọng, thích ổn định, trọng danh dự, ghét khuất tất — nhưng vì hãm nên dễ cả nể, dễ bị cuốn vào việc bao đồng và phải đứng ra chịu trách nhiệm thay người khác.</p>
+    <p>Đây là ví dụ cho nguyên tắc đã nêu ở mục 2.3: sao hãm địa không mất bản chất cốt lõi (vẫn là Ấn Tinh về tính khí), chỉ mất khả năng phát huy trọn vẹn vai trò đó trên thực tế.</p>
+
+    <h3 class="sub-title">7.3 — Phủ Tướng triều viên: cách đẹp nhưng cần đọc đúng mức</h3>
+    <p>Mệnh có Thiên Phủ (Đắc), Quan Lộc có Thiên Tướng (Hãm) — tạo cách <strong>"Phủ Tướng triều viên"</strong>, vốn được xem là cách quý. Nhưng vì Tướng ở thế hãm, cách đẹp này chỉ có giá trị về "loại hình" chứ không đảm bảo "quy mô": phù hợp làm quản lý, giữ hệ thống, vận hành, tư vấn, chuyên môn sâu — không hợp làm người đứng đầu số 1 ngay từ đầu, không hợp tranh đấu quyền lực trực diện. Vị trí tự nhiên nhất là làm số 2, quản lý cấp trung, chuyên gia cố vấn, nghề cần uy tín cá nhân hơn là quyền lực hình thức.</p>
+
+    <h3 class="sub-title">7.4 — Phụ tinh: quý nhân đi kèm "bộ tứ dao" sát-hao</h3>
+    <p>Nhóm cát cố định (thuộc bản mệnh, luôn có) — Thiên Việt, Văn Tinh, Tam Thai: có quý nhân phù trợ trong công việc (đặc biệt người lớn tuổi, cấp trên nam giới); Văn Tinh + Tam Thai chủ về bằng cấp, giấy tờ, phong thái trí thức khi ra ngoài xã hội. Lưu ý: hàng phụ tinh của cung này trong lá số xem năm 2026 còn có thêm Lưu Hồng Loan, Lưu Thiên Việt — đây là sao lưu niên, chỉ đúng cho riêng năm nay chứ không phải đặc điểm cố định của cung; ý nghĩa cụ thể của hai sao lưu này được bàn ở mục 7.8.</p>
+    <p>Nhóm sát-hao — Hỏa Tinh (Hãm), Thiên Hư (Hãm), Tuế Phá, Đại Hao — có thể gọi là <strong>"bộ tứ dao"</strong>, mỗi sao cắt vào công việc theo một cách riêng: Hỏa Tinh gây nóng vội trong quyết định, môi trường làm việc áp lực, dễ dính thị phi bất ngờ; Thiên Hư + Tuế Phá khiến công lao dễ bị nói ngược, bị kể xấu, không được ghi nhận đúng mức; Đại Hao khiến tiền bạc hao theo công việc — đầu tư, đổi việc, duy trì vị thế đều tốn kém, làm ra bao nhiêu lại phải đập vào để giữ chỗ đứng.</p>
+    <p>Kết hợp hai nhóm: đây là cung Quan Lộc "có năng lực nhưng vị thế không bền" — công danh lên xuống, hay phải làm lại, hay phải chuyển hướng, không phải cách cục hợp con đường công chức ổn định trọn đời.</p>
+
+    <h3 class="sub-title">7.5 — Tài Bạch vô chính diệu: mượn thế từ Phúc Đức</h3>
+    <p>Tài Bạch (Sửu) vô chính diệu, chỉ có Quả Tú, Điếu Khách — theo nguyên tắc cung vô chính diệu phải mượn sao từ cung xung chiếu, cung này mượn thế <strong>Tham Lang – Vũ Khúc (Miếu)</strong> từ Phúc Đức (Mùi). Nghĩa là cách kiếm tiền không đi theo lối mòn cố định, mà đến từ cạnh tranh, kinh doanh, kỹ năng giao tế — đúng bản chất Tham Vũ. Điếu Khách tại Tài kết hợp Đại Hao tại Quan tạo thành cặp "làm nghề tốn tiền quan hệ" — chi tiêu cho hình ảnh, cho networking là một phần tất yếu của việc kiếm tiền ở lá số này, không phải là hao phí bất thường.</p>
+    <p>Điểm đáng chú ý hơn: Phúc Đức (Mùi) không chỉ đẹp vì có Tham Vũ miếu, mà còn hội đủ Hữu Bật, Tả Phù, Long Trì, Phượng Các, Giải Thần — một cung Phúc rất vượng. Khi đối chiếu với việc <strong>Lai Nhân Cung của lá số này chính là Phúc Đức</strong>, có thể luận: toàn bộ vận trình sự nghiệp thực chất xoay quanh trục Phúc Đức — làm gì mà Phúc "cho phép" (mang tính hưởng thụ, làm đẹp, ăn nói, dịch vụ, kinh doanh có yếu tố Tham Lang) thì thuận; đi ngược hướng đó thì Quan Lộc dễ sinh trục trặc.</p>
+
+    <h3 class="sub-title">7.6 — Xung chiếu Thiên Di: môi trường ngoài xã hội là nguồn gây mệt mỏi</h3>
+    <p>Thiên Di (Hợi) xung chiếu Quan Lộc, có Tử Vi (Bình hòa) + Thất Sát (Vượng) cùng Địa Không (Đắc), Địa Kiếp, Bạch Hổ, Kiếp Sát — một tổ hợp Tử Sát Không Kiếp khá hung, mang tính cạnh tranh và va chạm mạnh. Vì Thiên Di xung thẳng vào Quan Lộc, nguyên lý phản chiếu (đã nêu ở mục 3.2, vốn áp cho Phu Thê) ở đây được nối dài sang cả trục Quan Lộc – Thiên Di: <strong>môi trường xã hội bên ngoài (đồng nghiệp, đối thủ, thị trường) chính là nguồn lực tạo áp lực/mài giũa lên con đường sự nghiệp</strong>, đi làm thuê trong tổ chức lớn sẽ cảm nhận rõ sự đấu đá, cạnh tranh khốc liệt.</p>
+    <p>Đối chiếu ba điểm neo — Mệnh Thiên Phủ (thích ổn định, tích lũy), Quan Lộc Thiên Tướng Hãm (năng lực nhưng thiếu quyền), Thiên Di Tử Sát Không Kiếp (môi trường ngoài xã hội khốc liệt) — cho một bức tranh mâu thuẫn nội tại rõ nét: bản chất là người cầu an ổn, nhưng hoàn cảnh liên tục đẩy vào thế phải tranh đấu.</p>
+
+    <h3 class="sub-title">7.7 — Lộ trình theo Đại Hạn: đọc như một case study theo thời gian</h3>
+    <p>Áp nguyên tắc động-tĩnh ở mục 6.2 vào đúng trình tự các giai đoạn:</p>
+    <ul>
+      <li><strong>Đại Hạn 26–35</strong> (đóng tại Phu Thê, có Phá Quân – Liêm Trinh đều Hãm): Quan Lộc gốc đã hãm, gặp thêm Đại Hạn mang bản chất Phá Quân hãm — giai đoạn "đập đi xây lại" sự nghiệp liên tục, dễ bỏ 1–2 nghề, hoặc chuyển từ làm thuê sang tự làm.</li>
+      <li><strong>Đại Hạn 36–45</strong> (đóng tại Tử Tức, có Triệt, cùng Phong Cáo, Thiên Quan, Quốc Ấn): dù gặp Triệt (thường gây bí bách vài năm đầu vận), nhóm sao Phong Cáo – Thiên Quan – Quốc Ấn lại là tín hiệu về bằng cấp, chứng chỉ hành nghề — nếu theo hướng quản lý, đào tạo, làm thầy, làm chuyên gia có chức danh nhỏ thì giai đoạn này thuận lợi hơn hẳn giai đoạn trước.</li>
+    </ul>
+
+    <h3 class="sub-title">7.8 — Lưu Niên hiện tại: quý nhân đến kèm thị phi</h3>
+    <p>Năm hiện tại (Bính Ngọ, 40 tuổi), Lưu Thiên Việt và Lưu Hồng Loan nhập Quan Lộc — tín hiệu quý nhân về công việc, cơ hội được cất nhắc hoặc có người giới thiệu việc làm. Nhưng vì Hỏa Tinh (Hãm) và Tuế Phá vốn đã đóng sẵn tại đây, cơ hội trong năm này thường đến kèm thị phi và áp lực; nếu có ý định đổi việc, năm nay đổi được nhưng cần chấp nhận một khoản hao tài đi kèm (ứng với Đại Hao tại chính cung).</p>
+
+    <h3 class="sub-title">7.9 — Kết luận nghề nghiệp: tổng hợp thành lời khuyên thực tế</h3>
+    <p>Tổng hợp toàn bộ 8 lớp trên, có thể đúc kết lá số này thành một câu: <strong>"Mệnh Phủ an nhàn, Quan Tướng gian nan, được Phúc gánh"</strong> — công danh không đi theo đường thẳng mà là đường zíc-zắc đi lên, dựa vào chuyên môn và vào trục Phúc Đức chứ không phải vào việc leo thang theo lối chính thống (công chức nhà nước, hệ thống cấp bậc cứng nhắc).</p>
+    <p>Hướng nghề phù hợp: chuyên môn có chứng chỉ hành nghề, vị trí phó/quản lý vận hành, dịch vụ tư vấn, hoặc các nghề mang màu sắc Tham Lang từ Phúc Đức — làm đẹp, F&amp;B, giải trí, môi giới, kinh doanh có yếu tố giao tế. Điều cần tránh: vì Tướng Hãm gặp Đại Hao, tuyệt đối không đứng tên bảo lãnh hay cho người khác mượn uy tín trong công việc. Chìa khóa để hóa giải sự gian nan của Quan Lộc nằm ở việc chủ động dùng nguồn lực từ Phúc Đức (Tả Phù, Hữu Bật, Long Trì, Phượng Các) — dựa vào quan hệ, vào team, vào nền tảng gia đình/họ hàng để nâng đỡ con đường sự nghiệp; làm một mình với cách cục Quan Lộc này sẽ vất vả hơn nhiều so với việc biết tận dụng điểm tựa sẵn có.</p>
+  </section>
+
+  <hr class="ornament">
+
+  <!-- ================= PHẦN VIII ================= -->
+  <section class="part" id="p8">
+    <div class="part-header">
+      <div class="part-badge">VIII</div>
+      <h2 class="part-title">Câu phú cổ về Quan Lộc cung và giải nghĩa</h2>
+    </div>
+    <p class="lede">Phú cổ Tử Vi có riêng một chương nói về Quan Lộc, đi theo bố cục "leo thang ngược" — mở đầu bằng cách cục cực tốt, kết thúc bằng cách cục cực xấu. Đây là cách trình bày cô đọng, giúp ghi nhớ nhanh các tổ hợp sao kinh điển và mức độ cát/hung tương ứng.</p>
+
+    <div class="verse"><span class="verse-num">1</span>
+      <blockquote>"Năm là Quan Lộc đoán ngay. / Thái Dương, Xương, Khúc ở đây cung này."</blockquote>
+      <p class="gloss">Thái Dương hội cùng Văn Xương – Văn Khúc tại Quan Lộc là tổ hợp khoa bảng kinh điển, chủ về công danh qua con đường học vấn, thi cử.</p>
+    </div>
+    <div class="verse"><span class="verse-num">2</span>
+      <blockquote>"Sân rồng chầu chực đêm ngày. / Đoán rằng số ấy tốt thay lạ thường."</blockquote>
+      <p class="gloss">Hình ảnh "sân rồng" (điện vua) ứng với việc làm quan gần vua, túc trực nơi triều đình — khẳng định đây là cách cục rất tốt, hiếm có.</p>
+    </div>
+    <div class="verse"><span class="verse-num">3</span>
+      <blockquote>"Việt, Khôi, Tả, Hữu, Cơ, Lương. / Khoa, Quyền, Tử, Phủ hợp cùng Trường Sinh."</blockquote>
+      <p class="gloss">Nhóm cát tinh Thiên Việt, Thiên Khôi, Tả Phụ, Hữu Bật, Thiên Cơ, Thiên Lương, cùng Hóa Khoa, Hóa Quyền, Tử Vi, Thiên Phủ hội hợp với vòng Trường Sinh vượng — càng nhiều cát tinh hội tụ, càng củng cố cách quý.</p>
+    </div>
+    <div class="verse"><span class="verse-num">4</span>
+      <blockquote>"Tướng, Đồng, Lộc, Mã, Vũ tinh. / Đều là cát tú cho mình vang danh."</blockquote>
+      <p class="gloss">Thiên Tướng, Thiên Đồng, Lộc Tồn, Thiên Mã, Vũ Khúc — khi đắc địa, đều là sao tốt giúp vang danh sự nghiệp.</p>
+    </div>
+    <div class="verse"><span class="verse-num">5</span>
+      <blockquote>"Âm, Dương, Quyền, Lộc được rành. / Nếu mà hãm địa ắt thành lại hao."</blockquote>
+      <p class="gloss">Thái Âm – Thái Dương – Hóa Quyền – Hóa Lộc: đắc địa thì tốt đẹp rõ ràng, nhưng hãm địa thì hóa thành hao tán — công thức miếu/hãm áp dụng ngay cả với các sao Hóa vốn thường được xem là "luôn tốt", nhắc lại đúng nguyên tắc ở mục 2.3: độ sáng quyết định biên độ, không phải bản chất cát/hung tuyệt đối.</p>
+    </div>
+    <div class="verse"><span class="verse-num">6</span>
+      <blockquote>"Liêm Trinh vũ chức, quyền cao. / Nhược bằng ngộ hãm, khỏi nào hình danh."</blockquote>
+      <p class="gloss">Liêm Trinh đắc địa chủ về võ chức, quyền uy cao (thiên về "võ" khác với Thái Dương/Xương Khúc thiên về "văn"); nếu hãm địa thì mất cả "hình" (thể diện) lẫn "danh" (tiếng tăm) — khớp với mục 2.1 về tính "chính-tà lưỡng diện" của Liêm Trinh.</p>
+    </div>
+    <div class="verse"><span class="verse-num">7</span>
+      <blockquote>"Tham Lang mà gặp Hỏa, Linh. / Miếu thì phú quý, hãm thì bình thôi."</blockquote>
+      <p class="gloss">Tham Lang hội Hỏa Tinh/Linh Tinh tạo cách "Hỏa Tham/Linh Tham" nổi tiếng về bạo phát: miếu địa thì phú quý bất ngờ, hãm địa thì chỉ tầm thường — bổ sung chi tiết cho mục 2.2.</p>
+    </div>
+    <div class="verse"><span class="verse-num">8</span>
+      <blockquote>"Sát, Cự Tý Ngọ, ở ngôi. / Vượng thì vũ chức, hãm thời hình thương."</blockquote>
+      <p class="gloss">Thất Sát + Cự Môn tại cung Tý/Ngọ: vượng địa thì làm quan võ, hãm địa thì gặp thương tật/hình phạt — sát tinh thể hiện rõ tính hai mặt, hoàn toàn phụ thuộc miếu/hãm.</p>
+    </div>
+    <div class="verse"><span class="verse-num">9</span>
+      <blockquote>"Phá Quân lao khổ trăm đường. / Nhược ngôi Tý, Ngọ tài thường vượng thay."</blockquote>
+      <p class="gloss">Phá Quân nhìn chung vất vả trăm bề trên đường công danh; riêng tại Tý/Ngọ (miếu địa của Phá Quân) thì tài lộc lại vượng — ngoại lệ đặc biệt cho đúng vị trí miếu địa chuẩn.</p>
+    </div>
+    <div class="verse"><span class="verse-num">10</span>
+      <blockquote>"Tham Lang, Xương, Khúc ngày rày. / Ngộ cung Tỵ Hợi quan này làm ru."</blockquote>
+      <p class="gloss">Tham Lang hội Xương Khúc tại Tỵ/Hợi: câu mang giọng mỉa mai ("làm ru" — làm quan hờ, không thực chất) — tổ hợp chỉ có vẻ ngoài văn nhã nhờ Xương Khúc, nhưng bản chất đào hoa của Tham Lang tại Tỵ/Hợi (hãm) làm giảm giá trị công danh thực. Minh chứng sống động cho nguyên tắc "thực quan vs hư danh" ở mục 6.1.</p>
+    </div>
+    <div class="verse"><span class="verse-num">11</span>
+      <blockquote>"Liêm, Tham, Đà, Nhận phải lo. / Phải mang dan díu, quanh co bận mình."</blockquote>
+      <p class="gloss">Liêm Trinh + Tham Lang + Đà La + Kình Dương hội tụ: dễ vướng chuyện tình cảm dan díu, quanh co rắc rối làm lụy bản thân — gợi nhắc nguyên lý phản chiếu Quan Lộc – Phu Thê ở mục 3.2.</p>
+    </div>
+    <div class="verse"><span class="verse-num">12</span>
+      <blockquote>"Phù, Tang, Không, Kiếp, Hỏa, Linh. / Khốc, Hư, Đà, Nhận, Kiếp, Kình, Nhị Hao."</blockquote>
+      <p class="gloss">Hai câu liệt kê dồn dập gần như toàn bộ hệ sát tinh: Thiên Phù, Tang Môn, Địa Không, Địa Kiếp, Hỏa Tinh, Linh Tinh, Thiên Khốc, Thiên Hư, Đà La, Kình Dương, Kiếp Sát, Đại Hao – Tiểu Hao — mật độ liệt kê dày đặc (12 sao trong 2 câu) nhấn mạnh tính nghiêm trọng khi các sát tinh này cùng hội tụ tại Quan Lộc.</p>
+    </div>
+    <div class="verse"><span class="verse-num">13</span>
+      <blockquote>"Phục Binh, Phá, Tú xúm vào. / Đoán rằng quyền lộc làm sao cũng hèn."</blockquote>
+      <p class="gloss">Thêm Phục Binh, Phá Quân, Quả Tú "xúm vào" (hình ảnh sát tinh dồn tụ như bủa vây) → kết luận: quyền lộc/công danh chỉ ở mức thấp hèn, khó vươn lên — câu kết chương, đối lập hoàn toàn với không khí "sân rồng chầu chực" vinh hiển ở câu mở đầu.</p>
+    </div>
+
+    <h3 class="sub-title">8.1 — Nhận xét về cấu trúc và cách dùng chương phú này</h3>
+    <p>Chương Quan Lộc có mật độ liệt kê tên sao dày đặc nhất trong toàn bộ phú Tử Vi (đặc biệt câu 12), phản ánh đúng tầm quan trọng của cung này trong tam hợp Mệnh-Tài-Quan. Bố cục đi từ cực tốt (sân rồng, cát tú vang danh) xuống cực xấu (quyền lộc làm sao cũng hèn) theo trình tự giảm dần mức độ cát lợi — một dạng "leo thang ngược" mạch lạc.</p>
+    <div class="method">
+      <span class="method-label">Ứng dụng thực tế</span>
+      Có thể dùng chính trình tự 13 câu này làm khung chấm điểm nhanh (scoring) mức độ tốt/xấu của một cung Quan Lộc cụ thể — đối chiếu tổ hợp sao thực tế trên lá số với từng câu theo thứ tự từ 1 đến 13, tổ hợp khớp với câu nào ở gần đầu chương thì cát lợi càng cao, khớp với câu càng gần cuối thì càng cần lưu ý cảnh báo. Đây là cách dùng phú cổ bổ trợ cho khung phân tích 5 lớp ở mục 6.3 — phú cho "trực giác nhanh" dựa trên tổ hợp sao kinh điển, còn khung 5 lớp cho "phân tích có cấu trúc" đầy đủ hơn; hai công cụ nên dùng song song, không thay thế nhau.
+    </div>
+  </section>
+
+  <hr class="ornament">
+
+  <!-- ================= GHI CHÚ ================= -->
+  <section class="part" id="notes">
+    <div class="part-header">
+      <div class="part-badge">✦</div>
+      <h2 class="part-title">Ghi chú về nguồn và dị biệt giữa các phái</h2>
+    </div>
+    <p>Tử Vi Đẩu Số có nhiều phái truyền thừa (Trung Châu phái, Phi Tinh phái, Nam phái, Bắc phái...) với một số khác biệt về: cách an Tứ Hóa cho vài Can đặc biệt, cách dùng Phi Tinh Tứ Hóa (chỉ phái Phi Tinh dùng rộng), và mức độ coi trọng miếu-vượng-đắc-hãm so với Tứ Hóa. Tài liệu này tổng hợp các nguyên tắc <strong>được đồng thuận rộng rãi nhất</strong> giữa các phái; phần Phi Tinh Tứ Hóa (mục 4.2) đặc thù của phái Phi Tinh — nếu bạn theo phái Trung Châu truyền thống thuần túy, có thể phần này ít được nhấn mạnh hơn. Câu phú cổ ở Phần VIII cũng là một nguồn riêng (thường thấy trong các bản phú Nôm lưu truyền) — cách diễn giải chi tiết từng câu có thể có dị bản giữa các bản chép tay khác nhau.</p>
+  </section>
+
+  <div class="colophon">
+    <span class="glyph">✦</span>
+    Cung Quan Lộc trong Tử Vi Đẩu Số — biên soạn cho mục đích nghiên cứu cá nhân
+  </div>
+
+</div>
+
+<!-- ================= Music ================= -->
+<audio id="bgm" src="music5.mp3" loop preload="none"></audio>
+<button class="music-btn" id="musicBtn" aria-label="Phát nhạc nền" aria-pressed="false">
+  <div class="eq" id="eq" aria-hidden="true"><span></span><span></span><span></span></div>
+</button>
+
+<script>
+  // Starfield generation
+  (function(){
+    const container = document.getElementById('stars');
+    const count = 60;
+    let html = '';
+    for (let i = 0; i < count; i++) {
+      const top = Math.random() * 100;
+      const left = Math.random() * 100;
+      const delay = (Math.random() * 5).toFixed(2);
+      const dur = (4 + Math.random() * 4).toFixed(2);
+      const size = (Math.random() < 0.15) ? 3 : 1.5;
+      html += `<span class="star" style="top:${top}%;left:${left}%;animation-delay:${delay}s;animation-duration:${dur}s;width:${size}px;height:${size}px;"></span>`;
+    }
+    container.innerHTML = html;
+  })();
+
+  // Theme toggle
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const themeDot = document.getElementById('themeDot');
+  const themeLabel = document.getElementById('themeLabel');
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    themeDot.textContent = t === 'dark' ? '☾' : '☀';
+    themeLabel.textContent = t === 'dark' ? 'Đêm' : 'Ngày';
+  }
+  themeToggle.addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme');
+    applyTheme(cur === 'dark' ? 'light' : 'dark');
+  });
+
+  // Reading progress
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progress.style.width = scrolled + '%';
+  });
+
+  // Music button
+  const bgm = document.getElementById('bgm');
+  const musicBtn = document.getElementById('musicBtn');
+  let playing = false;
+  musicBtn.addEventListener('click', () => {
+    if (!playing) {
+      bgm.play().catch(() => {});
+      musicBtn.classList.add('playing');
+      musicBtn.setAttribute('aria-pressed', 'true');
+      playing = true;
+    } else {
+      bgm.pause();
+      musicBtn.classList.remove('playing');
+      musicBtn.setAttribute('aria-pressed', 'false');
+      playing = false;
+    }
+  });
+</script>
+
+</body>
+</html>

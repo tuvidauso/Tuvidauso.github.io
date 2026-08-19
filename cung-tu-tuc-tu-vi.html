@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cung Tử Tức — Tử Vi Đẩu Số · Bản 2.4</title>
+<meta name="description" content="Tài liệu Tử Vi Đẩu Số về Cung Tử Tức: kiến thức nền tảng, chính tinh, phụ tinh, tứ Hóa, kỹ thuật luận giải nâng cao, ví dụ lá số thật và phú cổ có chú giải.">
+<meta name="theme-color" content="#F3ECDC">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='6' y='6' width='88' height='88' rx='10' fill='%23A32E1B'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23F3ECDC' font-family='serif'%3E子%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,400;0,600;0,700;1,500&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F3ECDC;
+    --bg-alt: #EAE0C8;
+    --ink: #241B14;
+    --ink-soft: #574632;
+    --ink-faint: #8A7A64;
+    --cinnabar: #A32E1B;
+    --gold: #99762B;
+    --jade: #3E5D4E;
+    --rule: rgba(36,27,20,0.16);
+    --card: rgba(255,255,255,0.38);
+    --shadow: rgba(36,27,20,0.10);
+    color-scheme: light;
+  }
+  [data-theme="dark"]{
+    --bg: #12131C;
+    --bg-alt: #1A1C29;
+    --ink: #ECE4D2;
+    --ink-soft: #C6BBA4;
+    --ink-faint: #8B8574;
+    --cinnabar: #DE7A5C;
+    --gold: #D8B876;
+    --jade: #7FA593;
+    --rule: rgba(236,228,210,0.14);
+    --card: rgba(255,255,255,0.045);
+    --shadow: rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    transition: background .4s ease, color .4s ease;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  h1,h2,h3,.serif{ font-family: 'Noto Serif Display', 'Noto Serif', serif; }
+
+  a{ color: var(--cinnabar); }
+  ::selection{ background: var(--cinnabar); color: var(--bg); }
+
+  /* ---------- background texture ---------- */
+  body::before{
+    content:"";
+    position: fixed; inset:0;
+    pointer-events:none;
+    z-index: 0;
+    opacity: .5;
+    background-image:
+      radial-gradient(circle at 18% 8%, var(--shadow) 0, transparent 40%),
+      radial-gradient(circle at 82% 92%, var(--shadow) 0, transparent 45%);
+  }
+
+  /* ---------- progress bar ---------- */
+  .progress{
+    position: fixed; top: 0; left: 0; height: 2.5px;
+    width: 0%; z-index: 110;
+    background: var(--cinnabar);
+    transition: width .1s linear;
+  }
+
+  /* ---------- controls ---------- */
+  .controls{
+    position: fixed; top: 18px; right: 18px; z-index: 100;
+    display:flex; gap: 10px;
+  }
+  .back-top{
+    position: fixed; right: 18px; bottom: 18px; z-index: 100;
+    opacity: 0; pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity .3s ease, transform .3s ease, border-color .25s ease;
+  }
+  .back-top.show{ opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .back-top svg{ width: 17px; height: 17px; stroke: currentColor; fill:none; stroke-width:1.8; }
+  .ctrl-btn{
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--rule);
+    background: var(--card);
+    backdrop-filter: blur(6px);
+    color: var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    cursor: pointer;
+    transition: transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .ctrl-btn:hover{ border-color: var(--cinnabar); transform: translateY(-1px); }
+  .ctrl-btn:focus-visible{ outline: 2px solid var(--cinnabar); outline-offset: 2px; }
+  .ctrl-btn svg{ width: 19px; height: 19px; stroke: currentColor; fill:none; stroke-width:1.6; }
+  .ctrl-btn.playing{ color: var(--cinnabar); border-color: var(--cinnabar); }
+  .ctrl-btn.playing svg{ animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ transform: scale(1);} 50%{ transform: scale(1.12);} }
+  [data-theme="dark"] .icon-sun{ display:none; }
+  [data-theme="dark"] .icon-moon{ display:flex; }
+  .icon-moon{ display:none; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position: relative;
+    padding: 108px 24px 64px;
+    text-align:center;
+    border-bottom: 1px solid var(--rule);
+  }
+  .wheel-wrap{
+    width: min(420px, 82vw); margin: 0 auto 8px;
+    position: relative;
+  }
+  .wheel-wrap svg{ width:100%; height:auto; overflow: visible; }
+  .wheel-label{
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 8.6px;
+    letter-spacing: .02em;
+    fill: var(--ink-faint);
+  }
+  .wheel-label.active{ fill: var(--cinnabar); font-weight: 600; }
+  .wheel-ring{ fill: none; stroke: var(--rule); stroke-width: 1; }
+  .wheel-tick{ stroke: var(--rule); stroke-width: 1; }
+  .wheel-seg-active{ fill: var(--cinnabar); opacity: .12; }
+
+  .eyebrow{
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin: 0 0 14px;
+  }
+  .hero h1{
+    font-size: clamp(2.1rem, 5.4vw, 3.4rem);
+    font-weight: 700;
+    margin: 0 0 10px;
+    letter-spacing: .01em;
+  }
+  .hero .han{
+    display:block;
+    font-size: .42em;
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: .5em;
+    margin-bottom: 6px;
+  }
+  .hero p.tagline{
+    max-width: 560px; margin: 0 auto;
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+  }
+  .seal{
+    position: absolute;
+    top: 44px; right: 6%;
+    width: 92px; height: 92px;
+    border: 3px solid var(--cinnabar);
+    border-radius: 6px;
+    color: var(--cinnabar);
+    display:flex; align-items:center; justify-content:center;
+    transform: rotate(7deg);
+    font-family: 'Noto Serif Display', serif;
+    font-size: 1.6rem;
+    letter-spacing: .3em;
+    writing-mode: vertical-rl;
+    opacity: .82;
+  }
+  @media (max-width: 720px){
+    .seal{ width: 56px; height: 56px; top: 20px; right: 16px; font-size: 1rem; letter-spacing: .2em; }
+  }
+
+  /* ---------- toc ---------- */
+  .toc{
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 18px;
+    display:flex; gap: 8px; overflow-x:auto;
+    justify-content: center;
+    -ms-overflow-style: none; scrollbar-width: none;
+  }
+  .toc::-webkit-scrollbar{ display:none; }
+  .toc a{
+    flex: 0 0 auto;
+    text-decoration:none;
+    color: var(--ink-soft);
+    font-size: .82rem;
+    padding: 7px 13px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    white-space:nowrap;
+    transition: color .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .toc a:hover{ color: var(--cinnabar); border-color: var(--cinnabar); }
+  .toc a:focus-visible{ outline: 2px solid var(--cinnabar); outline-offset: 2px; }
+  .toc a.active{ color: var(--bg); background: var(--cinnabar); border-color: var(--cinnabar); }
+
+  /* ---------- content ---------- */
+  main{
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 62px 24px 40px;
+    position: relative; z-index: 1;
+  }
+  section.phan{
+    padding: 40px 0 8px;
+    border-top: 1px solid var(--rule);
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  section.phan:first-child{ border-top: none; }
+  section.phan.in-view{ opacity: 1; transform: translateY(0); }
+  .phan-eyebrow{
+    display:flex; align-items:baseline; gap: 14px;
+    margin-bottom: 6px;
+  }
+  .phan-eyebrow .han-num{
+    font-family: 'Noto Serif Display', serif;
+    font-size: 1.9rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .phan-eyebrow .label{
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  h2.phan-title{
+    font-size: clamp(1.4rem, 3.4vw, 1.85rem);
+    margin: 0 0 26px;
+    font-weight: 700;
+  }
+  h3{
+    font-size: 1.12rem;
+    margin: 34px 0 12px;
+    color: var(--ink);
+    font-weight: 600;
+    border-left: 3px solid var(--cinnabar);
+    padding-left: 10px;
+  }
+  h3:first-of-type{ margin-top: 6px; }
+  p{ margin: 0 0 14px; color: var(--ink-soft); }
+  strong{ color: var(--ink); font-weight: 600; }
+
+  ul, ol{ margin: 0 0 16px; padding-left: 22px; color: var(--ink-soft); }
+  li{ margin-bottom: 9px; }
+  li strong{ color: var(--ink); }
+
+  blockquote{
+    margin: 18px 0; padding: 14px 18px;
+    border-left: 3px solid var(--gold);
+    background: var(--card);
+    border-radius: 0 6px 6px 0;
+    color: var(--ink-soft);
+    font-size: .96rem;
+  }
+  blockquote p:last-child{ margin-bottom: 0; }
+
+  .note{
+    margin: 18px 0; padding: 16px 18px;
+    border: 1px dashed var(--rule);
+    border-radius: 8px;
+    background: var(--card);
+    font-size: .93rem;
+    color: var(--ink-soft);
+  }
+  .note .note-label{
+    display:block; font-size: .7rem; letter-spacing:.15em; text-transform: uppercase;
+    color: var(--jade); font-weight: 600; margin-bottom: 6px;
+  }
+
+  table{
+    width: 100%; border-collapse: collapse;
+    margin: 8px 0 22px;
+    font-size: .92rem;
+  }
+  th, td{
+    text-align: left; padding: 10px 12px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th{
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 600; color: var(--gold);
+    font-size: .78rem; letter-spacing: .04em; text-transform: uppercase;
+    border-bottom: 2px solid var(--rule);
+  }
+  td{ color: var(--ink-soft); }
+
+  .level{
+    margin: 22px 0;
+    padding: 18px 20px;
+    background: var(--card);
+    border-radius: 10px;
+    border: 1px solid var(--rule);
+    transition: border-color .25s ease, transform .25s ease;
+  }
+  .level:hover{ border-color: var(--cinnabar); transform: translateY(-2px); }
+  .level-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--cinnabar); color: var(--bg);
+    font-size: .8rem; font-weight: 700; margin-right: 10px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+  }
+  .level h4{
+    display:flex; align-items:center;
+    font-family: 'Noto Serif Display', serif;
+    font-size: 1.05rem; margin: 0 0 10px; color: var(--ink);
+  }
+  .level p:last-child{ margin-bottom: 0; }
+
+  .fact-list{ list-style:none; padding:0; margin: 14px 0 20px; }
+  .fact-list li{
+    padding-left: 16px; position: relative;
+    margin-bottom: 10px;
+  }
+  .fact-list li::before{
+    content: "—"; position:absolute; left:0; color: var(--gold);
+  }
+
+  .phu-item{
+    display:flex; gap: 14px; margin-bottom: 16px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+    transition: padding-left .25s ease;
+  }
+  .phu-item:hover{ padding-left: 6px; }
+  .phu-item:last-of-type{ border-bottom: none; }
+  .phu-num{
+    flex: 0 0 30px;
+    font-family: 'Noto Serif Display', serif;
+    color: var(--cinnabar); font-size: 1.05rem; font-weight: 600;
+  }
+  .phu-body strong{ display:block; margin-bottom: 4px; color: var(--ink); }
+  .phu-body p{ margin: 0; }
+
+  footer{
+    max-width: 740px; margin: 0 auto;
+    padding: 40px 24px 80px;
+    border-top: 1px solid var(--rule);
+    text-align:center;
+  }
+  footer p{
+    font-style: italic;
+    color: var(--ink-faint);
+    font-size: .86rem;
+    max-width: 560px; margin: 0 auto;
+  }
+  footer .mark{ color: var(--gold); font-size: 1.2rem; margin-bottom: 10px; }
+
+  @media (max-width: 560px){
+    .hero{ padding-top: 86px; }
+    main{ padding-top: 44px; }
+  }
+
+  @media print{
+    .controls, .toc, .back-top, .progress, .seal{ display:none !important; }
+    section.phan{ opacity:1 !important; transform:none !important; }
+    body{ background:#fff; }
+  }
+</style>
+<noscript><style>section.phan{ opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body id="top">
+
+<div class="progress" id="progressBar"></div>
+
+<!-- ================= CONTROLS ================= -->
+<div class="controls">
+  <button class="ctrl-btn" id="musicBtn" title="Bật nhạc nền" aria-label="Bật hoặc tắt nhạc nền">
+    <svg id="musicIconOn" viewBox="0 0 24 24" style="display:none"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    <svg id="musicIconOff" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="3" y1="3" x2="21" y2="21"/></svg>
+  </button>
+  <button class="ctrl-btn" id="themeBtn" title="Đổi giao diện sáng / tối" aria-label="Chuyển chế độ sáng tối">
+    <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="1.5" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22.5" y2="12"/><line x1="4.5" y1="4.5" x2="6.6" y2="6.6"/><line x1="17.4" y1="17.4" x2="19.5" y2="19.5"/><line x1="4.5" y1="19.5" x2="6.6" y2="17.4"/><line x1="17.4" y1="6.6" x2="19.5" y2="4.5"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" style="display:flex"><path d="M20 14.5a8.5 8.5 0 1 1-9.5-12.4A7 7 0 0 0 20 14.5z"/></svg>
+  </button>
+</div>
+
+<audio id="bgm" src="music7.mp3" loop preload="none"></audio>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="seal">紫微</div>
+  <p class="eyebrow">Tử Vi Đẩu Số · Tài liệu học từ cơ bản đến nâng cao</p>
+
+  <div class="wheel-wrap" aria-hidden="true">
+    <svg viewBox="0 0 300 300">
+      <circle class="wheel-ring" cx="150" cy="150" r="125"></circle>
+      <circle class="wheel-ring" cx="150" cy="150" r="100"></circle>
+      <path class="wheel-seg-active" d="M150,150 L253.25,133.75 A125,125 0 0,1 258.25,166.25 Z"></path>
+      <!-- ticks -->
+      <g class="wheel-tick">
+        <line x1="150" y1="25" x2="150" y2="275"></line>
+        <line x1="25" y1="150" x2="275" y2="150"></line>
+        <line x1="41.75" y1="41.75" x2="258.25" y2="258.25"></line>
+        <line x1="258.25" y1="41.75" x2="41.75" y2="258.25"></line>
+      </g>
+      <!-- labels: Mệnh, Huynh Đệ, Phu Thê, Tử Tức, Tài Bạch, Tật Ách, Thiên Di, Nô Bộc, Quan Lộc, Điền Trạch, Phúc Đức, Phụ Mẫu -->
+      <text class="wheel-label" x="150" y="21" text-anchor="middle">Mệnh</text>
+      <text class="wheel-label" x="216" y="39" text-anchor="middle">Huynh Đệ</text>
+      <text class="wheel-label" x="261" y="84" text-anchor="middle">Phu Thê</text>
+      <text class="wheel-label active" x="279" y="153" text-anchor="end">Tử Tức</text>
+      <text class="wheel-label" x="261" y="219" text-anchor="middle">Tài Bạch</text>
+      <text class="wheel-label" x="216" y="264" text-anchor="middle">Tật Ách</text>
+      <text class="wheel-label" x="150" y="285" text-anchor="middle">Thiên Di</text>
+      <text class="wheel-label" x="84" y="264" text-anchor="middle">Nô Bộc</text>
+      <text class="wheel-label" x="39" y="219" text-anchor="middle">Quan Lộc</text>
+      <text class="wheel-label" x="21" y="153" text-anchor="start">Điền Trạch</text>
+      <text class="wheel-label" x="39" y="84" text-anchor="middle">Phúc Đức</text>
+      <text class="wheel-label" x="84" y="39" text-anchor="middle">Phụ Mẫu</text>
+    </svg>
+  </div>
+
+  <h1><span class="han">子 息</span>Cung Tử Tức</h1>
+  <p class="tagline">Trong Tử Vi Đẩu Số — bản 2.4 chuẩn. Lý thuyết nền tảng, chính tinh &amp; phụ tinh, kỹ thuật luận giải nâng cao, ví dụ lá số thật, và phú cổ có chú giải.</p>
+</header>
+
+<nav class="toc" aria-label="Mục lục">
+  <a href="#phan1">I. Nền tảng</a>
+  <a href="#phan2">II. Chính tinh</a>
+  <a href="#phan3">III. Phụ tinh &amp; Tứ Hóa</a>
+  <a href="#phan4">IV. Luận giải nâng cao</a>
+  <a href="#phan5">V. Tóm tắt</a>
+  <a href="#phan6">VI. Ví dụ lá số</a>
+  <a href="#phan7">VII. Phú cổ</a>
+</nav>
+
+<main>
+
+<!-- ================= PHẦN 1 ================= -->
+<section class="phan" id="phan1">
+  <div class="phan-eyebrow"><span class="han-num">一</span><span class="label">Phần 1 — đã sửa</span></div>
+  <h2 class="phan-title">Kiến thức nền tảng</h2>
+
+  <h3>1.1 · Cung Tử Tức là gì?</h3>
+  <p>Cung Tử Tức là 1 trong 12 cung chức năng của lá số Tử Vi. Theo thứ tự an cung chuẩn: <strong>Mệnh → Huynh Đệ → Phu Thê → Tử Tức → Tài Bạch → Tật Ách → Thiên Di → Nô Bộc → Quan Lộc → Điền Trạch → Phúc Đức → Phụ Mẫu</strong>.</p>
+  <p><strong>Vị trí tương đối:</strong> Tử Tức luôn cách Mệnh 3 cung theo chiều nghịch, và luôn nằm giữa <strong>Phu Thê và Tài Bạch</strong>. Trên lá số, cung này là "Vườn Ươm Thế Hệ Tương Lai".</p>
+
+  <h3>1.2 · Ý nghĩa cốt lõi — đa nghĩa nhất trong 12 cung</h3>
+  <table>
+    <thead><tr><th>Tầng nghĩa</th><th>Nội dung</th></tr></thead>
+    <tbody>
+      <tr><td>Nghĩa gốc</td><td>Con cái: số lượng, giới tính, sức khỏe, hiếu thảo, mối quan hệ cha/mẹ – con</td></tr>
+      <tr><td>Nghĩa sinh lý</td><td>Năng lực và đời sống tình dục, khả năng sinh sản</td></tr>
+      <tr><td>Nghĩa mở rộng — quan hệ dưới quyền</td><td>Học trò, đệ tử, người mình dìu dắt, cấp dưới thân tín (khác với Nô Bộc là quan hệ ngang hàng)</td></tr>
+      <tr><td>Nghĩa sáng tạo</td><td>"Con" theo nghĩa bóng: tác phẩm, công trình, sản phẩm trí tuệ do mình tạo ra (đặc biệt hữu ích khi luận cho người không/chưa có con)</td></tr>
+      <tr><td>Nghĩa hợp tác kinh doanh</td><td>Trong một số trường phái, còn xem xét chuyện góp vốn, hùn hạp nhỏ lẻ</td></tr>
+      <tr><td>Nghĩa nhà ở phụ</td><td>Nơi ở thứ hai, phòng ốc phụ (ít dùng)</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Nguyên tắc luận giải hiện đại:</strong> Không dừng ở "có mấy con, trai hay gái" — đó là lối luận cũ. Luận sâu cần đọc ra được: <em>chất lượng mối quan hệ với con cái</em>, <em>năng lực sinh dưỡng/dìu dắt thế hệ sau</em>, và <em>khả năng sáng tạo, để lại di sản</em>.</p>
+
+  <h3>1.3 · Vị trí trong bộ Tam Hợp và các cung chiếu — phần quan trọng đã sửa</h3>
+  <p>Đây là kiến thức bắt buộc phải nắm để luận chính xác — không được xem cung này độc lập.</p>
+  <ul class="fact-list">
+    <li><strong>Tam hợp của Tử Tức: Tử Tức — Nô Bộc — Phụ Mẫu</strong> (3 cung cách đều nhau 4 vị trí). Ý nghĩa: mối liên hệ giữa <em>hậu duệ</em> (Tử Tức), <em>mạng lưới bạn bè/xã hội</em> (Nô Bộc — môi trường con lớn lên), và <em>nguồn gốc</em> (Phụ Mẫu — phúc đức ông bà). Khi luận Tử Tức, luôn phải nhìn thêm sao ở Nô Bộc và Phụ Mẫu để đối chiếu. Đây là lỗi sai nghiêm trọng ở bản 1.0 khi ghi nhầm thành Tử – Phụ – Tật.</li>
+    <li><strong>Cung xung chiếu (đối cung): Điền Trạch</strong> — cách nhau 6 cung. Điền Trạch (nhà cửa, tài sản cố định) xung Tử Tức phản ánh mối quan hệ giữa "nơi ở/gốc rễ vật chất" và "con cái/hậu duệ". Nhà bất ổn thường kéo theo con cái lận đận.</li>
+    <li><strong>Giáp cung (2 cung kề bên):</strong> Phu Thê và Tài Bạch — đời sống vợ chồng và tình hình tài chính là hai yếu tố "kề cận", ảnh hưởng trực tiếp và gần nhất đến đường con cái trên thực tế.</li>
+    <li><strong>Lưu ý về "lục hợp":</strong> quan hệ lục hợp giữa các cung dựa theo cặp Địa Chi hợp nhau (Tý–Sửu, Dần–Hợi, Mão–Tuất, Thìn–Dậu, Tỵ–Thân, Ngọ–Mùi), nên cung nào lục hợp với Tử Tức <strong>thay đổi tùy theo lá số cụ thể</strong> (tùy Tử Tức đóng ở Địa Chi nào), không cố định luôn là Phúc Đức. Khi luận cần tra đúng Địa Chi của Tử Tức trên từng lá số rồi mới xác định cung lục hợp tương ứng.</li>
+  </ul>
+  <blockquote>Luận giải chuẩn: Tử Tức nằm giữa Phu Thê và Tài Bạch; tam hợp với Nô Bộc – Phụ Mẫu; xung chiếu Điền Trạch; giáp cung là Phu Thê – Tài Bạch.</blockquote>
+
+  <h3>1.4 · Vị trí Tử Tức theo cung Địa Chi</h3>
+  <p>Cung Tử Tức không cố định ở một cung Địa Chi nào — vị trí thay đổi theo giờ sinh và cung Mệnh. Vì vậy bước đầu tiên khi luận luôn là <strong>xác định đúng cung Tử Tức nằm ở Địa Chi nào</strong> trên lá số cụ thể trước khi tra sao.</p>
+</section>
+
+<!-- ================= PHẦN 2 ================= -->
+<section class="phan" id="phan2">
+  <div class="phan-eyebrow"><span class="han-num">二</span><span class="label">Phần 2</span></div>
+  <h2 class="phan-title">Chính tinh tọa thủ cung Tử Tức</h2>
+  <p>Dưới đây là ý nghĩa tổng quát của 14 chính tinh khi tọa thủ cung Tử Tức. Đắc/hãm sẽ điều chỉnh mức độ, không đảo ngược hoàn toàn bản chất.</p>
+
+  <h3>2.1 · Nhóm Tử Vi</h3>
+  <ul>
+    <li><strong>Tử Vi:</strong> con có khí chất, tự trọng, có xu hướng làm "đầu đàn". Quan hệ cha mẹ – con mang tính tôn ti, con có thể hơi xa cách nếu không có Tả Hữu/Xương Khúc phù trợ. Con cái thường có chí hướng riêng. Tại Ngọ: đông con có quý tử, tại Tý: khá giả biết gây dựng.</li>
+    <li><strong>Tử Phủ</strong> (Tử Vi + Thiên Phủ đồng cung): ổn định, con cái đề huề, ít biến động, gia đình hưng thịnh.</li>
+    <li><strong>Tử Tướng:</strong> con có năng lực tổ chức, biết giúp đỡ cha mẹ về sau, dễ làm quan.</li>
+    <li><strong>Tử Sát:</strong> quan hệ dễ căng thẳng giai đoạn đầu, con cá tính mạnh, cần Tả Hữu/Khôi Việt hóa giải. Chỉ 1–2 con.</li>
+    <li><strong>Tử Phá:</strong> biến động nhiều, cha con khó hòa hợp, sóng gió.</li>
+  </ul>
+
+  <h3>2.2 · Nhóm Thiên Cơ</h3>
+  <ul>
+    <li><strong>Thiên Cơ:</strong> con thông minh, nhanh nhạy nhưng dễ đổi ý, tính tình biến động. Quan hệ lúc gần lúc xa theo chu kỳ. Đắc địa: thông minh cơ trí, hài hòa. Hãm địa: ít con, khó dạy.</li>
+    <li><strong>Cơ Nguyệt</strong> (Thiên Cơ + Thái Âm): tình cảm sâu, mẹ ảnh hưởng lớn, con thiên về nội tâm, dễ có con dị bào.</li>
+    <li><strong>Cơ Cự</strong> (Thiên Cơ + Cự Môn): dễ bất đồng quan điểm, cần giao tiếp cởi mở, muộn con mới dễ nuôi.</li>
+    <li><strong>Cơ Lương</strong> (Thiên Cơ + Thiên Lương): con có tính nguyên tắc, thích phân tích, đông con có quý tử, cha mẹ cần tôn trọng chính kiến con.</li>
+  </ul>
+
+  <h3>2.3 · Nhóm Thái Dương – Thái Âm</h3>
+  <ul>
+    <li><strong>Thái Dương đắc địa</strong> (Thìn, Tỵ, Ngọ): con trai vượng, con cái hiển đạt, cha có ảnh hưởng tích cực. Đông con trai, có quý tử.</li>
+    <li><strong>Thái Dương hãm</strong> (Tuất, Hợi, Tý): vất vả vì con, đường công danh con lận đận, nên muộn con mới tốt. Trưởng nam thiệt thòi.</li>
+    <li><strong>Thái Âm đắc địa</strong> (Dậu, Tuất, Hợi miếu vượng): con gái vượng, tình cảm mẹ con sâu đậm, nuôi dạy chu đáo, nhiều con gái gia đạo yên ổn.</li>
+    <li><strong>Thái Âm hãm:</strong> tình cảm trắc trở, dễ xa con, lo lắng nhiều.</li>
+    <li><strong>Nhật Nguyệt đồng cung:</strong> cần xét đắc hãm riêng, gia đình đông con có người nổi bật.</li>
+  </ul>
+
+  <h3>2.4 · Nhóm Vũ Khúc</h3>
+  <ul>
+    <li><strong>Vũ Khúc:</strong> quan hệ thiên về lý trí hơn tình cảm, cha mẹ nghiêm khắc, con tự lập sớm. Miếu vượng thì con thành đạt về tài chính. Đơn thủ: ít con.</li>
+    <li><strong>Vũ Phủ:</strong> ổn định, đề huề, con quý hiển giàu sang.</li>
+    <li><strong>Vũ Tướng:</strong> con có năng lực, biết lo toan.</li>
+    <li><strong>Vũ Sát:</strong> cứng rắn, dễ va chạm, cô độc hình khắc.</li>
+    <li><strong>Vũ Phá:</strong> biến động, khó nuôi con.</li>
+    <li><strong>Vũ Tham:</strong> muộn con hoặc khúc mắc giai đoạn đầu, về sau ổn định. Gặp Hỏa Linh dễ xa cách.</li>
+  </ul>
+
+  <h3>2.5 · Nhóm Thiên Đồng</h3>
+  <ul>
+    <li><strong>Thiên Đồng:</strong> hiền hòa, con dễ bảo, tình cảm ấm áp, ít xung đột. Vốn là sao phúc thọ nên chủ về hưởng phúc từ con. Đắc địa đông con, hãm địa ly tán xa quê.</li>
+    <li><strong>Đồng Âm</strong> (Thiên Đồng + Thái Âm) tại Tý: có quý tử, con thông minh khác thường, tình cảm nhẹ nhàng sâu lắng.</li>
+    <li><strong>Đồng Lương</strong> (Thiên Đồng + Thiên Lương) tại Dần: nhiều con hiếu thuận, học vấn thuận lợi.</li>
+    <li><strong>Đồng Cự</strong> (Thiên Đồng + Cự Môn): bên ngoài êm ấm nhưng dễ có khúc mắc ngầm, con bướng bỉnh bất hòa.</li>
+  </ul>
+
+  <h3>2.6 · Nhóm Liêm Trinh</h3>
+  <ul>
+    <li><strong>Liêm Trinh:</strong> cá tính mạnh, quan hệ có thể căng thẳng do bất đồng lối sống. Đắc địa thì con có tài năng nổi bật đáng tự hào. Hãm địa sinh nhiều nuôi ít, cha mẹ phiền lòng.</li>
+    <li><strong>Liêm Phủ:</strong> ổn định hơn, có nguyên tắc, con khá giả.</li>
+    <li><strong>Liêm Tướng:</strong> con biết điều, có năng lực, khó nuôi nhưng sau thành đạt.</li>
+    <li><strong>Liêm Sát:</strong> dễ xa cách hoặc va chạm, cực khó nuôi con nếu gặp thêm Hình Hổ.</li>
+    <li><strong>Liêm Phá:</strong> biến động mạnh, ít con, con phá tán.</li>
+    <li><strong>Liêm Tham:</strong> cẩn trọng chuyện tình cảm/sinh lý, con ham chơi khó dạy, dễ có chuyện ngoài ý muốn nếu gặp Đào Hoa sát tinh.</li>
+  </ul>
+
+  <h3>2.7 · Nhóm Thiên Phủ – Thiên Tướng</h3>
+  <ul>
+    <li><strong>Thiên Phủ:</strong> đông con, dễ dưỡng, con hiền lương biết giữ gia sản, có phúc đức. Gặp Tử Vi càng quý, gặp Vũ Khúc giàu sang, gặp Long Phượng Khôi Việt dòng họ có người làm lớn.</li>
+    <li><strong>Thiên Tướng:</strong> con hiếu thuận, có tinh thần trách nhiệm, đắc địa dễ thành công nơi công quyền. Gặp Thai dễ có con riêng, con trước hôn nhân.</li>
+  </ul>
+
+  <h3>2.8 · Nhóm Cự Môn – Thiên Lương</h3>
+  <ul>
+    <li><strong>Cự Môn:</strong> con dễ xung khắc cha mẹ, trong nhà nhiều tranh cãi. Đắc địa (Hợi, Tý, Ngọ) con giỏi ăn nói, luật pháp, giáo dục. Hãm địa (Thìn, Tỵ, Tuất) gia đạo lạnh nhạt, khó thành công. Gặp Hóa Kỵ càng tăng bất hòa, gặp Không Kiếp chỉ có con gái hoặc khó có con.</li>
+    <li><strong>Thiên Lương:</strong> phúc thiện tinh, con nhân hậu, có quý tử, được nhờ lúc tuổi già. Miếu đắc chững chạc từ nhỏ, hiếu thảo. Gặp Thiên Đồng nhiều con, gặp sát tinh nặng ly hương.</li>
+  </ul>
+
+  <h3>2.9 · Nhóm Sát Phá Tham</h3>
+  <ul>
+    <li><strong>Thất Sát:</strong> chủ cô độc, sinh nhiều nuôi ít, con mạnh mẽ ngang bướng dễ xa cha mẹ. Miếu tại Dần Thân có 2 con khá giả, hãm tại Thìn Tuất ít con bệnh tật. Gặp Hình Hổ Kình Đà cực khó dưỡng.</li>
+    <li><strong>Phá Quân:</strong> chủ phá cách, con khó bảo, xa gia đình, có người phá tán gia sản. Miếu tại Tý Ngọ sinh nhiều nhưng khó nuôi.</li>
+    <li><strong>Tham Lang:</strong> đào hoa ham vui, sinh nhiều nuôi ít, con ham chơi khó quản. Đắc địa có tài nghệ thuật giao tiếp, hãm địa phá tán bất hiếu. Tại Tý nhiều gái, tại Ngọ gặp cát tinh có trai đầu.</li>
+  </ul>
+  <div class="note">
+    <span class="note-label">Tham khảo — không thống nhất giữa các trường phái</span>
+    Nguyên tắc Nam Bắc Đẩu đoán trai gái: nhiều Nam Đẩu tinh (Thiên Phủ, Thiên Đồng, Thiên Tướng, Thiên Lương, Thái Dương, Thất Sát, Thiên Cơ) thì trai nhiều; nhiều Bắc Đẩu tinh (Thái Âm, Tham Lang, Liêm Trinh, Vũ Khúc, Phá Quân, Cự Môn) thì gái nhiều. Dương cung dễ dưỡng trai đầu, Âm cung dễ dưỡng gái đầu. Cách xếp sao vào Nam Đẩu/Bắc Đẩu không giống nhau ở mọi sách/trường phái (một số nguồn xếp cả Tử Vi vào Bắc Đẩu), nên đây chỉ là một cách tham khảo, không nên dùng làm căn cứ khẳng định chắc chắn.
+  </div>
+</section>
+
+<!-- ================= PHẦN 3 ================= -->
+<section class="phan" id="phan3">
+  <div class="phan-eyebrow"><span class="han-num">三</span><span class="label">Phần 3</span></div>
+  <h2 class="phan-title">Phụ tinh, sát tinh và tứ Hóa</h2>
+
+  <h3>3.1 · Nhóm cát tinh</h3>
+  <ul>
+    <li><strong>Văn Xương – Văn Khúc:</strong> con thông minh, học giỏi, có năng khiếu văn chương/nghệ thuật.</li>
+    <li><strong>Tả Phụ – Hữu Bật:</strong> thêm con, gia đạo đông vui, con biết đỡ đần. Đơn thủ có thể chủ nuôi con người khác.</li>
+    <li><strong>Thiên Khôi – Thiên Việt:</strong> con gặp quý nhân phù trợ, học hành thuận lợi, có quý tử đỗ đạt.</li>
+    <li><strong>Long Trì – Phượng Các:</strong> con có tài năng nghệ thuật, dung mạo thanh tú.</li>
+    <li><strong>Thiên Quan – Thiên Phúc, Ân Quang – Thiên Quý:</strong> con có phúc phần, hưởng lộc gia đình hoặc có quý tử/con nuôi hiếu thuận.</li>
+  </ul>
+
+  <h3>3.2 · Nhóm sát tinh cần lưu ý</h3>
+  <ul>
+    <li><strong>Kình Dương – Đà La:</strong> xung khắc, va chạm cha mẹ – con; sinh nở trắc trở (khó sinh, sinh non, vất vả đầu). Chủ cô, 1 con cũng không đắc lực.</li>
+    <li><strong>Hỏa Tinh – Linh Tinh:</strong> nóng nảy, mâu thuẫn đột ngột nhưng qua nhanh. Chủ hình khắc, đơn thủ chủ cô, con thích phân tranh cương cường.</li>
+    <li><strong>Địa Không – Địa Kiếp:</strong> dễ hiếm muộn, muộn con, biến cố bất ngờ. Nếu 3 sao Không Kiếp Hóa Kỵ hợp chiếu một cung thì tuyệt tự. Nhưng nhiều trường hợp Không Kiếp tại Tử Tức lại ứng vào "con là tài sản tinh thần/sáng tạo".</li>
+    <li><strong>Thiên Hình, Cô Thần Quả Tú, Khốc Hư, Song Hao:</strong> quan hệ nghiêm khắc kỷ luật, cô độc muộn con, tốn kém tiền bạc vì con.</li>
+  </ul>
+
+  <h3>3.3 · Nhóm sao Đào Hoa</h3>
+  <p><strong>Đào Hoa, Hồng Loan, Thiên Hỷ, Thai, Riêu:</strong> khi hội tụ nhiều tại Tử Tức, cần luận về nghĩa sinh lý/tình cảm nam nữ nhiều hơn con cái thuần túy — dễ có con ngoài hôn nhân hoặc con dị bào nếu phối hợp sát tinh và Hóa Kỵ. Cách cục Nhật Nguyệt + Thai dễ sinh đôi.</p>
+
+  <h3>3.4 · Vai trò của Tuần – Triệt</h3>
+  <ul>
+    <li><strong>Tuần/Triệt đóng tại Tử Tức:</strong> có tác dụng "ngăn cách", làm chậm hoặc che mờ vận trình. Thường ứng với: muộn con, quan hệ có khoảng cách địa lý/tình cảm, sự kiện đến muộn.</li>
+    <li><strong>Tính hai mặt:</strong> Tuần Triệt không hẳn xấu — nếu cung có nhiều sát tinh, Tuần Triệt giúp "hãm bớt" sát khí. Cung tốt mà gặp Tuần Triệt thì giảm phân nửa số con. Triệt ảnh hưởng mạnh 30 năm đầu, Tuần ảnh hưởng dai dẳng cả đời.</li>
+  </ul>
+
+  <h3>3.5 · Tứ Hóa — yếu tố quan trọng bậc nhất</h3>
+  <p>Tứ Hóa bay vào cung Tử Tức quyết định cát/hung mạnh nhất, thường quan trọng hơn cả chính tinh:</p>
+  <ul>
+    <li><strong>Hóa Lộc tại Tử Tức:</strong> con mang lại tài lộc, niềm vui, hòa thuận, dễ có duyên sinh con. Được nhờ con về tiền bạc.</li>
+    <li><strong>Hóa Quyền tại Tử Tức:</strong> con cá tính mạnh, có quyền uy hoặc chủ kiến riêng, đôi khi lấn át cha mẹ. Con có địa vị.</li>
+    <li><strong>Hóa Khoa tại Tử Tức:</strong> con có danh tiếng, học vấn tốt, được nể trọng. Con học giỏi đỗ đạt.</li>
+    <li><strong>Hóa Kỵ tại Tử Tức:</strong> xấu nhất — trắc trở: hiếm muộn, khó sinh, con đau ốm, quan hệ khúc mắc hiểu lầm dai dẳng.</li>
+    <li><strong>Phi Hóa:</strong> cung Tử Tức phi Hóa Lộc nhập Mệnh chủ duyên với con sâu sắc; phi nhập Điền Trạch thì sau khi có con gia đình êm ấm tài lộc tăng; phi Hóa Kỵ nhập Mệnh có thể 2 lần hôn nhân. Cần xem lưu niên Hóa Lộc/Kỵ bay vào Tử Tức để đoán thời điểm.</li>
+  </ul>
+</section>
+
+<!-- ================= PHẦN 4 ================= -->
+<section class="phan" id="phan4">
+  <div class="phan-eyebrow"><span class="han-num">四</span><span class="label">Phần 4 — đã sửa tam hợp</span></div>
+  <h2 class="phan-title">Kỹ thuật luận giải nâng cao</h2>
+
+  <h3>4.1 · Quy trình luận cung Tử Tức chuẩn 8 bước</h3>
+  <ol>
+    <li>Xác định vị trí cung Tử Tức và chính tinh tọa thủ (hoặc vô chính diệu → mượn đối cung Điền Trạch).</li>
+    <li>Xét đắc/hãm của chính tinh tại cung đó theo bản đồ miếu/vượng/đắc/hãm.</li>
+    <li><strong>Xét bộ tam hợp Tử Tức – Nô Bộc – Phụ Mẫu</strong> để có cái nhìn tổng thể về trục "hậu duệ – bạn bè – nguồn gốc" (sửa từ bản cũ ghi nhầm là Phụ – Tật).</li>
+    <li>Xét cung xung chiếu Điền Trạch để xem môi trường sống ảnh hưởng thế nào.</li>
+    <li>Liệt kê toàn bộ sao phụ tại cung: cát tinh, sát tinh, đào hoa, Tuần/Triệt, sao thuộc vòng Trường Sinh (Tràng Sinh, Đế Vượng, Lâm Quan, Quan Đới, Bệnh, Thai, Mộc Dục, Dưỡng, Suy, Tử, Mộ...).</li>
+    <li>Xác định tứ Hóa bản mệnh có bay vào cung không (đặc biệt là Hóa Kỵ) và phi hóa đi đâu.</li>
+    <li>Xem thêm cung Phúc Đức để đánh giá phúc cứu giải.</li>
+    <li>Tổng hợp: cân giữa chính tinh (nền tảng) và sao phụ + tứ Hóa (biến số quyết định). Khi luận thời điểm (bao giờ có con), xem đại vận và lưu niên đóng tại Tử Tức hoặc tam hợp của nó, kết hợp lưu Hóa.</li>
+  </ol>
+
+  <h3>4.2 · Vô Chính Diệu tại Tử Tức</h3>
+  <p>Cung Tử Tức VCD phải xem chính tinh xung chiếu (Điền Trạch) và toàn bộ tam hợp Nô – Phụ hội về.</p>
+  <ul>
+    <li>Gặp nhiều cát tinh: tuy muộn con nhưng con hiển đạt.</li>
+    <li>Gặp nhiều sát tinh: hiếm muộn, gia đạo lạnh lẽo.</li>
+    <li>Nếu có Nhật Nguyệt sáng chiếu thì vẫn có hậu vận tốt nhờ con.</li>
+    <li>Rất cần Phúc Đức cứu giải. Phúc dày dù muộn vẫn có người nối dõi.</li>
+  </ul>
+
+  <h3>4.3 · Luận số lượng và giới tính con cái (tham khảo)</h3>
+  <p>Trường phái cổ dùng số lượng sao tại cung Tử Tức và ngũ hành cục để đoán số con, nhưng đây là kỹ thuật <strong>kém tin cậy trong bối cảnh hiện đại</strong> (do kế hoạch hóa gia đình), chỉ nên tham khảo. Nên chuyển trọng tâm sang chất lượng quan hệ và các mốc thời gian thuận/nghịch.</p>
+
+  <h3>4.4 · Khi luận cho người chưa/không có con</h3>
+  <ul>
+    <li>Mượn nghĩa mở rộng: học trò, đệ tử, dự án/sản phẩm sáng tạo, người mình dìu dắt.</li>
+    <li>Nếu cung tốt nhưng chưa có con: "duyên chưa tới" và xem đại vận nào tứ Hóa/cát tinh hội chiếu Tử Tức để dự đoán thời điểm.</li>
+    <li>Nếu cung xấu và đương số không muốn có con: có thể luận tích cực rằng đây là lựa chọn phù hợp, tránh áp đặt "phải có con mới đủ đầy".</li>
+  </ul>
+
+  <h3>4.5 · Phân biệt Tử Tức với các cung dễ nhầm</h3>
+  <ul>
+    <li><strong>Tử Tức vs Nô Bộc:</strong> Tử Tức là quan hệ <em>trên – dưới có tính dìu dắt/nuôi dưỡng</em> (con, học trò); Nô Bộc là quan hệ <em>ngang hàng</em> (bạn bè, đồng nghiệp).</li>
+    <li><strong>Tử Tức vs Phúc Đức:</strong> Phúc Đức là phúc phần/tinh thần của bản thân; Tử Tức là phúc phần liên quan đến thế hệ sau.</li>
+    <li><strong>Tử Tức vs Phu Thê:</strong> Phu Thê là hôn nhân/bạn đời; Tử Tức là quan hệ với con — hai cung liền kề, đời sống vợ chồng hòa thuận thường hỗ trợ tốt cho đường con cái.</li>
+  </ul>
+
+  <h3>4.6 · Lưu ý đạo đức khi luận giải</h3>
+  <p>Đây là cung nhạy cảm, dễ ảnh hưởng tâm lý:</p>
+  <ul>
+    <li>Tránh khẳng định tuyệt đối "chắc chắn không có con" hay "con sẽ gặp nạn" — Tử Vi là xu hướng, không phải tiên tri y khoa.</li>
+    <li>Với dấu hiệu xấu (Hóa Kỵ, sát tinh hội tụ), nên diễn đạt "cần quan tâm/chăm sóc kỹ hơn" thay vì gieo lo lắng.</li>
+    <li>Khuyến khích thăm khám y tế thực tế nếu liên quan sinh sản, sức khỏe — không thay thế tư vấn y khoa.</li>
+  </ul>
+</section>
+
+<!-- ================= PHẦN 5 ================= -->
+<section class="phan" id="phan5">
+  <div class="phan-eyebrow"><span class="han-num">五</span><span class="label">Phần 5 — đã sửa</span></div>
+  <h2 class="phan-title">Tóm tắt ghi nhớ nhanh</h2>
+  <ul class="fact-list">
+    <li>Tử Tức nằm giữa Phu Thê và Tài Bạch; <strong>tam hợp với Nô Bộc – Phụ Mẫu</strong>; xung chiếu Điền Trạch.</li>
+    <li>Cung đa nghĩa: con cái, sinh lý, học trò/cấp dưới thân tín, năng lực sáng tạo/di sản.</li>
+    <li>Chính tinh cho nền tảng tính cách quan hệ; sao phụ + Tuần Triệt + tứ Hóa quyết định mức độ cát/hung và thời điểm.</li>
+    <li>Hóa Kỵ tại Tử Tức là dấu hiệu cần lưu ý nhất; Hóa Lộc là dấu hiệu tốt nhất.</li>
+    <li>Vô chính diệu không đồng nghĩa với xấu — phải mượn sao đối cung Điền Trạch và xét sao phụ tam hợp Nô – Phụ + Phúc Đức.</li>
+    <li>Luận thời điểm dùng đại vận + lưu niên + lưu Hóa.</li>
+    <li>Luôn giữ tinh thần thận trọng, tránh khẳng định tuyệt đối với các nội dung nhạy cảm.</li>
+  </ul>
+</section>
+
+<!-- ================= PHẦN 6 ================= -->
+<section class="phan" id="phan6">
+  <div class="phan-eyebrow"><span class="han-num">六</span><span class="label">Phần 6</span></div>
+  <h2 class="phan-title">Ví dụ minh họa — lá số thật, luận theo 4 cấp độ</h2>
+  <blockquote>Ví dụ dưới đây minh họa cách áp dụng toàn bộ lý thuyết ở Phần 1–5 vào một lá số cụ thể, theo lối "học từ cơ bản đến nâng cao". Lá số: Nam mạng, Đinh Mão 1987 (Lư Trung Hỏa), 23h30 ngày 29/04/1987, xem vận năm 2026 (Bính Ngọ, 40 tuổi, đại vận đang đóng tại Tử Tức).</blockquote>
+
+  <div class="note">
+    <span class="note-label">Thông tin gốc cung Tử Tức trên lá số này</span>
+    <ul class="fact-list" style="margin-bottom:0">
+      <li>Vị trí: cung Dần, hành Mộc — Vô Chính Diệu (VCD), có Triệt án ngữ, đóng Tràng Sinh (vòng Tràng Sinh).</li>
+      <li>Xung chiếu (Điền Trạch tại Thân): Cự Môn + Thái Dương (hãm) + Hóa Kỵ.</li>
+      <li>Tam hợp: Phụ Mẫu tại Ngọ (Thái Âm hãm, Thiên Đồng hãm) — Nô Bộc tại Tuất (Thiên Lương miếu, Thiên Cơ miếu). <em>Đúng theo tam hợp đã hiệu đính ở Phần 1.3: Tử Tức – Nô Bộc – Phụ Mẫu.</em></li>
+      <li>Lai Nhân Cung tại Phúc Đức; lưu niên 2026 có Lưu Bạch Hổ nhập cung.</li>
+    </ul>
+  </div>
+
+  <div class="level">
+    <h4><span class="level-num">1</span>Cơ bản: cung này tốt hay xấu?</h4>
+    <p>Xét ngũ hành cung–mệnh: cung Dần hành Mộc, Mệnh hành Hỏa (Lư Trung Hỏa) → Mộc sinh Hỏa → cung Tử Tức sinh cho Mệnh, là dấu hiệu được nhờ con nhưng cũng phải đầu tư nhiều cho con. Nhìn sơ bộ sao phụ tại cung (Quốc Ấn, Phong Cáo, Thiên Quan) đều là quý tinh về danh chức — bước đầu cho thấy đây là cung có nét đẹp, dù bị VCD nên chưa thể kết luận ngay.</p>
+  </div>
+
+  <div class="level">
+    <h4><span class="level-num">2</span>Trung cấp: Vô Chính Diệu và mượn sao</h4>
+    <p>Áp dụng đúng quy tắc ở mục 4.2: cung VCD phải mượn chính tinh của cung xung chiếu (ở đây là Điền Trạch tại Thân) để luận. Bộ Cự Môn (đắc) + Thái Dương (hãm) + Hóa Kỵ cho thấy: con cái thông minh, sắc sảo, giỏi tranh biện (Cự Môn), hợp các nghề dùng lời nói và trí tuệ (giáo dục, luật, truyền thông); Thái Dương hãm cho thấy con trai/người cha vất vả hơn; Hóa Kỵ đi cùng Cự Môn là dấu hiệu "khắc khẩu" — cha con dễ bất đồng quan điểm nếu ở gần nhau.</p>
+  </div>
+
+  <div class="level">
+    <h4><span class="level-num">3</span>Nâng cao: mâu thuẫn Triệt và Tràng Sinh</h4>
+    <p>Đây là điểm hay để luyện tư duy tổng hợp nhiều yếu tố cùng lúc (đúng nguyên tắc ở Phần 4.1, bước 5–6): Triệt tại Tử Tức thường ứng với muộn con, trắc trở giai đoạn đầu (trước khoảng 33–35 tuổi), nhưng bản chất Triệt sẽ nới dần theo tuổi. Trong khi đó Tràng Sinh — sao mạnh nhất vòng Tràng Sinh, chủ sức sống và sinh sôi — đồng cung, có xu hướng hóa giải bớt cái xấu của Triệt và VCD về lâu dài. Tổng hợp hai yếu tố trái chiều này cho ra kết luận dạng "tiền hung hậu kiết": vất vả/muộn ở tiền vận, thuận lợi/đông đủ hơn ở hậu vận.</p>
+  </div>
+
+  <div class="level">
+    <h4><span class="level-num">4</span>Chuyên sâu: đại vận, lưu niên, Lai Nhân Cung</h4>
+    <ul style="margin-bottom:0">
+      <li><strong>Đại vận đóng tại Tử Tức</strong> (giai đoạn hiện tại của lá số): 10 năm này trọng tâm cuộc sống xoay quanh con cái — các quyết định lớn về nhà cửa, tài chính, công việc đều bị chi phối bởi yếu tố con cái.</li>
+      <li><strong>Lai Nhân Cung tại Phúc Đức:</strong> một kỹ thuật của phái Trung Châu — cho thấy vận trình cung Tử Tức chịu ảnh hưởng trực tiếp từ Phúc Đức (phúc phần, cội nguồn tổ tiên), nhắc lại nguyên tắc "cung tốt mà Phúc Đức không tốt thì vẫn cần thận trọng" đã nêu ở Phần 4.2.</li>
+      <li><strong>Lưu niên:</strong> sao lưu (ví dụ Lưu Bạch Hổ) nhập cung trong năm xem là căn cứ để đưa ra lời khuyên cụ thể cho năm đó (sức khỏe con cái, chi phí phát sinh...), đúng tinh thần "luận thời điểm dùng đại vận + lưu niên + lưu Hóa" ở Phần 5.</li>
+      <li><strong>Ứng dụng thực tế:</strong> từ bộ Cự Môn Hóa Kỵ, có thể rút ra lời khuyên mang tính xây dựng — hạn chế làm việc/sống quá gần con để tránh khắc khẩu, khuyến khích con phát triển ở môi trường độc lập (đi học/làm xa) sẽ hóa giải bớt xung khắc.</li>
+    </ul>
+  </div>
+
+  <blockquote><strong>Lưu ý khi dùng ví dụ này để học:</strong> việc gán miếu/vượng/đắc/hãm cụ thể cho từng chính tinh tại từng cung (ví dụ: Cự Môn đắc, Thái Dương hãm tại Thân) phụ thuộc vào phần mềm/an sao cụ thể dùng để lập lá số — nên đối chiếu lại với phần mềm lập số hoặc bảng miếu/vượng gốc trước khi dùng làm mẫu chuẩn tuyệt đối. Giá trị chính của ví dụ này là <strong>minh họa quy trình tư duy 4 cấp độ</strong> (ngũ hành cơ bản → mượn sao VCD → tổng hợp yếu tố trái chiều → đại vận/lưu niên/Lai Nhân Cung), không phải để khẳng định tuyệt đối từng chi tiết kỹ thuật của một lá số riêng lẻ.</blockquote>
+</section>
+
+<!-- ================= PHẦN 7 ================= -->
+<section class="phan" id="phan7">
+  <div class="phan-eyebrow"><span class="han-num">七</span><span class="label">Phần 7</span></div>
+  <h2 class="phan-title">Phú cổ về Tử Tức — 12 câu, có chú giải</h2>
+  <p>Đây là một bài phú cổ chuyên về cung Tử Tức (thường thấy trong các bộ phú Nôm về Tử Vi), gồm 12 ý chính. Bài phú có 2 kỹ thuật khá đặc sắc, ít gặp trong tài liệu phổ thông: <strong>(1)</strong> phân loại Nam Tinh/Bắc Tinh để đoán giới tính con đầu lòng, và <strong>(2)</strong> đếm số lượng con qua vòng Trường Sinh kết hợp với nhóm chính tinh. Dưới đây trích ý từng câu kèm chú giải, không diễn giải nguyên văn toàn bộ để tránh trùng lặp với nguồn phú gốc.</p>
+
+  <div class="phu-item">
+    <div class="phu-num">01</div>
+    <div class="phu-body">
+      <strong>Giới tính con đầu lòng — nhóm Nam Tinh/Bắc Tinh</strong>
+      <p>Nếu Nam Tinh (nhóm sao dương) hội tụ tại cung Tử Tức → con đầu lòng thường là trai; nếu Bắc Tinh (nhóm sao âm) hội tụ → con đầu lòng thường là gái. <em>Lưu ý:</em> bài phú không liệt kê cụ thể sao nào thuộc Nam Tinh, sao nào thuộc Bắc Tinh, và đây là cách phân nhóm <strong>khác</strong> với "Nam Đẩu tinh/Bắc Đẩu tinh" đã nêu ở mục 2.9 — không nên gộp hai hệ thống làm một khi chưa có bảng liệt kê đầy đủ để đối chiếu.</p>
+    </div>
+  </div>
+
+  <div class="phu-item">
+    <div class="phu-num">02</div>
+    <div class="phu-body">
+      <strong>Quy tắc "Nhật sinh kỵ Nguyệt, Dạ sinh kỵ Nhật"</strong>
+      <p>Người sinh ban ngày thì kỵ Thái Âm chiếm cung Tử Tức; người sinh ban đêm thì kỵ Thái Dương chiếm cung. Nếu Thái Âm – Thái Dương cùng đóng tại Tý thì thành thế khắc xung.</p>
+    </div>
+  </div>
+
+  <div class="phu-item">
+    <div class="phu-num">03</div>
+    <div class="phu-body">
+      <strong>Vô chính diệu vẫn phải mượn đối cung để luận</strong>
+      <p>Đúng nguyên tắc chung đã nêu ở mục 4.2 của tài liệu này, không phải kỹ thuật riêng của bài phú.</p>
+    </div>
+  </div>
+
+  <div class="phu-item">
+    <div class="phu-num">04</div>
+    <div class="phu-body">
+      <strong>Nhóm cát tinh chủ về con cái thuận lợi</strong>
+      <p>Thiên Phủ, Tử Vi, sao Đế Vượng (vòng Trường Sinh), Thiên Đồng, Văn Khúc, Văn Xương, Tả Phụ, Hữu Bật.</p>
+    </div>
+  </div>
+
+  <div class="phu-item">
+    <div class="phu-num">05</div>
+    <div class="phu-body">
+      <strong>Nhóm gây trắc trở</strong>
+      <p>Gặp sát tinh nói chung thì phúc phần về con cái kém đi; riêng Thái Dương – Thái Âm cùng gặp sao Lâm Quan (vòng Trường Sinh) thì lại là một tổ hợp tốt.</p>
+    </div>
+  </div>
+
+  <div class="phu-item">
+    <div class="phu-num">06</div>
+    <div class="phu-body">
+      <strong>Nhóm giúp con dễ trưởng thành</strong>
+      <p>Thiên Tướng, Thiên Lương, cùng sao Quan Đới (vòng Trường Sinh).</p>
+    </div>
+  </div>
+
+  <div class="phu-item">
+    <div class="phu-num">07</div>
+    <div class="phu-body">
+      <strong>Nhóm chủ quý hiển</strong>
+      <p>Hóa Khoa, Hóa Quyền, Hóa Lộc, cùng Thiên Việt, Thiên Khôi, Thiên Mã hội tụ → con cái thành đạt, có quý nhân phù trợ.</p>
+    </div>
+  </div>
+
+  <div class="phu-item">
+    <div class="phu-num">08–10</div>
+    <div class="phu-body">
+      <strong>Kỹ thuật đếm số con qua vòng Trường Sinh</strong>
+      <p>Kết hợp với nhóm chính tinh Cự Môn, Thiên Cơ, Liêm Trinh, Quả Tú, Phá Quân:</p>
+      <table style="margin-top:10px">
+        <thead><tr><th>Sao vòng Trường Sinh gặp tại Tử Tức</th><th>Số con theo phú</th></tr></thead>
+        <tbody>
+          <tr><td>Bệnh, Thai, Mộc Dục, Dưỡng</td><td>2 con</td></tr>
+          <tr><td>Suy</td><td>1 con</td></tr>
+          <tr><td>Kình Dương, Đà La, Hỏa Tinh, Linh Tinh đi kèm</td><td>giảm số con so với mức trên</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="phu-item">
+    <div class="phu-num">11</div>
+    <div class="phu-body">
+      <strong>Nhóm chủ hiếm muộn/cô đơn</strong>
+      <p>Địa Kiếp, Địa Không (hiếm muộn); Thất Sát (cô đơn, ít con).</p>
+    </div>
+  </div>
+
+  <div class="phu-item">
+    <div class="phu-num">12</div>
+    <div class="phu-body">
+      <strong>Nhóm chủ khắc xung/con yểu</strong>
+      <p>Hóa Kỵ, Thiên Hình, cùng hai sao Tử – Mộ (vòng Trường Sinh); Thiên Hư, Thiên Khốc cũng cần đề phòng.</p>
+    </div>
+  </div>
+
+  <h3>Đối chiếu với phần lý thuyết đã có trong tài liệu</h3>
+  <ul class="fact-list">
+    <li>Bảng đếm số con qua vòng Trường Sinh (mục 8–10) là một phiên bản cụ thể hóa của kỹ thuật đã nhắc ở mục 4.3 — giữ nguyên khuyến nghị: <strong>chỉ nên dùng tham khảo</strong>, vì kế hoạch hóa gia đình hiện đại khiến số con không còn phản ánh đúng cách cục như thời phú được biên soạn.</li>
+    <li>Nhóm cát tinh/sát tinh nêu ở câu 4–7 và 11–12 về cơ bản khớp với Phần 3.1–3.2 của tài liệu (Thiên Phủ, Tử Vi, Thiên Lương, Thiên Tướng là cát; Không Kiếp, Thất Sát, Hóa Kỵ là hung), củng cố thêm độ tin cậy của phần lý thuyết đã trình bày.</li>
+    <li>Kỹ thuật Nam Tinh/Bắc Tinh (câu 1) và quy tắc Nhật/Dạ kỵ Nhật-Nguyệt (câu 2) là hai điểm bổ sung mới, chưa có trong Phần 1–6 — nên xem là lớp kỹ thuật nâng cao, dùng phối hợp thêm chứ không thay thế quy trình 8 bước ở mục 4.1.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <div class="mark">紫微斗數</div>
+  <p>Tài liệu tổng hợp mang tính tham khảo học thuật về Tử Vi Đẩu Số — bản 2.4 (đã rà soát lỗi tham chiếu mục và định dạng): đã hiệu đính lỗi tam hợp (Tử Tức – Nô Bộc – Phụ Mẫu), tách rõ khái niệm giáp cung (Phu Thê, Tài Bạch) khỏi lục hợp (biến thiên theo Địa Chi từng lá số, không cố định vào Phúc Đức), chú thích quy tắc Nam/Bắc Đẩu chỉ là mẹo tham khảo dân gian, bổ sung ví dụ minh họa luận giải theo 4 cấp độ trên một lá số thật, và bổ sung bài phú cổ 12 câu về Tử Tức có chú giải.</p>
+</footer>
+
+<button class="ctrl-btn back-top" id="backTop" title="Về đầu trang" aria-label="Cuộn lên đầu trang">
+  <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="6 11 12 5 18 11"></polyline></svg>
+</button>
+
+<script>
+  (function(){
+    var root = document.documentElement;
+    var themeBtn = document.getElementById('themeBtn');
+    var saved = localStorage.getItem('tutuc-theme');
+    var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if(saved === 'dark' || (!saved && systemDark)){ root.setAttribute('data-theme','dark'); }
+    themeBtn.setAttribute('aria-pressed', root.getAttribute('data-theme') === 'dark' ? 'true' : 'false');
+    themeBtn.addEventListener('click', function(){
+      var isDark = root.getAttribute('data-theme') === 'dark';
+      if(isDark){ root.removeAttribute('data-theme'); localStorage.setItem('tutuc-theme','light'); }
+      else{ root.setAttribute('data-theme','dark'); localStorage.setItem('tutuc-theme','dark'); }
+      themeBtn.setAttribute('aria-pressed', String(!isDark));
+    });
+
+    var bgm = document.getElementById('bgm');
+    var musicBtn = document.getElementById('musicBtn');
+    var iconOn = document.getElementById('musicIconOn');
+    var iconOff = document.getElementById('musicIconOff');
+    bgm.volume = 0.55;
+    musicBtn.setAttribute('aria-pressed', 'false');
+    musicBtn.addEventListener('click', function(){
+      if(bgm.paused){
+        bgm.play().then(function(){
+          musicBtn.classList.add('playing');
+          musicBtn.setAttribute('aria-pressed', 'true');
+          iconOn.style.display = 'block';
+          iconOff.style.display = 'none';
+          musicBtn.title = 'Tắt nhạc nền';
+        }).catch(function(){
+          musicBtn.title = 'Không phát được music7.mp3 — kiểm tra file cùng thư mục repo';
+        });
+      } else {
+        bgm.pause();
+        musicBtn.classList.remove('playing');
+        musicBtn.setAttribute('aria-pressed', 'false');
+        iconOn.style.display = 'none';
+        iconOff.style.display = 'block';
+        musicBtn.title = 'Bật nhạc nền';
+      }
+    });
+
+    /* ---- reading progress bar ---- */
+    var progressBar = document.getElementById('progressBar');
+    function updateProgress(){
+      var h = document.documentElement;
+      var scrolled = h.scrollTop;
+      var height = h.scrollHeight - h.clientHeight;
+      var pct = height > 0 ? (scrolled / height) * 100 : 0;
+      progressBar.style.width = pct + '%';
+    }
+    document.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+
+    /* ---- back to top ---- */
+    var backTop = document.getElementById('backTop');
+    function toggleBackTop(){
+      if(window.scrollY > 640){ backTop.classList.add('show'); }
+      else{ backTop.classList.remove('show'); }
+    }
+    document.addEventListener('scroll', toggleBackTop, { passive: true });
+    toggleBackTop();
+    backTop.addEventListener('click', function(){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ---- reveal sections on scroll ---- */
+    var sections = document.querySelectorAll('section.phan');
+    if('IntersectionObserver' in window){
+      var revealObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+      sections.forEach(function(s){ revealObserver.observe(s); });
+    } else {
+      sections.forEach(function(s){ s.classList.add('in-view'); });
+    }
+
+    /* ---- scrollspy for table of contents ---- */
+    var tocLinks = document.querySelectorAll('.toc a');
+    var linkByHash = {};
+    tocLinks.forEach(function(a){ linkByHash[a.getAttribute('href')] = a; });
+    if('IntersectionObserver' in window){
+      var spyObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          var link = linkByHash['#' + entry.target.id];
+          if(!link) return;
+          if(entry.isIntersecting){
+            tocLinks.forEach(function(a){ a.classList.remove('active'); });
+            link.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+      sections.forEach(function(s){ spyObserver.observe(s); });
+    }
+  })();
+</script>
+
+</body>
+</html>
