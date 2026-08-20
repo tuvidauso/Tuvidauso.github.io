@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cung Thiên Di — Từ Cơ Bản Đến Bậc Thầy Tinh Thông</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  html[data-theme="dark"]{
+    --bg:#0e1130;
+    --bg-2:#12173d;
+    --panel:#161a45;
+    --panel-2:#1c2150;
+    --text:#e9e2cd;
+    --muted:#a79fc4;
+    --line: rgba(201,162,39,0.28);
+    --shadow: 0 20px 60px rgba(0,0,0,0.45);
+    --gold:#c9a227;
+    --gold-soft:#e8c97a;
+    --cinnabar:#b23a2e;
+    --cinnabar-soft:#d0685a;
+  }
+  html[data-theme="light"]{
+    --bg:#f4eedd;
+    --bg-2:#efe4c8;
+    --panel:#fffcf3;
+    --panel-2:#f4ead0;
+    --text:#241f33;
+    --muted:#6c6151;
+    --line: rgba(140,90,20,0.28);
+    --shadow: 0 16px 40px rgba(90,70,30,0.15);
+    /* tông đậm hơn bản tối, đủ tương phản trên nền giấy — như mực và triện trên bản thảo cũ */
+    --gold:#9c7a1a;
+    --gold-soft:#6e5008;
+    --cinnabar:#9c352a;
+    --cinnabar-soft:#7c2419;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:400;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    transition:background .5s ease, color .5s ease;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{
+    font-family:'Cormorant', serif;
+    font-weight:600;
+    margin:0 0 .4em 0;
+    line-height:1.15;
+  }
+  a{color:inherit;}
+  .container{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+  .wide{ max-width:920px; }
+
+  /* ---------- background atmosphere ---------- */
+  .stars{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .6s ease;
+    background-image:
+      radial-gradient(circle, rgba(232,201,122,0.9) 0 1px, transparent 1.6px),
+      radial-gradient(circle, rgba(232,201,122,0.6) 0 1px, transparent 1.6px),
+      radial-gradient(circle, rgba(232,201,122,0.4) 0 .8px, transparent 1.3px);
+    background-size: 340px 340px, 260px 260px, 180px 180px;
+    background-position: 20px 40px, 140px 210px, 60px 150px;
+  }
+  html[data-theme="dark"] .stars{ opacity:1; }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 24px;
+    backdrop-filter:blur(10px);
+    background:var(--bg);
+    background:color-mix(in srgb, var(--bg) 78%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    font-family:'Cormorant', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    letter-spacing:.04em;
+    display:flex;
+    align-items:center;
+    gap:.5em;
+  }
+  .brand small{
+    display:block;
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-size:.6rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:500;
+  }
+  .controls{
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+  .ctrl-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    border-radius:999px;
+    padding:8px 14px;
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-size:.72rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:border-color .25s ease, transform .2s ease, background .25s ease;
+  }
+  .ctrl-btn:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .ctrl-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .ctrl-icon{ width:16px; height:16px; flex:none; }
+  .compass{ transition:transform 6s linear; }
+  .compass.spin{ animation:spin 6s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    z-index:1;
+    padding:150px 24px 80px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-size:.72rem;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 4.6rem);
+    font-style:italic;
+    background:linear-gradient(120deg, var(--gold-soft), var(--gold) 60%, var(--cinnabar-soft));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    -webkit-text-fill-color:transparent;
+  }
+  .hero .sub{
+    font-family:'Cormorant', serif;
+    font-size:1.35rem;
+    font-weight:500;
+    color:var(--muted);
+    margin-bottom:28px;
+  }
+  .hero p.lead{
+    max-width:600px;
+    margin:0 auto;
+    color:var(--muted);
+    font-size:1.02rem;
+  }
+
+  /* ---------- 12-cung chart ---------- */
+  .chart-wrap{
+    position:relative;
+    z-index:1;
+    max-width:420px;
+    margin:56px auto 18px;
+  }
+  .chart-grid{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows:repeat(4, 1fr);
+    aspect-ratio:1/1;
+    gap:6px;
+  }
+  .cell{
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--panel);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:.66rem;
+    letter-spacing:.02em;
+    padding:4px;
+    color:var(--muted);
+    line-height:1.25;
+  }
+  .cell--active{
+    color:var(--text);
+    font-weight:600;
+    border-color:var(--gold);
+    box-shadow:0 0 0 1px var(--gold) inset;
+    text-decoration:none;
+  }
+  .cell--menh{ background:linear-gradient(150deg, var(--panel-2), var(--panel)); color:var(--gold-soft); }
+  .cell--di{ background:linear-gradient(150deg, var(--panel-2), var(--panel)); color:var(--gold-soft); }
+  .cell--tam{ color:var(--cinnabar-soft); border-color:var(--cinnabar); }
+  .cell--center{
+    grid-column:2 / 4;
+    grid-row:2 / 4;
+    background:transparent;
+    border:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:2px;
+  }
+  .cell--center span.k1{
+    font-family:'Cormorant', serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--gold);
+  }
+  .cell--center span.k2{
+    font-size:.6rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .chart-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .chart-caption{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--muted);
+    margin-top:14px;
+    max-width:360px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .chart-caption .dot{ color:var(--gold-soft); }
+  .chart-caption .dot2{ color:var(--cinnabar-soft); }
+
+  /* ---------- toc ---------- */
+  .toc{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px 14px;
+    padding:40px 24px 10px;
+  }
+  .toc a{
+    text-decoration:none;
+    font-size:.78rem;
+    letter-spacing:.05em;
+    color:var(--muted);
+    border-bottom:1px dotted var(--line);
+    padding-bottom:2px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .toc a:hover{ color:var(--gold); border-color:var(--gold); }
+  .toc .num{ color:var(--gold); font-family:'Cormorant', serif; font-style:italic; margin-right:4px; }
+
+  /* ---------- sections ---------- */
+  section{
+    position:relative;
+    z-index:1;
+    padding:64px 0;
+    border-top:1px solid var(--line);
+  }
+  section:first-of-type{ border-top:none; }
+  .section-head{ margin-bottom:34px; }
+  .section-head h2{
+    font-size:clamp(1.8rem, 4vw, 2.4rem);
+    font-style:italic;
+  }
+  p{ margin:0 0 1.1em 0; }
+  strong{ color:var(--text); font-weight:600; }
+
+  blockquote.pull{
+    margin:32px 0;
+    padding:6px 0 6px 24px;
+    border-left:2px solid var(--gold);
+    font-family:'Cormorant', serif;
+    font-style:italic;
+    font-size:1.3rem;
+    color:var(--gold-soft);
+  }
+
+  .star-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin:24px 0;
+    padding:0;
+    list-style:none;
+  }
+  .star-list li{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    font-size:.92rem;
+  }
+  .star-list li::before{
+    content:"✦";
+    color:var(--gold);
+    margin-right:8px;
+  }
+  .star-list li strong{ color:var(--gold-soft); }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px 28px;
+    margin:24px 0;
+  }
+  .card h3{ font-size:1.25rem; font-style:italic; color:var(--gold-soft); }
+  .subhead{ font-style:italic; color:var(--gold-soft); font-size:1.15rem; margin-top:30px; }
+
+  .tam-hop-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+    margin:24px 0;
+    font-size:.92rem;
+  }
+  .tam-hop-grid div{
+    padding:10px 16px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--panel);
+  }
+  .tam-hop-grid div.highlight{
+    border-color:var(--cinnabar);
+    color:var(--cinnabar-soft);
+    font-weight:600;
+    background:var(--panel-2);
+  }
+
+  /* case study */
+  .case{
+    background:repeating-linear-gradient(135deg, var(--panel) 0 22px, var(--panel-2) 22px 24px);
+    border:1px dashed var(--line);
+    border-radius:16px;
+    padding:34px 30px;
+    margin:30px 0;
+  }
+  .case-tag{
+    display:inline-block;
+    font-size:.68rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--cinnabar-soft);
+    border:1px solid var(--cinnabar);
+    border-radius:999px;
+    padding:4px 12px;
+    margin-bottom:16px;
+  }
+  .case h4{
+    font-family:'Cormorant', serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--gold-soft);
+    margin:26px 0 10px;
+  }
+
+  /* summary list */
+  .summary-list{
+    list-style:none;
+    counter-reset:sum;
+    padding:0;
+    margin:26px 0;
+  }
+  .summary-list li{
+    counter-increment:sum;
+    position:relative;
+    padding:14px 0 14px 52px;
+    border-bottom:1px solid var(--line);
+  }
+  .summary-list li:last-child{ border-bottom:none; }
+  .summary-list li::before{
+    content:counter(sum);
+    position:absolute;
+    left:0; top:12px;
+    font-family:'Cormorant', serif;
+    font-style:italic;
+    font-size:1.6rem;
+    color:var(--gold);
+    width:38px;
+  }
+
+  /* phu appendix */
+  .phu-item{
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+    display:grid;
+    grid-template-columns:44px 1fr;
+    gap:18px;
+  }
+  .phu-item:last-of-type{ border-bottom:none; }
+  .phu-seal{
+    width:36px; height:36px;
+    border-radius:50%;
+    border:1.5px solid var(--cinnabar);
+    color:var(--cinnabar-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Cormorant', serif;
+    font-style:italic;
+    font-size:.85rem;
+    flex:none;
+  }
+  .phu-verse{
+    font-family:'Cormorant', serif;
+    font-style:italic;
+    font-size:1.25rem;
+    color:var(--gold-soft);
+    margin:0 0 10px 0;
+  }
+  .phu-verse span{ display:block; }
+  .phu-note{ color:var(--muted); font-size:.94rem; margin:0; }
+  .phu-note strong{ color:var(--text); }
+
+  .callout{
+    background:var(--panel-2);
+    border-left:3px solid var(--cinnabar);
+    border-radius:0 12px 12px 0;
+    padding:22px 26px;
+    margin-top:30px;
+    font-size:.95rem;
+    color:var(--muted);
+  }
+
+  footer{
+    position:relative;
+    z-index:1;
+    text-align:center;
+    padding:60px 24px 90px;
+    color:var(--muted);
+    font-size:.82rem;
+  }
+  footer .glyph{ color:var(--gold); font-size:1.2rem; display:block; margin-bottom:10px; }
+
+  /* music player */
+  .player{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:60;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 16px 8px 8px;
+    box-shadow:var(--shadow);
+  }
+  .play-btn{
+    width:40px; height:40px;
+    border-radius:50%;
+    border:1px solid var(--gold);
+    background:var(--panel-2);
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    flex:none;
+  }
+  .play-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .player span{
+    font-size:.72rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  /* reveal animation */
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .compass.spin{ animation:none; }
+  }
+
+  @media (max-width:640px){
+    .star-list{ grid-template-columns:1fr; }
+    .chart-wrap{ max-width:300px; }
+    .cell{ font-size:.56rem; }
+    .hero{ padding-top:130px; }
+    .brand small{ display:none; }
+    .phu-item{ grid-template-columns:36px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">✦ <span>Học Tử Vi<br><small>Cung Thiên Di</small></span></div>
+  <div class="controls">
+    <button class="ctrl-btn" id="themeToggle" aria-pressed="false">
+      <svg class="ctrl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <span id="themeLabel">Chuyển sang Mệnh</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container wide">
+      <p class="eyebrow">Tử Vi Đẩu Số · Chuyên đề cung</p>
+      <h1>Cung Thiên Di</h1>
+      <p class="sub">Từ cơ bản đến bậc thầy tinh thông</p>
+      <p class="lead">Mệnh là ta ở nhà, Di là ta bước ra ngoài đường. Bài viết này dẫn người đọc đi trọn con đường luận đoán cung Thiên Di — từ vỡ lòng đến kỹ thuật phi tinh nâng cao, kèm ví dụ lá số thực tế và trọn vẹn bài phú cổ.</p>
+
+      <div class="chart-wrap">
+        <div class="chart-grid">
+          <a href="#muc-i" class="cell cell--active cell--menh" style="grid-column:1;grid-row:1;">MỆNH</a>
+          <div class="cell" style="grid-column:2;grid-row:1;">Huynh&nbsp;Đệ</div>
+          <a href="#muc-iii" class="cell cell--active cell--tam" style="grid-column:3;grid-row:1;">Phu&nbsp;Thê</a>
+          <div class="cell" style="grid-column:4;grid-row:1;">Tử&nbsp;Tức</div>
+
+          <div class="cell" style="grid-column:1;grid-row:2;">Phụ&nbsp;Mẫu</div>
+          <div class="cell cell--center" style="grid-column:2/4;grid-row:2/4;">
+            <span class="k1">12 Cung</span>
+            <span class="k2">Trục Mệnh · Di</span>
+          </div>
+          <div class="cell" style="grid-column:4;grid-row:2;">Tài&nbsp;Bạch</div>
+
+          <a href="#muc-iii" class="cell cell--active cell--tam" style="grid-column:1;grid-row:3;">Phúc&nbsp;Đức</a>
+          <div class="cell" style="grid-column:4;grid-row:3;">Tật&nbsp;Ách</div>
+
+          <div class="cell" style="grid-column:1;grid-row:4;">Điền&nbsp;Trạch</div>
+          <div class="cell" style="grid-column:2;grid-row:4;">Quan&nbsp;Lộc</div>
+          <div class="cell" style="grid-column:3;grid-row:4;">Nô&nbsp;Bộc</div>
+          <a href="#muc-ii" class="cell cell--active cell--di" style="grid-column:4;grid-row:4;">THIÊN&nbsp;DI</a>
+
+          <svg class="chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line x1="12.5" y1="12.5" x2="87.5" y2="87.5" stroke="var(--gold)" stroke-width="0.6" stroke-linecap="round" opacity="0.85"/>
+            <path d="M 87.5 87.5 L 62.5 12.5 L 12.5 62.5 Z" fill="none" stroke="var(--cinnabar)" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.75"/>
+          </svg>
+        </div>
+        <p class="chart-caption"><span class="dot">●</span> Mệnh — Thiên Di xung chiếu &nbsp;·&nbsp; <span class="dot2">●</span> Di — Phu Thê — Phúc Đức tam hợp</p>
+      </div>
+
+      <nav class="toc" aria-label="Mục lục">
+        <a href="#muc-i"><span class="num">I.</span>Nhập môn</a>
+        <a href="#muc-ii"><span class="num">II.</span>Cơ bản</a>
+        <a href="#muc-iii"><span class="num">III.</span>Nâng cao</a>
+        <a href="#muc-iv"><span class="num">IV.</span>Bậc thầy</a>
+        <a href="#muc-v"><span class="num">V.</span>Ví dụ minh họa</a>
+        <a href="#muc-vi"><span class="num">VI.</span>Tóm lược</a>
+        <a href="#muc-vii"><span class="num">VII.</span>Phụ lục · Phú</a>
+      </nav>
+    </div>
+  </section>
+
+  <section id="muc-i">
+    <div class="container reveal">
+      <div class="section-head">
+        <p class="eyebrow">Mục I</p>
+        <h2>Nhập môn — Thiên Di là gì</h2>
+      </div>
+      <p>Trong 12 cung của lá số Tử Vi, <strong>Thiên Di</strong> là cung đứng đối diện với cung <strong>Mệnh</strong> qua trục Mệnh — Di. Đây là quy luật cố định: Thiên Di luôn cách Mệnh đúng 6 cung, tạo thành thế "xung chiếu" vĩnh viễn với Mệnh.</p>
+      <p>Ý nghĩa cốt lõi của Thiên Di gồm ba tầng:</p>
+      <ul>
+        <li><strong>Không gian sống bên ngoài nhà</strong> — nơi làm việc, nơi đi lại, môi trường xã hội, xứ người, phương xa.</li>
+        <li><strong>Vận động và biến dịch</strong> — đi lại, di chuyển, xuất ngoại, thay đổi chỗ ở, thay đổi công việc, thăng giáng trong đời.</li>
+        <li><strong>Cách người khác nhìn thấy mình khi ra ngoài xã hội</strong> — hình ảnh, danh tiếng, và cả may rủi khi xa nhà.</li>
+      </ul>
+      <blockquote class="pull">"Mệnh là gốc, Di là ngọn; Mệnh là mình, Di là mình lúc ở ngoài."</blockquote>
+      <p>Cung Mệnh cho biết bản chất con người, còn Thiên Di cho biết vận trình khi con người ấy bước ra khỏi phạm vi gia đình, bản thân — đối diện với thiên hạ.</p>
+      <p>Vì Mệnh và Di xung chiếu nhau, hai cung này luôn <strong>soi vào nhau và bổ sung cho nhau khi luận đoán</strong> — không bao giờ xem Mệnh mà bỏ qua Di, và ngược lại. Đây là nguyên lý nền tảng, người mới học cần nắm chắc trước khi đi xa hơn.</p>
+    </div>
+  </section>
+
+  <section id="muc-ii">
+    <div class="container reveal">
+      <div class="section-head">
+        <p class="eyebrow">Mục II</p>
+        <h2>Cơ bản — Cách xem sao tại Thiên Di</h2>
+      </div>
+
+      <h3 class="subhead">1. Sao chính tinh tọa thủ</h3>
+      <p>Mỗi chính tinh khi ở Thiên Di mang một sắc thái riêng:</p>
+      <ul class="star-list">
+        <li><strong>Tử Vi tại Di</strong> — ra ngoài được người trọng vọng, dễ gặp quý nhân, có uy tín nơi xa. Nhưng nếu đơn thủ, không có Tả Phù, Hữu Bật, Văn Xương, Văn Khúc, hoặc Hóa Khoa, Hóa Quyền, Hóa Lộc hội chiếu, dễ thành cách "cô quân" — hư danh, có tiếng mà không có thực chất.</li>
+        <li><strong>Thiên Phủ, Thiên Tướng</strong> — ra ngoài được nương tựa, có quý nhân giúp đỡ, đi đến đâu cũng ổn định — hợp với người cần công tác, ngoại giao.</li>
+        <li><strong>Vũ Khúc</strong> — ra ngoài kiếm tiền tốt, có khả năng lập nghiệp nơi xa, nhưng tính cứng nên dễ va chạm.</li>
+        <li><strong>Liêm Trinh</strong> — biến động nhiều, có thể gặp thị phi, tranh chấp nơi xa; nếu đắc cách thì lại là người xông pha, dám nghĩ dám làm ở đất khách.</li>
+        <li><strong>Thất Sát, Phá Quân</strong> — cung Di có sát tinh này chủ về xa quê lập nghiệp, cuộc đời nhiều sóng gió khi ra ngoài, nhưng cũng là người có chí lớn, không ngại gian nan.</li>
+        <li><strong>Tham Lang</strong> — giỏi giao tế, quan hệ rộng, ra ngoài dễ gặp cơ hội — nhưng cũng dễ vướng vào cám dỗ, thị phi tình cảm nơi xa.</li>
+        <li><strong>Cự Môn</strong> — dễ gặp thị phi, miệng lưỡi, tranh cãi khi ra ngoài; nhưng nếu đắc cách lại thành người có tài ăn nói, hợp nghề cần thuyết phục.</li>
+        <li><strong>Thiên Đồng, Thiên Lương</strong> — ra ngoài được an nhàn, gặp quý nhân phù trợ, ít sóng gió — Thiên Lương đặc biệt chủ về gặp hoạn nạn có người cứu giúp.</li>
+        <li><strong>Thái Dương, Thái Âm</strong> — chủ về danh tiếng và tài lộc nơi xa; Thái Dương vượng hợp lập công nơi xa, Thái Âm vượng hợp phát triển âm thầm, tích lũy.</li>
+        <li><strong>Phá Quân hội Kình Dương hoặc Đà La</strong> — lưu ý: Kình Dương và Đà La luôn kẹp hai bên Lộc Tồn nên không bao giờ đồng cung với nhau, chỉ có thể hội chiếu riêng lẻ với Phá Quân — cảnh báo tai nạn, thương tích khi đi xa.</li>
+      </ul>
+
+      <h3 class="subhead">2. Nguyên tắc cơ bản để luận đoán</h3>
+      <ul>
+        <li><strong>Thiên Di miếu vượng, có cát tinh</strong> → ra ngoài thuận lợi, được quý nhân, danh tiếng tốt, hợp đi làm ăn xa, xuất ngoại.</li>
+        <li><strong>Thiên Di hãm địa, có sát tinh</strong> (Kình, Đà, Hỏa, Linh, Không, Kiếp) → ra ngoài dễ gặp trở ngại, thị phi, tai nạn, hao tài.</li>
+        <li><strong>Thiên Di có Hóa Kỵ</strong> → dễ gặp tiểu nhân, kiện tụng, thị phi nơi xa.</li>
+        <li><strong>Thiên Di có Hóa Lộc, Hóa Quyền</strong> → phát tài, phát danh nơi xa, hợp con đường gắn với di chuyển, ngoại giao, buôn bán quốc tế.</li>
+      </ul>
+
+      <h3 class="subhead">3. Trường hợp Thiên Di Vô Chính Diệu</h3>
+      <p>Đây là tình huống rất thường gặp và quan trọng: cung Thiên Di không có chính tinh nào tọa thủ. Khi đó, nguyên tắc luận là <strong>mượn chính tinh từ cung đối chiếu</strong> (tức cung Mệnh) sang để xem — gọi là "tá tinh an cung".</p>
+      <ul>
+        <li>Vì mượn sao từ đối cung, lực của chính tinh khi "mượn" luôn <strong>yếu hơn</strong> so với khi thực sự tọa thủ tại Di.</li>
+        <li>Mệnh có chính tinh miếu vượng, cát tinh hội đủ → vẫn dùng được tốt, ra ngoài vẫn thuận lợi.</li>
+        <li>Mệnh yếu hoặc hãm địa → cung Di gần như trống rỗng, dễ mất phương hướng khi ra ngoài, dễ bị hoàn cảnh chi phối.</li>
+        <li>Rất cần phụ tinh cát (Tả Hữu, Xương Khúc, Khôi Việt) và Thiên Mã hội chiếu để "lấp chỗ trống" — khi đó thành cách linh hoạt, dễ thích nghi.</li>
+      </ul>
+
+      <h3 class="subhead">4. Các sao phụ chỉ tâm lý khi đi xa</h3>
+      <p>Ngoài chính tinh và Thiên Mã, một nhóm sao phụ tại Thiên Di cho biết <strong>trạng thái tâm lý</strong> của đương số khi rời khỏi môi trường quen thuộc:</p>
+      <ul>
+        <li><strong>Thiên Mã</strong> — tốc độ và tần suất di chuyển.</li>
+        <li><strong>Hoa Cái</strong> — ra ngoài mang phong thái riêng, có phần cô độc, thiên về tâm linh; dù đi xa vẫn giữ khoảng cách nội tâm với môi trường mới.</li>
+        <li><strong>Thiên Khốc, Thiên Hư</strong> — báo hiệu tâm trạng buồn bã, hụt hẫng, lạc lõng khi xa nhà dù thành công về vật chất.</li>
+        <li><strong>Cô Thần, Quả Tú</strong> — cô đơn, khó hòa nhập sâu dù đi lại nhiều; hợp làm việc độc lập.</li>
+      </ul>
+      <p>Kết hợp các sao này với chính tinh sẽ cho một bức tranh đầy đủ: không chỉ "đi xa có tốt không" mà còn "<strong>đi xa rồi có vui, có hòa nhập được không</strong>".</p>
+    </div>
+  </section>
+
+  <section id="muc-iii">
+    <div class="container reveal">
+      <div class="section-head">
+        <p class="eyebrow">Mục III</p>
+        <h2>Nâng cao — Mối quan hệ tam giác và tứ chính</h2>
+      </div>
+
+      <h3 class="subhead">1. Vị trí đúng của Thiên Di trong thế tam hợp</h3>
+      <p>Tam hợp trong Tử Vi được chia thành 4 bộ ba (mỗi cung cách nhau 4 vị trí):</p>
+      <div class="tam-hop-grid">
+        <div>Mệnh — Tài Bạch — Quan Lộc</div>
+        <div>Huynh Đệ — Tật Ách — Điền Trạch</div>
+        <div class="highlight">Phu Thê — Thiên Di — Phúc Đức</div>
+        <div>Tử Tức — Nô Bộc — Phụ Mẫu</div>
+      </div>
+      <p><strong>Thiên Di không tam hợp với Quan Lộc hay Tài Bạch</strong> — đó là tam hợp của Mệnh. Thiên Di tam hợp với <strong>Phu Thê</strong> và <strong>Phúc Đức</strong>:</p>
+      <ul>
+        <li><strong>Mệnh — Di</strong>: xung chiếu trực diện, phản ánh nội tâm và biểu hiện ra ngoài.</li>
+        <li><strong>Di — Phúc Đức</strong>: tam hợp, cho biết phúc phận và may rủi tiềm ẩn khi ra ngoài.</li>
+        <li><strong>Di — Phu Thê</strong>: tam hợp, cho biết chất lượng các mối quan hệ đối tác, bạn đồng hành khi ra ngoài xã hội.</li>
+      </ul>
+      <p>Thiên Di còn liên hệ gián tiếp với Quan Lộc và Tài Bạch qua thế tứ chính khi luận theo hệ thống Tứ Hóa phi tinh nâng cao — nhưng đây là mối liên hệ động (qua phi tinh), không phải tam hợp tĩnh của lá số gốc.</p>
+
+      <h3 class="subhead">2. Cách cục đặc biệt liên quan Thiên Di</h3>
+      <ul>
+        <li><strong>"Xuất ngoại cách"</strong> — Thiên Di có Tử Vi, Thiên Phủ hoặc Thái Dương miếu vượng hội Văn Xương, Văn Khúc, hoặc có Hóa Lộc, Hóa Quyền → danh vọng phát triển mạnh ở nước ngoài hoặc xa quê hương.</li>
+        <li><strong>"Ly Tông cách"</strong> — Thiên Di có Cô Thần, Quả Tú, Thiên Mã hội hợp → sống xa gia đình, ít gắn bó quê quán.</li>
+        <li><strong>Thiên Mã tại Di</strong> — gặp Lộc Tồn thành "Lộc Mã giao trì", giàu có nhờ đi lại, ngoại thương; gặp Không, Kiếp thành "Mã đầu đới kiếm" — đi lại vất vả, dễ tai nạn.</li>
+        <li><strong>Thiên Di ngộ Tuần, Triệt</strong> — dự tính đi xa, xuất ngoại thường bị trì hoãn, đứt đoạn.</li>
+      </ul>
+
+      <div class="card">
+        <h3>Vai trò của Thân cung</h3>
+        <p>Nếu <strong>Thân cư Thiên Di</strong>, cả đời người này gắn bó với việc đi lại, xa quê, và vận mệnh chịu ảnh hưởng lớn từ môi trường bên ngoài hơn là nội tại — người xưa gọi là bôn ba, ly hương lập nghiệp, thành bại đều gắn với đất khách quê người.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="muc-iv">
+    <div class="container reveal">
+      <div class="section-head">
+        <p class="eyebrow">Mục IV</p>
+        <h2>Bậc thầy — Đại Vận, Lưu Niên và tổng hợp</h2>
+      </div>
+
+      <h3 class="subhead">1. Xem theo Đại Vận (10 năm)</h3>
+      <p>Khi Đại Vận đi đến cung Thiên Di của lá số gốc, đây là giai đoạn 10 năm mà đương số:</p>
+      <ul>
+        <li>Có nhiều biến động về nơi ở, nơi làm việc, hoặc thậm chí quốc gia sinh sống.</li>
+        <li>Vận trình phụ thuộc mạnh vào các sao lưu chiếu từ Đại Vận Mệnh (đối cung) và các sao nguyên cục tại Thiên Di.</li>
+        <li>Đắc cát tinh, Hóa Lộc/Quyền → 10 năm phát triển mạnh nhờ ra ngoài, đi xa, đổi môi trường tích cực.</li>
+        <li>Gặp sát, kỵ → cẩn trọng các quyết định lớn về di cư, đầu tư xa, hợp tác với người nơi khác.</li>
+      </ul>
+
+      <h3 class="subhead">2. Xem theo Lưu Niên (từng năm)</h3>
+      <ol>
+        <li>Xác định cung Thiên Di của Lưu Niên (tính theo địa chi năm đó).</li>
+        <li>Đối chiếu sao lưu chiếu tại đó với sao nguyên cục và sao Đại Vận cùng vị trí.</li>
+        <li>Ba lớp (Nguyên cục — Đại Vận — Lưu Niên) đều gặp cát tinh tại Di → năm cực thuận cho đi xa, ký kết hợp tác quốc tế.</li>
+        <li>Ba lớp trùng sát tinh, đặc biệt Kình Dương, Hỏa Tinh đồng cung với Thiên Mã → cảnh báo tai nạn giao thông.</li>
+      </ol>
+
+      <h3 class="subhead">3. Nguyên tắc "soi chiếu hai chiều"</h3>
+      <p>Điểm phân biệt giữa người mới học và bậc thầy: <strong>không bao giờ luận Thiên Di độc lập</strong>.</p>
+      <ul>
+        <li>Thiên Di tốt nhưng Mệnh xấu → có cơ hội bên ngoài nhưng bản thân không đủ nội lực nắm bắt, dễ "được tiếng mà không được miếng".</li>
+        <li>Mệnh tốt nhưng Thiên Di xấu → nên giữ thế phòng thủ, phát triển tại chỗ hơn là mạo hiểm đi xa.</li>
+        <li>Cả Mệnh và Di đều vượng, cát tinh hội đủ → cách "nội ngoại giai cát" — dấu hiệu của người có thể lập nghiệp toàn cầu.</li>
+      </ul>
+      <p>Bậc thầy còn xét đến <strong>tứ Hóa phi tinh</strong> bay vào cung Di từ các cung khác trong Đại Vận và Lưu Niên — kỹ thuật giúp thấy được nguyên nhân sâu xa của biến động tại Thiên Di.</p>
+    </div>
+  </section>
+
+  <section id="muc-v">
+    <div class="container reveal">
+      <div class="section-head">
+        <p class="eyebrow">Mục V</p>
+        <h2>Ví dụ minh họa — Một lá số thực tế</h2>
+      </div>
+      <p>Để thấy rõ cách vận dụng các nguyên tắc trên vào một lá số cụ thể, dưới đây là ví dụ luận Thiên Di theo đúng ba tầng: cơ bản → trung cấp → nâng cao.</p>
+
+      <div class="case">
+        <span class="case-tag">Lá số nghiên cứu</span>
+        <p>Nam mệnh, Đinh Mão 1987, Mệnh — Thân đồng cung tại Ất Tỵ, giờ Tý, Cục Hỏa Lục Cục.</p>
+
+        <h4>1. Xác định cơ bản</h4>
+        <p>Cung Thiên Di đóng tại Tân Hợi, đối xung trực diện với cung Mệnh tại Ất Tỵ. Tam hợp với <strong>Phúc Đức</strong> (Đinh Mùi) và <strong>Phu Thê</strong> (Quý Mão) — cần nhìn đồng thời bốn cung: Di — Mệnh — Phúc Đức — Phu Thê.</p>
+
+        <h4>2. Trung cấp — bóc chính tinh và phụ tinh</h4>
+        <p>Cung Di tại Hợi (hành Thủy), vòng Tràng Sinh là <strong>Đế Vượng</strong> — vị trí năng lượng mạnh nhất.</p>
+        <ul>
+          <li><strong>Tử Vi (Bình hòa) + Thất Sát (Vượng) đồng cung</strong> — cách "Tử Vi chế Thất Sát": phong thái uy nghiêm, ít nói nhưng có sát khí, hợp ly hương lập nghiệp.</li>
+          <li><strong>Phụ tinh trợ lực</strong>: Thiên Khôi, Thiên Giải, Thiên Phúc, Ân Quang, Hỷ Thần, Đường Phù — bộ Quý Nhân + Giải Thần khá đầy đủ.</li>
+          <li><strong>Phụ tinh phá cách</strong>: Địa Không + Địa Kiếp đồng cung — tư duy đột phá, sáng tạo, nhưng tài lộc tụ tán thất thường, thêm Bạch Hổ càng nhấn mạnh nguy cơ va chạm.</li>
+          <li><strong>Tuần án ngữ</strong> — vừa giảm sức phá của Không Kiếp, vừa làm quý nhân đến chậm; xuất ngoại trắc trở lúc đầu, thuận dần về sau.</li>
+        </ul>
+        <p><em>Kết luận trung cấp:</em> cung Di dạng <strong>hung cát đan xen, cát nhiều hơn nhưng hung khá nặng</strong> — hợp môi trường biến động, cạnh tranh; không hợp công việc an phận.</p>
+
+        <h4>3. Nâng cao — liên kết toàn lá số (phi cung)</h4>
+        <ul>
+          <li><strong>Mệnh — Di đối chiếu</strong>: Mệnh có Thiên Mã + Đà La + Cô Thần — "chân không chịu ở yên", cô đơn khi ở một chỗ; Di lại đắc Đế Vượng → càng đi xa vận càng sáng.</li>
+          <li><strong>Phúc Đức</strong> có Tham Lang + Vũ Khúc + Kình Dương — gốc rễ từ dòng họ thúc đẩy đương số bôn ba, đúng nguyên lý tam hợp Di — Phúc Đức.</li>
+          <li><strong>Phi Hóa từ can cung Di</strong> — kỹ thuật tìm xem sự kiện tại Di bắt nguồn hoặc tác động đến cung nào khác, ví dụ Hóa Kỵ bay đến Nô Bộc cho biết rắc rối khi ra ngoài đến từ bạn bè, đối tác, giấy tờ.</li>
+          <li><strong>Đại Vận</strong> đi qua cung có Triệt, cung Di gốc có Tuần → thế Tuần — Triệt tháo gỡ, 10 năm biến động chỗ ở, cơ hội xuất ngoại rõ rệt nhất đời.</li>
+        </ul>
+
+        <h4>4. Từ lý thuyết ra lời khuyên thực tế</h4>
+        <ul>
+          <li>Hợp lập nghiệp xa quê hơn là bám trụ nơi sinh ra.</li>
+          <li>Hợp ngành quản lý, cạnh tranh, kỹ thuật, hoặc tự kinh doanh — không hợp bàn giấy đơn thuần.</li>
+          <li>Vì Di có Không Kiếp — cẩn trọng khi đi lại và khi đứng tên vay mượn, bảo lãnh cho người ngoài.</li>
+          <li>Chủ động tận dụng quan hệ với người lớn tuổi, cấp trên khi cần hỗ trợ lúc khó khăn.</li>
+        </ul>
+        <p>Ví dụ này cho thấy: một cung Di "tốt" hay "xấu" không nằm ở một sao đơn lẻ, mà ở cách <strong>chính tinh — phụ tinh — vòng Tràng Sinh — tam hợp — phi hóa — đại vận</strong> cộng hưởng với nhau.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="muc-vi">
+    <div class="container reveal">
+      <div class="section-head">
+        <p class="eyebrow">Mục VI</p>
+        <h2>Tóm lược — Bản đồ tư duy khi luận Thiên Di</h2>
+      </div>
+      <ol class="summary-list">
+        <li>Nhìn chính tinh miếu/hãm tại Di → xác định bản chất cát/hung cơ bản.</li>
+        <li>Nhìn phụ tinh, sát tinh, Thiên Mã, Tuần/Triệt → xác định mức độ thuận nghịch khi đi xa.</li>
+        <li>Nhìn tam hợp Di — Phúc Đức — Phu Thê → xác định phúc phận, may rủi và chất lượng quan hệ đồng hành.</li>
+        <li>Nhìn Thân có cư tại Di không → xác định mức độ cả đời gắn bó với việc ly hương, bôn ba.</li>
+        <li>So chiếu ngược lại với Mệnh → xác định nội lực có tương xứng với cơ hội bên ngoài không.</li>
+        <li>Xem theo Đại Vận, Lưu Niên, tứ Hóa phi tinh → xác định thời điểm cụ thể nên hành động hay nên chờ đợi.</li>
+      </ol>
+      <p>Nắm được sáu lớp này theo đúng thứ tự — từ tĩnh (lá số gốc) đến động (đại vận, lưu niên, phi tinh) — chính là con đường đi từ người đọc sao sang người <strong>thấu được vận trình con người khi bước ra khỏi ngưỡng cửa cuộc đời mình.</strong></p>
+    </div>
+  </section>
+
+  <section id="muc-vii">
+    <div class="container reveal">
+      <div class="section-head">
+        <p class="eyebrow">Mục VII · Phụ lục</p>
+        <h2>Phú đoán Thiên Di (Chương 7)</h2>
+        <p>Bài phú cổ luận riêng về cung Thiên Di — tư liệu gốc mà người xưa dùng để truyền dạy, đối chiếu với các nguyên tắc hiện đại đã trình bày ở trên.</p>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">1</div>
+        <div>
+          <p class="phu-verse"><span>"Bảy là bàn đến Thiên Di.</span><span>Lộc Tồn, Hóa Lộc tốt thì hòa hai."</span></p>
+          <p class="phu-note">Mở chương bằng cách cục đẹp nhất: <strong>Lộc Tồn + Hóa Lộc</strong> (song Lộc) hội tại Thiên Di → đi xa, ra ngoài đều thuận lợi, hòa hợp.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">2</div>
+        <div>
+          <p class="phu-verse"><span>"Vũ, Lương, cự phú chẳng sai.</span><span>Khúc, Xương, Tử, Phủ, Việt, Khôi, Khoa, Quyền."</span></p>
+          <p class="phu-note"><strong>Vũ Khúc, Thiên Lương</strong> tại Di → chắc chắn giàu có khi ra ngoài lập nghiệp. Liệt kê nhóm cát tinh cùng nhóm: Văn Khúc, Văn Xương, Tử Vi, Thiên Phủ, Thiên Việt, Thiên Khôi, Hóa Khoa, Hóa Quyền.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">3</div>
+        <div>
+          <p class="phu-verse"><span>"Âm, Dương, Tả, Hữu rất hiền.</span><span>Cùng là Đồng, Tướng gần miền quý nhân."</span></p>
+          <p class="phu-note"><strong>Thái Âm, Thái Dương, Tả Phụ, Hữu Bật</strong>: rất hiền hòa khi ra ngoài. <strong>Thiên Đồng, Thiên Tướng</strong>: hay gặp quý nhân nơi đất khách.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">4</div>
+        <div>
+          <p class="phu-verse"><span>"Thiên Cơ lẩn thẩn, khốn thân.</span><span>Nhược bằng ngộ Cát, mười phần tốt thay."</span></p>
+          <p class="phu-note"><strong>Thiên Cơ đơn thủ</strong>: dễ lẩn thẩn, khốn khó nơi xa; nhưng gặp thêm cát tinh phù trợ thì tốt đẹp trọn vẹn — nhắc lại nguyên tắc "một sao không quyết định, phải xét tổ hợp".</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">5</div>
+        <div>
+          <p class="phu-verse"><span>"Liêm Trinh nội trợ, ngoại hay.</span><span>Đi thì cũng lợi, mới tầy Tham Lang."</span></p>
+          <p class="phu-note"><strong>Liêm Trinh</strong>: ở nhà lo nội trợ, ra ngoài lại thuận lợi hơn; đi xa cũng có lợi tương tự Tham Lang.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">6</div>
+        <div>
+          <p class="phu-verse"><span>"Lại thêm dâm dục hoang tàng.</span><span>Vũ tinh xuất ngoại lại càng được yêu."</span></p>
+          <p class="phu-note">Nhược điểm đi kèm của Liêm/Tham khi xuất ngoại: dễ sa vào tình ái phóng túng — đúng bản chất đào hoa. <strong>Vũ Khúc</strong> khi xuất ngoại lại được yêu mến, thuận lợi hơn ở nhà.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">7</div>
+        <div>
+          <p class="phu-verse"><span>"Cự Môn khẩu thiệt đảo điên.</span><span>Nhị Phù, Phá, Tú cũng miền Thiên Di."</span></p>
+          <p class="phu-note"><strong>Cự Môn</strong>: đi xa dễ gây thị phi, khẩu thiệt đảo lộn. <strong>Thiên Phù/Lưu Hà, Phá Quân, Quả Tú</strong> cũng thuộc nhóm ảnh hưởng xấu tại cung này.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">8</div>
+        <div>
+          <p class="phu-verse"><span>"Đoán rằng lộ thượng, mai thi.</span><span>Phá Quân, Thất Sát ắt thì chẳng yên."</span></p>
+          <p class="phu-note">Bắt đầu phần luận hung họa nghiêm trọng nhất: dự báo có thể gặp nạn trên đường ("lộ thượng, mai thi"). <strong>Phá Quân + Thất Sát</strong> tại Di: chắc chắn không yên ổn khi đi xa.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">9</div>
+        <div>
+          <p class="phu-verse"><span>"Tham Lang, Hóa Kỵ hợp miền.</span><span>Luận rằng lộ tử, chẳng tuyền được đâu."</span></p>
+          <p class="phu-note"><strong>Tham Lang + Hóa Kỵ</strong> hội hợp → dự báo "lộ tử" (mất trên đường) — không giữ được vẹn toàn khi đi xa.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">10</div>
+        <div>
+          <p class="phu-verse"><span>"Cự Môn, Linh, Hỏa xung nhau.</span><span>Tử ư đạo lộ ra màu xo ro."</span></p>
+          <p class="phu-note"><strong>Cự Môn</strong> xung khắc với <strong>Linh Tinh, Hỏa Tinh</strong> → gặp nạn trên đường trong tình cảnh thê thảm ("xo ro" — dáng co ro, thảm hại).</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">11</div>
+        <div>
+          <p class="phu-verse"><span>"Liêm Trinh, Quan Phủ, Quan Phù.</span><span>Ấy là tử nghiệp chẳng hòa được đâu."</span></p>
+          <p class="phu-note"><strong>Liêm Trinh</strong> hội <strong>Quan Phủ, Quan Phù</strong> (kiện tụng, pháp luật) → ứng "tử nghiệp" — hệ quả liên quan vòng lao lý, khác với tai nạn thuần túy.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">12</div>
+        <div>
+          <p class="phu-verse"><span>"Kìa như đạo lộ phải âu.</span><span>Bởi Liêm, Sát, Phá vào hầu Thiên Di."</span></p>
+          <p class="phu-note">Bộ ba <strong>Liêm Trinh — Thất Sát — Phá Quân</strong> (Sát Phá Liêm) hội tại Thiên Di → tổ hợp hung hiểm bậc nhất của cung này trong toàn hệ thống Tử Vi.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">13</div>
+        <div>
+          <p class="phu-verse"><span>"Tứ Sát đóng chính cung tường.</span><span>Ách nguy thêm lại hại đường tổ tông."</span></p>
+          <p class="phu-note"><strong>Tứ Sát</strong> (Kình Dương, Đà La, Hỏa Tinh, Linh Tinh) đóng chính tại Di → không chỉ ách nạn cho bản thân mà còn ảnh hưởng cả dòng tộc.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">14</div>
+        <div>
+          <p class="phu-verse"><span>"Vũ, Liêm chẳng khá đồng cung.</span><span>Luận rằng số ấy bần cùng ai qua."</span></p>
+          <p class="phu-note"><strong>Vũ Khúc + Liêm Trinh đồng cung</strong> tại Di → nghèo khó cùng cực. Khác với câu 6 — Vũ Khúc đơn lẻ thì tốt, đi cùng Liêm Trinh thì xấu, minh chứng nguyên tắc <strong>tổ hợp sao quyết định cát/hung</strong>.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">15</div>
+        <div>
+          <p class="phu-verse"><span>"Hỏa, Linh, Không, Kiếp, Dương, Đà.</span><span>Tham Lang, Hình, Kỵ cùng là Khốc, Hư."</span></p>
+          <p class="phu-note">Liệt kê dồn dập gần trọn bộ sát tinh: Hỏa Tinh, Linh Tinh, Địa Không, Địa Kiếp, Kình Dương, Đà La, Tham Lang, Thiên Hình, Hóa Kỵ, Thiên Khốc, Thiên Hư — nhấn mạnh mức độ nghiêm trọng khi tụ hội.</p>
+        </div>
+      </div>
+
+      <div class="phu-item">
+        <div class="phu-seal">16</div>
+        <div>
+          <p class="phu-verse"><span>"Phá Quân phường ấy phải lo.</span><span>Thiên Di cung ấy đoán cho kỹ càng."</span></p>
+          <p class="phu-note"><strong>Phá Quân</strong> trong nhóm này càng thêm đáng lo. Câu kết chương nhắc nhở: cung Thiên Di liên quan trực tiếp an nguy tính mạng khi xa nhà, cần đoán thật kỹ càng.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Nhận xét về bài phú.</strong> Thiên Di là chương phú có mật độ nội dung về hung họa, tai nạn cao nhất trong toàn hệ thống — hơn nửa số câu xoay quanh tai nạn, pháp lý, hiểm nguy khi đi xa. Điều này phản ánh tâm lý xã hội thời xưa: đường sá xa xôi, giao thông thô sơ, trộm cướp và bệnh dịch dọc đường là mối lo hiện thực — khác hẳn cách nhìn hiện đại về du lịch, công tác xa nhà. Bài phú cũng minh chứng rõ nguyên tắc <strong>tổ hợp sao quyết định họa/phúc, không phải từng sao đơn lẻ</strong> — điển hình là Vũ Khúc: tốt khi đứng riêng, xấu khi đi cùng Liêm Trinh. Người học hiện đại nên đọc phú cổ như một tầng tham chiếu về xu hướng và mức độ nghiêm trọng, rồi kết hợp với các kỹ thuật nâng cao (tam hợp, phi hóa, đại vận, lưu niên) để đưa ra lời khuyên phù hợp bối cảnh hiện đại.
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span class="glyph">✦</span>
+  Biên soạn cho Học Tử Vi · tuvidauso.github.io<br>
+  Nhạc nền: <code>music1.mp3</code> — đặt cùng thư mục với tệp HTML này để phát.
+</footer>
+
+<div class="player">
+  <button class="play-btn" id="playBtn" aria-label="Phát nhạc nền" aria-pressed="false">
+    <svg id="iconPlay" class="ctrl-icon compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="12" cy="12" r="9"/>
+      <path id="triPath" d="M10 8l6 4-6 4z" fill="currentColor" stroke="none"/>
+      <g id="pausePath" style="display:none;">
+        <rect x="9" y="8" width="2" height="8" fill="currentColor" stroke="none"/>
+        <rect x="13" y="8" width="2" height="8" fill="currentColor" stroke="none"/>
+      </g>
+    </svg>
+  </button>
+  <span id="playLabel">Nhạc nền</span>
+  <audio id="bgm" src="music1.mp3" loop preload="none"></audio>
+</div>
+
+<script>
+  // Theme toggle: dark = "Di" (viễn du), light = "Mệnh" (an cư)
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeToggle');
+  var themeLabel = document.getElementById('themeLabel');
+  themeBtn.addEventListener('click', function () {
+    var isDark = root.getAttribute('data-theme') === 'dark';
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    themeBtn.setAttribute('aria-pressed', String(isDark));
+    themeLabel.textContent = isDark ? 'Chuyển sang Di' : 'Chuyển sang Mệnh';
+  });
+
+  // Music player
+  var bgm = document.getElementById('bgm');
+  var playBtn = document.getElementById('playBtn');
+  var playLabel = document.getElementById('playLabel');
+  var iconPlay = document.getElementById('iconPlay');
+  var triPath = document.getElementById('triPath');
+  var pausePath = document.getElementById('pausePath');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var playing = false;
+
+  playBtn.addEventListener('click', function () {
+    if (!playing) {
+      bgm.play().then(function () {
+        playing = true;
+        playLabel.textContent = 'Đang phát';
+        playBtn.setAttribute('aria-pressed', 'true');
+        playBtn.setAttribute('aria-label', 'Tạm dừng nhạc nền');
+        triPath.style.display = 'none';
+        pausePath.style.display = '';
+        if (!reduceMotion) iconPlay.classList.add('spin');
+      }).catch(function () {
+        playLabel.textContent = 'Không tìm thấy music1.mp3';
+      });
+    } else {
+      bgm.pause();
+      playing = false;
+      playLabel.textContent = 'Nhạc nền';
+      playBtn.setAttribute('aria-pressed', 'false');
+      playBtn.setAttribute('aria-label', 'Phát nhạc nền');
+      triPath.style.display = '';
+      pausePath.style.display = 'none';
+      iconPlay.classList.remove('spin');
+    }
+  });
+
+  // Scroll reveal
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in-view'); });
+  }
+</script>
+
+</body>
+</html>

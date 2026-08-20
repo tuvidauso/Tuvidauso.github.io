@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tật Ách Cung — Sổ Nghiệp Của Thân Xác | Mèo Đen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink-900: #10161a;
+    --ink-850: #151d20;
+    --ink-800: #1a2427;
+    --ink-700: #22302f;
+    --ink-600: #2c3d3a;
+    --paper-line: rgba(233, 228, 211, 0.09);
+    --jade-600: #5c8a72;
+    --jade-400: #8bb79e;
+    --jade-300: #b3d4c0;
+    --cinnabar-600: #c1543a;
+    --cinnabar-400: #d97b62;
+    --brass-500: #c6a05c;
+    --brass-300: #ddc189;
+    --text-main: #e9e4d3;
+    --text-dim: #a6a89c;
+    --text-faint: #6f776e;
+    --card-bg: rgba(233, 228, 211, 0.035);
+    --card-border: rgba(198, 160, 92, 0.18);
+    --shadow-soft: 0 20px 60px rgba(0,0,0,0.35);
+    --font-display: 'Noto Serif', serif;
+    --font-body: 'Be Vietnam Pro', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html[data-theme="light"] {
+    --ink-900: #f2ead6;
+    --ink-850: #eee4cd;
+    --ink-800: #e9ddc2;
+    --ink-700: #ddccab;
+    --ink-600: #cdb88f;
+    --paper-line: rgba(42, 36, 32, 0.10);
+    --jade-600: #3c664f;
+    --jade-400: #4f7a63;
+    --jade-300: #2f5240;
+    --cinnabar-600: #a13d28;
+    --cinnabar-400: #8a3320;
+    --brass-500: #8a6a2e;
+    --brass-300: #6d5423;
+    --text-main: #241f19;
+    --text-dim: #5b5245;
+    --text-faint: #8a8070;
+    --card-bg: rgba(36, 31, 25, 0.035);
+    --card-border: rgba(138, 106, 46, 0.28);
+    --shadow-soft: 0 20px 50px rgba(90, 70, 30, 0.15);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--ink-900);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    line-height: 1.75;
+    transition: background 0.4s ease, color 0.4s ease;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(198,160,92,0.05), transparent 40%),
+      radial-gradient(circle at 85% 92%, rgba(92,138,114,0.06), transparent 45%);
+  }
+
+  ::selection { background: var(--jade-600); color: var(--ink-900); }
+
+  a { color: var(--jade-400); }
+
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; margin: 0; color: var(--text-main); }
+
+  p { margin: 0 0 1.1em 0; color: var(--text-main); }
+
+  /* ============ PROGRESS BAR ============ */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--jade-600), var(--brass-500), var(--cinnabar-600));
+    z-index: 500; transition: width 0.08s linear;
+  }
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 400;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 22px;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--ink-900) 78%, transparent);
+    border-bottom: 1px solid var(--paper-line);
+  }
+  .topbar-brand {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--brass-500);
+  }
+  .topbar-controls { display: flex; align-items: center; gap: 10px; }
+
+  .icon-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    cursor: pointer; color: var(--text-main); transition: all 0.25s ease;
+  }
+  .icon-btn:hover { border-color: var(--brass-500); transform: translateY(-1px); }
+  .icon-btn svg { width: 17px; height: 17px; }
+
+  #toc-toggle { display: none; }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 120px 24px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--jade-400); margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.05;
+    letter-spacing: -0.01em; max-width: 920px;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--cinnabar-400); font-weight: 400;
+  }
+  .hero-sub {
+    max-width: 620px; margin-top: 26px; font-size: 1.08rem;
+    color: var(--text-dim); font-weight: 300;
+  }
+  .hero-meta {
+    margin-top: 40px; display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-faint);
+    letter-spacing: 0.05em;
+  }
+  .hero-meta span { color: var(--brass-500); }
+
+  /* ---- body-map signature diagram ---- */
+  .bodymap-wrap { margin-top: 56px; position: relative; }
+  .bodymap { width: 210px; height: auto; opacity: 0.92; }
+  .bodymap path, .bodymap line { stroke: var(--jade-400); fill: none; stroke-width: 1.4; }
+  .bodymap circle.head { fill: none; stroke: var(--jade-400); stroke-width: 1.4; }
+  .marker {
+    fill: var(--cinnabar-600); stroke: var(--ink-900); stroke-width: 1.5;
+    cursor: pointer; transform-origin: center;
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+  .marker:nth-child(odd) { animation-delay: 0.6s; }
+  @keyframes pulse {
+    0%, 100% { r: 3.2; opacity: 0.85; }
+    50% { r: 5; opacity: 1; }
+  }
+  .marker-tooltip {
+    position: absolute; pointer-events: none;
+    font-family: var(--font-mono); font-size: 10.5px; white-space: nowrap;
+    background: var(--ink-800); border: 1px solid var(--brass-500);
+    color: var(--text-main); padding: 5px 9px; border-radius: 4px;
+    opacity: 0; transition: opacity 0.2s ease; transform: translate(-50%, -130%);
+    z-index: 20;
+  }
+  .marker-tooltip .star { color: var(--brass-300); }
+
+  .scroll-cue {
+    margin-top: 50px; font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-faint);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .scroll-cue .line { width: 1px; height: 34px; background: linear-gradient(var(--brass-500), transparent); animation: drop 1.8s ease-in-out infinite; }
+  @keyframes drop { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+  /* ============ LAYOUT ============ */
+  .layout {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 250px minmax(0,760px); gap: 60px;
+    max-width: 1180px; margin: 0 auto; padding: 20px 24px 140px;
+    justify-content: center;
+  }
+
+  /* ============ TOC ============ */
+  .toc-panel {
+    position: sticky; top: 90px; align-self: start;
+    height: fit-content; max-height: calc(100vh - 130px); overflow-y: auto;
+    padding-right: 8px;
+  }
+  .toc-title {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--brass-500); margin-bottom: 16px;
+  }
+  .toc-panel ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--paper-line); }
+  .toc-panel li { margin: 0; }
+  .toc-panel a {
+    display: block; padding: 8px 0 8px 16px; text-decoration: none;
+    font-size: 13.5px; color: var(--text-dim); border-left: 2px solid transparent;
+    margin-left: -1px; transition: all 0.2s ease; line-height: 1.4;
+  }
+  .toc-panel a:hover { color: var(--text-main); }
+  .toc-panel a.active { color: var(--jade-400); border-left-color: var(--jade-600); font-weight: 500; }
+  .toc-num { font-family: var(--font-mono); color: var(--text-faint); margin-right: 6px; font-size: 11px; }
+
+  /* ============ ARTICLE ============ */
+  .article { min-width: 0; }
+
+  .section { padding-top: 110px; margin-top: -110px; }
+  .section-inner { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .section-inner.visible { opacity: 1; transform: translateY(0); }
+
+  .section-head { margin-bottom: 28px; }
+  .section-eyebrow {
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.14em;
+    color: var(--jade-400); text-transform: uppercase; display: flex; align-items: center; gap: 10px;
+  }
+  .section-eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--jade-600); }
+  .section h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin-top: 10px; line-height: 1.2; }
+
+  .divider {
+    border: none; height: 1px; margin: 70px 0;
+    background: linear-gradient(90deg, var(--brass-500), transparent 60%);
+    opacity: 0.4;
+  }
+
+  .lede { font-size: 1.08rem; color: var(--text-dim); font-weight: 300; }
+
+  .callout {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-left: 3px solid var(--jade-600);
+    border-radius: 6px; padding: 18px 22px; margin: 24px 0; font-size: 0.96rem;
+  }
+  .callout.warn { border-left-color: var(--cinnabar-600); }
+  .callout strong { color: var(--brass-300); }
+  .callout em { color: var(--text-dim); font-style: italic; }
+
+  .quote-block {
+    font-family: var(--font-display); font-style: italic; font-size: 1.15rem;
+    color: var(--brass-300); border-left: 2px solid var(--brass-500);
+    padding: 4px 0 4px 24px; margin: 24px 0; line-height: 1.6;
+  }
+
+  /* tables */
+  .table-wrap { overflow-x: auto; margin: 26px 0; border: 1px solid var(--card-border); border-radius: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 480px; }
+  thead th {
+    text-align: left; font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--brass-500);
+    padding: 12px 16px; border-bottom: 1px solid var(--card-border);
+    background: var(--card-bg);
+  }
+  tbody td { padding: 12px 16px; border-bottom: 1px solid var(--paper-line); vertical-align: top; color: var(--text-main); }
+  tbody td:first-child { color: var(--jade-400); font-weight: 500; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--card-bg); }
+
+  /* step diagram */
+  .steps { display: flex; flex-direction: column; gap: 0; margin: 30px 0; counter-reset: step; }
+  .step {
+    display: grid; grid-template-columns: 46px 1fr; gap: 18px;
+    padding: 18px 0; border-top: 1px solid var(--paper-line);
+  }
+  .step:last-child { border-bottom: 1px solid var(--paper-line); }
+  .step-num {
+    font-family: var(--font-mono); font-size: 1rem; color: var(--cinnabar-500, var(--cinnabar-600));
+    display: flex; align-items: flex-start; padding-top: 2px;
+  }
+  .step-body h4 { font-size: 1rem; margin-bottom: 4px; color: var(--text-main); }
+  .step-body p { font-size: 0.92rem; color: var(--text-dim); margin: 0; }
+
+  /* modern insight cards (section 6) */
+  .insight-grid { display: grid; gap: 16px; margin: 26px 0; }
+  .insight-card {
+    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px;
+    padding: 22px 24px; position: relative; overflow: hidden;
+  }
+  .insight-card::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+    background: var(--jade-600);
+  }
+  .insight-card h4 { font-size: 1.02rem; margin-bottom: 8px; color: var(--brass-300); font-family: var(--font-display); }
+  .insight-card p { font-size: 0.93rem; color: var(--text-dim); margin-bottom: 0; }
+  .insight-card p + p { margin-top: 10px; }
+
+  .repositioned {
+    text-align: center; margin: 46px 0; padding: 40px 20px;
+    border-top: 1px solid var(--paper-line); border-bottom: 1px solid var(--paper-line);
+  }
+  .repositioned .label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 14px; }
+  .repositioned .phrase { font-family: var(--font-display); font-style: italic; font-size: clamp(1.3rem, 3.4vw, 1.8rem); color: var(--brass-300); max-width: 620px; margin: 0 auto; line-height: 1.4; }
+
+  /* ============ PHÚ / APPENDIX — ledger scroll style ============ */
+  .phu-intro { font-style: italic; color: var(--text-dim); font-size: 0.95rem; margin-bottom: 34px; }
+  .phu-list { display: flex; flex-direction: column; gap: 2px; }
+  .phu-entry {
+    display: grid; grid-template-columns: 56px 1fr; gap: 20px;
+    padding: 26px 0; border-top: 1px dashed var(--paper-line);
+  }
+  .phu-entry:last-child { border-bottom: 1px dashed var(--paper-line); }
+  .phu-number {
+    font-family: var(--font-mono); font-size: 1.4rem; color: var(--card-border);
+    -webkit-text-stroke: 1px var(--brass-500);
+    color: transparent;
+  }
+  .phu-verse {
+    font-family: var(--font-display); font-style: italic; font-size: 1.08rem;
+    color: var(--brass-300); line-height: 1.55; margin-bottom: 10px;
+  }
+  .phu-gloss { font-size: 0.92rem; color: var(--text-dim); }
+
+  .body-region-tag {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em;
+    color: var(--jade-400); text-transform: uppercase;
+  }
+  .body-region-tag::before { content: "◆"; font-size: 8px; color: var(--cinnabar-600); }
+
+  .phu-summary-note {
+    margin-top: 30px;
+  }
+
+  /* ============ CASE STUDY (worked example) ============ */
+  .case-banner {
+    display: flex; flex-wrap: wrap; gap: 10px 26px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 10px; padding: 20px 24px; margin: 24px 0 34px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
+  }
+  .case-banner b { color: var(--brass-300); font-weight: 500; }
+
+  .case-sub {
+    font-family: var(--font-display); font-size: 1.25rem; color: var(--text-main);
+    margin: 44px 0 6px;
+  }
+  .case-sub .tag {
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--jade-400); display: block; margin-bottom: 6px;
+  }
+
+  .case-block {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-left: 3px solid var(--cinnabar-600); border-radius: 8px;
+    padding: 18px 22px; margin: 16px 0;
+  }
+  .case-block h4 { font-family: var(--font-body); font-weight: 600; font-size: 0.95rem; color: var(--brass-300); margin-bottom: 8px; }
+  .case-block p { font-size: 0.92rem; color: var(--text-dim); margin-bottom: 8px; }
+  .case-block p:last-child { margin-bottom: 0; }
+
+  .formula-line {
+    font-family: var(--font-display); font-style: italic; text-align: center;
+    color: var(--brass-300); font-size: 1.05rem; padding: 22px 18px; margin: 24px 0;
+    border-top: 1px dashed var(--paper-line); border-bottom: 1px dashed var(--paper-line);
+  }
+
+  .advice-list { list-style: none; padding: 0; margin: 20px 0; display: flex; flex-direction: column; gap: 12px; }
+  .advice-list li {
+    display: flex; gap: 12px; font-size: 0.93rem; color: var(--text-dim);
+    padding-bottom: 12px; border-bottom: 1px solid var(--paper-line);
+  }
+  .advice-list li:last-child { border-bottom: none; }
+  .advice-list li::before { content: "—"; color: var(--jade-400); flex-shrink: 0; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center; padding: 60px 24px 100px;
+    border-top: 1px solid var(--paper-line);
+  }
+  footer .mark { font-family: var(--font-display); font-style: italic; font-size: 1.3rem; color: var(--brass-300); margin-bottom: 10px; }
+  footer p { color: var(--text-faint); font-size: 0.85rem; margin: 0; }
+
+  /* ============ MUSIC BUTTON ============ */
+  #music-btn {
+    position: fixed; bottom: 26px; right: 26px; z-index: 450;
+    width: 54px; height: 54px; border-radius: 50%;
+    background: var(--ink-800); border: 1px solid var(--brass-500);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: var(--shadow-soft); transition: transform 0.3s ease;
+  }
+  #music-btn:hover { transform: scale(1.06); }
+  #music-btn svg { width: 20px; height: 20px; color: var(--brass-300); }
+  #music-btn.playing { animation: seal-spin 6s linear infinite; }
+  @keyframes seal-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  #music-btn .ring {
+    position: absolute; inset: -6px; border-radius: 50%;
+    border: 1px solid var(--jade-600); opacity: 0; transition: opacity 0.3s ease;
+  }
+  #music-btn.playing .ring { opacity: 0.5; animation: ring-pulse 2s ease-out infinite; }
+  @keyframes ring-pulse { 0% { transform: scale(0.9); opacity: 0.6; } 100% { transform: scale(1.35); opacity: 0; } }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 980px) {
+    .layout { grid-template-columns: 1fr; padding: 20px 20px 120px; }
+    .toc-panel {
+      position: fixed; top: 0; left: -300px; width: 280px; height: 100vh;
+      background: var(--ink-850); z-index: 600; padding: 90px 22px 30px;
+      transition: left 0.35s ease; box-shadow: var(--shadow-soft); max-height: none;
+      border-right: 1px solid var(--card-border);
+    }
+    .toc-panel.open { left: 0; }
+    #toc-toggle { display: flex; }
+    .toc-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 550;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    .toc-backdrop.open { opacity: 1; pointer-events: auto; }
+  }
+  @media (max-width: 560px) {
+    .hero { padding-top: 100px; }
+    .phu-entry { grid-template-columns: 34px 1fr; gap: 12px; }
+    .phu-number { font-size: 1.1rem; }
+    thead th, tbody td { padding: 10px 10px; font-size: 0.82rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="topbar">
+  <button id="toc-toggle" class="icon-btn" aria-label="Mở mục lục">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>
+  </button>
+  <div class="topbar-brand">Mèo Đen · Tử Vi Đẩu Số</div>
+  <div class="topbar-controls">
+    <button id="theme-toggle" class="icon-btn" aria-label="Đổi giao diện sáng/tối">
+      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2 12h2.4M19.6 12H22M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="toc-backdrop" id="toc-backdrop"></div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-eyebrow">Cung thứ 8 · Tật Ách Cung</div>
+  <h1>Sổ nghiệp của <em>thân xác</em></h1>
+  <p class="hero-sub">Không phải cung của bệnh — mà là cung của những gì cơ thể và tâm trí âm thầm gánh chịu, tích lũy qua năm tháng, chưa từng nói ra. Từ nền tảng cổ học đến cách đọc của thời hiện đại.</p>
+
+  <div class="hero-meta">
+    <div><span>08</span> / 12 cung</div>
+    <div>Đối xung <span>Phụ Mẫu</span></div>
+    <div>Tam hợp <span>Điền Trạch – Huynh Đệ</span></div>
+  </div>
+
+  <div class="bodymap-wrap">
+    <svg class="bodymap" viewBox="0 0 200 340" id="bodymap-svg">
+      <circle class="head" cx="100" cy="30" r="19"/>
+      <path d="M75 58 L60 100 L64 210 L75 210 L80 130 L100 130 L120 130 L125 210 L136 210 L140 100 L125 58 Z"/>
+      <line x1="70" y1="70" x2="38" y2="150"/>
+      <line x1="130" y1="70" x2="162" y2="150"/>
+      <line x1="82" y1="210" x2="78" y2="320"/>
+      <line x1="118" y1="210" x2="122" y2="320"/>
+      <!-- markers -->
+      <circle class="marker" data-label="Mắt" data-star="Thái Dương · Thái Âm" cx="93" cy="27" r="3.4"/>
+      <circle class="marker" data-label="Mắt" data-star="Thái Dương · Thái Âm" cx="107" cy="27" r="3.4"/>
+      <circle class="marker" data-label="Mặt" data-star="Cự Môn" cx="100" cy="40" r="3.4"/>
+      <circle class="marker" data-label="Bụng" data-star="Thái Âm" cx="100" cy="150" r="3.4"/>
+      <circle class="marker" data-label="Lưng · Chân" data-star="Tham Lang" cx="80" cy="270" r="3.4"/>
+      <circle class="marker" data-label="Tứ chi" data-star="Cự Môn" cx="38" cy="150" r="3.4"/>
+      <circle class="marker" data-label="Bì phu" data-star="Thiên Tướng" cx="162" cy="150" r="3.4"/>
+    </svg>
+    <div class="marker-tooltip" id="marker-tooltip"></div>
+  </div>
+
+  <div class="scroll-cue"><div class="line"></div>Cuộn xuống</div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ TOC ============ -->
+  <nav class="toc-panel" id="toc-panel">
+    <div class="toc-title">Mục lục</div>
+    <ol>
+      <li><a href="#s1"><span class="toc-num">01</span>Nền tảng</a></li>
+      <li><a href="#s2"><span class="toc-num">02</span>Chính tinh cơ bản</a></li>
+      <li><a href="#s3"><span class="toc-num">03</span>Sát tinh &amp; Tứ Hóa</a></li>
+      <li><a href="#s4"><span class="toc-num">04</span>Liên kết đa chiều</a></li>
+      <li><a href="#s5"><span class="toc-num">05</span>Quy trình luận đoán</a></li>
+      <li><a href="#s6"><span class="toc-num">06</span>Tật Ách thời nay</a></li>
+      <li><a href="#s7"><span class="toc-num">07</span>Bảng tra nhanh</a></li>
+      <li><a href="#s8"><span class="toc-num">08</span>Phú Tật Ách Cung</a></li>
+      <li><a href="#s9"><span class="toc-num">09</span>Ví dụ thực chiến</a></li>
+      <li><a href="#s10"><span class="toc-num">10</span>Nguồn tham khảo</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ ARTICLE ============ -->
+  <main class="article">
+
+    <!-- 1 -->
+    <section class="section" id="s1">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">01 · Nhập môn</div>
+          <h2>Nền tảng: Tật Ách là gì</h2>
+        </div>
+        <p class="lede">Tật Ách an tại vị trí thứ 8 tính từ cung Mệnh, nằm kế cận Thiên Di, đối diện Phụ Mẫu, kề cạnh Tài Bạch.</p>
+        <p><strong>Cung này chủ về:</strong> sức khỏe, bệnh tật, tai nạn, thể chất; khả năng miễn dịch, tạng phủ yếu/mạnh; tâm lý, tinh thần (đặc biệt khi phối với Thiên Cơ, Cự Môn, Thái Âm hãm); và "nghiệp bệnh" — bệnh mang tính lặp lại, di truyền, tích lũy qua thời gian.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nhóm tam hợp</th><th>Các cung</th></tr></thead>
+            <tbody>
+              <tr><td>1-5-9</td><td>Mệnh – Quan Lộc – Tài Bạch</td></tr>
+              <tr><td>4-8-12</td><td>Điền Trạch – <strong style="color:var(--brass-300)">Tật Ách</strong> – Huynh Đệ</td></tr>
+              <tr><td>3-7-11</td><td>Phúc Đức – Thiên Di – Phu Thê</td></tr>
+              <tr><td>2-6-10</td><td>Phụ Mẫu – Nô Bộc – Tử Tức</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <strong>Điểm quan trọng:</strong> Tật Ách không đứng một mình. Muốn luận bệnh đầy đủ cần đối chiếu tam hợp <strong>Huynh Đệ</strong> (yếu tố cùng huyết thống) và <strong>Điền Trạch</strong> (môi trường sống, phong thủy nơi ở), cộng đối cung <strong>Phụ Mẫu</strong> (di truyền).
+          <br><em>Thiên Di không tam hợp với Tật Ách — Thiên Di thuộc nhóm tam hợp với Phúc Đức và Phu Thê, chỉ liên quan Tật Ách qua vị trí liền kề.</em>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 2 -->
+    <section class="section" id="s2">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">02 · Cơ bản</div>
+          <h2>Đọc chính tinh tại Tật Ách</h2>
+        </div>
+        <p class="lede">Mỗi chính tinh gợi ý một "tạng bệnh" đặc trưng dựa trên ngũ hành và tính chất của sao.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Chính tinh</th><th>Ngũ hành</th><th>Tạng bệnh đặc trưng</th></tr></thead>
+            <tbody>
+              <tr><td>Tử Vi, Thiên Phủ</td><td>Thổ</td><td>Tỳ vị, tiêu hóa; đắc địa ít bệnh vặt nhưng dễ bệnh mạn tính về già</td></tr>
+              <tr><td>Thái Dương</td><td>Hỏa</td><td>Mắt, tim mạch, huyết áp; hãm địa dễ đau đầu, mắt kém</td></tr>
+              <tr><td>Thái Âm</td><td>Thủy</td><td>Thận, tiết niệu, phụ khoa (nữ mệnh), tâm lý; hãm dễ trầm uất, mất ngủ</td></tr>
+              <tr><td>Vũ Khúc</td><td>Kim</td><td>Phổi, hô hấp, xương; dễ chấn thương do va chạm/dao kéo</td></tr>
+              <tr><td>Liêm Trinh</td><td>Hỏa/Kim hỗn</td><td>Máu huyết, yếu tố phẫu thuật, tai nạn máu me</td></tr>
+              <tr><td>Thiên Cơ</td><td>Mộc</td><td>Gan, thần kinh; hãm dễ suy nhược thần kinh, mất ngủ, lo âu</td></tr>
+              <tr><td>Cự Môn</td><td>Thủy</td><td>Miệng, họng, tiêu hóa; bệnh "khó nói ra" — tâm bệnh, ẩn ức</td></tr>
+              <tr><td>Thiên Đồng</td><td>Thủy</td><td>Dễ nuôi, ít bệnh nặng nhưng thể chất yếu, hay ốm vặt</td></tr>
+              <tr><td>Thiên Lương</td><td>Thổ</td><td>Sao Thọ — chủ hóa giải bệnh tật, gặp nạn có quý nhân/thuốc men cứu</td></tr>
+              <tr><td>Thất Sát, Phá Quân, Tham Lang</td><td>—</td><td>Nhóm Sát-Phá-Tham: tai nạn, phẫu thuật, bệnh đột ngột hơn mạn tính</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="insight-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="insight-card"><h4>Sao miếu vượng</h4><p>Bệnh nhẹ, dễ chữa, hoặc chỉ là "cơ địa" chứ chưa phát bệnh thật.</p></div>
+          <div class="insight-card" style="--accent: var(--cinnabar-600);"><h4>Sao hãm địa</h4><p>Dễ phát bệnh thật, bệnh dai dẳng, khó chữa dứt.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 3 -->
+    <section class="section" id="s3">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">03 · Nâng cao</div>
+          <h2>Sát tinh và Tứ Hóa</h2>
+        </div>
+
+        <h3 style="font-size:1.1rem; margin: 30px 0 14px; color: var(--text-main);">Sát tinh tại Tật Ách</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Sát tinh</th><th>Ý nghĩa</th></tr></thead>
+            <tbody>
+              <tr><td>Kình Dương</td><td>Thương tích, phẫu thuật, sẹo, tai nạn — dữ dội, đột ngột</td></tr>
+              <tr><td>Đà La</td><td>Tương tự Kình nhưng âm ỉ, kéo dài</td></tr>
+              <tr><td>Hỏa Tinh, Linh Tinh</td><td>Bệnh cấp tính, sốt, viêm nhiễm; dấu hiệu tai nạn bỏng/điện</td></tr>
+              <tr><td>Địa Không, Địa Kiếp</td><td>Bệnh lạ, khó chẩn đoán, liên quan tinh thần/tâm linh</td></tr>
+              <tr><td>Thiên Hình</td><td>Rất đáng chú ý — chủ phẫu thuật, dao kéo, hình phạt lên thân thể</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:1.1rem; margin: 40px 0 14px; color: var(--text-main);">Tứ Hóa — điểm phân định trình độ luận giải</h3>
+        <p>Đây là chỗ khác biệt giữa người đọc cơ bản (chỉ nhìn sao cố định) và người hiểu sâu (đọc Tứ Hóa của từng lá số cụ thể).</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tứ Hóa</th><th>Ý nghĩa</th></tr></thead>
+            <tbody>
+              <tr><td>Hóa Kỵ</td><td>Chỉ dấu số 1 cho bệnh mạn tính, "đeo bám", dễ tái phát. Gặp Riêu/Đà/Linh thiên về bệnh tâm lý</td></tr>
+              <tr><td>Hóa Lộc</td><td>Hóa giải bớt hung tính, thân thể "được nuôi", nhưng cảnh báo béo phì, bệnh do dư thừa</td></tr>
+              <tr><td>Hóa Quyền</td><td>Bệnh cấp tính, dữ dội khi phát, nhưng dễ có phương án điều trị mạnh</td></tr>
+              <tr><td>Hóa Khoa</td><td>Thường gặp quý nhân y tế, bệnh viện tốt, thầy thuốc giỏi giúp đỡ</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <strong>Nguyên tắc bậc thầy:</strong> Sao cố định cho biết "tạng bệnh tiềm ẩn". Tứ Hóa của lá số cụ thể cho biết "bệnh gì sẽ thực sự phát, khi nào phát". Không đọc chính tinh Tật Ách một cách tĩnh.
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 4 -->
+    <section class="section" id="s4">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">04 · Chuyên sâu</div>
+          <h2>Liên kết đa chiều &amp; luận theo thời vận</h2>
+        </div>
+
+        <h3 style="font-size:1.05rem; margin-bottom:10px; color: var(--text-main);">Bộ tứ chính Mệnh – Thân – Tật Ách – Phúc Đức</h3>
+        <p>Nếu <strong>Thân cư Tật Ách</strong>, cần đọc Tật Ách kỹ như đọc Mệnh — vì đương số bị chi phối mạnh bởi sức khỏe cả đời.</p>
+
+        <h3 style="font-size:1.05rem; margin: 30px 0 10px; color: var(--text-main);">Ngũ Hành Cục và sinh khắc</h3>
+        <p>Hành của sao tại Tật Ách <strong>khắc</strong> hành bản Cục (Thủy Nhị Cục, Hỏa Lục Cục...) → bệnh dễ phát mạnh, khó chữa. Hành của sao <strong>sinh</strong> hành bản Cục → dù có sao xấu vẫn được giảm nhẹ. Đây là kỹ thuật hay bị bỏ qua ở trình độ trung cấp nhưng dân chuyên sâu luôn đối chiếu.</p>
+
+        <h3 style="font-size:1.05rem; margin: 30px 0 14px; color: var(--text-main);">Đại Vận và Lưu Niên — bệnh "động" theo thời gian</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Đối chiếu Đại Vận</h4><p>Xem Đại Vận nào có Tật Ách của Đại Vận đó trùng hoặc xung với Tật Ách bản mệnh → giai đoạn 10 năm đó dễ có vấn đề sức khỏe rõ rệt.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Xét Lưu Niên</h4><p>Lưu Niên Tật Ách gặp Lưu Hóa Kỵ, hoặc bị Lưu Kình/Lưu Đà xung chiếu → năm đó cần đặc biệt chú ý.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Đối chiếu vòng Thái Tuế</h4><p>Lưu Thái Tuế, Tang Môn, Bạch Hổ, Điếu Khách đóng tại Tật Ách của lưu niên → dấu hiệu tang sự, bệnh nặng, hoặc phẫu thuật lớn.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 5 -->
+    <section class="section" id="s5">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">05 · Thực chiến</div>
+          <h2>Quy trình tổng hợp khi luận đoán</h2>
+        </div>
+        <p class="lede">Người tinh thông không kết luận "có bệnh" chỉ vì một sao xấu. Quy trình chuẩn 4 bước:</p>
+
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Xác định tạng bệnh nền</h4><p>Từ chính tinh + ngũ hành tại Tật Ách.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Xác định mức độ hung/cát</h4><p>Qua miếu hãm và sát tinh đồng cung/xung chiếu.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Xác định bệnh có thực sự phát hay không</h4><p>Và phát khi nào — qua Tứ Hóa và vận hạn.</p></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Đối chiếu toàn cục</h4><p>Phụ Mẫu (di truyền), Phúc Đức (thể chất nền tảng, tâm linh), Thiên Di (môi trường sống) để có bức tranh đầy đủ.</p></div></div>
+        </div>
+
+        <div class="callout">Đây chính là điểm khác biệt giữa xem "thầy vườn" chỉ đọc một cung, và người luận số thực thụ luôn xâu chuỗi Tật Ách với toàn bộ hệ thống 12 cung + vận hạn.</div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 6 -->
+    <section class="section" id="s6">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">06 · Góc nhìn đương đại</div>
+          <h2>Tật Ách thời nay</h2>
+        </div>
+        <p class="lede">Những lớp nghĩa mở rộng mà các luận giải hiện đại đang khai thác, vượt ra ngoài khung "cung bệnh tật" thuần túy.</p>
+
+        <div class="insight-grid">
+          <div class="insight-card">
+            <h4>Góc khuất nội tâm</h4>
+            <p>Tật Ách phản ánh <strong>những mong muốn sâu kín, khó thể hiện ra bên ngoài</strong> — phần con người mà chính đương số cũng ít khi nói ra hoặc không ý thức hết.</p>
+            <p>Khi Hóa Lộc niên can bị "giấu" tại Tật Ách (không nằm trong tam phương tứ chính của Mệnh), đương số thường có nội tâm lãng mạn, giàu cảm xúc nhưng biểu đạt ra ngoài lại lạnh nhạt, trầm tĩnh — gần với khái niệm <em>"shadow self"</em> trong tâm lý học hiện đại.</p>
+          </div>
+
+          <div class="insight-card">
+            <h4>"Sổ nghiệp" — kho tích lũy, không phải điểm phát sinh</h4>
+            <div class="quote-block">Phúc Đức như rễ cây, Mệnh như thân cây, Thân như cành lá hoa quả. Tật (Ách) như sâu mọt, tỳ vết, dị vật ẩn trong cây.</div>
+            <p>Tật Ách không "gây ra" bệnh — nó là nơi tích lũy nghiệp xấu, thói quen xấu, tổn thương cũ, rồi đợi vận hạn xấu mới "phát động" thành bệnh thật. Gần với khái niệm hiện đại <strong>cumulative trauma / allostatic load</strong>.</p>
+          </div>
+
+          <div class="insight-card">
+            <h4>Mở rộng sang sức khỏe tâm thần</h4>
+            <p><strong>Hóa Kỵ + Riêu, Đà, Linh</strong> → trạng thái tâm lý bất ổn (lo âu, ám ảnh), đọc duy lý hóa thay vì quy về "hiện tượng huyền bí".</p>
+            <p><strong>Sao Bệnh + Thái Âm</strong>, <strong>Thiên Lương gặp Thiên Khốc/Thiên Hư</strong>, <strong>Thiên Cơ hãm</strong> → lo âu, trầm cảm, mất ngủ, suy nhược thần kinh.</p>
+            <p><strong>Tham Lang</strong> — cổ thư gắn với "bệnh do hưởng thụ, tửu sắc" — có thể mở rộng đọc sang nghiện hành vi thời số hóa: mạng xã hội, game, mua sắm online.</p>
+          </div>
+
+          <div class="insight-card">
+            <h4>Liên hệ tướng số</h4>
+            <p>Nhánh nhân tướng học gắn Tật Ách với <strong>sống mũi</strong> (Sơn căn – Niên thượng – Thọ thượng) — biểu hiện vật lý song song, vừa phản ánh sức đề kháng, vừa phản ánh hệ thần kinh/tiêu hóa.</p>
+          </div>
+        </div>
+
+        <div class="repositioned">
+          <div class="label">Định vị lại</div>
+          <div class="phrase">"Cung của những gì cơ thể và tâm trí âm thầm gánh chịu, chưa nói ra."</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 7 -->
+    <section class="section" id="s7">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">07 · Tra cứu</div>
+          <h2>Bảng tra nhanh chính tinh</h2>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Sao</th><th>Tạng bệnh chính</th><th>Ghi chú khi gặp sát/Kỵ</th></tr></thead>
+            <tbody>
+              <tr><td>Tử Vi</td><td>Tỳ vị, tiêu hóa</td><td>Gặp Hỏa/Linh/Vũ Khúc/Hóa Kỵ → loét, khối u tiêu hóa</td></tr>
+              <tr><td>Thiên Phủ</td><td>Tỳ vị, dạ dày</td><td>Gặp Lộc Tồn/Tam Hóa → viêm dạ dày; gặp Liêm Trinh sát → xuất huyết dạ dày</td></tr>
+              <tr><td>Thái Dương</td><td>Tim, mắt, huyết áp, hô hấp</td><td>Hãm + Kình/Đà → bệnh mắt; + Hóa Kỵ → tổn thương mắt nặng</td></tr>
+              <tr><td>Thái Âm</td><td>Thận, tiết niệu, phụ khoa, tâm lý</td><td>Hãm → trầm uất, mất ngủ</td></tr>
+              <tr><td>Vũ Khúc</td><td>Phổi, hô hấp, xương</td><td>+ Thất Sát/Phá Quân + Hỏa/Linh/Hóa Kỵ → nguy cơ hình thành khối u, bệnh phải can thiệp dao kéo</td></tr>
+              <tr><td>Liêm Trinh</td><td>Máu huyết, thận-sinh dục</td><td>Hóa Kỵ + Sát/Hình → bệnh về máu cần theo dõi lâu dài, tai nạn chảy máu</td></tr>
+              <tr><td>Thiên Cơ</td><td>Gan, thần kinh</td><td>Hãm → suy nhược thần kinh, mất ngủ, lo âu</td></tr>
+              <tr><td>Cự Môn</td><td>Miệng, họng, tiêu hóa</td><td>Ẩn ức, tâm bệnh "khó nói ra"</td></tr>
+              <tr><td>Thiên Đồng</td><td>Ít bệnh nặng, thể chất yếu</td><td>Áp lực → lo âu, mất ngủ, trầm cảm</td></tr>
+              <tr><td>Thiên Lương</td><td>Sao Thọ — hóa giải bệnh tật</td><td>Gặp Hóa Kỵ → bệnh tiêu hóa kéo dài; gặp Khốc/Hư → lo âu, trầm cảm</td></tr>
+              <tr><td>Thất Sát</td><td>Viêm cấp, tai nạn, thương tích</td><td>+ Liêm Trinh + Sát hội → có thể phát hen suyễn</td></tr>
+              <tr><td>Phá Quân</td><td>Viêm cấp tính</td><td>Kết hợp Vũ Khúc → bệnh răng, nha chu</td></tr>
+              <tr><td>Tham Lang</td><td>Bệnh do lối sống hưởng thụ, rượu bia</td><td>Đọc mở rộng: nghiện hành vi hiện đại</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:1rem; margin: 36px 0 14px; color: var(--text-dim); font-family: var(--font-body); font-weight: 500;">Bảng phụ: Sát tinh và Hóa Kỵ (tra riêng, không phải chính tinh)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Sao/Hóa</th><th>Ý nghĩa nhanh</th></tr></thead>
+            <tbody>
+              <tr><td>Hóa Kỵ</td><td>Chỉ dấu số 1 cho bệnh mạn tính, dai dẳng, dễ tái phát; kết hợp Riêu/Đà/Linh thiên về bất ổn tâm lý</td></tr>
+              <tr><td>Thiên Hình</td><td>Phẫu thuật, dao kéo, chấn thương thân thể — sao đáng chú ý nhất trong nhóm phụ tinh</td></tr>
+              <tr><td>Kình Dương</td><td>Thương tích, tai nạn dữ dội, đột ngột</td></tr>
+              <tr><td>Đà La</td><td>Tương tự Kình nhưng âm ỉ, kéo dài</td></tr>
+              <tr><td>Hỏa Tinh, Linh Tinh</td><td>Bệnh cấp tính, viêm nhiễm, sốt; có thể liên quan bỏng/điện</td></tr>
+              <tr><td>Địa Không, Địa Kiếp</td><td>Bệnh khó chẩn đoán, hoặc yếu tố tinh thần/tâm linh xen vào</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 8 — PHÚ -->
+    <section class="section" id="s8">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">08 · Cổ văn</div>
+          <h2>Phụ lục: Phú Tật Ách Cung</h2>
+        </div>
+        <p class="phu-intro">Trích Chương 8 của bài phú cổ (thể lục bát, thuộc mảng "Phú Tử Vi Thông Thư"). Đây là phần có tính "y lý số" rõ rệt nhất trong toàn bộ hệ thống phú — gần như mỗi cặp câu là một cặp sao ↔ bệnh cụ thể.</p>
+
+        <div class="phu-list">
+
+          <div class="phu-entry">
+            <div class="phu-number">01</div>
+            <div>
+              <div class="phu-verse">"Tám là Tật ách chẳng âu.<br>Âm, Dương phản bội làm màu bất minh."</div>
+              <div class="phu-gloss">Mở chương: Thái Âm – Thái Dương ở thế "phản bội" (đối nghịch, một sáng một tối không hòa) → mắt kém, thị lực không sáng tỏ ("bất minh" chơi chữ vừa nghĩa "không sáng" vừa ám chỉ mắt mờ). Nguyên tắc Nhật/Nguyệt chủ về mắt là kinh điển trong y lý Tử Vi.</div>
+              <div class="body-region-tag">Mắt</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">02</div>
+            <div>
+              <div class="phu-verse">"Mệnh cung có Địa Không tinh.<br>Nhan manh mục tật, rành rành phải đương."</div>
+              <div class="phu-gloss">Địa Không tại cung Mệnh (ảnh hưởng chéo sang Tật Ách) → mặt có tật, mắt có bệnh rõ ràng.</div>
+              <div class="body-region-tag">Mặt · Mắt</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">03</div>
+            <div>
+              <div class="phu-verse">"Phá, Liêm, Hình, Kỵ, Đà, Dương.<br>Đã đau bên mắt, lại càng bệnh điên."</div>
+              <div class="phu-gloss">Phá Quân, Liêm Trinh, Thiên Hình, Hóa Kỵ, Đà La, Kình Dương hội tụ → vừa đau mắt vừa có dấu hiệu tâm thần bất ổn (bệnh điên) — tổ hợp sát tinh nặng gây tổn hại cả thể chất lẫn tinh thần.</div>
+              <div class="body-region-tag">Mắt · Tinh thần</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">04</div>
+            <div>
+              <div class="phu-verse">"Khúc, Xương, Tả, Hữu vào miền.<br>Việt, Khôi, Tử, Phủ, Khoa, Quyền, Đồng, Lương."</div>
+              <div class="phu-gloss">Chuyển sang vế cát tường: Văn Khúc, Văn Xương, Tả Phụ, Hữu Bật, Thiên Việt, Thiên Khôi, Tử Vi, Thiên Phủ, Hóa Khoa, Hóa Quyền, Thiên Đồng, Thiên Lương — nhóm sao này hội tụ tại Tật Ách thì thể trạng tốt, ít bệnh tật.</div>
+              <div class="body-region-tag">Cát tường — ít bệnh</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">05</div>
+            <div>
+              <div class="phu-verse">"Lộc Tồn, Hóa Lộc một phương.<br>Ốm thì lại gặp thuốc thang sợ gì."</div>
+              <div class="phu-gloss">Lộc Tồn + Hóa Lộc → dù có ốm đau cũng gặp được thầy thuốc tốt, không đáng lo (ý nói phúc lộc đủ để chữa trị kịp thời).</div>
+              <div class="body-region-tag">Quý nhân y tế</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">06</div>
+            <div>
+              <div class="phu-verse">"Thiên Cơ phải chứng thấp tê.<br>Nhược bằng thêm Sát mặt thì vết ngang."</div>
+              <div class="phu-gloss">Thiên Cơ đơn thủ: mắc chứng phong thấp, tê bại (đúng đặc tính "cơ" — gân cốt, thần kinh). Nếu thêm sát tinh: trên mặt có vết sẹo/vết ngang.</div>
+              <div class="body-region-tag">Gân cốt · Mặt</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">07</div>
+            <div>
+              <div class="phu-verse">"Phong đàm bệnh ấy liền liền.<br>Bởi sao Cơ, Khúc đóng miền Ách phương."</div>
+              <div class="phu-gloss">Bệnh phong đàm (ho, đờm, các chứng liên quan hô hấp/thần kinh) xuất hiện liên tục — do Thiên Cơ hội Văn Khúc đóng tại Tật Ách.</div>
+              <div class="body-region-tag">Hô hấp · Thần kinh</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">08</div>
+            <div>
+              <div class="phu-verse">"Nhược bằng gia Sát, trỉ vương.<br>Thái Âm đau bụng, Thái Dương đau đầu."</div>
+              <div class="phu-gloss">Nếu thêm sát tinh: mắc bệnh trĩ. Thái Âm → đau bụng; Thái Dương → đau đầu — cặp đối xứng Nhật/Nguyệt tiếp tục phân vùng cơ thể (đầu thuộc Dương/trên, bụng thuộc Âm/dưới).</div>
+              <div class="body-region-tag">Đầu · Bụng</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">09</div>
+            <div>
+              <div class="phu-verse">"Thêm Đà, Kỵ, Sát cũng rầu.<br>Đoán rằng mục tật, ấy hầu phải đau."</div>
+              <div class="phu-gloss">Đà La, Hóa Kỵ, sát tinh hội thêm → chắc chắn có bệnh về mắt (mục tật), rất đáng lo.</div>
+              <div class="body-region-tag">Mắt</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">10</div>
+            <div>
+              <div class="phu-verse">"Phá Quân khí huyết bất điều.<br>Đồng, Lương, hàn, nhiệt là điều phải lo."</div>
+              <div class="phu-gloss">Phá Quân: khí huyết không điều hòa (rối loạn tuần hoàn). Thiên Đồng + Thiên Lương: dễ mắc chứng hàn nhiệt thất thường (cảm sốt, thay đổi nhiệt độ cơ thể).</div>
+              <div class="body-region-tag">Khí huyết</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">11</div>
+            <div>
+              <div class="phu-verse">"Tướng thì đau ở bì phu.<br>Âm, Dương, Cự, Liêm, hình thù cơ nghinh."</div>
+              <div class="phu-gloss">Thiên Tướng: bệnh ngoài da (bì phu). Thái Âm, Thái Dương, Cự Môn, Liêm Trinh hội tụ: hình dáng cơ thể bị ảnh hưởng rõ rệt ("cơ nghinh" — thể trạng, vóc dáng chịu tác động).</div>
+              <div class="body-region-tag">Da</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">12</div>
+            <div>
+              <div class="phu-verse">"Đà La, Dương Nhận ít yên.<br>Đau chân, nhức mắt chẳng hiền được đâu."</div>
+              <div class="phu-gloss">Đà La + Kình Dương → cơ thể ít yên ổn: đau chân, nhức mắt, không có gì dễ chịu.</div>
+              <div class="body-region-tag">Chân · Mắt</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">13</div>
+            <div>
+              <div class="phu-verse">"Dương, Đà, Phá, Kỵ mắt đau.<br>Bởi đường sao ấy gặp tầy Tham Lang."</div>
+              <div class="phu-gloss">Kình Dương, Đà La, Phá Quân, Hóa Kỵ → đau mắt, đặc biệt nặng khi các sao này đi cùng đường với Tham Lang (đào hoa tinh, dễ liên quan bệnh do ăn chơi quá độ).</div>
+              <div class="body-region-tag">Mắt</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">14</div>
+            <div>
+              <div class="phu-verse">"Sát tinh thấp khí yếu đau.<br>Tử, Sát có bệnh bởi hầu Sát gia."</div>
+              <div class="phu-gloss">Nhóm sát tinh nói chung → cơ thể ẩm thấp, khí huyết yếu, hay đau ốm. Sao Tử (vòng Trường Sinh) hội Thất Sát → bệnh tật do "nhà sát" (dòng sát khí) gây ra.</div>
+              <div class="body-region-tag">Khí huyết</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">15</div>
+            <div>
+              <div class="phu-verse">"Tham Lang Tật ách xông pha.<br>Lưng, chân có bệnh, chẳng hòa được chăng."</div>
+              <div class="phu-gloss">Tham Lang tại Tật Ách: bệnh tật "xông pha" dồn dập; cụ thể là bệnh ở lưng và chân, khó mà điều hòa dứt hẳn.</div>
+              <div class="body-region-tag">Lưng · Chân</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">16</div>
+            <div>
+              <div class="phu-verse">"Cự Môn mặt vết rõ ràng.<br>Tứ chi có tật xấu chàng hổ ai."</div>
+              <div class="phu-gloss">Cự Môn: trên mặt có vết rõ ràng (sẹo, nốt ruồi xấu); tay chân có tật khiến bản thân xấu hổ với người khác — Cự Môn giữ tính chất "để lại dấu vết xấu" tương tự vai trò ám tinh gây thị phi ở các cung khác.</div>
+              <div class="body-region-tag">Mặt · Tứ chi</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">17</div>
+            <div>
+              <div class="phu-verse">"Kỵ, Hình đau mắt chẳng sai.<br>Kình, Đà, Linh, Hỏa cùng loài một phương."</div>
+              <div class="phu-gloss">Hóa Kỵ + Thiên Hình → chắc chắn đau mắt. Kình Dương, Đà La, Linh Tinh, Hỏa Tinh cùng nhóm sát tinh hội tụ càng làm nặng thêm các chứng bệnh đã nêu.</div>
+              <div class="body-region-tag">Mắt</div>
+            </div>
+          </div>
+
+          <div class="phu-entry">
+            <div class="phu-number">18</div>
+            <div>
+              <div class="phu-verse">"Mặt kia có vết rõ đường.<br>Lại thêm bệnh trỉ nên thường phải e."</div>
+              <div class="phu-gloss">Câu kết chương: khẳng định lại dấu vết trên mặt, đồng thời nhắc lại bệnh trĩ (đã nêu ở câu 8) như một lời cảnh báo cần đề phòng.</div>
+              <div class="body-region-tag">Mặt</div>
+            </div>
+          </div>
+
+        </div>
+
+        <h3 style="font-size:1.05rem; margin: 44px 0 14px; color: var(--text-main);">Nhận xét chương</h3>
+        <p>Tật Ách là chương có tính "y lý số" rõ rệt nhất trong toàn bài phú — gần như mỗi cặp câu là một cặp sao ↔ bệnh cụ thể, tạo thành một bảng tra cứu tự nhiên rất tiện dùng:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Sao / nhóm sao</th><th>Vùng cơ thể · chứng bệnh liên hệ trong phú</th></tr></thead>
+            <tbody>
+              <tr><td>Nhật/Nguyệt (Thái Dương/Thái Âm)</td><td>Mắt / đầu / bụng</td></tr>
+              <tr><td>Thiên Cơ</td><td>Phong thấp, tê bại, thần kinh</td></tr>
+              <tr><td>Phá Quân</td><td>Khí huyết bất điều</td></tr>
+              <tr><td>Thiên Đồng, Thiên Lương</td><td>Hàn nhiệt thất thường</td></tr>
+              <tr><td>Tham Lang</td><td>Lưng, chân</td></tr>
+              <tr><td>Cự Môn</td><td>Vết trên mặt, tứ chi</td></tr>
+              <tr><td>Nhóm sát tinh (Kình, Đà, Hỏa, Linh, Kỵ, Hình)</td><td>Mắt và các vết tích trên cơ thể</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout warn phu-summary-note">
+          <strong>Lưu ý khi ứng dụng:</strong> Đây là quan niệm lý số cổ truyền mang tính tham khảo văn hóa, không thay thế chẩn đoán y khoa. Nên tách rõ giữa "quan niệm cổ" (mục này) và "diễn giải mở rộng đương đại" (mục 06) để độc giả không nhầm lẫn.
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 9 — VÍ DỤ MINH HỌA -->
+    <section class="section" id="s9">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">09 · Thực chiến</div>
+          <h2>Ví dụ minh họa: Lá số thực chiến</h2>
+        </div>
+        <p class="lede">Lá số mẫu dùng để minh họa cách áp dụng toàn bộ lý thuyết ở các mục trên vào một trường hợp cụ thể — ca kinh điển của <strong>Tật Vô Chính Diệu</strong>.</p>
+
+        <div class="case-banner">
+          <div><b>Giới tính</b> Nam</div>
+          <div><b>Sinh năm</b> Đinh Mão 1987</div>
+          <div><b>Giờ sinh</b> Tý</div>
+          <div><b>Mệnh</b> Thiên Phủ</div>
+          <div><b>Thân</b> cư Mệnh</div>
+          <div><b>Cục</b> Hỏa Lục Cục</div>
+        </div>
+
+        <div class="case-sub"><span class="tag">9.1 · Cơ bản</span>Vị trí Tật Ách trong lá số mẫu</div>
+        <p>Cung Tật Ách an tại <strong>N.Tý</strong>, can Nhâm, hành Thủy. Trên lá số ghi Th.12 tức tháng 12 âm là hạn của cung Tật.</p>
+
+        <div class="case-sub"><span class="tag">9.2 · Trung cấp</span>Bóc tách Tật Vô Chính Diệu</div>
+
+        <div class="case-block">
+          <h4>a) Chính cung</h4>
+          <p>N.Tý không có chính tinh → nguyên tắc: Vô chính diệu thì nhìn sang cung xung chiếu.</p>
+        </div>
+
+        <div class="case-block">
+          <h4>b) Cung xung chiếu — Phụ Mẫu B.Ngọ</h4>
+          <p>Có Thái Âm (hãm) + Thiên Đồng (hãm).</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Sao</th><th>Ý nghĩa bệnh</th></tr></thead>
+            <tbody>
+              <tr><td>Thái Âm</td><td>Mắt, thận, hệ bài tiết, bệnh phụ nữ tính (nam mệnh thì luận thận thủy)</td></tr>
+              <tr><td>Thiên Đồng</td><td>Dạ dày, hệ tiêu hóa, bệnh do ăn uống, bệnh trẻ con, tính lo xa sinh bệnh</td></tr>
+              <tr><td>Hãm địa cả 2</td><td>Bệnh di truyền từ cha mẹ, sức đề kháng kém</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="case-block">
+          <h4>c) Tam hợp chính — Tý-Thìn-Thân</h4>
+          <p><strong>Huynh Đệ G.Thìn:</strong> Văn Khúc (đắc), Thiên Diêu (hãm), Thiên Không, Thiên La → tam hợp này nói bệnh do Tâm. Thiên Diêu (hãm) = thận, nội tiết, thần kinh. Văn Khúc = lo nghĩ. Thiên Không = bệnh lạ, bệnh về tinh thần.</p>
+          <p><strong>Điền Trạch M.Thân:</strong> Cự Môn (đắc), Thái Dương (hãm), Hóa Kỵ, Lưu Hà, Kiếp Sát → tam hợp quan trọng nhất của lá số này, nói bệnh do Miệng và Môi trường. Cự Môn + Hóa Kỵ = bộ <strong>Cự Kỵ</strong>: bệnh họng, thực quản, dạ dày, bệnh mãn tính. Thái Dương (hãm): bệnh tim mạch, mắt, đau đầu, mất ngủ. Lưu Hà + Kiếp Sát: tai nạn sông nước, dao kéo, sẹo.</p>
+        </div>
+
+        <div class="formula-line">"Bệnh từ miệng mà vào [Cự Môn] — từ nhà mà ra [Điền Trạch] — từ tâm mà sinh [Thiên Diêu]."</div>
+
+        <div class="case-block">
+          <h4>d) Nhị hợp và giáp cung</h4>
+          <p><strong>Nhị hợp — Tài Bạch Q.Sửu:</strong> cũng Vô Chính Diệu, có Quả Tú, Điếu Khách (nhị hợp Tý-Sửu) → Tật-Tài nhị hợp vô chính diệu cả hai thì tốn tiền vì bệnh. Điếu Khách = bệnh ăn nhậu. Quả Tú = khi bệnh cô độc.</p>
+          <p><strong>Giáp cung — Tử Tức N.Dần và Thiên Di T.Hợi:</strong> Tử Tức có Phong Cáo, Quốc Ấn, Thiên Quan, Lưu Bạch Hổ, Triệt → giáp cung có Ấn-Cáo-Quan là có giải: gặp bệnh gặp thầy giỏi, thuốc hay, bệnh viện lớn. Nhưng có Bạch Hổ + Triệt thì bản thân và con cái có duyên với dao kéo, mổ xẻ.</p>
+        </div>
+
+        <div class="case-sub"><span class="tag">9.3 · Nâng cao</span>Phụ tinh chuyên sâu tại chính cung N.Tý</div>
+
+        <div class="case-block">
+          <h4>a) Đào Hoa + Hồng Loan</h4>
+          <p>Cách "Đào Hồng cư Tật". Sách cổ gọi <em>"Đào Hồng nhập Tật, sắc dục đa tai"</em>. Về tính: người có duyên ngầm. Về bệnh: bệnh máu huyết, tim mạch, da liễu, dị ứng, bệnh hệ sinh dục, nội tiết tố.</p>
+        </div>
+
+        <div class="case-block">
+          <h4>b) Thiên Hình (hãm) + Phi Liêm + Đầu Quân + Thiên Sứ — bộ "hình thương"</h4>
+          <p>Thiên Hình (hãm) tại Tật: dấu hiệu gần như chắc chắn có sẹo, có lần động dao kéo. Hãm thì sẹo xấu, lâu lành. Phi Liêm + Đầu Quân: tai nạn nhanh, bất ngờ, va quẹt chân tay. Thiên Sứ: khi bệnh phải xa nhà, đi xa mới gặp thầy gặp thuốc.</p>
+        </div>
+        <div class="callout">Mẹo hóa giải dân gian: chủ động cho máu (hiến máu, nhổ răng) để "ứng" Thiên Hình.</div>
+
+        <div class="case-block">
+          <h4>c) Thiên Đức + Phúc Đức</h4>
+          <p>Hai sao giải ách mạnh nhất. Tật có bộ này thì dù gặp Thiên Hình, Hóa Kỵ cũng qua khỏi — gọi là <em>"Phúc Đức thiên lai giải"</em>: bệnh gặp thầy, họa gặp phúc.</p>
+        </div>
+
+        <div class="case-block">
+          <h4>d) Lưu niên 2026 (Bính Ngọ, đương số 40 tuổi)</h4>
+          <p>Cung Tật gốc có Lưu Thiên Khốc + Lưu Thiên Hư — Lưu Thiên Khốc: lo buồn, bệnh hô hấp, xoang, họng; Lưu Thiên Hư: răng miệng, hư hao. Năm Bính Ngọ, hạn vào cung Huynh Đệ, xung Điền, tam hợp về Tật → năm nay là năm kích hoạt bộ Cự Kỵ + Thiên Khốc, dễ mất ngủ, lo âu, viêm họng, dạ dày tái phát.</p>
+        </div>
+
+        <div class="case-sub"><span class="tag">9.4 · Tổng kết</span>Luận đoán theo 4 lớp</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Lớp</th><th>Yếu tố</th><th>Kết luận</th></tr></thead>
+            <tbody>
+              <tr><td>1 — Gốc bệnh</td><td>Cự Môn Hóa Kỵ + Thái Âm Thiên Đồng (hãm)</td><td>Tiêu hóa, họng, mắt, tim mạch</td></tr>
+              <tr><td>2 — Hình thức bệnh</td><td>Thiên Hình + Kiếp Sát + Lưu Hà</td><td>Mổ xẻ, sẹo, tai nạn</td></tr>
+              <tr><td>3 — Bệnh phụ</td><td>Đào Hồng</td><td>Máu huyết, da liễu, nội tiết</td></tr>
+              <tr><td>4 — Giải cứu</td><td>Thiên Đức, Phúc Đức, Quốc Ấn, Phong Cáo, Thiên Quan</td><td>Gặp thầy giỏi, có phúc cứu</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:1rem; margin: 30px 0 6px; color: var(--text-main);">Lời khuyên minh họa cho lá số này</h3>
+        <p style="font-size: 0.88rem; color: var(--text-faint); margin-bottom: 4px;">(chỉ mang tính ví dụ giáo học)</p>
+        <ul class="advice-list">
+          <li>Chú ý nhà ở: khô ráo, bếp sạch, tránh gần sông hồ ô nhiễm (vì Lưu Hà + Kiếp Sát tam hợp Tật)</li>
+          <li>Chú ý ăn uống: hạn chế rượu bia (vì Cự Kỵ + Điếu Khách)</li>
+          <li>Hóa giải Thiên Hình: hiến máu định kỳ</li>
+          <li>Tăng Phúc: Tật có Phúc Đức, càng làm phúc, thờ cúng gia tiên tốt thì bệnh càng nhẹ</li>
+        </ul>
+
+        <div class="callout warn">Ví dụ này dùng để minh họa phương pháp luận thuật Tử Vi, không thay thế tư vấn hoặc chẩn đoán y tế thực tế.</div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 10 -->
+    <section class="section" id="s10">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-eyebrow">10 · Tham khảo</div>
+          <h2>Ghi chú và nguồn tham khảo</h2>
+        </div>
+
+        <h3 style="font-size:1rem; margin-bottom: 14px; color: var(--text-main);">Sách cổ học nền tảng</h3>
+        <ul style="color: var(--text-dim); font-size: 0.94rem; line-height: 2; padding-left: 20px;">
+          <li>Tử Vi Đẩu Số Toàn Thư — Hi Di Trần Đoàn</li>
+          <li>Trung Châu Tử Vi Đẩu Số (Tứ Hóa phái) — Nguyễn Anh Vũ</li>
+          <li>Tử Vi Đẩu Số — Tứ Hóa Khảo Luận Vận Thế Đời Người — Phan Tử Ngư</li>
+          <li>Luận giải của Vương Đình Chi (dẫn qua các bản dịch/tổng hợp tiếng Việt)</li>
+          <li>Phú Tử Vi Thông Thư — Chương 8 (Tật Ách Cung), thể lục bát</li>
+        </ul>
+
+        <div class="callout warn" style="margin-top: 30px;">
+          <strong>Lưu ý khi dùng tài liệu này:</strong> Đây là tài liệu tổng hợp mang tính học thuật/văn hóa truyền thống, không thay thế chẩn đoán y khoa. Khi ứng dụng luận đoán thực tế, luôn đối chiếu nhiều cung (Mệnh, Thân, Phúc Đức, Phụ Mẫu, Thiên Di) — không kết luận vội từ một sao đơn lẻ.
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="mark">黑 猫 · Mèo Đen</div>
+  <p>Tài liệu phục vụ nghiên cứu và sáng tác nội dung — Tử Vi Đẩu Số</p>
+</footer>
+
+<!-- ============ MUSIC BUTTON ============ -->
+<button id="music-btn" aria-label="Bật/tắt nhạc nền">
+  <span class="ring"></span>
+  <svg id="music-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor" stroke="none"/><circle cx="18" cy="16" r="3" fill="currentColor" stroke="none"/></svg>
+</button>
+<audio id="bg-audio" src="music15.mp3" loop preload="none"></audio>
+
+<script>
+  // ---------- Reading progress ----------
+  const progressBar = document.getElementById('progress-bar');
+  function updateProgress() {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  // ---------- Theme toggle ----------
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  function setThemeIcon(theme) {
+    if (theme === 'light') {
+      themeIcon.innerHTML = '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/>';
+    } else {
+      themeIcon.innerHTML = '<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2 12h2.4M19.6 12H22M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>';
+    }
+  }
+  const savedTheme = localStorage.getItem('tatach-theme') || 'dark';
+  root.setAttribute('data-theme', savedTheme);
+  setThemeIcon(savedTheme);
+  themeToggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('tatach-theme', next);
+    setThemeIcon(next);
+  });
+
+  // ---------- Mobile TOC ----------
+  const tocPanel = document.getElementById('toc-panel');
+  const tocToggle = document.getElementById('toc-toggle');
+  const tocBackdrop = document.getElementById('toc-backdrop');
+  function closeToc() { tocPanel.classList.remove('open'); tocBackdrop.classList.remove('open'); }
+  tocToggle.addEventListener('click', () => {
+    tocPanel.classList.toggle('open');
+    tocBackdrop.classList.toggle('open');
+  });
+  tocBackdrop.addEventListener('click', closeToc);
+  tocPanel.querySelectorAll('a').forEach(a => a.addEventListener('click', closeToc));
+
+  // ---------- Active TOC highlight ----------
+  const sections = document.querySelectorAll('.section');
+  const tocLinks = document.querySelectorAll('.toc-panel a');
+  const activeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      const link = document.querySelector('.toc-panel a[href="#' + id + '"]');
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+  sections.forEach(s => activeObserver.observe(s));
+
+  // ---------- Reveal on scroll ----------
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.section-inner').forEach(el => revealObserver.observe(el));
+
+  // ---------- Body-map tooltips ----------
+  const tooltip = document.getElementById('marker-tooltip');
+  const svg = document.getElementById('bodymap-svg');
+  document.querySelectorAll('.marker').forEach(m => {
+    m.addEventListener('mouseenter', (e) => {
+      const label = m.getAttribute('data-label');
+      const star = m.getAttribute('data-star');
+      tooltip.innerHTML = label + ' — <span class="star">' + star + '</span>';
+      const rect = m.getBoundingClientRect();
+      const wrapRect = svg.parentElement.getBoundingClientRect();
+      tooltip.style.left = (rect.left - wrapRect.left + rect.width / 2) + 'px';
+      tooltip.style.top = (rect.top - wrapRect.top) + 'px';
+      tooltip.style.opacity = '1';
+    });
+    m.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
+    m.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+      const label = m.getAttribute('data-label');
+      const star = m.getAttribute('data-star');
+      tooltip.innerHTML = label + ' — <span class="star">' + star + '</span>';
+      const rect = m.getBoundingClientRect();
+      const wrapRect = svg.parentElement.getBoundingClientRect();
+      tooltip.style.left = (rect.left - wrapRect.left + rect.width / 2) + 'px';
+      tooltip.style.top = (rect.top - wrapRect.top) + 'px';
+      tooltip.style.opacity = '1';
+      setTimeout(() => { tooltip.style.opacity = '0'; }, 1800);
+    });
+  });
+
+  // ---------- Music button ----------
+  const musicBtn = document.getElementById('music-btn');
+  const audio = document.getElementById('bg-audio');
+  musicBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play().catch(() => {});
+      musicBtn.classList.add('playing');
+    } else {
+      audio.pause();
+      musicBtn.classList.remove('playing');
+    }
+  });
+</script>
+
+</body>
+</html>
