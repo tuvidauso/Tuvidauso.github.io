@@ -30,6 +30,12 @@
     --hero-gold:#C9A046;
     --hero-gold-soft:#EFE1BE;
     --hero-seal:#A63A2E;
+    /* dark accent panels (.keybox, .memo) are always dark-with-light-text,
+       regardless of site theme — fixed, non-theme-swappable colors */
+    --panel-bg:#1B2430;
+    --panel-fg:#F7F2E7;
+    --panel-gold:#EFE1BE;
+    --panel-seal:#C25B4C;
   }
 
   html[data-theme="dark"]{
@@ -262,6 +268,33 @@
     padding:10px 16px; margin:14px 0 20px; border-radius:0 3px 3px 0;
   }
 
+  /* three-keys callout (Phần II) */
+  .keybox{
+    background:var(--panel-bg); color:var(--panel-fg);
+    border-radius:5px; padding:26px 26px 8px; margin:18px 0 26px;
+  }
+  .keybox-intro{
+    font-family:var(--serif); font-style:italic; font-size:15px;
+    color:rgba(247,242,231,0.78); margin:0 0 20px; max-width:60ch;
+  }
+  .key{
+    display:flex; gap:16px; padding:16px 0;
+    border-top:1px solid rgba(247,242,231,0.14);
+  }
+  .key:first-of-type{border-top:none; padding-top:0;}
+  .key-no{
+    flex:none; font-family:var(--serif); font-weight:700; font-size:13px;
+    color:var(--panel-gold); background:rgba(173,138,62,0.18);
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .key h4{
+    font-family:var(--serif); font-size:16px; margin:0 0 6px; color:var(--panel-gold);
+  }
+  .key p{
+    font-size:14.5px; line-height:1.65; margin:0; color:rgba(247,242,231,0.88);
+  }
+
   blockquote.phu{
     font-family:var(--serif); font-style:italic; font-size:18px;
     color:var(--seal-deep);
@@ -324,20 +357,20 @@
 
   /* summary panel Phần VI */
   .memo{
-    background:var(--ink); color:var(--paper-light);
+    background:var(--panel-bg); color:var(--panel-fg);
     border-radius:5px; padding:30px 28px; margin:20px 0 10px;
   }
-  .memo h3{color:var(--gold-soft); margin-top:0;}
+  .memo h3{color:var(--panel-gold); margin-top:0;}
   .memo ul{list-style:none; padding:0; margin:0;}
   .memo li{
     position:relative; padding-left:20px; margin-bottom:14px;
     font-size:15px; line-height:1.65; color:rgba(247,242,231,0.92);
   }
   .memo li::before{
-    content:"◆"; position:absolute; left:0; top:2px; color:var(--seal);
+    content:"◆"; position:absolute; left:0; top:2px; color:var(--panel-seal);
     font-size:10px;
   }
-  .memo li strong{color:var(--gold-soft); font-weight:600;}
+  .memo li strong{color:var(--panel-gold); font-weight:600;}
 
   footer{
     padding:40px 24px 60px; text-align:center;
@@ -492,10 +525,11 @@
     </div>
 
     <h3>1. Vị trí trong hệ thống 14 chính tinh</h3>
-    <p>Thiên Đồng là sao thứ 5 trong 6 sao thuộc <strong>chòm Tử Vi</strong> (Tử Vi, Thiên Cơ, Thái Dương, Vũ Khúc, Thiên Đồng, Liêm Trinh), thuộc Nam Đẩu tinh, hành <strong>Thủy</strong> (Dương Thủy). Là phúc tinh đứng đầu, cổ nhân có câu:</p>
+    <p>Thiên Đồng là sao thứ 5 trong 6 sao thuộc <strong>chòm Tử Vi</strong> (Tử Vi, Thiên Cơ, Thái Dương, Vũ Khúc, Thiên Đồng, Liêm Trinh), thuộc Nam Đẩu tinh, hành <strong>Thủy</strong> (Dương Thủy). Hóa khí là <strong>Phúc</strong> — chủ về phúc thọ, lộc thực, và giải ách (hóa giải tai ương). Là phúc tinh đứng đầu, cổ nhân có câu:</p>
     <blockquote class="phu">"Thiên Đồng — thập nhị cung trung giai viết phúc"
       <cite>Thiên Đồng cư cung nào cũng giáng phúc cho cung đó</cite>
     </blockquote>
+    <p>Hình tượng gắn với Thiên Đồng là đứa trẻ mập mạp, trắng trẻo, phúc hậu — chính là "ông Phúc" trong bộ Phúc Lộc Thọ dân gian hay thờ. Một tính chất gốc dễ bị bỏ sót: Thiên Đồng chủ về "tay trắng làm nên" — nhưng phải có người hỗ trợ, không tự mình gánh vác được việc lớn một mình, khác hẳn kiểu tự thân xông pha của Thất Sát hay Vũ Khúc.</p>
 
     <h3>2. Quy luật an sao</h3>
     <p>Thiên Đồng có 12 vị trí có thể đóng, chia làm hai nhóm:</p>
@@ -539,22 +573,66 @@
     <p>Vị trí đẹp nhất là Dần, Thân (miếu, đi với Thiên Lương) — đúng tinh thần câu phú "Dần Thân tối hỷ Đồng Lương hội" (Dần Thân thích nhất gặp Đồng Lương). Lưu ý Mão đắc địa (tốt) nhưng Dậu lại hãm địa (kém) — hai cung đối nhau này không cùng mức tốt như nhau.</p>
     <p>Thiên Đồng tại Ngọ tự thân đã hãm địa — không cần viện dẫn "bị Thái Âm kéo theo". Trùng hợp là tại Ngọ, Thái Âm cũng hãm, nhưng đây là hai sự kiện độc lập, không phải quan hệ nhân-quả.</p>
 
-    <h3>2. Thiên Đồng - Thái Âm tại Tý, Ngọ</h3>
-    <p>Tại Tý: Thiên Đồng vượng + Thái Âm miếu → cách <strong>"Thủy Trừng Quế Ngạc"</strong>. Người có cách này thường thông minh, tình cảm sâu sắc, có duyên văn chương, dễ thành đạt về danh tiếng, đặc biệt hợp nữ mệnh.</p>
-    <p>Tại Ngọ: cả hai sao đều hãm → tình cảm dễ trắc trở, nội tâm nhiều uẩn khúc dù bề ngoài vẫn ôn hòa.</p>
+    <h3>2. Vì sao Miếu, Vượng, Đắc, Hãm? — ba chìa khóa gốc rễ</h3>
+    <div class="keybox">
+      <p class="keybox-intro">Thay vì học thuộc bảng trên, có thể tự suy ra bằng ba chìa khóa sau — hiểu được phần này thì nhìn lá số là tự biết vì sao Miếu, vì sao Hãm, không cần tra bảng nữa.</p>
+      <div class="key">
+        <span class="key-no">01</span>
+        <div>
+          <h4>Ngũ hành</h4>
+          <p>Thiên Đồng hành Dương Thủy. Thủy cần Kim sinh (Kim sinh Thủy → tốt), cần Thổ chế ở mức vừa phải (Thổ khắc Thủy để không tràn lan → có thể là cái cứu, không hẳn xấu), sợ Hỏa đốt (Hỏa khắc Thủy → xấu nhất), và hao khi phải sinh Mộc (Thủy sinh Mộc → tốt có điều kiện, vì cho đi cũng là một dạng trưởng thành).</p>
+        </div>
+      </div>
+      <div class="key">
+        <span class="key-no">02</span>
+        <div>
+          <h4>Vòng Tứ Sinh — Tứ Chính — Tứ Mộ</h4>
+          <p>Dần Thân Tỵ Hợi là Tứ Sinh (nơi sao có sức sống, có Trường Sinh/Đế Vượng — Đồng ở đây được sinh sôi). Tý Ngọ Mão Dậu là Tứ Chính (khí cực vượng, cực đoan — Đồng hoặc cực sướng ở Tý, hoặc cực khổ ở Ngọ). Thìn Tuất Sửu Mùi là Tứ Mộ/La Võng (nơi chôn vùi, là lưới — Đồng vốn là đứa trẻ, phúc tinh, bị nhốt vào mộ/lưới thì tắt phúc).</p>
+        </div>
+      </div>
+      <div class="key">
+        <span class="key-no">03</span>
+        <div>
+          <h4>Đi với ai</h4>
+          <p>Thiên Đồng là đứa trẻ, đứa trẻ đi với ai thì thành người như vậy. Đi với Thiên Lương (ông thầy, hành Thổ) tại Dần Thân → thành ngoan, có kỷ luật → Miếu. Đi với Thái Âm tại Tý (đắc địa, không có ai "quản") → được nuông chiều → Vượng nhưng lười. Đi với Cự Môn tại Sửu Mùi (cả hai cùng hãm) → hai đứa trẻ cùng hư, rủ nhau bướng bỉnh → Hãm. Đi với Thái Âm tại Ngọ (cả hai cùng hãm, lại đúng Đế Vượng của Hỏa) → hai đứa trẻ hư rủ nhau đi chơi nắng → Hãm nặng nhất. Riêng 6 cung độc thủ còn lại (Mão, Tỵ, Dậu, Thìn, Tuất, Hợi), Đồng đi một mình nên tốt/xấu hoàn toàn phụ thuộc vào hành của chính cung theo Chìa khóa 1 và 2.</p>
+        </div>
+      </div>
+    </div>
 
-    <h3>3. Thiên Đồng - Cự Môn tại Sửu, Mùi (đều hãm)</h3>
-    <p>Cự Môn là ám tinh (thị phi, khẩu thiệt). Kết hợp Thiên Đồng tạo người nói nhiều, lý luận giỏi nhưng dễ vướng thị phi. Cả hai sao đều hãm nên cần Hóa Lộc, Hóa Quyền hỗ trợ mới phát huy thế mạnh ăn nói, giao tiếp.</p>
+    <h3>3. Thiên Đồng - Thái Âm tại Tý, Ngọ</h3>
+    <p>Tại Tý: Thiên Đồng vượng + Thái Âm miếu → cách <strong>"Thủy Trừng Quế Ngạc"</strong>. Người có cách này thường thông minh, tình cảm sâu sắc, có duyên văn chương, dễ thành đạt về danh tiếng, đặc biệt hợp nữ mệnh. Lý do Tý được xếp Vượng: Tý thuộc Thủy, đứng ở vị trí <strong>Đế Vượng</strong> trong vòng Trường Sinh của hành Thủy — lý giải ngũ hành cụ thể cho việc vì sao một sao Thủy như Thiên Đồng lại mạnh nhất ngay tại Tý. Người có cách này da trắng, mập mạp, đào hoa, được nhiều người thương; nhưng cũng dễ lười, ham chơi — gặp thêm Lộc thì giàu to, gặp sát tinh thì dễ béo phì, bệnh thận.</p>
+    <div class="note">So sánh với Dần Thân ở mục 5: Đồng Miếu ở Dần Thân là <strong>sướng mà sang</strong> (có thầy Lương quản, nên phúc có kỷ luật); Đồng Vượng ở Tý là <strong>sướng mà lười</strong> (không ai quản, một mình làm vua, hưởng hết) — cùng là vị trí tốt nhưng chất lượng "tốt" khác hẳn nhau.</div>
+    <p>Tại Ngọ: cả hai sao đều hãm → tình cảm dễ trắc trở, nội tâm nhiều uẩn khúc dù bề ngoài vẫn ôn hòa. Đây cũng là vị trí hãm nặng nhất trong toàn bộ 12 cung: Ngọ hành Hỏa, lại đúng vị trí Đế Vượng của Hỏa — Hỏa khắc Thủy cực mạnh, Thủy của Đồng gần như bị nấu cạn, phúc bị đốt sạch chứ không chỉ suy giảm thông thường.</p>
 
-    <h3>4. Thiên Đồng - Thiên Lương tại Dần, Thân (miếu)</h3>
+    <h3>4. Thiên Đồng - Cự Môn tại Sửu, Mùi (đều hãm)</h3>
+    <p>Cự Môn là ám tinh (thị phi, khẩu thiệt). Kết hợp Thiên Đồng tạo người nói nhiều, lý luận giỏi nhưng dễ vướng thị phi. Cả hai sao đều hãm nên cần Hóa Lộc, Hóa Quyền hỗ trợ mới phát huy thế mạnh ăn nói, giao tiếp. Về ngũ hành, Sửu Mùi thuộc Thổ khắc Thủy của Đồng — nhưng khác hẳn cái Thổ "đắp bờ" tốt lành ở Dần Thân (xem mục 5), Thổ ở Sửu Mùi là <strong>Thổ thấp, Thổ bùn</strong>, làm vẩn đục Thủy thay vì chế ngự có ích — biểu hiện thường thấy là người bướng, lì, ngoài hiền trong cố chấp, dễ bất mãn âm ỉ hơn là bộc phát. Phú gọi thẳng: "Cự Đồng Sửu Mùi vi hạ cách" — hạ cách nếu không có cát hóa cứu.</p>
+
+    <h3>5. Thiên Đồng - Thiên Lương tại Dần, Thân (miếu)</h3>
     <p>Đây là gốc của cách cục lớn <strong>"Cơ Nguyệt Đồng Lương"</strong> (khi hội đủ Thiên Cơ, Thái Âm, Thiên Đồng, Thiên Lương ở tam phương tứ chính Mệnh). Kinh văn: "Cơ Nguyệt Đồng Lương được làm quan", "Cơ Nguyệt Đồng Lương có phúc". Người có cách này hợp công chức, nghiên cứu, chuyên môn trong tổ chức lớn — ổn định, tích lũy dần, ít bùng nổ đột phá.</p>
+    <p>Lý giải vì sao đây là vị trí miếu đẹp nhất, không chỉ là quy ước: Thiên Đồng là "đứa trẻ", Thiên Lương là "ông thầy" — đứa trẻ có thầy dạy dỗ thì nên người. Về ngũ hành, Dần thuộc Mộc (Thủy sinh Mộc — đứa trẻ được cho đi, được dẫn dắt), Thân thuộc Kim (Kim sinh Thủy — đứa trẻ được nuôi dưỡng); cả hai cung đều ở thế được sinh trợ chứ không bị khắc chế. Nhưng lý do chính không nằm ở ngũ hành của cung, mà ở chính bộ sao: Thiên Lương hành Thổ, về nguyên tắc Thổ khắc Thủy — nhưng đây là trường hợp <strong>cái khắc lại chính là cái cứu</strong>. Thiên Đồng vốn là Thủy vô định, lan man, cả nể; cần có Thổ của Lương "đắp bờ" ngăn lại. Đồng ở Dần Thân gặp Lương giống như đứa trẻ ngỗ nghịch được gửi vào trường có thầy quản — nhờ vậy hết lười, hết ham chơi, trở thành phúc thiện có trí tuệ, nhân hậu có nguyên tắc. Đây là điểm tinh tế nhất trong toàn bộ cách luận Thiên Đồng: không phải cứ khắc là xấu, khắc đúng mức và đúng sao còn là điều kiện để đạt Miếu.</p>
+    <p>Vì vậy phú cổ có câu: <em>"Đồng Lương Dần Thân, nhất sinh an nhàn"</em>, hoặc <em>"Đồng Lương Dần Thân — bạch thủ công khanh"</em> (tay trắng cũng làm nên công khanh); một dị bản khác gắn Đồng Lương với hình ảnh người hướng đạo: <em>"Đồng Lương ... vi tăng vi đạo"</em> (làm thầy tu, làm đạo sĩ) — phản ánh đúng thiên hướng "làm thầy, làm thuốc, làm phúc", càng già càng được quý trọng, của tổ hợp này.</p>
     <p>Dần tốt hơn Thân (theo đa số tài liệu): tại Thân, cung Tài Bạch tương ứng có Thái Âm hãm nên ảnh hưởng tài vận; tại Dần, Thái Âm ở cung tài lại vượng hơn.</p>
 
-    <h3>5. Thiên Đồng độc thủ tại Mão, Tỵ, Hợi (đắc địa)</h3>
-    <p>Ba cung này người có cuộc sống an nhàn, may mắn, ít vất vả, cha mẹ/gia đạo khá giả (nếu xét ở cung Phụ Mẫu).</p>
+    <h3>6. Thiên Đồng độc thủ tại Mão, Tỵ, Hợi (đắc địa)</h3>
+    <p>Ba cung này người có cuộc sống an nhàn, may mắn, ít vất vả, cha mẹ/gia đạo khá giả (nếu xét ở cung Phụ Mẫu). Sắc thái có khác nhau, mức độ "đắc" cũng không đồng đều — xét theo đúng hành của từng cung: tại <strong>Mão</strong> (Mộc, Thủy sinh Mộc — Đồng phải cho đi, tiết khí đôi chút) thiên về khéo tay, có khiếu thẩm mỹ, nghệ thuật, nhưng tình cảm hay lận đận; tại <strong>Hợi</strong> (Thủy, đồng hành, lại được Kim sinh) là đắc mạnh nhất trong ba cung, thiên về ăn nói có duyên, thông minh, hợp ngoại giao, marketing; tại <strong>Tỵ</strong> (Hỏa, khắc Thủy) là đắc yếu nhất — tuy vẫn gọi là đắc địa nhưng thực chất bị Hỏa của cung "đốt" bớt, nên dễ vướng thị phi, oan ức hơn hẳn Mão và Hợi dù cùng xếp chung một mức.</p>
+    <div class="note">Một số tài liệu gán các sắc thái này cho việc "Đồng đi cùng Thái Âm ở Mão" hoặc "Đồng đi cùng Cự Môn ở Tỵ, Hợi" — đây là ghi sai quy luật an sao, vì Thiên Đồng tại Mão, Tỵ, Hợi luôn độc thủ (xem Phần I). Sắc thái khác biệt giữa ba cung nên hiểu là do hành của chính cung đó tạo ra, không phải do phối sao.</div>
 
-    <h3>6. Thiên Đồng độc thủ tại Dậu, Thìn, Tuất (hãm địa)</h3>
-    <p>Cuộc đời lúc vui lúc buồn, dễ vướng thị phi đàm tiếu, ít đất đai/tài sản ổn định. Điểm đáng nhớ: tại Thìn, nếu gặp Lộc Tồn hoặc Hóa Lộc thì đảo thành thượng cách, gọi là dấu hiệu <strong>"Bĩ Cực Thái Lai"</strong> (khốn cùng rồi chuyển sang hanh thông) — biểu hiện cụ thể của nguyên lý "phúc tinh hãm cần cát hóa cứu" ở Phần III.</p>
+    <h3>7. Thiên Đồng độc thủ tại Dậu, Thìn, Tuất (hãm địa)</h3>
+    <p>Cuộc đời lúc vui lúc buồn, dễ vướng thị phi đàm tiếu, ít đất đai/tài sản ổn định. Tại Thìn, Tuất: đây là hai cung "La Võng" (Thiên La Địa Võng — mộ, lưới), mang hình ảnh "đứa trẻ bị nhốt, khó thoát ra" — thông minh nhưng luẩn quẩn, dễ tự làm khổ mình, hay bị oan ức/thị phi. Điểm đáng nhớ: tại Thìn, nếu gặp Lộc Tồn hoặc Hóa Lộc thì đảo thành thượng cách, gọi là dấu hiệu <strong>"Bĩ Cực Thái Lai"</strong> (khốn cùng rồi chuyển sang hanh thông) — biểu hiện cụ thể của nguyên lý "phúc tinh hãm cần cát hóa cứu" ở Phần III.</p>
+    <p>Tại Dậu: dù Kim sinh Thủy, thực tế vẫn xếp hãm và mang sắc thái đào hoa xấu — dễ ham chơi bời, sa ngã, khác với đào hoa "được yêu mến" lành mạnh ở Tý. Lý do Kim ở đây không cứu được: Dậu là Kim yếu, thiên về nghĩa đào hoa/trang sức hơn là nghĩa sinh dưỡng như Kim mạnh ở Thân — nên tuy được sinh mà vẫn hãm, chỉ sinh ra một đứa trẻ ham vui, ham hưởng, dễ sa ngã vì tình, vì chơi bời.</p>
+
+    <h3>8. Công thức nhớ nhanh Miếu — Vượng — Đắc — Hãm</h3>
+    <p>Gộp lại từ ba chìa khóa ở mục 2, không cần học thuộc bảng nữa, chỉ cần tự hỏi hai câu cho bất kỳ cung nào:</p>
+    <table>
+      <thead><tr><th>Hỏi 1 — Cung đó hành gì?</th><th>Hỏi 2 — Đi với ai?</th></tr></thead>
+      <tbody>
+        <tr><td>Kim (Thân) sinh Thủy → tốt</td><td>Với Thiên Lương (Dần, Thân) → Miếu — có thầy quản, khắc mà hóa cứu</td></tr>
+        <tr><td>Hỏa (Tỵ, Ngọ) khắc Thủy → xấu, Ngọ xấu nhất vì là Đế Vượng của Hỏa</td><td>Với Thái Âm đắc tại Tý → Vượng — không ai quản, được nuông</td></tr>
+        <tr><td>Thổ (Thìn, Tuất, Sửu, Mùi) khắc Thủy + là Tứ Mộ/La Võng → xấu</td><td>Với Cự Môn tại Sửu, Mùi → Hãm — hai đứa trẻ hư rủ nhau bướng</td></tr>
+        <tr><td>Thủy (Tý, Hợi) đồng hành → vượng/đắc, thiên về hưởng chứ không thiên về sang</td><td>Với Thái Âm hãm tại Ngọ → Hãm nặng nhất — rủ nhau đi chơi nắng</td></tr>
+        <tr><td>Mộc (Dần, Mão) Thủy sinh Mộc → tốt có điều kiện (phải "cho đi" mới lớn)</td><td>Đi một mình (Mão, Tỵ, Dậu, Thìn, Tuất, Hợi) → tùy hoàn toàn vào Hỏi 1</td></tr>
+      </tbody>
+    </table>
   </section>
 
   <!-- PHẦN III -->
@@ -567,6 +645,8 @@
     <h3>1. Nguyên lý "phúc tinh cần được kích hoạt"</h3>
     <p>Một phúc tinh thuần túy, không có Kình Đà Hỏa Linh Không Kiếp hội chiếu, thường chủ về đời sống an nhàn nhưng bình lặng, thiếu thành tựu nổi bật — hệ quả trực tiếp từ bản chất "thiếu ý chí, ưa hưởng thụ" ở Phần I.</p>
     <p>Ngược lại, Thiên Đồng gặp sát tinh vừa phải (Kình Dương, Hỏa Tinh) hoặc gặp Hóa Lộc/Quyền tại vị trí hãm (như "Bĩ Cực Thái Lai" ở Thìn) thường tạo người biết phấn đấu, dám thay đổi hiện trạng. Sát tinh hội chiếu vừa phải → kích hoạt tốt; sát tinh tụ tập quá nhiều cùng Không Kiếp → phá cách, biến phúc thành họa, sức khỏe kém (hệ Thủy: thận, tiết niệu, tiêu hóa).</p>
+
+    <div class="note"><strong>Ba con đường để "Đồng Hãm hết Hãm"</strong> — một lá số Đồng hãm cần ít nhất một trong ba điều kiện sau mới đảo được cục diện: (1) gặp Lộc, Quyền, Khoa hội tụ — "phản vi kỳ cách" (xem case study ở mục 4); (2) gặp Tuần hoặc Triệt đóng ngay tại cung hãm, đặc biệt hiệu quả ở Thìn, Tuất, Sửu, Mùi — Tuần/Triệt có tác dụng như "lưới rách", giúp đứa trẻ bị nhốt thoát ra; (3) Thân cư Phúc Đức hoặc Thiên Di — đổi hẳn môi trường sống/làm việc so với nơi an Mệnh, vì Thiên Đồng vốn rất nhạy với hoàn cảnh xung quanh.</div>
 
     <blockquote class="phu">"Thiên Đồng, Dương Nhận bi ai — vì hay thương tích, nạn tai trong đời"
       <cite>Phú cổ</cite>
@@ -594,7 +674,7 @@
     <div class="case">
       <span class="case-tag">Lá số thật · minh họa</span>
       <h4>Đồng Hãm tại Ngọ (cung Phụ Mẫu) và vai trò Thân Chủ</h4>
-      <p>Mệnh Hỏa Lục Cục, Mệnh Chủ Văn Khúc, Thân Chủ Thiên Đồng, Thân cư Mệnh. Chính tinh tọa Mệnh là Thiên Phủ (Đắc). Thiên Đồng (Hãm) đồng cung Thái Âm (Hãm) tọa tại cung Phụ Mẫu (Ngọ).</p>
+      <p>Mệnh Hỏa Lục Cục, Mệnh Chủ Văn Khúc, Thân Chủ Thiên Đồng, Thân cư Mệnh. Chính tinh tọa Mệnh là Thiên Phủ (Đắc). Thiên Đồng (Hãm) đồng cung Thái Âm (Hãm), Lộc Tồn, cùng Thai Phụ, Thiên Hỉ, tọa tại cung Phụ Mẫu (Ngọ). Lai Nhân Cung an tại Phúc Đức.</p>
 
       <dl>
         <dt>a. Vị trí hãm — điểm mấu chốt</dt>
@@ -604,7 +684,7 @@
         <dd>Mẹ ảnh hưởng lớn đến đương số nhưng quan hệ mệt mỏi — thương nhau mà khắc khẩu, xa thì nhớ gần thì chán; tuổi thơ thiếu đủ đầy tình cảm; cha mẹ dễ có vấn đề về mắt, thần kinh, giấc ngủ.</dd>
 
         <dt>c. Thân Chủ Thiên Đồng đối lập với Mệnh Thiên Phủ</dt>
-        <dd>Cần phân biệt hai hệ thống tách biệt: chính tinh tọa cung Mệnh (Thiên Phủ) và bộ Mệnh Chủ/Thân Chủ (Văn Khúc/Thiên Đồng — xác định theo Chi năm sinh, không tọa cung nào). Một cách luận phổ biến: Thiên Phủ (ổn định, tích lũy, bảo thủ) đại diện lớp vỏ ngoài; Thân Chủ Thiên Đồng (thích vui, thích nhàn) đại diện mạch ngầm nội tâm — nửa đầu đời nghiêm túc kiểu Thiên Phủ, sau khoảng 30–35 tuổi phần "Đồng" trỗi dậy, muốn buông, muốn hưởng thụ nhẹ nhàng hơn.</dd>
+        <dd>Cần phân biệt hai hệ thống tách biệt: chính tinh tọa cung Mệnh (Thiên Phủ) và bộ Mệnh Chủ/Thân Chủ (Văn Khúc/Thiên Đồng — xác định theo Chi năm sinh, không tọa cung nào). Một cách luận phổ biến: Thiên Phủ (ổn định, tích lũy, bảo thủ) đại diện lớp vỏ ngoài; Thân Chủ Thiên Đồng (thích vui, thích nhàn) đại diện mạch ngầm nội tâm — gọi vắn tắt là "vỏ Phủ, ruột Đồng". Trước 30 tuổi sống nghiêm túc kiểu Thiên Phủ; sau khoảng 30–35 tuổi phần "Đồng" trỗi dậy, muốn buông, muốn hưởng thụ nhẹ nhàng hơn.</dd>
 
         <dt>d. Tứ Hóa cứu Đồng hãm</dt>
         <dd>Cung Phụ Mẫu có Hóa Lộc, Hóa Quyền và Lộc Tồn hội tụ — đúng nguyên lý "hãm mà gặp Lộc Quyền thì phản vi kỳ cách". Từ "lười" chuyển thành "nhàn mà vẫn có tiền": không cần bôn ba vẫn có lộc từ cha mẹ/cấp trên. Đây là con đường kích hoạt thứ hai (bằng cát hóa) khác với kích hoạt bằng sát tinh.</dd>
@@ -614,7 +694,23 @@
 
         <dt>f. Tam hợp/xung chiếu</dt>
         <dd>Phụ Mẫu (Ngọ) tam hợp Phúc Đức (Tham Lang, Vũ Khúc miếu) và Thiên Di (Tử Vi, Thất Sát vượng) — phúc của Đồng hãm được kéo lên bởi bộ sao mạnh này: cha mẹ tuy không khá giả nhưng phúc đức dòng họ và năng lực lập nghiệp xa quê mạnh — ở gần cha mẹ dễ khắc, đi xa dễ phát.</dd>
+
+        <dt>g. Dùng Phủ quản Đồng</dt>
+        <dd>Đồng kiếm tiền nhờ sự vui vẻ, dễ mến, nhưng bản chất cả nể nên dễ cho vay/tiêu xài hết vì nể nang; ngược lại Thiên Phủ ở Mệnh giỏi tính toán, giữ của. Nguyên tắc thực hành: để Đồng (Thân Chủ) kiếm tiền bằng thế mạnh giao tiếp, hưởng thụ, nhưng để Phủ (Mệnh) đứng ra quản lý, giữ tiền.</dd>
+
+        <dt>h. Đại vận minh họa</dt>
+        <dd>Đại vận 36–45 vào cung Tử Tức có Triệt — phúc bị chặn đường con cái, dễ mệt mỏi vì chuyện con cái, đồng thời tâm tính muốn buông việc cũ để chuyển sang nghề gắn với bản chất Đồng (ăn uống, làm đẹp, giáo dục trẻ em, tư vấn). Đại vận 46–55 vào Tài Bạch gặp Thiên Cơ - Thiên Lương — đây mới là lúc Thân Chủ Thiên Đồng "gặp đúng đất": vận trình nhàn hơn, hợp làm thầy, làm cố vấn.</dd>
       </dl>
+
+      <div class="lesson">
+        <p>Lời khuyên thực hành cho Thân Chủ Thiên Đồng (áp dụng chung)</p>
+        <ol>
+          <li>Tránh nghề áp lực cao, đấu đá trực diện — hợp F&amp;B, spa, du lịch, giáo dục mầm non, tư vấn tâm lý, môi giới hưởng thụ.</li>
+          <li>Chủ động giữ sức khỏe hệ Thủy — đặc biệt thận và dạ dày.</li>
+          <li>Nếu Đồng hãm tại Phụ Mẫu: cân nhắc đi xa cha mẹ để lấy phần Lộc, nhưng vẫn giữ liên hệ dòng họ nếu Lai Nhân Cung an tại Phúc Đức.</li>
+          <li>Nếu Mệnh có chính tinh "giữ của" (Thiên Phủ, Vũ Khúc) trong khi Thân Chủ là Đồng: để chính tinh Mệnh quản lý tài chính, không để bản chất cả nể của Đồng trực tiếp cầm tiền.</li>
+        </ol>
+      </div>
 
       <div class="lesson">
         <p>Bài học rút ra</p>
@@ -624,6 +720,8 @@
           <li>Đồng hãm có cát hóa cứu thường cho lối ra ở nghề "hưởng thụ có tổ chức": ăn uống, du lịch, làm đẹp, giáo dục trẻ em, tư vấn.</li>
         </ol>
       </div>
+
+      <blockquote class="phu">Một câu cho người có Thân Chủ là Thiên Đồng: cả đời đi tìm một chỗ vừa có tiền (Phủ), vừa được nhàn, được vui, được người khác quý mến (Đồng).</blockquote>
       <p class="case-footnote">Case study minh họa nguyên lý, không thay thế cho việc luận đầy đủ 12 cung kết hợp đại vận/lưu niên cụ thể.</p>
     </div>
   </section>
