@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cung Huynh Đệ Trong Tử Vi Đẩu Số</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --bg: #F6F1E3;
+    --bg-raised: #EFE6D0;
+    --bg-card: #FBF7EC;
+    --ink: #2A241C;
+    --ink-soft: #6B6152;
+    --ink-faint: #9A8F7A;
+    --seal: #A23B2E;
+    --seal-soft: #C15C4B;
+    --bronze: #96742E;
+    --jade: #3F6E5E;
+    --rule: #DCCFA9;
+    --rule-strong: #C9B989;
+    --shadow: rgba(60, 45, 20, 0.12);
+    --highlight-bg: #EFE3E0;
+    --code-bg: #EDE4CB;
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] {
+    --bg: #191510;
+    --bg-raised: #221C15;
+    --bg-card: #21190F;
+    --ink: #EAE1CC;
+    --ink-soft: #B7AA8C;
+    --ink-faint: #7C7259;
+    --seal: #E07460;
+    --seal-soft: #C15C4B;
+    --bronze: #D9B461;
+    --jade: #7FB39E;
+    --rule: #3A3020;
+    --rule-strong: #4A3D26;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --highlight-bg: #2A1D19;
+    --code-bg: #2A2313;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+
+  ::selection { background: var(--seal-soft); color: #fff; }
+
+  a { color: var(--jade); text-decoration-thickness: 1px; }
+  a:hover { color: var(--seal); }
+
+  /* ---------- Texture backdrop ---------- */
+  .paper-texture {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+    background-image:
+      radial-gradient(circle at 20% 20%, var(--rule) 0, transparent 45%),
+      radial-gradient(circle at 80% 60%, var(--rule) 0, transparent 40%);
+    mix-blend-mode: multiply;
+  }
+  [data-theme="dark"] .paper-texture { opacity: 0.15; mix-blend-mode: screen; }
+
+  /* ---------- Floating controls ---------- */
+  .controls {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 50;
+    display: flex;
+    gap: 10px;
+  }
+
+  .ctrl-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--rule-strong);
+    background: var(--bg-card);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px var(--shadow);
+    transition: transform 0.25s ease, background 0.3s ease, border-color 0.3s ease;
+  }
+  .ctrl-btn:hover { transform: translateY(-2px); border-color: var(--seal); }
+  .ctrl-btn:active { transform: translateY(0); }
+  .ctrl-btn svg { width: 20px; height: 20px; stroke: currentColor; }
+
+  .music-btn.playing { color: var(--seal); border-color: var(--seal); }
+  .music-btn.playing svg .bar { animation: eq 0.9s ease-in-out infinite; }
+  .music-btn .bar:nth-child(2) { animation-delay: 0.15s; }
+  .music-btn .bar:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes eq {
+    0%, 100% { transform: scaleY(0.4); }
+    50% { transform: scaleY(1); }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    padding: 108px 24px 64px;
+    text-align: center;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero-emblem {
+    width: 132px;
+    height: 132px;
+    margin: 0 auto 28px;
+  }
+
+  .hero-eyebrow {
+    font-family: "Source Serif 4", serif;
+    font-size: 13px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 18px;
+  }
+
+  .hero h1 {
+    font-family: "Literata", serif;
+    font-weight: 600;
+    font-size: clamp(2.1rem, 5vw, 3.4rem);
+    line-height: 1.15;
+    margin: 0 0 20px;
+    color: var(--ink);
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--seal);
+  }
+
+  .hero p.lede {
+    max-width: 640px;
+    margin: 0 auto;
+    color: var(--ink-soft);
+    font-size: 1.08rem;
+  }
+
+  .hero .divider {
+    width: 72px;
+    height: 2px;
+    background: var(--bronze);
+    margin: 32px auto;
+    position: relative;
+  }
+  .hero .divider::before, .hero .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    background: var(--seal);
+    border-radius: 50%;
+    transform: translateY(-50%);
+  }
+  .hero .divider::before { left: -16px; }
+  .hero .divider::after { right: -16px; }
+
+  /* ---------- Layout shell ---------- */
+  .shell {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 120px;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 56px;
+  }
+
+  /* ---------- TOC ---------- */
+  .toc-wrap { position: relative; }
+  .toc {
+    position: sticky;
+    top: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 24px var(--shadow);
+  }
+  .toc h2 {
+    font-family: "Literata", serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin: 0 0 14px;
+    font-weight: 600;
+  }
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: toc;
+  }
+  .toc li { margin-bottom: 3px; }
+  .toc a {
+    counter-increment: toc;
+    display: flex;
+    gap: 10px;
+    padding: 7px 8px;
+    border-radius: 8px;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    text-decoration: none;
+    line-height: 1.4;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .toc a::before {
+    content: counter(toc);
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid var(--rule-strong);
+    font-size: 0.68rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bronze);
+  }
+  .toc a:hover { background: var(--highlight-bg); color: var(--seal); }
+  .toc a.active { background: var(--highlight-bg); color: var(--seal); font-weight: 600; }
+  .toc a.active::before { background: var(--seal); border-color: var(--seal); color: #fff; }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .toc { position: static; }
+  }
+
+  /* ---------- Main content ---------- */
+  main { min-width: 0; }
+
+  section.part {
+    margin-bottom: 64px;
+    scroll-margin-top: 28px;
+  }
+
+  .part-eyebrow {
+    font-family: "Source Serif 4", serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .part-eyebrow::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  section.part h2 {
+    font-family: "Literata", serif;
+    font-weight: 600;
+    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    color: var(--ink);
+    margin: 0 0 22px;
+    line-height: 1.3;
+  }
+
+  section.part h3 {
+    font-family: "Literata", serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--seal);
+    margin: 32px 0 14px;
+  }
+
+  section.part h4 {
+    font-family: "Literata", serif;
+    font-weight: 600;
+    font-size: 1.02rem;
+    color: var(--jade);
+    margin: 22px 0 10px;
+  }
+
+  section.part p { margin: 0 0 18px; color: var(--ink); }
+  section.part p.soft { color: var(--ink-soft); }
+
+  section.part ul, section.part ol.plain {
+    margin: 0 0 20px;
+    padding-left: 22px;
+  }
+  section.part li { margin-bottom: 10px; }
+  section.part li::marker { color: var(--bronze); }
+
+  strong { color: var(--ink); font-weight: 650; }
+
+  em.tag { font-style: italic; color: var(--jade); font-weight: 600; }
+
+  /* callouts */
+  .callout {
+    background: var(--highlight-bg);
+    border-left: 3px solid var(--seal);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 22px 0;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .callout strong { color: var(--seal); }
+  .callout.jade { border-left-color: var(--jade); }
+  .callout.jade strong { color: var(--jade); }
+  .callout.note {
+    font-style: italic;
+    border-left-color: var(--bronze);
+    background: transparent;
+    border: 1px dashed var(--rule-strong);
+  }
+  .callout.note strong { color: var(--bronze); font-style: normal; }
+
+  /* diagram */
+  .diagram {
+    display: flex;
+    justify-content: center;
+    margin: 28px 0 8px;
+  }
+  .diagram figcaption {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* table */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 20px 0 28px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.93rem;
+    background: var(--bg-card);
+  }
+  thead th {
+    background: var(--bg-raised);
+    color: var(--bronze);
+    text-align: left;
+    padding: 12px 16px;
+    font-family: "Literata", serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 13px 16px;
+    border-top: 1px solid var(--rule);
+    vertical-align: top;
+    color: var(--ink-soft);
+  }
+  tbody td:first-child {
+    color: var(--ink);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  tbody tr:hover td { background: var(--highlight-bg); }
+
+  /* phú verses */
+  .verse {
+    display: grid;
+    grid-template-columns: 44px minmax(0,1fr);
+    gap: 4px 18px;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .verse:first-of-type { border-top: none; }
+  .verse-num {
+    font-family: "Literata", serif;
+    font-size: 1.3rem;
+    color: var(--rule-strong);
+    font-weight: 600;
+  }
+  .verse-text {
+    font-style: italic;
+    color: var(--ink);
+    font-size: 1.02rem;
+    margin-bottom: 8px;
+  }
+  .verse-gloss {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    display: flex;
+    gap: 10px;
+  }
+  .verse-gloss .arrow { color: var(--jade); flex: none; }
+
+  /* example / case study */
+  .case {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 30px 32px;
+    box-shadow: 0 8px 30px var(--shadow);
+  }
+  .case-meta {
+    display: inline-block;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    color: var(--bronze);
+    background: var(--bg-raised);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 18px;
+  }
+  .layer {
+    display: grid;
+    grid-template-columns: 34px minmax(0,1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .layer-letter {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--jade);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Literata", serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .layer p { margin: 0; }
+
+  /* footer / sources */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--rule);
+    padding: 40px 24px 60px;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 0.86rem;
+  }
+  footer .seal-mark {
+    width: 34px;
+    height: 34px;
+    margin: 0 auto 14px;
+    color: var(--seal);
+  }
+
+  code, .kbd {
+    font-family: "Source Serif 4", serif;
+    background: var(--code-bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.92em;
+  }
+
+  @media (max-width: 560px) {
+    .hero { padding: 92px 18px 48px; }
+    .case { padding: 24px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .ctrl-btn, .music-btn.playing svg .bar { transition: none; animation: none; }
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<div class="paper-texture"></div>
+
+<div class="controls">
+  <button class="ctrl-btn music-btn" id="musicBtn" aria-label="Bật nhạc nền" aria-pressed="false" title="Nhạc nền">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" id="musicIcon">
+      <path d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
+    </svg>
+  </button>
+  <button class="ctrl-btn" id="themeBtn" aria-label="Chuyển giao diện sáng / tối" title="Sáng / Tối">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" id="themeIcon">
+      <circle cx="12" cy="12" r="5" />
+      <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+    </svg>
+  </button>
+</div>
+
+<audio id="bgMusic" src="music7.mp3" loop preload="none"></audio>
+
+<header class="hero">
+  <svg class="hero-emblem" viewBox="0 0 200 200" fill="none">
+    <!-- Signature diagram: Huynh Đệ triangulated with its tam hợp (Điền Trạch, Tật Ách) and its xung chiếu (Nô Bộc) -->
+    <circle cx="100" cy="100" r="92" stroke="var(--rule-strong)" stroke-width="1"/>
+    <circle cx="100" cy="100" r="70" stroke="var(--rule)" stroke-width="1"/>
+    <!-- tam hợp triangle -->
+    <polygon points="100,22 165,140 35,140" fill="none" stroke="var(--jade)" stroke-width="1.4" stroke-dasharray="3 4"/>
+    <!-- xung chiếu line -->
+    <line x1="100" y1="22" x2="100" y2="178" stroke="var(--seal)" stroke-width="1.4" stroke-dasharray="2 5"/>
+    <circle cx="100" cy="22" r="9" fill="var(--seal)"/>
+    <circle cx="165" cy="140" r="6.5" fill="var(--jade)"/>
+    <circle cx="35" cy="140" r="6.5" fill="var(--jade)"/>
+    <circle cx="100" cy="178" r="6.5" fill="var(--bronze)"/>
+    <text x="100" y="26" text-anchor="middle" fill="#fff" font-size="9" font-family="Literata, serif" font-weight="600" dy="1">兄</text>
+  </svg>
+
+  <div class="hero-eyebrow">Tư liệu học · Tử Vi Đẩu Số</div>
+  <h1>Cung <em>Huynh Đệ</em><br>Từ Cơ Bản Đến Nâng Cao</h1>
+  <div class="hero divider"></div>
+  <p class="lede">Anh chị em, bạn bè, đồng liêu — những người cùng một xuất thân, cùng một thế hệ đi bên cạnh mình. Tài liệu tổng hợp từ phú cổ, các trường phái luận đoán, và một ví dụ lá số thực hành, kèm phản biện hiện đại để tránh phán đoán máy móc.</p>
+</header>
+
+<div class="shell">
+
+  <div class="toc-wrap">
+    <nav class="toc" aria-label="Mục lục">
+      <h2>Mục lục</h2>
+      <ol>
+        <li><a href="#p1">Nhập môn — Cung Huynh Đệ là gì?</a></li>
+        <li><a href="#p2">Tam hợp, xung chiếu, cung chuyển hóa</a></li>
+        <li><a href="#p3">Đoán số lượng &amp; giới tính (cơ bản)</a></li>
+        <li><a href="#p4">Luận đoán theo Tứ Hóa (nâng cao)</a></li>
+        <li><a href="#p5">Vận hạn — đại vận, lưu niên</a></li>
+        <li><a href="#p6">Bối cảnh hiện đại &amp; giới hạn</a></li>
+        <li><a href="#p7">Khung luận đoán tổng hợp</a></li>
+        <li><a href="#p8">Phú cổ — Chương Huynh Đệ Cung</a></li>
+        <li><a href="#p9">Ví dụ minh họa — lá số thực hành</a></li>
+        <li><a href="#p10">Lưu ý khi biên soạn bài viết</a></li>
+        <li><a href="#p11">Nguồn tham khảo</a></li>
+      </ol>
+    </nav>
+  </div>
+
+  <main>
+
+    <section class="part" id="p1">
+      <div class="part-eyebrow">Phần 1</div>
+      <h2>Nhập môn — Cung Huynh Đệ là gì?</h2>
+      <p>Trong 12 cung của lá số Tử Vi, <strong>Huynh Đệ</strong> là cung đứng ngay trước cung Mệnh theo chiều an cung — Mệnh → Huynh Đệ → Phu Thê → Tử Tức → Tài Bạch → Tật Ách → Thiên Di → Nô Bộc → Quan Lộc → Điền Trạch → Phúc Đức → Phụ Mẫu → về lại Mệnh. Cung này còn được gọi là <strong>Cung Bào</strong> (chữ "Bào" nghĩa là anh em ruột, cùng một bọc sinh ra).</p>
+
+      <p>Cung Huynh Đệ chủ về:</p>
+      <ul>
+        <li>Anh chị em ruột thịt: số lượng, giới tính đại khái nhiều/ít, thứ tự, mức độ thân sơ, ai thành đạt ai lận đận.</li>
+        <li>Quan hệ giữa bản mệnh với cha mẹ được phản chiếu gián tiếp qua đây (xét kèm cung Phụ Mẫu để biết có anh chị em dị bào — cùng cha khác mẹ hoặc cùng mẹ khác cha — hay không).</li>
+        <li>Mở rộng (theo cổ pháp và nhiều trường phái hiện đại): bạn bè chí cốt, bạn đồng môn, đồng liêu, đối tác ngang vai — những người "cùng một xuất thân, cùng thế hệ" đồng hành với mình.</li>
+      </ul>
+
+      <div class="callout jade">
+        <strong>Vị trí an cung cố định —</strong> Huynh Đệ luôn là cung liền trước Mệnh theo chiều an 12 cung, không đổi bất kể giờ/ngày/tháng/năm sinh. Chỉ có cung Mệnh an tại địa chi nào mới phụ thuộc giờ sinh, kéo theo Huynh Đệ đổi vị trí theo.
+      </div>
+    </section>
+
+    <section class="part" id="p2">
+      <div class="part-eyebrow">Phần 2</div>
+      <h2>Cấu trúc liên đới — tam hợp, xung chiếu, cung chuyển hóa</h2>
+      <p>Đây là điểm nhiều tài liệu phổ thông hay nhầm lẫn, cần nắm chắc trước khi luận bất kỳ điều gì.</p>
+
+      <figure class="diagram">
+        <svg width="260" height="260" viewBox="0 0 260 260" fill="none">
+          <circle cx="130" cy="130" r="118" stroke="var(--rule-strong)" stroke-width="1"/>
+          <polygon points="130,30 216,168 44,168" fill="var(--jade)" fill-opacity="0.07" stroke="var(--jade)" stroke-width="1.6" stroke-dasharray="4 5"/>
+          <line x1="130" y1="30" x2="130" y2="230" stroke="var(--seal)" stroke-width="1.6" stroke-dasharray="3 6"/>
+          <circle cx="130" cy="30" r="22" fill="var(--bg-card)" stroke="var(--seal)" stroke-width="1.6"/>
+          <text x="130" y="35" text-anchor="middle" fill="var(--seal)" font-family="Literata, serif" font-size="12" font-weight="600">Huynh Đệ</text>
+          <circle cx="216" cy="168" r="22" fill="var(--bg-card)" stroke="var(--jade)" stroke-width="1.6"/>
+          <text x="216" y="173" text-anchor="middle" fill="var(--jade)" font-family="Literata, serif" font-size="11" font-weight="600">Điền Trạch</text>
+          <circle cx="44" cy="168" r="22" fill="var(--bg-card)" stroke="var(--jade)" stroke-width="1.6"/>
+          <text x="44" y="173" text-anchor="middle" fill="var(--jade)" font-family="Literata, serif" font-size="12" font-weight="600">Tật Ách</text>
+          <circle cx="130" cy="230" r="22" fill="var(--bg-card)" stroke="var(--bronze)" stroke-width="1.6"/>
+          <text x="130" y="235" text-anchor="middle" fill="var(--bronze)" font-family="Literata, serif" font-size="12" font-weight="600">Nô Bộc</text>
+        </svg>
+        <figcaption>Tam hợp (viền xanh jade, nét đứt): Huynh Đệ – Điền Trạch – Tật Ách.<br>Xung chiếu (nét đỏ): Huynh Đệ đối diện Nô Bộc.</figcaption>
+      </figure>
+
+      <ul>
+        <li><strong>Cung xung chiếu (đối cung) của Huynh Đệ là Nô Bộc</strong> (nay nhiều phái gọi là Giao Hữu). Đây là lý do khi Huynh Đệ vô chính diệu, phải mượn sao bên Nô Bộc để luận. Đối cung cũng cho thấy mối liên hệ giữa "người trong nhà" (Huynh Đệ) và "người ngoài xã hội cùng vai vế" (Nô Bộc / bạn bè, đồng nghiệp).</li>
+        <li><strong>Tam hợp của Huynh Đệ là Điền Trạch và Tật Ách</strong> — <em class="tag">không phải</em> Nô Bộc như một số bản tóm tắt sơ sài hay nhầm (Nô Bộc là đối cung, không phải tam hợp). Bộ ba Huynh Đệ – Tật Ách – Điền Trạch được xem là nhóm "trợ lực cấp hai", mang tính chất gia đình — nhà cửa — sức khỏe — nền tảng để tu thân tề gia trước khi vươn ra ngoài xã hội (thuộc nhóm tam hợp Mệnh – Tài – Quan).</li>
+      </ul>
+
+      <h4>Cung chuyển hóa (theo phái Vương Đình Chi)</h4>
+      <p>Huynh Đệ còn được xem là "cung vị điền trạch của cung Tài Bạch" (biểu thị việc nắm giữ của cải trong tay) và có liên hệ luân chuyển với cung Điền Trạch, cung Phu Thê (cầu nối giao dịch/trò chuyện giữa mình và vợ/chồng).</p>
+
+      <div class="callout">
+        <strong>Ví dụ ngắn để hình dung —</strong> Nếu Hóa Lộc (của lá số hoặc của đại vận) nhập cung Huynh Đệ rồi tự nó "phi" tiếp sang cung Điền Trạch: tiền bạc/lợi ích đến từ anh em hoặc từ hợp tác ngang vai có xu hướng được chuyển hóa thành nhà cửa, đất đai — dòng tiền đó không tiêu tán mà tích lại thành tài sản cố định.
+      </div>
+
+      <p class="soft">Đây là kỹ thuật nâng cao thuộc hệ phái Tứ Hóa/Vương Đình Chi ("phi tinh tứ hóa liên cung"), đòi hỏi nắm vững toàn bộ 12 cung và bảng Tứ Hóa theo năm sinh trước khi vận dụng — phạm vi bài này chỉ giới thiệu khái niệm, phần triển khai chi tiết nên dành cho một bài chuyên sâu riêng về Tứ Hóa. Người mới học có thể tạm bỏ qua, chỉ cần nhớ: cung Huynh Đệ không đứng độc lập mà "thông" sang nhiều cung khác theo những đường liên kết riêng.</p>
+    </section>
+
+    <section class="part" id="p3">
+      <div class="part-eyebrow">Phần 3</div>
+      <h2>Nguyên tắc đoán số lượng và giới tính anh chị em (cơ bản)</h2>
+
+      <h3>3.1 — Quy tắc Nam Đẩu — Bắc Đẩu</h3>
+      <p>Một nguyên tắc cổ điển (theo Vân Đằng Thái Thứ Lang, <em>Tử Vi Đẩu Số Tân Biên</em>) dùng để đoán anh trai/chị gái nhiều hơn:</p>
+      <ul>
+        <li>Chính tinh thuộc <strong>Nam Đẩu tinh</strong> tọa thủ Huynh Đệ (Thiên Phủ, Thiên Tướng, Thiên Lương, Thất Sát, Thiên Đồng, Thái Dương, Thiên Cơ) → <strong>anh em trai nhiều hơn chị em gái</strong>.</li>
+        <li>Chính tinh thuộc <strong>Bắc Đẩu tinh</strong> tọa thủ (Thái Âm, Tham Lang, Cự Môn, Liêm Trinh, Vũ Khúc, Phá Quân) → <strong>chị em gái nhiều hơn anh em trai</strong>.</li>
+        <li>Nếu cung có hai chính tinh, một Nam Đẩu một Bắc Đẩu đồng cung, hoặc riêng sao Tử Vi (vừa là Nam Đẩu vừa là Bắc Đẩu chủ tinh): xét cung Huynh Đệ là <strong>Dương cung</strong> (Tý, Dần, Thìn, Ngọ, Thân, Tuất) → anh trai nhiều hơn; <strong>Âm cung</strong> (Sửu, Mão, Tị, Mùi, Dậu, Hợi) → chị gái nhiều hơn.</li>
+        <li>Cung Dương mà bản mệnh là con thứ nhất → thường có anh trai sinh trước; cung Âm mà là con thứ → thường có chị gái sinh trước.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Phản biện cần biết —</strong> Quy tắc Nam Đẩu/Bắc Đẩu bị nhiều nhà nghiên cứu hiện đại (trong đó có Vương Đình Chi) phê phán là máy móc, thuần túy dựa vào phân loại "cơ học" của sao mà bỏ qua các yếu tố khác. Trong luận đoán thực tế, độ chính xác của quy tắc này chỉ ở mức tương đối — giới tính anh chị em còn chịu ảnh hưởng từ cung Tử Tức của cha mẹ và các yếu tố ngoài lá số (xã hội, thời đại) nhiều hơn là bản chất Nam/Bắc Đẩu đơn thuần của sao. Không nên dùng quy tắc này để "chốt" giới tính anh chị em một cách chắc chắn.
+      </div>
+
+      <h3>3.2 — Nguyên tắc chung khi luận số lượng</h3>
+      <ul>
+        <li>Cát tinh nhóm hỗ trợ (Tả Phù, Hữu Bật, Văn Xương, Văn Khúc, Thiên Khôi, Thiên Việt) đồng cung hoặc hội chiếu → có xu hướng <strong>tăng mức độ đông đúc/gắn kết</strong> trong quan hệ anh chị em, bạn bè ngang vai (cổ pháp ghi cụ thể là "5 người trở lên" nếu hội đủ — xem cách hiểu con số này ở mục 3.3 và Phần 6).</li>
+        <li>Sát tinh (Kình Dương, Đà La, Hỏa Tinh, Linh Tinh, Địa Không, Địa Kiếp), Tuần/Triệt, Thiên Hình → có xu hướng <strong>thu hẹp số lượng người thân thiết thực sự</strong>, gây khắc, ly tán (cổ pháp thường quy về mức "1-2 người" trong trường hợp nặng).</li>
+        <li>Thiên Mã hội chiếu → anh chị em dễ tản mác, sống xa nhau, mỗi người một phương.</li>
+        <li>Địa Không/Địa Kiếp, hoặc phối hợp với các sao đào hoa ở cung Phụ Mẫu (Hồng Loan, Thiên Hỷ) → gợi ý khả năng có anh chị em dị bào (khác cha hoặc khác mẹ).</li>
+        <li>Cần đối chiếu thêm cung Tử Tức và cung Phúc Đức: cổ pháp cho rằng nếu Tử Tức đẹp mà Phúc Đức xấu thì số anh chị em bị giảm hoặc xa cách; ngược lại Tử Tức xấu mà Phúc Đức tốt thì số anh chị em tăng và ít lo chuyện ly tán.</li>
+      </ul>
+
+      <h3>3.3 — Sơ lược theo từng chính tinh</h3>
+      <p class="soft">Các câu phú gốc thường cho số đếm cụ thể ("năm người", "hai người"...) — cách diễn đạt của xã hội đại gia đình xưa. Cột dưới đây được diễn giải lại theo hướng <strong>mức độ đông/ít và chất lượng quan hệ</strong>, không nên xem là chỉ số đếm đầu người chính xác cho gia đình hiện đại.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chính tinh</th><th>Xu hướng chung</th></tr></thead>
+          <tbody>
+            <tr><td>Tử Vi (đơn thủ)</td><td>Có anh cả đáng nương tựa hoặc được cấp trên đề bạt; gặp sát tinh thì ngược lại, anh em suy sụp, phân tán. Tử Vi–Thiên Phủ: chủ kiến riêng nhưng hòa hợp. Tử Vi–Tham Lang: hòa mục nhưng ít. Tử Vi–Thất Sát: dễ tranh quyền nếu gặp sát tinh.</td></tr>
+            <tr><td>Thiên Cơ</td><td>Xu hướng ít anh chị em thân thiết, nhiều chủ kiến riêng; đắc cách thì đỡ hơn; hãm địa dễ bất hòa, tranh chấp, thậm chí ly tán.</td></tr>
+            <tr><td>Thái Dương</td><td>Miếu địa, gặp cát tinh: đắc cách — nhiều người thân thiết, có người thành đạt/quyền quý; hãm địa (đặc biệt sinh ban đêm): dễ bất hòa, tổn thương vì anh em. Thái Dương–Thái Âm: đắc cách, hòa thuận.</td></tr>
+            <tr><td>Vũ Khúc</td><td>Chủ về không hòa hợp, ít trợ lực thực chất; đắc miếu gặp cát tinh thì đỡ; hãm địa hoặc phối Thất Sát/Phá Quân thì quan hệ thưa và dễ xung khắc.</td></tr>
+            <tr><td>Thiên Đồng</td><td>Nhập miếu: đắc cách, tính hòa hoãn nhưng ít giúp đỡ thực chất; hãm địa: quan hệ thưa, anh em nhu nhược.</td></tr>
+            <tr><td>Liêm Trinh</td><td>Miếu địa: hòa hợp, vừa phải; gặp cát tinh đắc cách hơn; hãm địa hoặc phối Tham/Sát/Phá: quan hệ thưa, dễ oán giận, nên ở riêng.</td></tr>
+            <tr><td>Thiên Phủ</td><td>Đắc cách: xu hướng đông người thân thiết trong bối cảnh xưa; ngày nay hiểu là nhiều nguồn trợ lực ngang vai, có tài năng, biết tương trợ; gặp sát tinh/Hóa Kỵ thì quan hệ thu hẹp, dễ bất hòa.</td></tr>
+            <tr><td>Thái Âm</td><td>Miếu địa: đắc cách, phú quý nếu gặp Hóa Khoa/Lộc/Quyền; hãm địa: quan hệ thưa hơn, không đồng lòng.</td></tr>
+            <tr><td>Tham Lang</td><td>Quan hệ thưa nếu đơn thủ hoặc hãm; gặp Tả Hữu/Khôi Việt thì đỡ hơn, hòa mục; phối Vũ Khúc hoặc hãm địa dễ có anh em dị bào.</td></tr>
+            <tr><td>Cự Môn</td><td>Miếu địa: vừa phải; gặp Thái Dương đồng độ thì đắc cách hơn; dễ có điều tiếng, thị phi nếu gặp sát/Hóa Kỵ.</td></tr>
+            <tr><td>Thiên Tướng</td><td>Miếu địa, gặp Tả Hữu: đắc cách; phối Vũ Khúc/Liêm Trinh: quan hệ thưa, không hợp; gặp Hóa Lộc/Quyền/Khoa, Lộc Tồn: anh em phát đạt.</td></tr>
+            <tr><td>Thiên Lương</td><td>Miếu địa, gặp Tả Hữu Khôi Việt: đắc cách, hòa hợp; thiếu Tả Hữu dễ có anh em dị bào; phối Thái Dương tại Mão/Dậu dễ tranh chấp gia sản.</td></tr>
+            <tr><td>Thất Sát</td><td>Miếu địa gặp cát hóa vẫn đắc cách nhưng có khắc; nói chung quan hệ thưa, dễ hình khắc nếu gặp sát tinh/Hóa Kỵ.</td></tr>
+            <tr><td>Phá Quân</td><td>Chủ về anh em ở riêng hoặc có khắc; bản mệnh nhiều khi rơi vào vai "trưởng nam/trưởng nữ" dù không phải con đầu.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="soft"><em>Bảng trên là bản tổng hợp diễn giải lại — nếu cần tra cứu chi tiết từng tổ hợp sao đôi (Tử-Phủ, Vũ-Tướng, Liêm-Sát…), nên đối chiếu trực tiếp với sách gốc hoặc chuyên trang lớn. Con số đếm cụ thể trong sách gốc được lược bỏ có chủ đích để tránh việc trích bảng ra dùng như một "công thức đếm đầu người" — xem thêm phản biện ở Phần 6.</em></p>
+
+      <h3>3.4 — Cát tinh, sát tinh, và các sao phụ khác</h3>
+      <ul>
+        <li><strong>Tả Phù, Hữu Bật:</strong> tăng số lượng, được anh em giúp đỡ; gặp sát tinh/Hóa Kỵ thì bị liên lụy hoặc bất ngờ gặp nạn vì anh em.</li>
+        <li><strong>Văn Xương, Văn Khúc:</strong> hội với Thiên Phủ/Tả Hữu thì được giúp đỡ; gặp Kình Dương/Đà La dễ tranh chấp; hãm địa gặp Không/Kiếp thì ít anh em và bất hòa.</li>
+        <li><strong>Thiên Khôi, Thiên Việt:</strong> chủ về "quý" (có anh em thành đạt, địa vị) hơn là "giàu"; gặp cát tinh thì được hỗ trợ tinh thần/công danh.</li>
+        <li><strong>Lộc Tồn:</strong> ở cung vượng, không gặp sát tinh thì có anh em hiển đạt; có Thiên Mã thì anh em phát đạt ở phương xa.</li>
+        <li><strong>Kình Dương, Đà La:</strong> dễ có tranh chấp, kiện tụng (đặc biệt gặp Thiên Hình); Đà La đơn thuần thường chỉ là ít qua lại chứ không hẳn xung khắc gay gắt.</li>
+        <li><strong>Hỏa Tinh, Linh Tinh:</strong> không hợp với Liêm Trinh/Thất Sát/Phá Quân — dễ giảm số lượng và gây khắc; gặp Tham Lang lại có thể chủ về anh em có tiền của bất ngờ (cách "Hỏa Tham", "Linh Tham").</li>
+        <li><strong>Địa Không, Địa Kiếp:</strong> gợi ý anh em khác mẹ, hoặc anh em ở xa nhau, ít gắn kết; giáp cung Huynh Đệ nói chung bất lợi.</li>
+        <li><strong>Thiên Mã:</strong> hội chiếu thì anh chị em tản mác, mỗi người một nơi — đi cùng cát tinh thì tuy ở xa nhưng vẫn giúp đỡ nhau được.</li>
+      </ul>
+    </section>
+
+    <section class="part" id="p4">
+      <div class="part-eyebrow">Phần 4 · Nâng cao</div>
+      <h2>Luận đoán theo Tứ Hóa</h2>
+      <p>Kỹ thuật đặc trưng của phái Tứ Hóa (Khâm Thiên/Phi Tinh), dùng để luận sâu hơn ngoài việc chỉ nhìn chính tinh và cát/sát tinh tĩnh:</p>
+      <ul>
+        <li><strong>Hóa Lộc</strong> nhập Huynh Đệ: anh em/bạn bè mang lại lợi ích tài chính hoặc cơ hội; cũng có thể là dấu hiệu bản mệnh khéo giao thiệp, được lòng người ngang vai.</li>
+        <li><strong>Hóa Quyền</strong> nhập Huynh Đệ: xu hướng chủ động, có tiếng nói trong nhóm anh em/bạn bè; theo hướng "cung chuyển hóa" còn ứng vào việc nhà cửa hay thay đổi, sắp xếp lại.</li>
+        <li><strong>Hóa Khoa</strong> nhập Huynh Đệ: quan hệ anh em nhẹ nhàng, được tiếng thơm; anh chị em thường có khí chất, học vấn nổi trội; cũng ứng vào việc dễ có trao đổi, kết giao thân tình với người khác giới (do Huynh Đệ là cầu nối với cung Phu Thê).</li>
+        <li><strong>Hóa Kỵ</strong> nhập Huynh Đệ: dấu hiệu cảnh báo mâu thuẫn, hiểu lầm, hao tổn liên quan đến anh em/bạn bè/đối tác — đặc biệt cảnh báo về <strong>chuyện tiền bạc</strong>: theo hướng "cung chuyển hóa" (Huynh Đệ là điền trạch của Tài Bạch), Hóa Kỵ tại đây gợi ý không nên có qua lại tiền nong với anh chị em, dễ gặp một lần "phá tài" lớn nếu cho vay mượn.</li>
+      </ul>
+      <p class="soft">Ngoài Tứ Hóa của năm sinh nhập cung, phái Tứ Hóa còn xét <strong>Huynh Đệ tự hóa</strong> (sao tại cung Huynh Đệ hóa Lộc/Quyền/Khoa/Kỵ bay sang cung nào khác) để luận "anh em/bạn bè ảnh hưởng đến lĩnh vực nào trong đời mình" — kỹ thuật dành cho người đã nắm vững Tứ Hóa cơ bản.</p>
+    </section>
+
+    <section class="part" id="p5">
+      <div class="part-eyebrow">Phần 5</div>
+      <h2>Vận hạn — đại vận, lưu niên</h2>
+      <p>Khi luận theo thời gian, cần kết hợp cung Huynh Đệ bản mệnh với cung an tại vị trí Huynh Đệ của đại vận/lưu niên đang đi qua:</p>
+      <ul>
+        <li>Đại vận/lưu niên có cát tinh nhập Huynh Đệ: giai đoạn thuận lợi để hợp tác, được bạn bè/anh em giúp đỡ.</li>
+        <li>Đại vận/lưu niên có sát tinh, Hóa Kỵ nhập Huynh Đệ: cẩn trọng chuyện góp vốn, bảo lãnh, tranh chấp tài sản, hoặc nguy cơ anh em/bạn bè gặp biến cố trong giai đoạn đó.</li>
+        <li>Đẩu Quân (sao lưu niên) nhập Huynh Đệ cũng được một số phái xem như chỉ dấu về sự hòa thuận hay bất hòa của năm đó với anh em.</li>
+      </ul>
+    </section>
+
+    <section class="part" id="p6">
+      <div class="part-eyebrow">Phần 6</div>
+      <h2>Cung Huynh Đệ trong bối cảnh hiện đại</h2>
+      <p>Nhiều nhà nghiên cứu (trong đó có Vương Đình Chi) đã thẳng thắn chỉ ra: hệ thống luận đoán cung Huynh Đệ ra đời trong bối cảnh xã hội phong kiến — nơi đại gia tộc sống chung, anh em không tách hộ riêng, và luật pháp có thể liên lụy cả gia tộc khi một người phạm tội. Trong bối cảnh đó, cung Huynh Đệ gần như dùng để luận khái quát vận mệnh của cả dòng họ chứ không chỉ riêng từng cá nhân anh chị em.</p>
+      <p>Trong xã hội hiện đại — gia đình hạt nhân, anh em tách hộ, ít con hơn, luật pháp không còn liên đới theo huyết thống — nhiều quy tắc cổ (đặc biệt các quy tắc "đếm số người" rất cụ thể) trở nên kém phù hợp. Cách tiếp cận được khuyến nghị:</p>
+      <ul>
+        <li>Không nên quá câu nệ vào con số chính xác "mấy người" mà các câu phú đưa ra — nên hiểu đó là biểu thị mức độ "đông/ít, hòa/khắc" tương đối.</li>
+        <li>Vận dụng tổ hợp sao của Huynh Đệ để luận rộng ra: bạn đồng môn, bạn đồng niên, đồng nghiệp, đối tác — những người "cùng xuất thân, cùng thế hệ" với bản mệnh.</li>
+        <li>Anh chị em họ, anh chị em kết nghĩa, con nuôi cũng có thể xét vào phạm vi luận giải mở rộng này (chính các câu phú cổ cũng đã đề cập trường hợp "nghĩa dưỡng").</li>
+      </ul>
+    </section>
+
+    <section class="part" id="p7">
+      <div class="part-eyebrow">Phần 7</div>
+      <h2>Khung luận đoán tổng hợp</h2>
+      <p class="soft">Dùng khi phân tích một lá số cụ thể:</p>
+      <ol class="plain">
+        <li>Xác định chính tinh tọa thủ Huynh Đệ, xét miếu/vượng/đắc/hãm.</li>
+        <li>Áp quy tắc Nam Đẩu/Bắc Đẩu (hoặc Dương cung/Âm cung) để ước lượng tỷ lệ anh trai/chị gái.</li>
+        <li>Xét cát tinh, sát tinh, sao phụ đồng cung — điều chỉnh số lượng và mức độ hòa/khắc.</li>
+        <li>Nếu vô chính diệu: mượn sao đối cung Nô Bộc để luận.</li>
+        <li>Xét tam hợp Điền Trạch – Tật Ách để bổ sung thông tin (nhà cửa, sức khỏe liên đới).</li>
+        <li>Đối chiếu cung Phụ Mẫu (anh chị em dị bào) và cung Tử Tức – Phúc Đức (điều chỉnh số lượng/mức độ ly tán).</li>
+        <li>Nếu theo phái Tứ Hóa: xét Hóa Lộc/Quyền/Khoa/Kỵ nhập cung, và Huynh Đệ tự hóa bay đi đâu.</li>
+        <li>Đối chiếu đại vận/lưu niên nếu cần luận theo thời điểm cụ thể.</li>
+        <li>Luôn đối chiếu với thực tế đời sống người xem số để hiệu chỉnh — đặc biệt cẩn trọng với các quy tắc "đếm số người" cụ thể vốn mang tính lịch sử.</li>
+      </ol>
+    </section>
+
+    <section class="part" id="p8">
+      <div class="part-eyebrow">Phần 8 · Phú cổ</div>
+      <h2>Chương 12 — Huynh Đệ Cung</h2>
+      <div class="callout note">
+        <strong>Ghi chú nguồn —</strong> Tư liệu gốc do người dùng cung cấp (một dị bản phú Nôm về cung Huynh Đệ), giữ nguyên câu chữ và diễn giải để đối chiếu, tra cứu. Có ít nhất một dị bản khác lưu truyền trên mạng với một số câu chữ khác biệt — ví dụ, một dị bản (nguồn tuvibinhgiai.com) diễn cùng ý câu 2 thành hướng "Tuần Triệt Không Kiếp giao liên, anh em phiền lụy" — cho thấy phú tử vi thường tồn tại dưới nhiều dị bản do truyền miệng/chép tay qua nhiều đời. Nên đối chiếu ý nghĩa cốt lõi hơn là câu chữ chính xác.
+      </div>
+
+      <div class="verses">
+        <div class="verse"><div class="verse-num">01</div><div><div class="verse-text">"Mười hai Huynh Đệ bàn liền. / Triệt, Không cũng thấy trong miền bản cung."</div><div class="verse-gloss"><span class="arrow">→</span><span>Mở chương: Triệt Lộ Không Vong, Địa Không đóng tại Huynh Đệ.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">02</div><div><div class="verse-text">"Bắt đầu thì đoán khắc xung. / Hoặc gia Địa Kiếp, Thiên Không chẳng nhiều."</div><div class="verse-gloss"><span class="arrow">→</span><span>Với hai sao trên → ngay từ đầu đã đoán anh em khắc xung, ít gắn bó; thêm Địa Kiếp thì anh em càng thưa thớt.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">03</div><div><div class="verse-text">"Tướng Quân, Lộc, Mã cũng nhiều. / Anh em giàu có phú nhiêu được dùng."</div><div class="verse-gloss"><span class="arrow">→</span><span>Tướng Quân, Lộc Tồn, Thiên Mã hội tụ đông đảo → anh em giàu có, được nhờ cậy lẫn nhau.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">04</div><div><div class="verse-text">"Tướng Quân, Hóa Lộc tương phùng. / Anh em có kẻ ở trong cửa quyền."</div><div class="verse-gloss"><span class="arrow">→</span><span>Tướng Quân + Hóa Lộc → trong số anh em có người làm quan, có địa vị quyền lực.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">05</div><div><div class="verse-text">"Trường Sinh, Đế Vượng lâm liền. / Anh em có kẻ tất nhiên yên bài."</div><div class="verse-gloss"><span class="arrow">→</span><span>Sao Trường Sinh, Đế Vượng đến liền → chắc chắn có anh em được yên ổn, thành đạt.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">06</div><div><div class="verse-text">"Thái Dương, Thái Âm giáp Thai. / Sinh đôi một đối chẳng sai tí nào."</div><div class="verse-gloss"><span class="arrow">→</span><span>Thái Dương – Thái Âm giáp cung sao Thai → dấu hiệu sinh đôi, chắc chắn không sai.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">07</div><div><div class="verse-text">"Vượng, Thai, Tuyệt, Tướng thấu vào. / Anh em ắt có dị bào chẳng không."</div><div class="verse-gloss"><span class="arrow">→</span><span>Đế Vượng, Thai, Tuyệt cùng Tướng Quân hội tụ → chắc chắn có anh em khác mẹ (dị bào) trong nhà.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">08</div><div><div class="verse-text">"Đào, Riêu, Thiên Hỷ trong cung. / Phá Quân tính xử đối xung ở ngoài."</div><div class="verse-gloss"><span class="arrow">→</span><span>Đào Hoa, Thiên Riêu, Thiên Hỷ hội tại Huynh Đệ, Phá Quân ở đối cung → mở mạch luận về tình cảm chị em gái.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">09</div><div><div class="verse-text">"Có chị em gái theo trai. / Say mê đến nỗi hoang thai hổ mình."</div><div class="verse-gloss"><span class="arrow">→</span><span>Với tổ hợp trên: có chị em gái theo trai, say mê đến mức mang thai ngoài ý muốn — phản ánh cái nhìn mang định kiến thời đại về chuyện tình cảm ngoài hôn nhân của phụ nữ.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">10</div><div><div class="verse-text">"Trong thì Tướng, Phá, Phục Binh. / Ngoài thì Hoa Cái cung tinh Đào, Hồng."</div><div class="verse-gloss"><span class="arrow">→</span><span>Cụ thể hóa tổ hợp: trong cung có Thiên Tướng, Phá Quân, Phục Binh; đối cung có Hoa Cái, Đào Hoa, Hồng Loan.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">11</div><div><div class="verse-text">"Tường hoa liễu ngõ ngóng trông. / Anh em có kẻ dâm thông hẳn là."</div><div class="verse-gloss"><span class="arrow">→</span><span>Hình ảnh ẩn dụ chốn lầu xanh, chuyện trai gái → khẳng định có người vướng vào quan hệ ngoài luồng.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">12</div><div><div class="verse-text">"Gặp sao Hóa Kỵ khiếm hòa. / Thiên Hình thường có trong nhà giành nhau."</div><div class="verse-gloss"><span class="arrow">→</span><span>Hóa Kỵ bất hòa hợp → trong nhà anh em thường tranh giành, kiện cáo lẫn nhau.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">13</div><div><div class="verse-text">"Lộc, Mã buôn bán làm giàu. / Nhược bằng Cự, Tướng ra màu thổ công."</div><div class="verse-gloss"><span class="arrow">→</span><span>Lộc Tồn + Thiên Mã → anh em buôn bán phát đạt. Cự Môn + Thiên Tướng → nghề đất đai, thổ công.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">14</div><div><div class="verse-text">"Tử, Phù, Hữu, Bật tương phùng. / Có chị em gái lộn chồng đi ra."</div><div class="verse-gloss"><span class="arrow">→</span><span>Sao Tử, Thiên Phù, Hữu Bật hội tụ → trong nhà có chị em gái tái giá, đổi chồng.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">15</div><div><div class="verse-text">"Thiên Khôi ba kẻ anh ta. / Thiên Việt ba kẻ em ta bày đoàn."</div><div class="verse-gloss"><span class="arrow">→</span><span>Kỹ thuật đếm cụ thể: Thiên Khôi ứng ba người anh, Thiên Việt ứng ba người em — hiếm gặp mức chi tiết này trong các phú khác.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">16</div><div><div class="verse-text">"Xương, Khúc, Thái Tuế đều yên. / Có người xã trưởng khôn ngoan ai cùng."</div><div class="verse-gloss"><span class="arrow">→</span><span>Văn Xương, Văn Khúc, Thái Tuế hội tụ → trong anh em có người làm xã trưởng, khôn ngoan hơn người.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">17</div><div><div class="verse-text">"Tuyệt, Không, Không, Kiếp chính cung. / Hoặc gia Cát hội lai phùng Dương tinh."</div><div class="verse-gloss"><span class="arrow">→</span><span>Tuyệt, Tuần/Triệt Không, Địa Không, Địa Kiếp đóng chính cung; thêm cát tinh cùng Kình Dương thì cải thiện phần nào.</span></div></div></div>
+
+        <div class="verse"><div class="verse-num">18</div><div><div class="verse-text">"Luận làm nghĩa dưỡng anh em. / Hoặc thêm Đà, Cự, Hỏa, Linh, đoán cùng."</div><div class="verse-gloss"><span class="arrow">→</span><span>Với tổ hợp câu 17 → luận là quan hệ "anh em nghĩa" (con nuôi, kết nghĩa) chứ không phải ruột thịt — phú mở rộng ý nghĩa Huynh Đệ ra ngoài quan hệ máu mủ.</span></div></div></div>
+      </div>
+
+      <div class="callout jade" style="margin-top:28px;">
+        <strong>Nhận xét chương —</strong> Huynh Đệ là chương có nội dung phong phú bất ngờ: không chỉ luận số lượng, mức độ hòa thuận của anh chị em ruột, mà còn mở rộng sang chuyện tình duyên trắc trở của chị em gái (câu 8–11), nghề nghiệp của anh em (câu 13, 16), và cả quan hệ nghĩa dưỡng/kết nghĩa (câu 18) — cho thấy trong quan niệm dân gian, cung Huynh Đệ mang nội hàm xã hội rộng hơn nhiều so với cách hiểu thu hẹp "anh chị em ruột thịt" hiện nay. Điều này khớp với nhận định ở Phần 6.
+      </div>
+    </section>
+
+    <section class="part" id="p9">
+      <div class="part-eyebrow">Phần 9 · Thực hành</div>
+      <h2>Ví dụ minh họa — Văn Khúc đơn thủ tại Thìn</h2>
+
+      <div class="callout note">
+        <strong>Ghi chú —</strong> Ví dụ do người dùng biên soạn, minh họa cách vận dụng khung luận đoán ở Phần 7 vào một lá số cụ thể. Trình bày theo lối luận cổ điển (đếm số lượng cụ thể) để minh họa kỹ thuật gốc — khi áp dụng thực tế, nên đối chiếu thêm với góc nhìn phản biện ở Phần 6.
+      </div>
+
+      <div class="case">
+        <span class="case-meta">Nam 1987 Đinh Mão · Âm Nam · Mệnh Thiên Phủ tại Tỵ · Hỏa Lục Cục</span>
+        <p>Cung Huynh Đệ an tại Giáp Thìn, Dương Thổ, Mộ khố, Tràng Sinh là Thai.</p>
+
+        <h4>1. Chính tinh</h4>
+        <p>Cung Huynh Đệ có Văn Khúc (Đắc) đơn thủ. Văn Khúc là văn tinh hành Kim, chủ tài hoa, khéo léo, học thức. Đắc địa tại Thìn cho thấy anh em đều thông minh, có học, có khiếu ăn nói, nghệ thuật, kỹ thuật. Nhưng Văn Khúc đơn thủ có tính cô độc — theo cổ pháp, Văn Khúc đơn thủ tại Huynh Đệ chủ anh em ly tán mỗi người một phương. Không có các sao chủ về số đông như Tả Phù, Hữu Bật, Khôi Việt hội về nên không thể đông anh em.</p>
+
+        <h4>2. Phụ tinh</h4>
+        <ul>
+          <li><strong>Cát tinh:</strong> Thiên Y, Thiếu Dương, Thanh Long → có người trong anh em mặt mũi sáng sủa, vui vẻ, gặp may, có danh tiếng, làm ăn phát đạt hơn hẳn — là quý nhân của đương số.</li>
+          <li><strong>Sát tinh:</strong> Thiên Diêu (Hãm), Thiên Không, Thiên La → Thiên Diêu chủ sức khỏe, tình duyên anh em lận đận; Thiên Không + Thiên La là lưới trời, chủ có rồi lại không, gần nhau dễ khắc khẩu, khó bàn việc chung. Bộ sao này được Thiếu Dương – Thanh Long và Thiên Y giải bớt, nên chỉ còn là xa cách về tư tưởng, không phải hình khắc nặng.</li>
+        </ul>
+
+        <h4>3. Vì sao luận số lượng ít anh em (1-2 người) — suy luận qua 4 lớp</h4>
+
+        <div class="layer">
+          <div class="layer-letter">a</div>
+          <p><em>Chính tinh cô độc:</em> Văn Khúc đi lẻ, không có Tả Hữu, Khôi Việt phò tá nên không có yếu tố tăng số lượng.</p>
+        </div>
+        <div class="layer">
+          <div class="layer-letter">b</div>
+          <p><em>Đất an cung xấu về số lượng:</em> Cung Thìn là Mộ khố, chủ tàng chứa, chôn giấu — anh em mỗi người một kho riêng. Vòng Tràng Sinh tại đây là Thai, tức mầm mống mới hình thành, chưa phát triển đông. Nguyên tắc chung: Huynh Đệ an tại Thai, Mộ, Dưỡng, Tuyệt thì số lượng có xu hướng ít.</p>
+        </div>
+        <div class="layer">
+          <div class="layer-letter">c</div>
+          <p><em>Tam phương có bộ Không Kiếp hao hụt:</em> Tam hợp Điền – Huynh – Tật và xung chiếu từ Nô Bộc, Thiên Di có Địa Không (Đắc) + Địa Kiếp chiếu về — cặp sát tinh chủ về mất mát, ly tán. Gặp thêm Thiên Không, Thiên La tại bản cung thì càng củng cố dấu hiệu hao hụt.</p>
+        </div>
+        <div class="layer">
+          <div class="layer-letter">d</div>
+          <p><em>Dấu hiệu tính cả trường hợp không giữ được thai:</em> Cung này có tổ hợp Thai + Mộ + Thiên La, lại có Thiên Diêu (Hãm) chủ về máu huyết, sản nhi, và đối xung có Thiên Lương + Hóa Khoa là sao giải tai — theo cổ pháp đây là tổ hợp thường dùng để luận khả năng người mẹ từng không giữ được thai. Vì vậy khi luận số lượng "1-2 người", cách luận cổ tính gộp cả những trường hợp không thành hình vào tổng số "lẽ ra phải có". Nếu đương số cho biết thực tế có 3-4 anh em, nhiều khả năng trong số đó có người đi xa/làm con nuôi nhà khác, anh em dị bào, hoặc sống mỗi người một nơi.</p>
+        </div>
+
+        <div class="callout" style="margin-top:6px;">
+          <strong>Ghi chú khi biên soạn —</strong> Đây là kỹ thuật khá đặc thù và nhạy cảm. Nếu đưa ví dụ này vào bài viết công khai, nên cân nhắc lược bớt hoặc diễn đạt kín đáo hơn phần (d), vì đây là chủ đề dễ chạm đến chuyện riêng tư của người thứ ba (người mẹ).
+        </div>
+
+        <h4>4. Tam phương tứ chính</h4>
+        <ul>
+          <li>Nhị hợp Phụ Mẫu có Lộc Tồn (Miếu) + Hóa Lộc + Hóa Quyền → cha mẹ khá giả, có của, nhưng Lộc không tụ về Huynh Đệ — mỗi người được lo riêng, không có của chung để tranh chấp.</li>
+          <li>Xung chiếu Nô Bộc có Thiên Cơ (Miếu) + Thiên Lương (Miếu) + Hóa Khoa → bạn bè, đồng nghiệp lớn tuổi giúp đỡ thiết thực hơn cả anh em ruột — cách "bạn bè như anh em".</li>
+          <li>Tam hợp Điền Trạch (Cự Môn + Thái Dương Hãm) → anh em tự lo nhà cửa, không nên chung vốn đất đai, dễ sinh thị phi.</li>
+        </ul>
+
+        <h4>5. Tổng luận</h4>
+        <p style="margin-bottom:0;">Cung Huynh Đệ này là mẫu <strong>"tốt về chất, kém về lượng"</strong>: anh em tốt tính, có học, có người thành danh, nhưng ít và ly tán — ở xa thì quý, ở gần chung vốn thì dễ mất tình. Cách giúp nhau phù hợp là bằng kiến thức, lời khuyên, quan hệ hơn là tiền bạc.</p>
+      </div>
+    </section>
+
+    <section class="part" id="p10">
+      <div class="part-eyebrow">Phần 10</div>
+      <h2>Lưu ý khi biên soạn thành bài viết</h2>
+      <ul>
+        <li>Nên có ví dụ minh họa bằng lá số cụ thể (ẩn danh) để người đọc dễ hình dung — đặc biệt hữu ích nếu chọn một tổ hợp sao "kịch tính" (ví dụ Phá Quân + Đào Riêu Hỷ) để dẫn dắt câu chuyện.</li>
+        <li>Có thể lồng ghép so sánh giữa cách luận cổ điển (đếm số người rất cụ thể) và cách luận hiện đại/Tứ Hóa (chú trọng chất lượng quan hệ hơn số lượng) để bài viết có chiều sâu và tính phản biện.</li>
+        <li>Nên nói rõ với độc giả rằng nhiều quy tắc "đếm số anh chị em" ra đời trong bối cảnh xã hội khác — góc nhìn phản biện giúp tăng độ tin cậy cho bài viết, tránh sa vào lối trình bày "phán chắc như đinh đóng cột" của một số trang tra cứu đại trà.</li>
+        <li>Nhấn mạnh tính tham khảo, tránh khẳng định tuyệt đối — phù hợp với tinh thần "nhìn từ con mắt người quân tử" mà loạt bài trên trang đã theo đuổi.</li>
+      </ul>
+    </section>
+
+    <section class="part" id="p11">
+      <div class="part-eyebrow">Phần 11</div>
+      <h2>Nguồn tham khảo đã đối chiếu</h2>
+      <ul>
+        <li>Vân Đằng Thái Thứ Lang, <em>Tử Vi Đẩu Số Tân Biên</em> — quy tắc Nam Đẩu/Bắc Đẩu, đếm số lượng theo từng chính tinh.</li>
+        <li>Vương Đình Chi — luận về tam hợp Điền Trạch – Tật Ách, cung chuyển hóa, và phản biện về giới hạn của cung Huynh Đệ trong xã hội hiện đại (qua tuvivietnam.vn, cohoc.vn).</li>
+        <li>tuvibinhgiai.com — bảng chi tiết theo từng chính tinh và một dị bản phú khác về Huynh Đệ.</li>
+        <li>tracuutuvi.com, horos.vn, thansohoconline.com, muaban.net, mytour.vn, bachhoaxanh.com, hoc.kabala.vn — các trang tra cứu phổ thông, dùng để đối chiếu chéo cách diễn giải phổ biến hiện nay.</li>
+        <li>Phú cổ chương "Huynh Đệ Cung" do người dùng cung cấp (dị bản Nôm).</li>
+      </ul>
+      <p class="soft"><em>Nội dung trong mục 3.3 và các mục liên quan đã được diễn giải lại bằng lời văn riêng, không sao chép nguyên văn từ các nguồn trên, để tôn trọng bản quyền nguồn.</em></p>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <svg class="seal-mark" viewBox="0 0 40 40" fill="none">
+    <rect x="4" y="4" width="32" height="32" rx="4" stroke="currentColor" stroke-width="2"/>
+    <text x="20" y="26" text-anchor="middle" font-family="Literata, serif" font-size="16" fill="currentColor">兄</text>
+  </svg>
+  <p>Tư liệu học tập nội bộ · Cung Huynh Đệ trong Tử Vi Đẩu Số<br>Biên soạn &amp; đối chiếu — Dừa &amp; Mixue, 2026</p>
+</footer>
+
+<script>
+  // Theme toggle with persistence
+  const root = document.body;
+  const themeBtn = document.getElementById('themeBtn');
+  const themeIcon = document.getElementById('themeIcon');
+
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    themeIcon.innerHTML = t === 'dark'
+      ? '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor" stroke="none"/>'
+      : '<circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />';
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem('hd-theme'); } catch (e) {}
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+
+  themeBtn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem('hd-theme', next); } catch (e) {}
+  });
+
+  // Music toggle
+  const musicBtn = document.getElementById('musicBtn');
+  const audio = document.getElementById('bgMusic');
+  let playing = false;
+
+  musicBtn.addEventListener('click', () => {
+    if (!playing) {
+      audio.play().then(() => {
+        playing = true;
+        musicBtn.classList.add('playing');
+        musicBtn.setAttribute('aria-pressed', 'true');
+        musicBtn.setAttribute('aria-label', 'Tắt nhạc nền');
+      }).catch(() => {
+        alert('Không phát được nhạc — kiểm tra file music7.mp3 có cùng thư mục với trang này không.');
+      });
+    } else {
+      audio.pause();
+      playing = false;
+      musicBtn.classList.remove('playing');
+      musicBtn.setAttribute('aria-pressed', 'false');
+      musicBtn.setAttribute('aria-label', 'Bật nhạc nền');
+    }
+  });
+
+  // Scrollspy for TOC
+  const sections = document.querySelectorAll('section.part');
+  const tocLinks = document.querySelectorAll('.toc a');
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      const link = document.querySelector('.toc a[href="#' + id + '"]');
+      if (!link) return;
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(s => spy.observe(s));
+</script>
+
+</body>
+</html>
